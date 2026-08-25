@@ -1,10 +1,8 @@
 services:
   - type: web
     name: fluxo-api
-    env: php
+    env: docker
     rootDir: backend
-    buildCommand: "./build.sh"
-    startCommand: "heroku-php-apache2 public/"
     envVars:
       - key: APP_KEY
         generateValue: true
