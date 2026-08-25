@@ -2,6 +2,7 @@ services:
   - type: web
     name: fluxo-api
     env: docker
+    plan: free
     rootDir: backend
     envVars:
       - key: APP_KEY
@@ -19,5 +20,6 @@ services:
 
 databases:
   - name: fluxo-db
+    plan: free # <--- Força o uso do banco gratuito (dura 90 dias)
     databaseName: fluxodb
     user: fluxouser
