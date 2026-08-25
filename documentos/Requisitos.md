@@ -1,4 +1,4 @@
-# Especificação de Requisitos — Sistema Bancário Digital (Checkpoint 1)
+# Especificação de Requisitos do Sistema Bancário Digital
 
 ---
 
