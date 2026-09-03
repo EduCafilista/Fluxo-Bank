@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1374" height="1319" viewBox="0 0 1374 1319">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#8a97a5"/>
+</marker>
+<marker id="arrow-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#1b2430"/>
+</marker>
+<marker id="arrow-ret" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#0f6f5c"/>
+</marker>
+<marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+<path d="M 0 0 L 12 6 L 0 12" fill="none" stroke="#1b2430" stroke-width="1.6"/>
+</marker>
+<marker id="open-gen" viewBox="0 0 14 14" refX="12" refY="7" markerWidth="11" markerHeight="11" orient="auto-start-reverse">
+<path d="M 0 0 L 14 7 L 0 14" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+</marker>
+<marker id="diamond" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M 0 6 L 6 3 L 12 6 L 6 9 z" fill="#ffffff" stroke="#1b2430" stroke-width="1.5"/>
+</marker>
+<marker id="diamond-fill" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M 0 6 L 6 3 L 12 6 L 6 9 z" fill="#1b2430" stroke="#1b2430" stroke-width="1.2"/>
+</marker>
+</defs>
+<rect width="1374" height="1319" fill="#ffffff"/>
+<text x="687.0" y="32.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#1b2430">SEQ-04 — Retirada (saque) com verificação em dois fatores obrigatória</text>
+<text x="687.0" y="52.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" text-anchor="middle" fill="#5a6b7b">Projeto Fluxo · Grupo 1 · Checkpoint 2 · RF59-RF64 · RN18-RN20 · RF45</text>
+<rect x="60.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="127.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«ator»</text>
+<text x="127.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">Cliente</text>
+<line x1="127.0" y1="144.0" x2="127.0" y2="1267.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="118.0" y="1259.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="220.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="287.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«boundary»</text>
+<text x="287.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">App / Web</text>
+<line x1="287.0" y1="144.0" x2="287.0" y2="1267.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="278.0" y="1259.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="380.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="447.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«control»</text>
+<text x="447.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">RetiradaController</text>
+<line x1="447.0" y1="144.0" x2="447.0" y2="1267.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="438.0" y="1259.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="540.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="607.0" y="117.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">RetiradaService</text>
+<text x="607.0" y="134.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.8" font-weight="500" text-anchor="middle" fill="#5a6b7b">: objeto</text>
+<line x1="607.0" y1="144.0" x2="607.0" y2="1267.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="598.0" y="1259.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="700.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="767.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«database»</text>
+<text x="767.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">PostgreSQL</text>
+<line x1="767.0" y1="144.0" x2="767.0" y2="1267.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="758.0" y="1259.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="860.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="927.0" y="117.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">Servico2FA</text>
+<text x="927.0" y="134.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.8" font-weight="500" text-anchor="middle" fill="#5a6b7b">: objeto</text>
+<line x1="927.0" y1="144.0" x2="927.0" y2="1267.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="918.0" y="1259.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="1020.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="1087.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«external»</text>
+<text x="1087.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">Notificacoes</text>
+<line x1="1087.0" y1="144.0" x2="1087.0" y2="1267.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="1078.0" y="1259.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="1180.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="1247.0" y="117.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">Auditoria</text>
+<text x="1247.0" y="134.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.8" font-weight="500" text-anchor="middle" fill="#5a6b7b">: objeto</text>
+<line x1="1247.0" y1="144.0" x2="1247.0" y2="1267.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="1238.0" y="1259.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<line x1="135.5" y1="230.0" x2="278.5" y2="230.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="207.0" y="208.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">seleciona conta, valor</text>
+<text x="207.0" y="222.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">e canal de retirada</text>
+<line x1="295.5" y1="274.0" x2="438.5" y2="274.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="367.0" y="252.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">POST /api/v1/retiradas</text>
+<text x="367.0" y="266.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">{valor, canal}</text>
+<line x1="455.5" y1="318.0" x2="598.5" y2="318.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="527.0" y="296.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">exigeVerificacao(clien</text>
+<text x="527.0" y="310.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">te, valor)</text>
+<path d="M 607.0 340 L 645.0 340 L 645.0 358 L 610.0 358" fill="none" stroke="#1d4f91" stroke-width="1.4" marker-end="url(#arrow)"/>
+<text x="651.0" y="352.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="start" fill="#1b2430">RN18/RN19: acima do teto ou canal novo exige 2FA</text>
+<line x1="615.5" y1="390.0" x2="918.5" y2="390.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="767.0" y="382.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">gerarCodigo(6 digitos, TTL 3 min)</text>
+<line x1="918.5" y1="462.0" x2="775.5" y2="462.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="847.0" y="413.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">INSERT</text>
+<text x="847.0" y="427.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">codigos_verificacao</text>
+<text x="847.0" y="440.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">(hash, finalidade =</text>
+<text x="847.0" y="454.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">RETIRADA)</text>
+<line x1="935.5" y1="506.0" x2="1078.5" y2="506.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="1007.0" y="484.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">enviarCodigo(email/pus</text>
+<text x="1007.0" y="498.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">h)</text>
+<line x1="918.5" y1="536.0" x2="615.5" y2="536.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="767.0" y="528.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">desafio criado</text>
+<rect x="920.5" y="384.0" width="13.0" height="160.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<line x1="598.5" y1="580.0" x2="455.5" y2="580.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="527.0" y="558.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">202 {desafio_2fa,</text>
+<text x="527.0" y="572.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">expira_em}</text>
+<rect x="600.5" y="312.0" width="13.0" height="276.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<rect x="440.5" y="268.0" width="13.0" height="320.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<line x1="135.5" y1="624.0" x2="278.5" y2="624.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="207.0" y="602.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">digita o codigo de</text>
+<text x="207.0" y="616.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">verificacao</text>
+<line x1="295.5" y1="682.0" x2="438.5" y2="682.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="367.0" y="647.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">POST /api/v1/retiradas</text>
+<text x="367.0" y="660.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">/{id}/confirmar</text>
+<text x="367.0" y="674.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">{codigo}</text>
+<line x1="455.5" y1="712.0" x2="918.5" y2="712.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="687.0" y="704.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">validarCodigo(codigo, finalidade)</text>
+<rect x="40.0" y="1219.0" width="1294.0" height="10.0" rx="4" fill="none" stroke="#5a6b7b" stroke-width="1.4" stroke-dasharray="6 4"/>
+<path d="M 40.0 1219 L 72.2 1219 L 82.2 1228 L 82.2 1237 L 72.2 1246 L 40.0 1246 Z" fill="#f7f9fb" stroke="#5a6b7b" stroke-width="1.4"/>
+<text x="48.0" y="1237.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="start" fill="#5a6b7b">alt</text>
+<text x="50.0" y="735.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" text-anchor="start" fill="#1b2430">[codigo invalido, expirado ou tentativas &gt; 3]</text>
+<line x1="40.0" y1="806.0" x2="1334.0" y2="806.0" stroke="#5a6b7b" stroke-width="1.1" stroke-dasharray="5 4"/>
+<text x="50.0" y="818.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" text-anchor="start" fill="#1b2430">[codigo valido]</text>
+<g>
+<line x1="935.5" y1="759.0" x2="1238.5" y2="759.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="1087.0" y="751.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">registrar(RETIRADA_2FA_FALHOU, ip)</text>
+<line x1="918.5" y1="789.0" x2="455.5" y2="789.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="687.0" y="781.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">401 - desafio cancelado, retirada bloqueada</text>
+<rect x="920.5" y="706.0" width="13.0" height="91.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<rect x="440.5" y="676.0" width="13.0" height="121.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+</g>
+<g>
+<line x1="918.5" y1="837.0" x2="455.5" y2="837.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="687.0" y="829.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">true</text>
+<line x1="455.5" y1="881.0" x2="598.5" y2="881.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="527.0" y="859.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">efetivarRetirada(retir</text>
+<text x="527.0" y="873.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">ada)</text>
+<line x1="615.5" y1="939.0" x2="758.5" y2="939.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="687.0" y="904.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">BEGIN; INSERT</text>
+<text x="687.0" y="917.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">lancamento D conta / C</text>
+<text x="687.0" y="931.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">caixa</text>
+<line x1="615.5" y1="997.0" x2="758.5" y2="997.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="687.0" y="962.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">UPDATE retiradas SET</text>
+<text x="687.0" y="975.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">status = LIBERADA,</text>
+<text x="687.0" y="989.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">codigo_retirada</text>
+<line x1="615.5" y1="1041.0" x2="758.5" y2="1041.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="687.0" y="1019.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">COMMIT (rollback se</text>
+<text x="687.0" y="1033.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">saldo &lt; valor - RN04)</text>
+<line x1="615.5" y1="1071.0" x2="1238.5" y2="1071.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="927.0" y="1063.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">registrar(RETIRADA_LIBERADA, antes/depois)</text>
+<line x1="615.5" y1="1101.0" x2="1078.5" y2="1101.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="847.0" y="1093.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">enviar comprovante + codigo de retirada</text>
+<line x1="598.5" y1="1145.0" x2="455.5" y2="1145.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="527.0" y="1123.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">200 {codigo_retirada,</text>
+<text x="527.0" y="1137.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">validade 30 min}</text>
+<rect x="600.5" y="875.0" width="13.0" height="278.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<line x1="135.5" y1="1203.0" x2="278.5" y2="1203.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="207.0" y="1168.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">apresenta o codigo no</text>
+<text x="207.0" y="1181.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">caixa/parceiro e</text>
+<text x="207.0" y="1195.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">recebe o valor</text>
+</g>
+
+</svg>

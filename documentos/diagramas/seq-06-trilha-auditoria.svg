@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1182" height="1070" viewBox="0 0 1182 1070">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#8a97a5"/>
+</marker>
+<marker id="arrow-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#1b2430"/>
+</marker>
+<marker id="arrow-ret" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#0f6f5c"/>
+</marker>
+<marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+<path d="M 0 0 L 12 6 L 0 12" fill="none" stroke="#1b2430" stroke-width="1.6"/>
+</marker>
+<marker id="open-gen" viewBox="0 0 14 14" refX="12" refY="7" markerWidth="11" markerHeight="11" orient="auto-start-reverse">
+<path d="M 0 0 L 14 7 L 0 14" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+</marker>
+<marker id="diamond" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M 0 6 L 6 3 L 12 6 L 6 9 z" fill="#ffffff" stroke="#1b2430" stroke-width="1.5"/>
+</marker>
+<marker id="diamond-fill" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M 0 6 L 6 3 L 12 6 L 6 9 z" fill="#1b2430" stroke="#1b2430" stroke-width="1.2"/>
+</marker>
+</defs>
+<rect width="1182" height="1070" fill="#ffffff"/>
+<text x="591.0" y="32.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#1b2430">SEQ-06 — Registro e consulta da trilha de auditoria (log imutável)</text>
+<text x="591.0" y="52.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" text-anchor="middle" fill="#5a6b7b">Projeto Fluxo · Grupo 1 · Checkpoint 2 · RF45, RF46, RF48 · RN17</text>
+<rect x="70.0" y="96.0" width="152.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="146.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«ator»</text>
+<text x="146.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">Usuario interno</text>
+<line x1="146.0" y1="144.0" x2="146.0" y2="1018.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="137.0" y="1010.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="248.0" y="96.0" width="152.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="324.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«boundary»</text>
+<text x="324.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">Portal Admin</text>
+<line x1="324.0" y1="144.0" x2="324.0" y2="1018.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="315.0" y="1010.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="426.0" y="96.0" width="152.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="502.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«control»</text>
+<text x="502.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">AdminController</text>
+<line x1="502.0" y1="144.0" x2="502.0" y2="1018.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="493.0" y="1010.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="604.0" y="96.0" width="152.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="680.0" y="117.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">Servico de dominio</text>
+<text x="680.0" y="134.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.8" font-weight="500" text-anchor="middle" fill="#5a6b7b">: objeto</text>
+<line x1="680.0" y1="144.0" x2="680.0" y2="1018.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="671.0" y="1010.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="782.0" y="96.0" width="152.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="858.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«database»</text>
+<text x="858.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">PostgreSQL</text>
+<line x1="858.0" y1="144.0" x2="858.0" y2="1018.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="849.0" y="1010.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="960.0" y="96.0" width="152.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="1036.0" y="117.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">AuditoriaService</text>
+<text x="1036.0" y="134.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.8" font-weight="500" text-anchor="middle" fill="#5a6b7b">: objeto</text>
+<line x1="1036.0" y1="144.0" x2="1036.0" y2="1018.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="1027.0" y="1010.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<line x1="154.5" y1="244.0" x2="315.5" y2="244.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="235.0" y="209.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">executa operacao</text>
+<text x="235.0" y="222.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">sensivel (ex.: alterar</text>
+<text x="235.0" y="236.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">limite)</text>
+<line x1="332.5" y1="288.0" x2="493.5" y2="288.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="413.0" y="266.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">PUT /api/v1/admin/contas</text>
+<text x="413.0" y="280.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">/{id}/limite</text>
+<line x1="510.5" y1="332.0" x2="671.5" y2="332.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="591.0" y="310.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">authorize(policy) +</text>
+<text x="591.0" y="324.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">regra de negocio</text>
+<line x1="688.5" y1="376.0" x2="849.5" y2="376.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="769.0" y="354.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">UPDATE contas SET limite</text>
+<text x="769.0" y="368.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">= ?</text>
+<line x1="688.5" y1="406.0" x2="1027.5" y2="406.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="858.0" y="398.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">registrar(evento, antes, depois, ip, user-agent)</text>
+<path d="M 1036.0 428 L 998.0 428 L 998.0 446 L 1033.0 446" fill="none" stroke="#1d4f91" stroke-width="1.4" marker-end="url(#arrow)"/>
+<text x="992.0" y="440.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="end" fill="#1b2430">monta payload JSON + hash SHA-256 encadeado</text>
+<line x1="1027.5" y1="492.0" x2="866.5" y2="492.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="947.0" y="470.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">INSERT logs_auditoria</text>
+<text x="947.0" y="484.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">(tabela append-only)</text>
+<rect x="851.5" y="370.0" width="13.0" height="130.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<line x1="866.5" y1="522.0" x2="1027.5" y2="522.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="947.0" y="514.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">id do registro</text>
+<rect x="1029.5" y="400.0" width="13.0" height="130.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<rect x="634.4" y="532.0" width="531.6" height="30.0" rx="4" fill="#fff8e6" stroke="#b45309" stroke-width="1.2"/>
+<text x="900.2" y="548.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.5" font-weight="500" text-anchor="middle" fill="#7c4a03">A gravacao e enfileirada (job) para nao impactar a latencia da operacao - RNF02</text>
+<line x1="1027.5" y1="590.0" x2="688.5" y2="590.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="858.0" y="582.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">registro confirmado</text>
+<rect x="673.5" y="326.0" width="13.0" height="272.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<line x1="671.5" y1="620.0" x2="510.5" y2="620.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="591.0" y="612.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">200 OK</text>
+<rect x="495.5" y="282.0" width="13.0" height="346.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<rect x="116.0" y="646.0" width="772.0" height="30.0" rx="4" fill="#fff8e6" stroke="#b45309" stroke-width="1.2"/>
+<text x="502.0" y="662.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.5" font-weight="500" text-anchor="middle" fill="#7c4a03">Consulta pelo auditor - acesso somente leitura (RF48)</text>
+<line x1="154.5" y1="732.0" x2="315.5" y2="732.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="235.0" y="697.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">filtros: autor, periodo,</text>
+<text x="235.0" y="710.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">tipo de operacao,</text>
+<text x="235.0" y="724.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">entidade</text>
+<line x1="332.5" y1="762.0" x2="493.5" y2="762.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="413.0" y="754.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">GET /api/v1/auditoria</text>
+<line x1="510.5" y1="806.0" x2="671.5" y2="806.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="591.0" y="784.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">consultar(filtros) -</text>
+<text x="591.0" y="798.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">policy: perfil AUDITOR</text>
+<line x1="688.5" y1="836.0" x2="1027.5" y2="836.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="858.0" y="828.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">SELECT ... WHERE (filtros) ORDER BY criado_em DESC</text>
+<line x1="1027.5" y1="866.0" x2="866.5" y2="866.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="947.0" y="858.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">linhas</text>
+<rect x="1029.5" y="830.0" width="13.0" height="44.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<line x1="1027.5" y1="896.0" x2="688.5" y2="896.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="858.0" y="888.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">colecao paginada</text>
+<line x1="671.5" y1="940.0" x2="510.5" y2="940.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="591.0" y="918.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">200 {dados, total,</text>
+<text x="591.0" y="932.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">pagina}</text>
+<rect x="673.5" y="800.0" width="13.0" height="148.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<rect x="495.5" y="756.0" width="13.0" height="192.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<line x1="510.5" y1="970.0" x2="1027.5" y2="970.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="769.0" y="962.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">registrar(AUDITORIA_CONSULTADA) - a consulta tambem e auditada</text>
+
+</svg>

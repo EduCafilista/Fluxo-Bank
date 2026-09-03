@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1374" height="1514" viewBox="0 0 1374 1514">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#8a97a5"/>
+</marker>
+<marker id="arrow-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#1b2430"/>
+</marker>
+<marker id="arrow-ret" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#0f6f5c"/>
+</marker>
+<marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+<path d="M 0 0 L 12 6 L 0 12" fill="none" stroke="#1b2430" stroke-width="1.6"/>
+</marker>
+<marker id="open-gen" viewBox="0 0 14 14" refX="12" refY="7" markerWidth="11" markerHeight="11" orient="auto-start-reverse">
+<path d="M 0 0 L 14 7 L 0 14" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+</marker>
+<marker id="diamond" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M 0 6 L 6 3 L 12 6 L 6 9 z" fill="#ffffff" stroke="#1b2430" stroke-width="1.5"/>
+</marker>
+<marker id="diamond-fill" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M 0 6 L 6 3 L 12 6 L 6 9 z" fill="#1b2430" stroke="#1b2430" stroke-width="1.2"/>
+</marker>
+</defs>
+<rect width="1374" height="1514" fill="#ffffff"/>
+<text x="687.0" y="32.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#1b2430">SEQ-02 — Autenticação com verificação em dois fatores (2FA)</text>
+<text x="687.0" y="52.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" text-anchor="middle" fill="#5a6b7b">Projeto Fluxo · Grupo 1 · Checkpoint 2 · RF06, RF07, RF08, RF53-RF58 · RNF06, RNF10</text>
+<rect x="60.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="127.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«ator»</text>
+<text x="127.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">Cliente</text>
+<line x1="127.0" y1="144.0" x2="127.0" y2="1462.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="118.0" y="1454.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="220.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="287.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«boundary»</text>
+<text x="287.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">App / Web</text>
+<line x1="287.0" y1="144.0" x2="287.0" y2="1462.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="278.0" y="1454.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="380.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="447.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«control»</text>
+<text x="447.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">AuthController</text>
+<line x1="447.0" y1="144.0" x2="447.0" y2="1462.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="438.0" y="1454.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="540.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="607.0" y="117.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">AuthService</text>
+<text x="607.0" y="134.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.8" font-weight="500" text-anchor="middle" fill="#5a6b7b">: objeto</text>
+<line x1="607.0" y1="144.0" x2="607.0" y2="1462.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="598.0" y="1454.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="700.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="767.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«database»</text>
+<text x="767.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">PostgreSQL</text>
+<line x1="767.0" y1="144.0" x2="767.0" y2="1462.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="758.0" y="1454.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="860.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="927.0" y="117.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">Servico2FA</text>
+<text x="927.0" y="134.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.8" font-weight="500" text-anchor="middle" fill="#5a6b7b">: objeto</text>
+<line x1="927.0" y1="144.0" x2="927.0" y2="1462.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="918.0" y="1454.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="1020.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="1087.0" y="114.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#5a6b7b">«external»</text>
+<text x="1087.0" y="132.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">Notificacoes</text>
+<line x1="1087.0" y1="144.0" x2="1087.0" y2="1462.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="1078.0" y="1454.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<rect x="1180.0" y="96.0" width="134.0" height="48.0" rx="7" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/>
+<text x="1247.0" y="117.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b2430">Auditoria</text>
+<text x="1247.0" y="134.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.8" font-weight="500" text-anchor="middle" fill="#5a6b7b">: objeto</text>
+<line x1="1247.0" y1="144.0" x2="1247.0" y2="1462.0" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="7 6"/>
+<rect x="1238.0" y="1454.0" width="18.0" height="16.0" rx="3" fill="#ffffff" stroke="#1b2430" stroke-width="1.4"/>
+<line x1="135.5" y1="216.0" x2="278.5" y2="216.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="207.0" y="208.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">informa e-mail e senha</text>
+<line x1="295.5" y1="246.0" x2="438.5" y2="246.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="367.0" y="238.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">POST /api/v1/login</text>
+<line x1="455.5" y1="290.0" x2="598.5" y2="290.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="527.0" y="268.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">autenticar(email,</text>
+<text x="527.0" y="282.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">senha)</text>
+<line x1="615.5" y1="334.0" x2="758.5" y2="334.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="687.0" y="312.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">SELECT usuario WHERE</text>
+<text x="687.0" y="326.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">email = ?</text>
+<line x1="758.5" y1="364.0" x2="615.5" y2="364.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="687.0" y="356.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">hash + flag 2fa_ativo</text>
+<path d="M 607.0 386 L 645.0 386 L 645.0 404 L 610.0 404" fill="none" stroke="#1d4f91" stroke-width="1.4" marker-end="url(#arrow)"/>
+<text x="651.0" y="398.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="start" fill="#1b2430">Hash::check(senha, hash) + contador de tentativas</text>
+<rect x="40.0" y="1414.0" width="1294.0" height="10.0" rx="4" fill="none" stroke="#5a6b7b" stroke-width="1.4" stroke-dasharray="6 4"/>
+<path d="M 40.0 1414 L 72.2 1414 L 82.2 1423 L 82.2 1432 L 72.2 1441 L 40.0 1441 Z" fill="#f7f9fb" stroke="#5a6b7b" stroke-width="1.4"/>
+<text x="48.0" y="1432.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="start" fill="#5a6b7b">alt</text>
+<text x="50.0" y="429.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" text-anchor="start" fill="#1b2430">[credenciais invalidas ou conta bloqueada]</text>
+<line x1="40.0" y1="572.0" x2="1334.0" y2="572.0" stroke="#5a6b7b" stroke-width="1.1" stroke-dasharray="5 4"/>
+<text x="50.0" y="584.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" text-anchor="start" fill="#1b2430">[credenciais validas + 2FA ativo]</text>
+<g>
+<line x1="615.5" y1="481.0" x2="758.5" y2="481.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="687.0" y="446.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">UPDATE usuarios SET</text>
+<text x="687.0" y="459.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">tentativas =</text>
+<text x="687.0" y="473.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">tentativas + 1</text>
+<line x1="615.5" y1="511.0" x2="1238.5" y2="511.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="927.0" y="503.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">registrar(LOGIN_FALHOU, ip, user-agent)</text>
+<line x1="598.5" y1="555.0" x2="455.5" y2="555.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="527.0" y="533.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">401 Unauthorized</text>
+<text x="527.0" y="547.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">{tentativas_restantes}</text>
+<rect x="600.5" y="284.0" width="13.0" height="279.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<rect x="440.5" y="240.0" width="13.0" height="323.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+</g>
+<g>
+<line x1="615.5" y1="603.0" x2="918.5" y2="603.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="767.0" y="595.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">gerarCodigo(6 digitos, TTL 5 min)</text>
+<line x1="918.5" y1="661.0" x2="775.5" y2="661.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="847.0" y="626.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">INSERT</text>
+<text x="847.0" y="639.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">codigos_verificacao</text>
+<text x="847.0" y="653.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">(hash, expira_em)</text>
+<line x1="935.5" y1="705.0" x2="1078.5" y2="705.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="1007.0" y="683.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">enviarCodigo(email,</text>
+<text x="1007.0" y="697.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">codigo)</text>
+<line x1="918.5" y1="735.0" x2="615.5" y2="735.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="767.0" y="727.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">protocolo do desafio</text>
+<rect x="920.5" y="597.0" width="13.0" height="146.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<line x1="598.5" y1="779.0" x2="455.5" y2="779.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="527.0" y="757.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">200 {desafio_2fa,</text>
+<text x="527.0" y="771.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">token_temporario}</text>
+<line x1="135.5" y1="831.0" x2="278.5" y2="831.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="207.0" y="809.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">digita o codigo</text>
+<text x="207.0" y="823.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">recebido por e-mail</text>
+<line x1="295.5" y1="875.0" x2="438.5" y2="875.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="367.0" y="853.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">POST</text>
+<text x="367.0" y="867.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">/api/v1/2fa/validar</text>
+<line x1="455.5" y1="905.0" x2="918.5" y2="905.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="687.0" y="897.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">validarCodigo(token_temp, codigo)</text>
+<line x1="918.5" y1="949.0" x2="775.5" y2="949.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="847.0" y="927.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">SELECT codigo vigente</text>
+<text x="847.0" y="941.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">e nao utilizado</text>
+<line x1="775.5" y1="979.0" x2="918.5" y2="979.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="847.0" y="971.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">registro encontrado</text>
+<rect x="360.0" y="1398.0" width="974.0" height="10.0" rx="4" fill="none" stroke="#5a6b7b" stroke-width="1.4" stroke-dasharray="6 4"/>
+<path d="M 360.0 1398 L 392.2 1398 L 402.2 1407 L 402.2 1416 L 392.2 1425 L 360.0 1425 Z" fill="#f7f9fb" stroke="#5a6b7b" stroke-width="1.4"/>
+<text x="368.0" y="1416.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="start" fill="#5a6b7b">alt</text>
+<text x="370.0" y="1002.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" text-anchor="start" fill="#1b2430">[codigo valido e nao expirado]</text>
+<line x1="360.0" y1="1219.0" x2="1334.0" y2="1219.0" stroke="#5a6b7b" stroke-width="1.1" stroke-dasharray="5 4"/>
+<text x="370.0" y="1231.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" text-anchor="start" fill="#1b2430">[codigo invalido, expirado ou reutilizado]</text>
+<g>
+<line x1="918.5" y1="1040.0" x2="775.5" y2="1040.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="847.0" y="1018.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">UPDATE codigo SET</text>
+<text x="847.0" y="1032.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">utilizado_em = now()</text>
+<line x1="918.5" y1="1070.0" x2="615.5" y2="1070.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="767.0" y="1062.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">true</text>
+<rect x="920.5" y="899.0" width="13.0" height="179.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+<line x1="615.5" y1="1128.0" x2="758.5" y2="1128.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="687.0" y="1093.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">INSERT</text>
+<text x="687.0" y="1106.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">personal_access_token</text>
+<text x="687.0" y="1120.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">(TTL 60 min)</text>
+<line x1="615.5" y1="1158.0" x2="1238.5" y2="1158.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="927.0" y="1150.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">registrar(LOGIN_2FA_SUCESSO, dispositivo)</text>
+<line x1="598.5" y1="1202.0" x2="455.5" y2="1202.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="527.0" y="1180.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">200 {access_token,</text>
+<text x="527.0" y="1194.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">refresh_token}</text>
+<rect x="440.5" y="869.0" width="13.0" height="341.0" rx="2" fill="#ffffff" stroke="#1b2430" stroke-width="1.2"/>
+</g>
+<g>
+<line x1="918.5" y1="1278.0" x2="775.5" y2="1278.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="847.0" y="1243.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">UPDATE codigo SET</text>
+<text x="847.0" y="1256.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">tentativas =</text>
+<text x="847.0" y="1270.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">tentativas + 1</text>
+<line x1="935.5" y1="1308.0" x2="1238.5" y2="1308.0" stroke="#1d4f91" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="1087.0" y="1300.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">registrar(2FA_FALHOU, ip)</text>
+<line x1="918.5" y1="1338.0" x2="615.5" y2="1338.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="767.0" y="1330.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">false</text>
+<line x1="598.5" y1="1382.0" x2="455.5" y2="1382.0" stroke="#0f6f5c" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow-ret)"/>
+<text x="527.0" y="1360.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">401 {erro: 'codigo</text>
+<text x="527.0" y="1374.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.2" font-weight="500" text-anchor="middle" fill="#1b2430">invalido'}</text>
+</g>
+</g>
+
+</svg>

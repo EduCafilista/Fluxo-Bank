@@ -1,0 +1,96 @@
+﻿ID;Nivel;Nome;Inicio;Termino;Duracao (dias);Trabalho (h);Responsavel;Predecessora;% Concluido
+1;1;FLUXO - Sistema Bancario Digital;23/02/2026;03/12/2026;;;;;65
+2;2;FASE 0 - Fundamentacao e Concepcao;23/02/2026;07/08/2026;;;;;100
+3;3;Aula 01 - Conteudo programatico da disciplina;23/02/2026;24/02/2026;2;8;Equipe;;100
+4;3;Formacao do grupo de trabalho;25/02/2026;27/02/2026;3;12;Equipe;3;100
+5;3;Aula 02 - Tecnicas de modelagem de sistemas OO;02/03/2026;04/03/2026;3;12;Equipe;4;100
+6;3;Brainstorming e selecao do tema do projeto;05/03/2026;09/03/2026;5;24;Equipe;5;100
+7;3;Pesquisa de mercado - bancos digitais (benchmark);10/03/2026;15/03/2026;6;28;Equipe;6;100
+8;3;Definicao do tema: banco digital Fluxo;16/03/2026;17/03/2026;2;8;Equipe;7;100
+9;3;Estudo de arquitetura de software em camadas;18/03/2026;25/03/2026;8;36;Joao Alfredo;8;100
+10;3;Estudo dirigido - Laravel e PHP 8;26/03/2026;14/04/2026;20;92;Joao Alfredo;9;100
+11;3;Estudo dirigido - Flutter e Dart;15/04/2026;04/05/2026;20;92;Eduardo Henrique;9;100
+12;3;Estudo dirigido - PostgreSQL e modelagem relacional;05/05/2026;19/05/2026;15;68;Harttur Oliveira Pimenta;10;100
+13;3;Estudo dirigido - Tailwind CSS e Blade;20/05/2026;31/05/2026;12;56;Marcus Vinicius;10;100
+14;3;Avaliacao institucional N1;07/04/2026;16/04/2026;10;44;Equipe;;100
+15;3;Avaliacao institucional N2;17/06/2026;23/06/2026;7;32;Equipe;;100
+16;3;Prova de conceito - integracao Laravel + Flutter;24/06/2026;05/07/2026;12;56;Joao Alfredo;15;100
+17;3;Definicao da stack tecnologica definitiva;06/07/2026;09/07/2026;4;16;Equipe;16;100
+18;3;Estudo de viabilidade de hospedagem (Render);10/07/2026;14/07/2026;5;24;Eduardo Henrique;17;100
+19;3;Recesso academico;15/07/2026;03/08/2026;20;92;;18;100
+20;3;Retomada - alinhamento do grupo e divisao de papeis;04/08/2026;06/08/2026;3;12;Equipe;19;100
+21;3;Criacao do repositorio no GitHub;07/08/2026;07/08/2026;1;4;Eduardo Henrique;20;100
+22;3;Concessao de acesso ao professor no repositorio;07/08/2026;07/08/2026;1;4;Gabriel Henrique;21;100
+23;2;CHECKPOINT 1 - Escopo, Requisitos e Casos de Uso;18/08/2026;03/09/2026;;;;;35
+24;3;4.1 Definicao do escopo do projeto;18/08/2026;22/08/2026;5;22;Equipe;22;100
+25;3;Identificacao e analise de stakeholders;20/08/2026;22/08/2026;3;14;Gabriel Henrique;24;100
+26;3;4.2 Levantamento de requisitos funcionais;21/08/2026;25/08/2026;5;24;Equipe;24;60
+27;3;4.2 Levantamento de requisitos nao funcionais;23/08/2026;26/08/2026;4;18;Equipe;26;25
+28;3;Definicao das regras de negocio;25/08/2026;27/08/2026;3;12;Joao Alfredo;27;0
+29;3;4.3 Diagrama de casos de uso 1 - Acesso e conta;26/08/2026;27/08/2026;2;8;Equipe;27;0
+30;3;4.3 Diagrama de casos de uso 3 - Movimentacoes;27/08/2026;28/08/2026;2;8;Equipe;29;0
+31;3;4.3 Diagrama de casos de uso 4 - Cartoes;28/08/2026;29/08/2026;2;10;Equipe;30;0
+32;3;4.3 Diagrama de casos de uso 5 - Pagamentos;29/08/2026;30/08/2026;2;12;Equipe;31;0
+33;3;4.3 Diagrama de casos de uso 7 - Administracao;30/08/2026;31/08/2026;2;10;Equipe;32;0
+34;3;Modelo de dados preliminar - 16 entidades;29/08/2026;31/08/2026;3;16;Harttur Oliveira Pimenta;28;0
+35;3;Definicao da estrutura monorepo (backend/mobile);23/08/2026;24/08/2026;2;10;Harttur Oliveira Pimenta;22;50
+36;3;Configuracao do .gitignore do monorepo;24/08/2026;24/08/2026;1;4;Harttur Oliveira Pimenta;35;0
+37;3;4.4 Quadro de gestao das atividades;31/08/2026;01/09/2026;2;8;Gabriel Henrique;33;0
+38;3;4.4.2 Criacao do projeto no LibreProject;01/09/2026;02/09/2026;2;8;Gabriel Henrique;37;0
+39;3;Consolidacao do PDF unico do checkpoint 1;02/09/2026;02/09/2026;1;4;Gabriel Henrique;38;0
+40;3;Entrega pelo diario de bordo;02/09/2026;02/09/2026;1;4;Gabriel Henrique;39;0
+41;3;APRESENTACAO CHECKPOINT 1;03/09/2026;03/09/2026;0;0;Equipe;40;0
+42;2;CHECKPOINT 2 - Modelagem e Prototipacao;04/09/2026;18/09/2026;;;;;0
+43;3;Setup do projeto Laravel no monorepo;04/09/2026;06/09/2026;3;16;Joao Alfredo;41;0
+44;3;Configuracao do PostgreSQL local (Docker);04/09/2026;05/09/2026;2;10;Harttur Oliveira Pimenta;41;0
+45;3;Setup do projeto Flutter no monorepo;05/09/2026;07/09/2026;3;16;Eduardo Henrique;41;0
+46;3;4.2 Consolidacao dos requisitos finais;06/09/2026;09/09/2026;4;18;Equipe;41;0
+47;3;4.5 Prototipacao de telas no Figma - fluxos do cliente;07/09/2026;12/09/2026;6;26;Marcus Vinicius;46;0
+48;3;4.5 Prototipacao de telas no Figma - area administrativa;13/09/2026;16/09/2026;4;18;Marcus Vinicius;47;0
+49;3;4.6 Documentos detalhados dos casos de uso;08/09/2026;12/09/2026;5;22;Gabriel Henrique;46;0
+50;3;4.7 Diagrama de dados (DER);09/09/2026;12/09/2026;4;18;Harttur Oliveira Pimenta;44;0
+51;3;4.8 Diagrama de classes do modelo de dados;15/09/2026;18/09/2026;4;16;Harttur Oliveira Pimenta;50;0
+52;3;Migrations iniciais - usuarios, clientes, contas;11/09/2026;14/09/2026;4;20;Harttur Oliveira Pimenta;50;0
+53;3;Implementacao da autenticacao (Laravel Sanctum);13/09/2026;16/09/2026;4;18;Joao Alfredo;52;0
+54;3;Layout base em Blade + Tailwind CSS;13/09/2026;16/09/2026;4;18;Marcus Vinicius;48;0
+55;3;Atualizacao do LibreProject;15/09/2026;15/09/2026;1;4;Gabriel Henrique;51;0
+56;3;Consolidacao do PDF unico do checkpoint 2;16/09/2026;16/09/2026;1;4;Gabriel Henrique;55;0
+57;3;APRESENTACAO CHECKPOINT 2;17/09/2026;17/09/2026;0;0;Equipe;56;0
+58;2;CHECKPOINT 3 - Backend REST com TDD;18/09/2026;23/10/2026;;;;;0
+59;3;Definicao da estrategia de testes (TDD);18/09/2026;20/09/2026;3;16;Joao Alfredo;57;0
+60;3;Motor transacional - partidas dobradas (TDD);21/09/2026;30/09/2026;10;44;Joao Alfredo;59;0
+61;3;API REST - contas, saldo e extrato (TDD);01/10/2026;08/10/2026;8;36;Joao Alfredo;60;0
+62;3;API REST - chaves Pix e transferencias (TDD);09/10/2026;16/10/2026;8;36;Joao Alfredo;61;0
+63;3;API REST - pagamentos, boletos e QR Code (TDD);17/10/2026;23/10/2026;7;32;Harttur Oliveira Pimenta;61;0
+64;3;Motor antifraude por regras de risco;14/10/2026;17/10/2026;4;18;Eduardo Henrique;62;0
+65;3;Trilha de auditoria imutavel;15/10/2026;17/10/2026;3;14;Harttur Oliveira Pimenta;63;0
+66;3;Documentacao da API em OpenAPI/Swagger;17/10/2026;19/10/2026;3;16;Gabriel Henrique;64;0
+67;3;Deploy do backend no Render;18/10/2026;20/10/2026;3;14;Eduardo Henrique;65;0
+68;3;Provisionamento do PostgreSQL no Render;18/10/2026;19/10/2026;2;10;Eduardo Henrique;65;0
+69;3;4.9 Diagramas de classes das interacoes;17/10/2026;20/10/2026;4;20;Joao Alfredo;64;0
+70;3;Testes de integracao da API publicada;20/10/2026;21/10/2026;2;8;Eduardo Henrique;67;0
+71;3;Atualizacao do LibreProject;20/10/2026;20/10/2026;1;4;Gabriel Henrique;69;0
+72;3;Consolidacao do PDF unico do checkpoint 3;21/10/2026;21/10/2026;1;4;Gabriel Henrique;71;0
+73;3;APRESENTACAO CHECKPOINT 3;22/10/2026;22/10/2026;0;0;Equipe;72;0
+74;2;CHECKPOINT 4 - Frontend Web, Mobile e Entrega Final;23/10/2026;03/12/2026;;;;;0
+75;3;Portal do cliente web - autenticacao e dashboard;23/10/2026;30/10/2026;8;36;Marcus Vinicius;73;0
+76;3;Portal do cliente web - extrato e transferencias;31/10/2026;07/11/2026;8;38;Marcus Vinicius;75;0
+77;3;Portal do cliente web - cartoes e pagamentos;08/11/2026;14/11/2026;7;32;Marcus Vinicius;76;0
+78;3;Portal administrativo web - usuarios e perfis;15/11/2026;20/11/2026;6;26;Marcus Vinicius;77;0
+79;3;Portal administrativo web - auditoria e relatorios;21/11/2026;25/11/2026;5;24;Marcus Vinicius;78;0
+80;3;App Flutter - login e autenticacao com a API;23/10/2026;30/10/2026;8;36;Eduardo Henrique;73;0
+81;3;App Flutter - dashboard, saldo e extrato;31/10/2026;08/11/2026;9;44;Eduardo Henrique;80;0
+82;3;App Flutter - transferencias Pix;09/11/2026;16/11/2026;8;36;Eduardo Henrique;81;0
+83;3;App Flutter - cartoes e pagamentos;17/11/2026;24/11/2026;8;36;Eduardo Henrique;82;0
+84;3;Modulo de cartoes e faturas no backend;01/11/2026;10/11/2026;10;46;Joao Alfredo;73;0
+85;3;Modulo de suporte e chamados;11/11/2026;16/11/2026;6;28;Joao Alfredo;84;0
+86;3;Relatorios gerenciais;17/11/2026;21/11/2026;5;22;Harttur Oliveira Pimenta;85;0
+87;3;Testes de integracao ponta a ponta;22/11/2026;27/11/2026;6;26;Harttur Oliveira Pimenta;83;0
+88;3;Correcao de defeitos identificados;26/11/2026;30/11/2026;5;24;Equipe;87;0
+89;3;5.3 Elaboracao do manual do usuario;20/11/2026;27/11/2026;8;36;Gabriel Henrique;83;0
+90;3;Build do APK e disponibilizacao para download;30/11/2026;01/12/2026;2;8;Eduardo Henrique;88;0
+91;3;Deploy final e testes em producao;01/12/2026;02/12/2026;2;8;Eduardo Henrique;88;0
+92;3;5.4 Atualizacao final do LibreProject;01/12/2026;01/12/2026;1;4;Gabriel Henrique;91;0
+93;3;5.5 Commit final com todo o codigo;02/12/2026;02/12/2026;1;4;Equipe;92;0
+94;3;Consolidacao do PDF unico final;02/12/2026;02/12/2026;1;4;Gabriel Henrique;93;0
+95;3;APRESENTACAO CHECKPOINT 4 - ENTREGA FINAL;03/12/2026;03/12/2026;0;0;Equipe;94;0

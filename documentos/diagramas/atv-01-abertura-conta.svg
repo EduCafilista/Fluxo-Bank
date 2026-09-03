@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1314" viewBox="0 0 800 1314">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#8a97a5"/>
+</marker>
+<marker id="arrow-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#1b2430"/>
+</marker>
+<marker id="arrow-ret" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#0f6f5c"/>
+</marker>
+<marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+<path d="M 0 0 L 12 6 L 0 12" fill="none" stroke="#1b2430" stroke-width="1.6"/>
+</marker>
+<marker id="open-gen" viewBox="0 0 14 14" refX="12" refY="7" markerWidth="11" markerHeight="11" orient="auto-start-reverse">
+<path d="M 0 0 L 14 7 L 0 14" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+</marker>
+<marker id="diamond" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M 0 6 L 6 3 L 12 6 L 6 9 z" fill="#ffffff" stroke="#1b2430" stroke-width="1.5"/>
+</marker>
+<marker id="diamond-fill" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M 0 6 L 6 3 L 12 6 L 6 9 z" fill="#1b2430" stroke="#1b2430" stroke-width="1.2"/>
+</marker>
+</defs>
+<rect width="800" height="1314" fill="#ffffff"/>
+<text x="400.0" y="32.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#1b2430">ATV-01 — Atividade: abertura de conta com verificação de identidade (KYC)</text>
+<text x="400.0" y="52.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" text-anchor="middle" fill="#5a6b7b">Projeto Fluxo · Grupo 1 · Checkpoint 2 · RF01-RF05 · RN01</text>
+<rect x="42.0" y="74.0" width="756.0" height="1206.0" rx="8" fill="#ffffff" stroke="#8a97a5" stroke-width="1.3"/>
+<rect x="42.0" y="74.0" width="252.0" height="30.0" rx="0" fill="#f7f9fb" stroke="#8a97a5" stroke-width="1.2"/>
+<text x="168.0" y="86.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.6" font-weight="700" text-anchor="middle" fill="#1b2430">Cliente</text>
+<line x1="294.0" y1="74.0" x2="294.0" y2="1280.0" stroke="#8a97a5" stroke-width="1.1"/>
+<rect x="294.0" y="74.0" width="252.0" height="30.0" rx="0" fill="#f7f9fb" stroke="#8a97a5" stroke-width="1.2"/>
+<text x="420.0" y="86.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.6" font-weight="700" text-anchor="middle" fill="#1b2430">Sistema Fluxo</text>
+<line x1="546.0" y1="74.0" x2="546.0" y2="1280.0" stroke="#8a97a5" stroke-width="1.1"/>
+<rect x="546.0" y="74.0" width="252.0" height="30.0" rx="0" fill="#f7f9fb" stroke="#8a97a5" stroke-width="1.2"/>
+<text x="672.0" y="86.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.6" font-weight="700" text-anchor="middle" fill="#1b2430">Backoffice</text>
+<circle cx="168" cy="140.0" r="11" fill="#1b2430" stroke="#1b2430" stroke-width="1.6"/>
+<rect x="65.0" y="182.0" width="206.0" height="50.0" rx="8" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<text x="168.0" y="203.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">Preenche cadastro (nome, CPF,</text>
+<text x="168.0" y="216.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">e-mail e senha)</text>
+<rect x="317.0" y="262.0" width="206.0" height="50.0" rx="8" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<text x="420.0" y="283.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">Valida CPF, e-mail e forca da</text>
+<text x="420.0" y="296.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">senha</text>
+<polygon points="332.0,373.0 420.0,342.0 508.0,373.0 420.0,404.0" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<rect x="374.8" y="316.0" width="90.4" height="17.0" rx="3" fill="#ffffff" stroke="none" stroke-width="0"/>
+<text x="420.0" y="329.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.4" font-weight="700" text-anchor="middle" fill="#0f6f5c">Dados validos?</text>
+<rect x="65.0" y="434.0" width="206.0" height="50.0" rx="8" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<text x="168.0" y="455.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">Exibe erros e solicita</text>
+<text x="168.0" y="468.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">correcao</text>
+<rect x="317.0" y="514.0" width="206.0" height="50.0" rx="8" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<text x="420.0" y="535.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">Grava cliente com status</text>
+<text x="420.0" y="548.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">PENDENTE</text>
+<rect x="317.0" y="594.0" width="206.0" height="50.0" rx="8" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<text x="420.0" y="615.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">Envia dados ao servico KYC</text>
+<text x="420.0" y="628.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">simulado</text>
+<polygon points="332.0,705.0 420.0,674.0 508.0,705.0 420.0,736.0" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<rect x="380.4" y="648.0" width="79.2" height="17.0" rx="3" fill="#ffffff" stroke="none" stroke-width="0"/>
+<text x="420.0" y="661.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.4" font-weight="700" text-anchor="middle" fill="#0f6f5c">Score &gt;= 60?</text>
+<rect x="569.0" y="766.0" width="206.0" height="50.0" rx="8" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<text x="672.0" y="787.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">Reprova cadastro registrando o</text>
+<text x="672.0" y="800.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">motivo</text>
+<rect x="317.0" y="846.0" width="206.0" height="37.0" rx="8" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<text x="420.0" y="867.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">Aguarda analise do backoffice</text>
+<rect x="569.0" y="913.0" width="206.0" height="50.0" rx="8" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<text x="672.0" y="934.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">Analisa documentos e aprova a</text>
+<text x="672.0" y="947.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">abertura</text>
+<rect x="317.0" y="993.0" width="206.0" height="50.0" rx="8" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<text x="420.0" y="1014.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">Cria conta (agencia 0001 +</text>
+<text x="420.0" y="1027.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">numero sequencial)</text>
+<rect x="317.0" y="1073.0" width="206.0" height="50.0" rx="8" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<text x="420.0" y="1094.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">Registra evento na trilha de</text>
+<text x="420.0" y="1107.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">auditoria</text>
+<rect x="65.0" y="1153.0" width="206.0" height="37.0" rx="8" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<text x="168.0" y="1174.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.8" font-weight="500" text-anchor="middle" fill="#1b2430">Recebe e-mail de confirmacao</text>
+<circle cx="420" cy="1232.0" r="11" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+<circle cx="420" cy="1232.0" r="6" fill="#1b2430"/>
+<path d="M 168.0 152.0 L 168.0 182.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<path d="M 168.0 232.0 L 168.0 248.0 L 420.0 248.0 L 420.0 262.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<path d="M 420.0 312.0 L 420.0 342.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<path d="M 420.0 404.0 L 420.0 420.0 L 168.0 420.0 L 168.0 434.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<rect x="272.0" y="404.0" width="44.0" height="15.0" rx="3" fill="#ffffff" stroke="none" stroke-width="0"/>
+<text x="294.0" y="415.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#1d4f91">[nao]</text>
+<path d="M 65.0 459.0 L 16.0 459.0 L 16.0 207.0 L 59.0 207.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<path d="M 420.0 404.0 L 420.0 514.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<rect x="518.0" y="449.0" width="44.0" height="15.0" rx="3" fill="#ffffff" stroke="none" stroke-width="0"/>
+<text x="522.0" y="460.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1d4f91">[sim]</text>
+<path d="M 420.0 564.0 L 420.0 594.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<path d="M 420.0 644.0 L 420.0 674.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<path d="M 420.0 736.0 L 420.0 752.0 L 672.0 752.0 L 672.0 766.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<rect x="524.0" y="736.0" width="44.0" height="15.0" rx="3" fill="#ffffff" stroke="none" stroke-width="0"/>
+<text x="546.0" y="747.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#1d4f91">[nao]</text>
+<path d="M 672.0 816.0 L 672.0 832.0 L 168.0 832.0 L 168.0 1153.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<path d="M 420.0 736.0 L 420.0 846.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<rect x="518.0" y="781.0" width="44.0" height="15.0" rx="3" fill="#ffffff" stroke="none" stroke-width="0"/>
+<text x="522.0" y="792.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1d4f91">[sim]</text>
+<path d="M 420.0 883.0 L 420.0 899.0 L 672.0 899.0 L 672.0 913.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<path d="M 672.0 963.0 L 672.0 979.0 L 420.0 979.0 L 420.0 993.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<path d="M 420.0 1043.0 L 420.0 1073.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<path d="M 420.0 1123.0 L 420.0 1139.0 L 168.0 1139.0 L 168.0 1153.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<path d="M 168.0 1190.0 L 168.0 1206.0 L 420.0 1206.0 L 420.0 1220.0" fill="none" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+
+</svg>

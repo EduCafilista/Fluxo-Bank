@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1140" height="606" viewBox="0 0 1140 606">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#8a97a5"/>
+</marker>
+</defs>
+<rect width="1140" height="606" fill="#ffffff"/>
+<text x="570.0" y="32" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#1b2430">Diagrama de Casos de Uso 4 - Cartões</text>
+<text x="570.0" y="52" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" fill="#5a6b7b">Fluxo · Sistema Bancário Digital · Grupo 1 · Checkpoint 1</text>
+<rect x="250" y="78" width="640" height="488" rx="10" fill="#f7f9fb" stroke="#1b2430" stroke-width="1.6"/><text x="570.0" y="102" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b2430" letter-spacing="0.4">Sistema Fluxo</text>
+<circle cx="108" cy="299.0" r="9" fill="none" stroke="#1b2430" stroke-width="2"/>
+<line x1="108" y1="308.0" x2="108" y2="334.0" stroke="#1b2430" stroke-width="2"/>
+<line x1="94" y1="316.0" x2="122" y2="316.0" stroke="#1b2430" stroke-width="2"/>
+<line x1="108" y1="334.0" x2="96" y2="354.0" stroke="#1b2430" stroke-width="2"/>
+<line x1="108" y1="334.0" x2="120" y2="354.0" stroke="#1b2430" stroke-width="2"/>
+<text x="108" y="370.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#1b2430">Cliente</text>
+<text x="108" y="385.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.5" text-anchor="middle" fill="#5a6b7b">(correntista)</text>
+<circle cx="1032" cy="194.5" r="9" fill="none" stroke="#1b2430" stroke-width="2"/>
+<line x1="1032" y1="203.5" x2="1032" y2="229.5" stroke="#1b2430" stroke-width="2"/>
+<line x1="1018" y1="211.5" x2="1046" y2="211.5" stroke="#1b2430" stroke-width="2"/>
+<line x1="1032" y1="229.5" x2="1020" y2="249.5" stroke="#1b2430" stroke-width="2"/>
+<line x1="1032" y1="229.5" x2="1044" y2="249.5" stroke="#1b2430" stroke-width="2"/>
+<text x="1032" y="265.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#1b2430">Bandeira / Adquirente</text>
+<text x="1032" y="280.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.5" text-anchor="middle" fill="#5a6b7b">«sistema externo»</text>
+<circle cx="1032" cy="403.5" r="9" fill="none" stroke="#1b2430" stroke-width="2"/>
+<line x1="1032" y1="412.5" x2="1032" y2="438.5" stroke="#1b2430" stroke-width="2"/>
+<line x1="1018" y1="420.5" x2="1046" y2="420.5" stroke="#1b2430" stroke-width="2"/>
+<line x1="1032" y1="438.5" x2="1020" y2="458.5" stroke="#1b2430" stroke-width="2"/>
+<line x1="1032" y1="438.5" x2="1044" y2="458.5" stroke="#1b2430" stroke-width="2"/>
+<text x="1032" y="474.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#1b2430">Analista de Backoffice</text>
+<path d="M 108.0 320.0 L 349.2 201.0" fill="none" stroke="#1b2430" stroke-width="1.3" opacity="0.75"/>
+<path d="M 108.0 320.0 L 638.2 193.0" fill="none" stroke="#1b2430" stroke-width="1.3" opacity="0.75"/>
+<path d="M 108.0 320.0 L 304.6 290.7" fill="none" stroke="#1b2430" stroke-width="1.3" opacity="0.75"/>
+<path d="M 108.0 320.0 Q 366.2 363.5 615.4 283.3" fill="none" stroke="#1b2430" stroke-width="1.3" opacity="0.75"/>
+<path d="M 108.0 320.0 L 311.5 359.7" fill="none" stroke="#1b2430" stroke-width="1.3" opacity="0.75"/>
+<path d="M 108.0 320.0 L 353.2 452.3" fill="none" stroke="#1b2430" stroke-width="1.3" opacity="0.75"/>
+<path d="M 1032.0 215.5 L 786.7 348.3" fill="none" stroke="#1b2430" stroke-width="1.3" opacity="0.75"/>
+<path d="M 1032.0 424.5 L 828.8 463.9" fill="none" stroke="#1b2430" stroke-width="1.3" opacity="0.75"/>
+<path d="M 528.0 483.0 L 612.0 483.0" fill="none" stroke="#8a97a5" stroke-width="1.3" stroke-dasharray="7 5" marker-end="url(#arrow)"/><rect x="547.0" y="469.0" width="46" height="13" fill="#ffffff" opacity="0.92"/><text x="570.0" y="479.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" text-anchor="middle" fill="#6b7887">&#171;include&#187;</text>
+<path d="M 410.0 448.0 L 410.0 414.0" fill="none" stroke="#8a97a5" stroke-width="1.3" stroke-dasharray="7 5" marker-end="url(#arrow)"/><rect x="387.0" y="417.0" width="46" height="13" fill="#ffffff" opacity="0.92"/><text x="410.0" y="427.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" text-anchor="middle" fill="#6b7887">&#171;extend&#187;</text>
+<ellipse cx="410.0" cy="171" rx="118" ry="35" fill="#ffffff" stroke="#0f6f5c" stroke-width="1.8"/>
+<text x="410.0" y="167.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f6f5c">UC17</text>
+<text x="410.0" y="182.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="500" text-anchor="middle" fill="#1b2430">Solicitar cartão virtual</text>
+<ellipse cx="730.0" cy="171" rx="118" ry="35" fill="#ffffff" stroke="#0f6f5c" stroke-width="1.8"/>
+<text x="730.0" y="167.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f6f5c">UC18</text>
+<text x="730.0" y="182.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="500" text-anchor="middle" fill="#1b2430">Solicitar cartão físico</text>
+<ellipse cx="410.0" cy="275" rx="118" ry="35" fill="#ffffff" stroke="#0f6f5c" stroke-width="1.8"/>
+<text x="410.0" y="264.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f6f5c">UC19</text>
+<text x="410.0" y="279.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="500" text-anchor="middle" fill="#1b2430">Bloquear / desbloquear</text>
+<text x="410.0" y="294.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="500" text-anchor="middle" fill="#1b2430">cartão</text>
+<ellipse cx="730.0" cy="275" rx="118" ry="35" fill="#ffffff" stroke="#0f6f5c" stroke-width="1.8"/>
+<text x="730.0" y="271.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f6f5c">UC20</text>
+<text x="730.0" y="286.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="500" text-anchor="middle" fill="#1b2430">Ajustar limite do cartão</text>
+<ellipse cx="730.0" cy="379" rx="118" ry="35" fill="#ffffff" stroke="#0f6f5c" stroke-width="1.8"/>
+<text x="730.0" y="375.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f6f5c">UC21</text>
+<text x="730.0" y="390.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="500" text-anchor="middle" fill="#1b2430">Autorizar compra no cartão</text>
+<ellipse cx="410.0" cy="379" rx="118" ry="35" fill="#ffffff" stroke="#0f6f5c" stroke-width="1.8"/>
+<text x="410.0" y="368.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f6f5c">UC22</text>
+<text x="410.0" y="383.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="500" text-anchor="middle" fill="#1b2430">Consultar fatura e</text>
+<text x="410.0" y="398.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="500" text-anchor="middle" fill="#1b2430">lançamentos</text>
+<ellipse cx="410.0" cy="483" rx="118" ry="35" fill="#ffffff" stroke="#0f6f5c" stroke-width="1.8"/>
+<text x="410.0" y="479.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f6f5c">UC23</text>
+<text x="410.0" y="494.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="500" text-anchor="middle" fill="#1b2430">Contestar lançamento</text>
+<ellipse cx="730.0" cy="483" rx="118" ry="35" fill="#ffffff" stroke="#0f6f5c" stroke-width="1.8"/>
+<text x="730.0" y="479.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f6f5c">UC24</text>
+<text x="730.0" y="494.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="500" text-anchor="middle" fill="#1b2430">Tratar contestação</text>
+</svg>
