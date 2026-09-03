@@ -18,7 +18,11 @@
 - [Diagrama 5 — Pagamentos e Cobranças](#diagrama-5--pagamentos-e-cobranças)
 - [Diagrama 7 — Administração, Segurança e Suporte](#diagrama-7--administração-segurança-e-suporte)
 - [Catálogo completo de casos de uso](#catálogo-completo-de-casos-de-uso)
+<<<<<<< HEAD
 - [Rastreabilidade](#rastreabilidade-caso-de-uso-×-requisito)
+=======
+- [Rastreabilidade](#rastreabilidade-caso-de-uso--requisito)
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 
 ---
 
@@ -69,21 +73,35 @@
 | **Cliente** | Correntista titular de uma conta Fluxo. Ator principal do sistema. | 1, 3, 4, 7 |
 | **Favorecido** | Destinatário de uma transferência; pode ser cliente do Fluxo. | 3 |
 | **Pagador externo** | Terceiro que liquida uma cobrança emitida por um cliente. | 5 |
+<<<<<<< HEAD
 | **Analista de Backoffice** | Aprova aberturas de conta e trata contestações de cartão. | 1, 4 |
 | **Analista de Suporte** | Responde aos chamados abertos pelos clientes. | 7 |
 | **Administrador** | Gerencia usuários, perfis, tarifas e limites operacionais. | 7 |
+=======
+| **Analista de Backoffice** | Trata e analisa contestações de cartão e movimentações. | 4 |
+| **Analista de Suporte** | Responde chamados e realiza liberação de contas bloqueadas por acesso. | 7 |
+| **Administrador** | Gerencia usuários, bloqueios de fraude, tarifas e limites operacionais. | 7 |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 | **Auditor** | Consulta a trilha de auditoria e relatórios. Acesso somente leitura. | 7 |
 
 ### Atores-sistema
 
 | Ator | Estereótipo | Papel | Diagramas |
 |---|---|---|:---:|
+<<<<<<< HEAD
 | **Serviço KYC** | «sistema externo» | Valida identidade na abertura de conta. *Simulado.* | 1 |
+=======
+| **Serviço KYC / Aprovação** | «sistema» | Simula validação de identidade e aprova contas automaticamente. | 1 |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 | **SPI / Pix** | «sistema externo» | Liquida transferências instantâneas. *Simulado.* | 3 |
 | **Motor Antifraude** | «sistema» | Componente interno de análise de risco por regras. | 3 |
 | **Bandeira / Adquirente** | «sistema externo» | Autoriza compras no cartão. *Simulado.* | 4 |
 | **Registradora de boletos** | «sistema externo» | Consulta e liquida boletos. *Simulado.* | 5 |
+<<<<<<< HEAD
 | **Motor de Notificações** | «sistema» | Componente interno de envio de e-mail e push. | 5 |
+=======
+| **Motor de Notificações** | «sistema» | Componente interno de envio de e-mail e push em eventos. | 5 |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 
 ---
 
@@ -91,18 +109,32 @@
 
 ![Diagrama de casos de uso 1 — Acesso e Gestão de Conta](diagramas/ucd-01-acesso-e-conta.svg)
 
+<<<<<<< HEAD
 **Escopo:** ciclo de vida da conta, do cadastro do visitante até o encerramento, passando pela verificação de identidade e pela aprovação do backoffice.
 
 **Atores:** Visitante · Cliente · Serviço KYC «sistema externo» · Analista de Backoffice
+=======
+**Escopo:** ciclo de vida da conta, do cadastro do visitante até o encerramento, passando pela verificação de identidade e aprovação automatizada.
+
+**Atores:** Visitante · Cliente · Serviço KYC / Aprovação «sistema»
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 
 | ID | Caso de uso | Ator principal | Descrição resumida |
 |:---:|---|---|---|
 | UC01 | Cadastrar-se na plataforma | Visitante | Informa nome, CPF, nascimento, e-mail, telefone e senha. |
+<<<<<<< HEAD
 | UC02 | Validar identidade (KYC) | Serviço KYC | Verificação simulada dos dados do solicitante. |
 | UC03 | Autenticar-se no sistema | Cliente | Login por e-mail e senha, com sessão na web e token na API. |
 | UC04 | Configurar autenticação em 2 fatores | Cliente | Ativa o segundo fator por código enviado ao e-mail. |
 | UC05 | Recuperar senha de acesso | Visitante | Redefine a senha por token de uso único. |
 | UC06 | Aprovar abertura de conta | Analista de Backoffice | Defere ou indefere o cadastro e registra o motivo. |
+=======
+| UC02 | Validar identidade (KYC) | Serviço KYC | Verificação simulada automatizada dos dados do solicitante. |
+| UC03 | Autenticar-se no sistema | Cliente | Login por e-mail e senha, sujeito a bloqueio após 5 erros. |
+| UC04 | Configurar autenticação em 2 fatores | Cliente | Ativa o segundo fator por código enviado ao e-mail. |
+| UC05 | Recuperar senha de acesso | Visitante | Redefine a senha por token de uso único. |
+| UC06 | Aprovar abertura de conta | Serviço KYC | Avalia automaticamente o cadastro e cria a conta corrente se deferido. |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 | UC07 | Manter dados cadastrais | Cliente | Consulta e altera telefone, e-mail e endereço. |
 | UC08 | Encerrar conta | Cliente | Encerra a conta se o saldo for zero e não houver pendências. |
 
@@ -110,7 +142,11 @@
 
 | Origem | Tipo | Destino | Justificativa |
 |---|:---:|---|---|
+<<<<<<< HEAD
 | UC01 | «include» | UC02 | Todo cadastro passa obrigatoriamente pela validação de identidade. |
+=======
+| UC01 | «include» | UC02 | Todo cadastro passa obrigatoriamente pela validação de identidade automatizada. |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 | UC04 | «extend» | UC03 | O 2FA só entra no fluxo de login quando o cliente o habilitou. |
 
 ---
@@ -126,11 +162,19 @@
 | ID | Caso de uso | Ator principal | Descrição resumida |
 |:---:|---|---|---|
 | UC09 | Consultar saldo e extrato | Cliente | Saldo calculado a partir dos lançamentos, com extrato filtrável. |
+<<<<<<< HEAD
 | UC10 | Registrar chave Pix | Cliente | Cadastra chave do tipo CPF, e-mail, telefone ou aleatória. |
 | UC11 | Realizar transferência Pix | Cliente | Transfere informando a chave do favorecido e o valor. |
 | UC12 | Analisar risco da transação | Motor Antifraude | Aplica regras de limite, horário e favorecido recente. |
 | UC13 | Transferir entre contas Fluxo | Cliente | Transferência interna com liquidação imediata. |
 | UC14 | Agendar transferência | Cliente | Programa a execução para data futura. |
+=======
+| UC10 | Registrar chave Pix | Cliente | Cadastra chave Pix com bloqueio estrito de duplicidades. |
+| UC11 | Realizar transferência Pix | Cliente | Transfere informando a chave do favorecido e o valor. |
+| UC12 | Analisar risco da transação | Motor Antifraude | Aplica regras de limite, horário e favorecido recente. |
+| UC13 | Transferir entre contas Fluxo | Cliente | Transferência interna com liquidação imediata. |
+| UC14 | Agendar transferência | Cliente | Programa data futura, com débito e validação estrita no dia da execução. |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 | UC15 | Depositar via Pix / boleto | Cliente | Depósito simulado creditado na conta. |
 | UC16 | Exportar comprovante (PDF) | Cliente | Gera comprovante com identificador único. |
 
@@ -159,14 +203,22 @@
 | UC20 | Ajustar limite do cartão | Cliente | Altera o limite respeitando o teto aprovado. |
 | UC21 | Autorizar compra no cartão | Bandeira / Adquirente | Autorização simulada, verificando limite e status. |
 | UC22 | Consultar fatura e lançamentos | Cliente | Fatura com lançamentos, fechamento e vencimento. |
+<<<<<<< HEAD
 | UC23 | Contestar lançamento | Cliente | Abre contestação informando o motivo. |
+=======
+| UC23 | Contestar lançamento | Cliente | Abre contestação informando o motivo (prazo de 90 dias). |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 | UC24 | Tratar contestação | Analista de Backoffice | Defere ou indefere com justificativa. |
 
 **Relações:**
 
 | Origem | Tipo | Destino | Justificativa |
 |---|:---:|---|---|
+<<<<<<< HEAD
 | UC23 | «include» | UC24 | Toda contestação aberta gera obrigatoriamente uma análise. |
+=======
+| UC23 | «include» | UC24 | Toda contestação aberta gera obrigatoriamente uma análise humana. |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 | UC23 | «extend» | UC22 | A contestação é acionada opcionalmente a partir da fatura. |
 
 ---
@@ -186,7 +238,11 @@
 | UC27 | Emitir cobrança Pix (QR Code) | Cliente | Gera cobrança com valor, descrição e validade. |
 | UC28 | Agendar pagamento recorrente | Cliente | Programa pagamentos com periodicidade definida. |
 | UC29 | Liquidar cobrança emitida | Pagador externo | Terceiro paga a cobrança gerada pelo cliente. |
+<<<<<<< HEAD
 | UC30 | Notificar cliente do evento | Motor de Notificações | Envia e-mail e push a cada evento financeiro. |
+=======
+| UC30 | Notificar cliente do evento | Motor de Notificações | Dispara e-mail/push para transações aprovadas e agendamentos falhos. |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 
 **Relações:**
 
@@ -201,7 +257,11 @@
 
 ![Diagrama de casos de uso 7 — Administração, Segurança e Suporte](diagramas/ucd-07-administracao.svg)
 
+<<<<<<< HEAD
 **Escopo:** área interna do banco — gestão de usuários e perfis, trilha de auditoria, parametrizações, relatórios e central de chamados.
+=======
+**Escopo:** área interna do banco — gestão de usuários e perfis, trilha de auditoria, parametrizações, relatórios e central de chamados (incluindo desbloqueio de acessos).
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 
 **Atores:** Administrador · Analista de Suporte · Auditor · Cliente
 
@@ -209,20 +269,34 @@
 |:---:|---|---|---|
 | UC31 | Gerenciar usuários e perfis | Administrador | Cria, edita e desativa usuários internos (RBAC). |
 | UC32 | Registrar log de operação | *(sistema)* | Grava a operação sensível na trilha imutável. |
+<<<<<<< HEAD
 | UC33 | Bloquear conta suspeita | Administrador | Impede novas movimentações da conta. |
 | UC34 | Consultar trilha de auditoria | Auditor | Consulta com filtros por autor, período e tipo. |
 | UC35 | Parametrizar tarifas e limites | Administrador | Define tarifas, limites por operação e diários. |
 | UC36 | Emitir relatórios gerenciais | Administrador · Auditor | Volume transacionado, contas ativas e chamados. |
 | UC37 | Responder chamado de suporte | Analista de Suporte | Responde e altera o status do chamado. |
 | UC38 | Abrir chamado de suporte | Cliente | Registra assunto, descrição e anexo. |
+=======
+| UC33 | Bloquear / desbloquear conta | Administrador / Analista | Bloqueio por fraude (Admin) ou liberação após 5 tentativas de login (Suporte). |
+| UC34 | Consultar trilha de auditoria | Auditor | Consulta com filtros por autor, período e tipo. |
+| UC35 | Parametrizar tarifas e limites | Administrador | Define limites operacionais e o teto máximo de segurança. |
+| UC36 | Emitir relatórios gerenciais | Administrador · Auditor | Volume transacionado, contas ativas e chamados. |
+| UC37 | Responder chamado de suporte | Analista de Suporte | Responde e altera o status do chamado do cliente. |
+| UC38 | Abrir chamado de suporte | Cliente | Solicita atendimento geral ou desbloqueio de acesso. |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 
 **Relações:**
 
 | Origem | Tipo | Destino | Justificativa |
 |---|:---:|---|---|
 | UC31 | «include» | UC32 | Toda alteração de usuário é registrada na auditoria. |
+<<<<<<< HEAD
 | UC33 | «include» | UC32 | Todo bloqueio de conta é registrado na auditoria. |
 | UC37 | «extend» | UC38 | A resposta do analista estende o chamado aberto pelo cliente. |
+=======
+| UC33 | «include» | UC32 | Toda alteração no status da conta é registrada na auditoria. |
+| UC37 | «extend» | UC38 | A resposta e a liberação de conta estendem o chamado aberto. |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 
 ---
 
@@ -235,7 +309,11 @@
 | UC03 | Autenticar-se no sistema | Acesso e Conta | Cliente |
 | UC04 | Configurar autenticação em 2 fatores | Acesso e Conta | Cliente |
 | UC05 | Recuperar senha de acesso | Acesso e Conta | Visitante |
+<<<<<<< HEAD
 | UC06 | Aprovar abertura de conta | Acesso e Conta | Analista de Backoffice |
+=======
+| UC06 | Aprovar abertura de conta | Acesso e Conta | Serviço KYC / Aprovação |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 | UC07 | Manter dados cadastrais | Acesso e Conta | Cliente |
 | UC08 | Encerrar conta | Acesso e Conta | Cliente |
 | UC09 | Consultar saldo e extrato | Movimentações | Cliente |
@@ -262,7 +340,11 @@
 | UC30 | Notificar cliente do evento | Pagamentos | Motor de Notificações |
 | UC31 | Gerenciar usuários e perfis | Administração | Administrador |
 | UC32 | Registrar log de operação | Administração | *(sistema)* |
+<<<<<<< HEAD
 | UC33 | Bloquear conta suspeita | Administração | Administrador |
+=======
+| UC33 | Bloquear / desbloquear conta | Administração | Administrador / Analista |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 | UC34 | Consultar trilha de auditoria | Administração | Auditor |
 | UC35 | Parametrizar tarifas e limites | Administração | Administrador |
 | UC36 | Emitir relatórios gerenciais | Administração | Administrador · Auditor |
@@ -279,9 +361,13 @@
 | 3 — Movimentações Financeiras | UC09 – UC16 | RF13 – RF26 |
 | 4 — Cartões | UC17 – UC24 | RF27 – RF35 |
 | 5 — Pagamentos e Cobranças | UC25 – UC30 | RF36 – RF42 |
+<<<<<<< HEAD
 | 7 — Administração, Segurança e Suporte | UC31 – UC38 | RF43 – RF52 |
 
 Todos os 38 casos de uso possuem ao menos um requisito funcional associado, e os 52 requisitos funcionais estão vinculados a um caso de uso — **não há caso de uso órfão nem requisito sem rastreabilidade**. O detalhamento está em [`requisitos-funcionais.md`](Requisitos.md).
+=======
+| 7 — Administração, Segurança e Suporte | UC31 – UC38 | RF43 – RF53 |
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c
 
 ---
 
@@ -297,6 +383,7 @@ Todos os 38 casos de uso possuem ao menos um requisito funcional associado, e os
 
 ---
 
+<<<<<<< HEAD
 > **Versionamento:** diagramas do levantamento **inicial**, entregues no Checkpoint 1. Os **documentos detalhados de casos de uso** (item 4.6), com fluxo principal, fluxos alternativos, pré-condições e pós-condições de cada UC, serão entregues no **Checkpoint 2 (17/09/2026)**.
 
 ## Documentos relacionados
@@ -308,3 +395,6 @@ Todos os 38 casos de uso possuem ao menos um requisito funcional associado, e os
 | [`02-requisitos.md`](RequisitosCompleto.md) | 4.2 — Documento completo (RF + RNF + RN) |
 | [`quadro-de-gestao.md`](QuadroDeGestao.md) | 4.4 — Quadro de gestão das atividades |
 | [`05-stakeholders.md`](Stakeholders.md) | Análise de stakeholders |
+=======
+> **Versionamento:** diagramas do levantamento **inicial** consolidados, entregues no Checkpoint 1. Os **documentos detalhados de casos de uso** (item 4.6), com fluxo principal, fluxos alternativos, pré-condições e pós-condições de cada UC, serão entregues no **Checkpoint 2 (17/09/2026)**.
+>>>>>>> fd64bc41aec70c7c10a10bd47c2abbaa2638f15c

@@ -1,10 +1,9 @@
 services:
   - type: web
     name: fluxo-api
-    env: php
+    env: docker
+    plan: free
     rootDir: backend
-    buildCommand: "./build.sh"
-    startCommand: "heroku-php-apache2 public/"
     envVars:
       - key: APP_KEY
         generateValue: true
@@ -21,5 +20,6 @@ services:
 
 databases:
   - name: fluxo-db
+    plan: free # <--- Força o uso do banco gratuito (dura 90 dias)
     databaseName: fluxodb
     user: fluxouser
