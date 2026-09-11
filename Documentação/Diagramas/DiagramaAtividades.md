@@ -8,15 +8,7 @@
 
 ---
 
-## 1. Convenções
-
-| Elemento | Notação |
-|---|---|
-| Nó inicial / final | Círculo preenchido / círculo com anel interno |
-| Ação | Retângulo de cantos arredondados |
-| Decisão | Losango com guardas `[sim]`/`[nao]` |
-| Raia (swimlane) | Coluna por responsável |
-| Realimentação | Linha contornando a lateral |
+## 1. Sumário
 
 | ID | Diagrama | Raias | Requisitos | Imagem |
 |---|---|---|---|---|
