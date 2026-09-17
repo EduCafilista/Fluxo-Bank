@@ -24,29 +24,29 @@
 | **RF07** | Gestão completa do ciclo de vida de cartões (emissão física, geração do cartão virtual a partir do físico, bloqueio/desbloqueio e ajuste de limites baseados em tetos pré-aprovados). | `Must` |
 | **RF08** | Pagamento de cobranças via QR Code Pix (payload EMV) e boletos por código de barras/linha digitável. | `Must` |
 | **RF09** | Backoffice gerencial contendo gestão de perfis (RBAC), bloqueio de contas suspeitas, atendimento de chamados de suporte técnico e consulta detalhada às trilhas de auditoria geradas. | `Must` |
-| **RF10** *(novo)* | **Especialização de clientes:** o sistema deve suportar clientes **Pessoa Física** (CPF, validado matematicamente) e **Pessoa Jurídica** (CNPJ, validado matematicamente, com razão social e representante legal), cada um com regras e dados cadastrais próprios. | `Must` |
-| **RF11** *(novo)* | **Especialização de contas:** a conta deve se especializar em **Corrente**, **Poupança**, **Salário** (associáveis a cliente PF) e **PJ** (associável a cliente PJ), cada uma com regras de uso específicas. | `Must` |
-| **RF12** *(novo)* | **Especialização de cartões:** o cartão se especializa em **Débito** e **Crédito**; cada um existe nas formas **Física** e **Virtual**. Um cartão virtual só pode ser gerado a partir de um cartão físico ativo — **não existe cartão virtual sem um físico correspondente** —, mas o cartão físico pode existir e ser utilizado sem que nenhum virtual tenha sido gerado. | `Must` |
-| **RF13** *(novo)* | **Bloqueio de conta pelo cliente:** o próprio cliente pode ativar um bloqueio preventivo (autobloqueio) na própria conta, controlado por uma flag booleana. Enquanto ativa, nenhuma movimentação de débito é permitida. Distinto do bloqueio por fraude, feito pelo Administrador (RF09). | `Must` |
-| **RF14** *(novo)* | **Limites configuráveis do Pix:** o cliente pode configurar, dentro de um teto máximo pré-aprovado pelo banco, o valor máximo por transação Pix e o limite diário (valor e quantidade de transações). | `Must` |
-| **RF15** *(novo)* | **Geração de QR Code para recebimento de Pix:** o sistema deve gerar uma imagem de QR Code a partir do payload EMV de uma cobrança Pix, permitindo que qualquer pagador (cliente Fluxo ou externo) a leia e efetive o pagamento. | `Must` |
-| **RF16** *(novo)* | **Arquitetura MVC:** o back-end deve seguir o padrão **Model-View-Controller** — Models (Eloquent, regra de persistência), Controllers (validação e orquestração da requisição) e Views/Resources (Blade para a web, API Resources/JSON para a API) — mantendo a lógica de negócio isolada em Services, conforme os componentes de domínio (ver `DiagramaComponentes.md`). | `Must` |
-| **RF17** *(novo)* | **Token de autenticação no back-end:** toda sessão autenticada (app ou web) deve receber um token de acesso (Laravel Sanctum), emitido no login e validado em toda requisição subsequente à API, com expiração e revogação (logout). | `Must` |
+| **RF10** | **Especialização de clientes:** o sistema deve suportar clientes **Pessoa Física** (CPF, validado matematicamente) e **Pessoa Jurídica** (CNPJ, validado matematicamente, com razão social e representante legal), cada um com regras e dados cadastrais próprios. | `Must` |
+| **RF11** | **Especialização de contas:** a conta deve se especializar em **Corrente**, **Poupança**, **Salário** (associáveis a cliente PF) e **PJ** (associável a cliente PJ), cada uma com regras de uso específicas. | `Must` |
+| **RF12** | **Especialização de cartões:** o cartão se especializa em **Débito** e **Crédito**; cada um existe nas formas **Física** e **Virtual**. Um cartão virtual só pode ser gerado a partir de um cartão físico ativo — **não existe cartão virtual sem um físico correspondente** —, mas o cartão físico pode existir e ser utilizado sem que nenhum virtual tenha sido gerado. | `Must` |
+| **RF13** | **Bloqueio de conta pelo cliente:** o próprio cliente pode ativar um bloqueio preventivo (autobloqueio) na própria conta, controlado por uma flag booleana. Enquanto ativa, nenhuma movimentação de débito é permitida. Distinto do bloqueio por fraude, feito pelo Administrador (RF09). | `Must` |
+| **RF14** | **Limites configuráveis do Pix:** o cliente pode configurar, dentro de um teto máximo pré-aprovado pelo banco, o valor máximo por transação Pix e o limite diário (valor e quantidade de transações). | `Must` |
+| **RF15** | **Geração de QR Code para recebimento de Pix:** o sistema deve gerar uma imagem de QR Code a partir do payload EMV de uma cobrança Pix, permitindo que qualquer pagador (cliente Fluxo ou externo) a leia e efetive o pagamento. | `Must` |
+| **RF16** | **Arquitetura MVC:** o back-end deve seguir o padrão **Model-View-Controller** — Models (Eloquent, regra de persistência), Controllers (validação e orquestração da requisição) e Views/Resources (Blade para a web, API Resources/JSON para a API) — mantendo a lógica de negócio isolada em Services, conforme os componentes de domínio (ver `DiagramaComponentes.md`). | `Must` |
+| **RF17** | **Token de autenticação no back-end:** toda sessão autenticada (app ou web) deve receber um token de acesso (Laravel Sanctum), emitido no login e validado em toda requisição subsequente à API, com expiração e revogação (logout). | `Must` |
 
 ## 2. Regras de Negócio (RN) — Antifraude e Especialização
 
 | ID | Regra | Prioridade |
 | :--- | :--- | :---: |
-| **RN27** *(novo)* | **Saldo disponível no Pix:** toda transferência Pix verifica o saldo disponível (saldo contábil menos valores já reservados/pendentes) antes de ser submetida à análise de risco; saldo insuficiente bloqueia a operação imediatamente. | `Must` |
-| **RN28** *(novo)* | **Limite de valor por transação:** o cliente define um teto de valor por transação Pix, respeitando o teto máximo aprovado pelo banco para o seu perfil. | `Must` |
-| **RN29** *(novo)* | **Limite diário — valor e quantidade:** a soma das transações Pix do dia não pode ultrapassar o limite diário configurado, tampouco a quantidade máxima de transações diárias definida para o cliente. | `Must` |
-| **RN30** *(novo)* | **Horário noturno:** entre 20h e 6h, os limites de valor por transação e diário do Pix são reduzidos automaticamente — mesmo padrão já usado na retirada (RN19). | `Must` |
-| **RN31** *(novo)* | **Aviso de viagem:** o cliente pode registrar um período e uma ou mais localidades de viagem; transações realizadas dentro desse período/local não elevam o score de risco por localização. | `Must` |
-| **RN32** *(novo)* | **Localização divergente:** uma transação Pix realizada em localização diferente do padrão do cliente, sem aviso de viagem ativo, eleva o score de risco do `MotorAntifraude` e pode exigir 2FA adicional ou reter a transação para confirmação manual. | `Must` |
-| **RN33** *(novo)* | **Cartão virtual depende do físico:** não é possível gerar um cartão virtual sem um cartão físico ativo correspondente à mesma modalidade (débito ou crédito); o cartão físico existe e opera independentemente da existência de um virtual. | `Must` |
-| **RN34** *(novo)* | **Bloqueio de conta pelo cliente:** enquanto a flag `bloqueada` da conta estiver ativa (acionada pelo próprio cliente), nenhuma movimentação de débito — Pix, transferência, pagamento, saque, fatura de cartão — é autorizada; apenas o próprio cliente ou o Administrador podem reverter o bloqueio. | `Must` |
-| **RN35** *(novo)* | **Validação matemática de CPF/CNPJ:** tanto o dígito verificador do CPF (cliente PF) quanto o do CNPJ (cliente PJ) são conferidos localmente, antes de qualquer consulta ou gravação. | `Must` |
-| **RN36** *(novo)* | **Payload do QR Code Pix:** o QR Code gerado segue o padrão EMV (chave, valor, identificador da cobrança, dados do recebedor) e é validado quanto à integridade antes de ser exibido ou reimpresso. | `Must` |
+| **RN27** | **Saldo disponível no Pix:** toda transferência Pix verifica o saldo disponível (saldo contábil menos valores já reservados/pendentes) antes de ser submetida à análise de risco; saldo insuficiente bloqueia a operação imediatamente. | `Must` |
+| **RN28** | **Limite de valor por transação:** o cliente define um teto de valor por transação Pix, respeitando o teto máximo aprovado pelo banco para o seu perfil. | `Must` |
+| **RN29** | **Limite diário — valor e quantidade:** a soma das transações Pix do dia não pode ultrapassar o limite diário configurado, tampouco a quantidade máxima de transações diárias definida para o cliente. | `Must` |
+| **RN30** | **Horário noturno:** entre 20h e 6h, os limites de valor por transação e diário do Pix são reduzidos automaticamente — mesmo padrão já usado na retirada (RN19). | `Must` |
+| **RN31** | **Aviso de viagem:** o cliente pode registrar um período e uma ou mais localidades de viagem; transações realizadas dentro desse período/local não elevam o score de risco por localização. | `Must` |
+| **RN32** | **Localização divergente:** uma transação Pix realizada em localização diferente do padrão do cliente, sem aviso de viagem ativo, eleva o score de risco do `MotorAntifraude` e pode exigir 2FA adicional ou reter a transação para confirmação manual. | `Must` |
+| **RN33** | **Cartão virtual depende do físico:** não é possível gerar um cartão virtual sem um cartão físico ativo correspondente à mesma modalidade (débito ou crédito); o cartão físico existe e opera independentemente da existência de um virtual. | `Must` |
+| **RN34** | **Bloqueio de conta pelo cliente:** enquanto a flag `bloqueada` da conta estiver ativa (acionada pelo próprio cliente), nenhuma movimentação de débito — Pix, transferência, pagamento, saque, fatura de cartão — é autorizada; apenas o próprio cliente ou o Administrador podem reverter o bloqueio. | `Must` |
+| **RN35** | **Validação matemática de CPF/CNPJ:** tanto o dígito verificador do CPF (cliente PF) quanto o do CNPJ (cliente PJ) são conferidos localmente, antes de qualquer consulta ou gravação. | `Must` |
+| **RN36** | **Payload do QR Code Pix:** o QR Code gerado segue o padrão EMV (chave, valor, identificador da cobrança, dados do recebedor) e é validado quanto à integridade antes de ser exibido ou reimpresso. | `Must` |
 
 ## 3. Requisitos Não Funcionais (RNF)
 
@@ -58,10 +58,3 @@
 | **LGPD / Privacidade** | Máscara automática (ofuscação) de dados sensíveis na interface (como CPF/CNPJ e número do cartão). O sistema deve fornecer mecanismos de anonimização caso o encerramento da conta seja solicitado, mantendo o balanço contábil íntegro. |
 | **Arquitetura de Software** *(novo)* | Back-end estruturado em **MVC** (Models Eloquent, Controllers finos, Views/Resources), com regra de negócio isolada em Services; autenticação via **token** (Laravel Sanctum), emitido no login e exigido em toda rota protegida da API. |
 | **Stack Técnica** | Frontend: Blade/Tailwind (Web), Flutter (Mobile). Backend: Laravel (PHP). Banco: PostgreSQL 16. Implantação e versão hospedados em nuvem. |
-
-**Registro de alterações**
-
-| Versão | Data | Alteração |
-|---|---|---|
-| 1.0 | 31/08/2026 | Versão inicial |
-| 2.0 | 10/09/2026 | Adicionados RF10–RF17 e RN27–RN36: MVC, token de autenticação, antifraude do Pix (saldo, viagem, localização, limites), especialização de clientes/contas/cartões, bloqueio de conta pelo cliente, QR Code Pix e log para todo tipo de operação |
