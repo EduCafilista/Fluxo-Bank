@@ -4,7 +4,7 @@
 **Grupo:** 1 · **Checkpoint 2** — apresentação em 17/09
 **Repositório:** https://github.com/AlfredoVentura/Fluxo
 
-> **Revisão desta versão:** conteúdo condensado; adicionado o componente **`AssinaturaService`**, que faltava apesar de o "Módulo de Cartões e Assinaturas" constar no escopo (item 4.1) e de já existirem classes de assinatura (CLS-01) e a atividade ATV-05.
+> **Revisão desta versão:** nada foi removido do conteúdo anterior. Explicitada a adoção do padrão **MVC** no back-end; adicionado o método de emissão de **token** (Sanctum) ao `AuthService`; adicionado o método de **geração de QR Code** ao `PagamentosService`; e expandidas as interfaces do `MotorAntifraude` (saldo, limites, localização, aviso de viagem).
 
 ---
 
@@ -17,25 +17,27 @@
 | Camada | Componentes | Responsabilidade |
 |---|---|---|
 | Apresentação | App Mobile (Flutter), Web App (Blade), Portal Admin (Blade) | Interface com o usuário |
-| Fronteira | `API REST v1` `«gateway»` | Autenticação Sanctum, versionamento, rate limiting, validação |
-| Domínio | 10 serviços de negócio | Regras do banco; cada serviço é substituível |
-| Persistência | Eloquent ORM, Migrations/Seeders, PostgreSQL 16 | Mapeamento objeto-relacional e armazenamento |
+| Fronteira | `API REST v1` `«gateway»` | Autenticação Sanctum (token), versionamento, rate limiting, validação |
+| Domínio | 10 serviços de negócio, em arquitetura **MVC** *(revisão)* | Regras do banco; cada serviço é substituível |
+| Persistência | Eloquent ORM (Models), Migrations/Seeders, PostgreSQL 16 | Mapeamento objeto-relacional e armazenamento |
 | Externa | Serviço KYC, SPI/Pix, Registradora, SMTP/Push | Integrações **simuladas** |
+
+**Padrão MVC adotado *(novo)*:** todo módulo do back-end segue **Model** (Eloquent — regra de persistência e especializações, ex.: `ClientePF`/`ClientePJ`, `ContaCorrente`/`ContaPoupanca`, `CartaoFisico`/`CartaoVirtual`), **View** (Blade para a Web; API Resources/JSON para o app) e **Controller** (recebe a requisição, valida e delega ao Service — nunca contém regra de negócio).
 
 ### 1.2 Componentes de domínio
 
 | Componente | Interfaces principais | Requisitos |
 |---|---|---|
-| `AuthService` | `login()`, `validar2FA()`, `refreshToken()` | RF02 |
-| `CadastroService` | `cadastrar()`, `verificarKyc()`, `abrirConta()` | RF01 |
-| `ContaService` | `saldo()`, `extrato()`, `encerrar()` | RF03 |
+| `AuthService` | `login()`, `emitirToken()` *(revisão)*, `validar2FA()`, `refreshToken()`, `revogarToken()` *(revisão)* | RF02, RF17 |
+| `CadastroService` | `cadastrar()` (PF ou PJ) *(revisão)*, `verificarKyc()`, `abrirConta()` | RF01, RF10 |
+| `ContaService` | `saldo()`, `extrato()`, `encerrar()`, `bloquear()`/`desbloquear()` *(revisão)* | RF03, RF13 |
 | `MotorTransacao` | `transferir()`, `partidasDobradas()`, `estornar()` | RF04, RN02, RN03 |
-| `MotorAntifraude` | `analisar()`, `classificar()` | RF05, RN05–RN09 |
-| `CartoesService` | `emitirVirtual()`, `bloquear()`, `fatura()` | RF07 |
-| **`AssinaturaService`** *(novo)* | `contratar()`, `adicionarItem()`, `removerItem()`, `trocarPlano()`, `gerarCobranca()` | Módulo de Assinaturas (Escopo 4.1), RN22–RN25 |
-| `PagamentosService` | `pagarBoleto()`, `cobrancaPix()`, `agendar()` | RF08 |
+| `MotorAntifraude` | `analisar()`, `verificarSaldo()`, `verificarLimites()`, `verificarLocalizacao()`, `verificarAvisoViagem()`, `classificar()` *(revisão)* | RF05, RN27–RN32 |
+| `CartoesService` | `emitirFisico()`, `gerarVirtual()` *(revisão)*, `bloquear()`, `fatura()` | RF07, RF12, RN33 |
+| `AssinaturaService` | `contratar()`, `adicionarItem()`, `removerItem()`, `trocarPlano()`, `gerarCobranca()` | Módulo de Assinaturas (Escopo 4.1), RN22–RN25 |
+| `PagamentosService` | `pagarBoleto()`, `cobrancaPix()`, `gerarQrCodePix()` *(revisão)*, `agendar()` | RF08, RF15 |
 | `NotificacoesService` | `email()`, `push()`, `fila` | — |
-| `AuditoriaService` | `registrar()`, `consultar()`, `relatorio()` | RF09, RF-SEG01–03 |
+| `AuditoriaService` | `registrar()`, `consultar()`, `relatorio()` | RF09, RF-SEG01–04 |
 
 ### 1.3 Interfaces oferecidas e requeridas
 
@@ -49,11 +51,13 @@
 
 ### 1.4 Decisões arquiteturais
 
-1. Uma única API `/api/v1` serve app e web, evitando duplicidade de regra de negócio.
-2. Controllers apenas validam e delegam; a regra vive no serviço (testabilidade).
-3. `AuditoriaService` é transversal — todo serviço de domínio, incluindo o novo `AssinaturaService`, depende dele.
-4. Nenhum serviço escreve SQL direto; migrations versionam o esquema.
-5. Notificações e cobrança de assinatura rodam por fila, preservando o tempo de resposta de escrita.
+1. **MVC em todo o back-end** *(revisão)*: Models Eloquent concentram persistência e especialização (Cliente, Conta, Cartão); Controllers apenas validam e delegam; Views/Resources formatam a saída para Web e API.
+2. Uma única API `/api/v1` serve app e web, evitando duplicidade de regra de negócio.
+3. A regra de negócio vive nos Services, nunca nos Controllers (testabilidade, RNF27).
+4. `AuditoriaService` é transversal — todo serviço de domínio depende dele, incluindo os métodos de log expandidos (RF-SEG04).
+5. Nenhum serviço escreve SQL direto; migrations versionam o esquema, inclusive as tabelas de especialização (discriminador `tipo`/`modalidade`).
+6. Notificações e cobrança de assinatura rodam por fila, preservando o tempo de resposta de escrita.
+7. Autenticação via **token Sanctum**, emitido por `AuthService::emitirToken()` e exigido por todo middleware de rota protegida (RF17).
 
 ---
 
@@ -68,14 +72,14 @@
 | Dispositivo do cliente | `«device»` | Navegador e app Android (Flutter 3.x, Android 8.0+) |
 | Estação de desenvolvimento | `«device»` | GitHub Codespaces (backend), Android Studio (mobile) |
 | GitHub | `«repository»` | Monorepo `backend/` + `mobile/` |
-| Render | `«cloud»` | Web Service PHP 8.2/Laravel 11, Cron Job, PostgreSQL 16 gerenciado |
+| Render | `«cloud»` | Web Service PHP 8.2/Laravel 11 (MVC), Cron Job, PostgreSQL 16 gerenciado |
 | Serviços externos simulados | `«external»` | SPI/Pix, registradora, KYC, SMTP/Push |
 
 ### 2.2 Conexões
 
 | De | Para | Protocolo | Observação |
 |---|---|---|---|
-| Dispositivo do cliente | Web Service | `«HTTPS»` 443 | TLS 1.2+ |
+| Dispositivo do cliente | Web Service | `«HTTPS»` 443 | TLS 1.2+; header `Authorization: Bearer <token>` (Sanctum) |
 | Web Service | PostgreSQL | `«TCP»` 5432 | Interno ao datacenter do Render |
 | Web Service | Cron Job | `«HTTPS»` | Aciona a expiração de retiradas/cobranças e a geração de faturas de assinatura |
 | GitHub | Render | `«webhook»` | Push em `main` dispara build/deploy |
@@ -96,17 +100,20 @@
 
 ```
 Fluxo/
-├── backend/                    # Laravel 11 (PHP 8.2+)
-│   ├── app/Http/Controllers/   # Auth, Transacao, Retirada, Assinatura...
-│   ├── app/Models/             # Cliente, Conta, Assinatura, LogAuditoria...
-│   ├── app/Services/           # MotorTransacao, AssinaturaService, AuditoriaService...
+├── backend/                    # Laravel 11 (PHP 8.2+) — arquitetura MVC
+│   ├── app/Http/Controllers/   # Auth, Transacao, Retirada, Assinatura, Cartao...
+│   ├── app/Models/             # Cliente, ClientePF, ClientePJ, Conta, ContaCorrente,
+│   │                           # ContaPoupanca, ContaSalario, ContaPJ, Cartao,
+│   │                           # CartaoFisico, CartaoVirtual, LogAuditoria...
+│   ├── app/Services/           # MotorTransacao, MotorAntifraude, AssinaturaService,
+│   │                           # PagamentosService (QR Code), AuditoriaService...
 │   ├── app/Policies/           # RBAC (RF09)
 │   ├── database/migrations/
 │   ├── resources/views/        # Blade + Tailwind
 │   ├── routes/api.php
 │   └── tests/
 └── mobile/                     # Flutter (Dart)
-    ├── lib/screens/            # Login, Dashboard, Extrato, Pix, Retirada, Assinatura
+    ├── lib/screens/            # Login, Dashboard, Extrato, Pix, Retirada, Assinatura, Cartao
     ├── lib/services/
     └── test/
 ```
@@ -117,10 +124,13 @@ Fluxo/
 
 | Requisito | Evidência |
 |---|---|
+| RF16 (MVC) | CMP-01 — decisão arquitetural 1; organização do repositório (Models/Controllers/Views) |
+| RF17 (token) | CMP-01 — `AuthService::emitirToken()`; CMP-02 — header `Authorization: Bearer` |
+| RF15 (QR Code) | CMP-01 — `PagamentosService::gerarQrCodePix()` |
+| RF10–RF12 (especialização) | CMP-01 — Models especializados na organização do repositório |
 | Segurança em trânsito | CMP-02 — `«HTTPS»` em todas as conexões externas |
 | Deploy automático | CMP-02 — webhook GitHub → Render |
-| Stack técnica (Escopo 4.1) | CMP-01 (Laravel, Blade, Flutter) e CMP-02 (Render, PostgreSQL) |
-| Auditoria transversal (RF09) | CMP-01 — `AuditoriaService` dependido por todo o domínio |
+| Auditoria transversal (RF09, RF-SEG04) | CMP-01 — `AuditoriaService` dependido por todo o domínio |
 | Módulo de Assinaturas (Escopo 4.1) | CMP-01 — `AssinaturaService` |
 | Backup semanal | CMP-02 — mitigação do free tier |
 
@@ -129,4 +139,5 @@ Fluxo/
 | Versão | Data | Alteração |
 |---|---|---|
 | 1.0 | 31/08/2026 | Versão inicial: CMP-01 e CMP-02 |
-| 2.0 | 10/09/2026 | Texto condensado; **`AssinaturaService`** adicionado ao domínio |
+| 2.0 | 10/09/2026 | Texto condensado; `AssinaturaService` adicionado ao domínio |
+| 3.0 | 10/09/2026 | Explicitado o padrão MVC; adicionados `emitirToken()`/`revogarToken()`, `gerarQrCodePix()` e as interfaces expandidas do `MotorAntifraude` |
