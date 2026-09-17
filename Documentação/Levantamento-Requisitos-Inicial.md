@@ -3,9 +3,7 @@
 **Projeto:** Fluxo — Sistema Bancário Digital
 
 > **Foco Estratégico: Segurança e Auditoria Universal**
-> Conforme solicitado, a arquitetura do Fluxo incorpora um **motor de logging detalhado**. O objetivo é garantir que *nenhuma* ação ocorra sem rastreamento absoluto no ecossistema (backend Laravel e banco PostgreSQL). Os requisitos de log foram injetados como prioridade **Must**.
-
-> **Revisão desta versão (itens definidos na apresentação):** adicionados requisitos de arquitetura **MVC** e **token de autenticação** no back-end; regras detalhadas de antifraude do Pix (saldo, aviso de viagem, localização, limites de valor/horário/quantidade); especialização de clientes (PF/PJ), contas (Corrente/Poupança/Salário/PJ) e cartões (Físico/Virtual × Débito/Crédito); bloqueio de conta pelo cliente; geração de QR Code Pix; e log para todo tipo de operação (acesso, consulta, movimentação). Nenhum requisito anterior foi removido. Itens novos estão marcados **(novo)**.
+> Conforme solicitado, a arquitetura do Fluxo incorpora um **motor de logging detalhado**. O objetivo é garantir que *nenhuma* ação ocorra sem rastreamento absoluto no ecossistema (backend Laravel e banco PostgreSQL). Os requisitos de log foram injetados como prioridade **Must**.*.
 
 ## 1. Requisitos Funcionais (RF)
 
