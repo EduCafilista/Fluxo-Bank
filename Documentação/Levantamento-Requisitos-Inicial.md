@@ -1,13 +1,5 @@
 # 4.2 - Levantamento de Requisitos
 
-**Projeto:** Fluxo — Sistema Bancário Digital
-
-<<<<<<< HEAD
-=======
-> **Foco Estratégico: Segurança e Auditoria Universal**
-> Conforme solicitado, a arquitetura do Fluxo incorpora um **motor de logging detalhado**. O objetivo é garantir que *nenhuma* ação ocorra sem rastreamento absoluto no ecossistema (backend Laravel e banco PostgreSQL). Os requisitos de log foram injetados como prioridade **Must**.*.
-
->>>>>>> 9548f8cc43a3dd1dcd9058bd20fff20ce3b96b2e
 ## 1. Requisitos Funcionais (RF)
 
 | ID | Descrição do Requisito | Prioridade |
