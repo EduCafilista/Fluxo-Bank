@@ -1,13 +1,5 @@
 # 4.3 — Diagramas de Sequência (UML)
 
-**Projeto:** Fluxo — Sistema Bancário Digital
-**Grupo:** 1 · **Checkpoint 2** — apresentação em 17/09
-**Repositório:** https://github.com/AlfredoVentura/Fluxo
-
-> **Revisão desta versão:** nada foi removido do conteúdo anterior. SEQ-03 (Pix) detalhado com verificação de saldo disponível e antifraude expandido (limites de valor/horário/quantidade, localização, aviso de viagem). Adicionado **SEQ-08 — Geração de QR Code para recebimento de Pix**, funcionalidade definida na apresentação que ainda não tinha diagrama próprio.
-
----
-
 ## 1. Convenções
 
 | Elemento | Notação |

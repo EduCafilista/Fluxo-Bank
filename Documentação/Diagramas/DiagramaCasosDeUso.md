@@ -1,13 +1,5 @@
 # 4.3 — Diagrama de Casos de Uso (UML)
 
-**Projeto:** Fluxo — Sistema Bancário Digital
-**Grupo:** 1 · **Checkpoint 2** — apresentação em 17/09
-**Repositório:** https://github.com/AlfredoVentura/Fluxo
-
-> **Revisão desta versão:** nada foi removido do conteúdo anterior. Adicionados: casos de uso de **aviso de viagem** e **bloqueio da própria conta** (Diagrama 1); **configuração de limites do Pix** (Diagrama 2); **reordenação do módulo de Cartões** — o cartão físico passa a ser solicitado primeiro e o virtual é gerado a partir dele (RN33); e esclarecido que ACC-01 cobre tanto cliente **Pessoa Física** quanto **Pessoa Jurídica** (RF10).
-
----
-
 ## 1. Notação
 
 | Elemento | Representação |

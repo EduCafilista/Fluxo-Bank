@@ -1,13 +1,5 @@
 # 4.3 — Diagrama de Classes (UML)
 
-**Projeto:** Fluxo — Sistema Bancário Digital
-**Grupo:** 1 · **Checkpoint 2** — apresentação em 17/09
-**Repositório:** https://github.com/AlfredoVentura/Fluxo
-
-> **Revisão desta versão:** nada foi removido do conteúdo anterior. Adicionado **CLS-04 — Especialização de Clientes, Contas e Cartões**, conforme definido na apresentação: `Cliente` → `ClientePF`/`ClientePJ`; `Conta` → `ContaCorrente`/`ContaPoupanca`/`ContaSalario`/`ContaPJ`; `Cartao` → `CartaoDebito`/`CartaoCredito`, cada um com uma forma `CartaoFisico` (obrigatória) e uma `CartaoVirtual` (opcional, dependente do físico). CLS-01 e CLS-02 foram ajustados apenas para apontar para essa especialização, sem perder nenhuma classe já existente.
-
----
-
 ## 1. Convenções
 
 | Elemento | Notação |

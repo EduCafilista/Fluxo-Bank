@@ -1,13 +1,5 @@
 # 4.3 — Diagramas de Atividades (UML)
 
-**Projeto:** Fluxo — Sistema Bancário Digital
-**Grupo:** 1 · **Checkpoint 2** — apresentação em 17/09
-**Repositório:** https://github.com/AlfredoVentura/Fluxo
-
-> **Revisão desta versão:** nada foi removido do conteúdo anterior. ATV-02 detalhado com a verificação de **saldo disponível** antes da análise de risco e com o **antifraude expandido** (limite de valor/horário/quantidade, localização, aviso de viagem). Os demais 4 diagramas permanecem cobrindo os módulos do escopo; a geração de QR Code (RF15) e a especialização de cartões (RF12) não exigiram novo diagrama de atividades, por serem fluxos lineares já refletidos nos casos de uso e na sequência (SEQ-08).
-
----
-
 ## 1. Sumário
 
 | ID | Diagrama | Raias | Requisitos | Imagem |

@@ -1,9 +1,5 @@
 # 4.1 - Definição do Escopo do Projeto
 
-**Projeto:** Fluxo — Sistema Bancário Digital
-
-> **Revisão desta versão:** incorporados os itens definidos na apresentação — arquitetura **MVC**, emissão de **token de autenticação** no back-end, cadastro de **Pessoa Física e Pessoa Jurídica**, estrutura de contas (**Corrente, Poupança, Salário e PJ**), estrutura de cartões (**Físico/Virtual** × **Débito/Crédito**), **trilha de auditoria** para toda operação, **mecanismos de antifraude** e **geração de QR Code** para recebimento de Pix. Nada do escopo original foi removido — apenas detalhado.
-
 ## 1. Declaração do Problema e Objetivos
 O mercado brasileiro de serviços financeiros exige operações ágeis, transparentes e rastreáveis. O sistema financeiro atual ainda sofre com burocracias em aprovações, opacidade em tarifas e ausência de uma experiência unificada que também ofereça trilha de auditoria transparente para o cliente e para a equipe interna.
 

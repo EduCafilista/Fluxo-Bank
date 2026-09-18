@@ -1,13 +1,5 @@
 # 4.3 — Diagramas de Componentes e de Implantação (UML)
 
-**Projeto:** Fluxo — Sistema Bancário Digital
-**Grupo:** 1 · **Checkpoint 2** — apresentação em 17/09
-**Repositório:** https://github.com/AlfredoVentura/Fluxo
-
-> **Revisão desta versão:** nada foi removido do conteúdo anterior. Explicitada a adoção do padrão **MVC** no back-end; adicionado o método de emissão de **token** (Sanctum) ao `AuthService`; adicionado o método de **geração de QR Code** ao `PagamentosService`; e expandidas as interfaces do `MotorAntifraude` (saldo, limites, localização, aviso de viagem).
-
----
-
 ## 1. CMP-01 — Diagrama de Componentes (visão lógica)
 
 ![CMP-01 — Diagrama de componentes](diagramas/cmp-01-componentes.svg)
