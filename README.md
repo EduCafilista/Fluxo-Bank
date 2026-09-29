@@ -1,9 +1,23 @@
 # Fluxo - Banco Digital
 
+> **Repositório:** https://github.com/EduCafilista/Fluxo-Bank
+> **Disciplina:** Projeto de Software II — Prof. Marcus Colantoni (UNIUBE)
+> **Grupo:** 1
+
 O **Fluxo** é um banco digital moderno e intuitivo, projetado para oferecer uma experiência financeira ágil, segura e sem burocracia, contando com suporte tanto para aplicações web (Internet Banking) quanto para dispositivos móveis (Android e iOS).
 
 ---
 
+## 👥 Equipe
+
+| Integrante | Papel |
+|---|---|
+| Gabriel Henrique | Líder / Gerente de projeto |
+| Harttur Oliveira Pimenta | BDA — Banco de dados |
+| Eduardo Henrique (EduCafilista) | Infraestrutura |
+| Marcus Vinicius | Frontend / UX-UI |
+
+---
 ## 🛠️ Stack Tecnológica
 
 O projeto utiliza uma arquitetura em monorepo, separando claramente as responsabilidades entre servidor, interface web e aplicativo móvel:

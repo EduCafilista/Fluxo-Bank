@@ -39,7 +39,7 @@
 <text x="52.0" y="337.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#5a6b7b">«repository»</text>
 <text x="52.0" y="353.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="start" fill="#1b2430">GitHub</text>
 <line x1="40.0" y1="360.0" x2="340.0" y2="360.0" stroke="#8a97a5" stroke-width="1.0"/>
-<text x="52.0" y="374.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">repositorio AlfredoVentura/Fluxo</text>
+<text x="52.0" y="374.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">repositorio EduCafilista/Fluxo-Bank</text>
 <text x="52.0" y="387.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">monorepo backend/ + mobile/</text>
 <text x="52.0" y="401.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">commits semanais (4.4.3)</text>
 <rect x="425.0" y="105.0" width="520.0" height="280.0" rx="4" fill="#e9eef2" stroke="#8a97a5" stroke-width="1.2"/>
