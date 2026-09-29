@@ -41,7 +41,7 @@ O sistema será desenvolvido em uma arquitetura moderna compreendendo:
 *   **Padrão arquitetural:** **MVC (Model-View-Controller)** em todo o back-end Laravel — Models (Eloquent), Controllers (validação e orquestração) e Views/Resources (Blade para a web, JSON Resources para a API). *(revisão)*
 *   **Backend:** Laravel, servindo API REST e lógica de negócios, com emissão de **token de autenticação** (Laravel Sanctum) para sessão do cliente e dos apps. *(revisão)*
 *   **Frontend Web:** Blade + Tailwind CSS.
-*   **Mobile:** Flutter para aplicações multiplataforma.
+*   **Mobile:** React Native com Expo (TypeScript) para aplicações multiplataforma Android e iOS, com `expo prebuild` gerando as pastas nativas.
 *   **Banco de Dados:** PostgreSQL 16 (focado em tipagem monetária precisa e constraints ACID).
 
 ## 3. Fora de Escopo (O que NÃO será feito)

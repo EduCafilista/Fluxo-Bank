@@ -32,7 +32,7 @@
 <text x="52.0" y="133.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="start" fill="#1b2430">Dispositivo do cliente</text>
 <line x1="40.0" y1="140.0" x2="340.0" y2="140.0" stroke="#8a97a5" stroke-width="1.0"/>
 <text x="52.0" y="154.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">Navegador Chrome / Firefox</text>
-<text x="52.0" y="167.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">App Android (Flutter 3.x)</text>
+<text x="52.0" y="167.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">App Android (Expo/RN)</text>
 <text x="52.0" y="181.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">Android 8.0+ (API 26)</text>
 <rect x="45.0" y="325.0" width="300.0" height="96.0" rx="4" fill="#e9eef2" stroke="#8a97a5" stroke-width="1.2"/>
 <rect x="40.0" y="320.0" width="300.0" height="96.0" rx="5" fill="#f6f6fb" stroke="#1b2430" stroke-width="1.6"/>
