@@ -8,7 +8,7 @@
 
 | Camada | Componentes | Responsabilidade |
 |---|---|---|
-| Apresentação | App Mobile (Flutter), Web App (Blade), Portal Admin (Blade) | Interface com o usuário |
+| Apresentação | App Mobile (React Native/Expo), Web App (Blade), Portal Admin (Blade) | Interface com o usuário |
 | Fronteira | `API REST v1` `«gateway»` | Autenticação Sanctum (token), versionamento, rate limiting, validação |
 | Domínio | 10 serviços de negócio, em arquitetura **MVC** *(revisão)* | Regras do banco; cada serviço é substituível |
 | Persistência | Eloquent ORM (Models), Migrations/Seeders, PostgreSQL 16 | Mapeamento objeto-relacional e armazenamento |
@@ -61,7 +61,7 @@
 
 | Nó | Estereótipo | Conteúdo |
 |---|---|---|
-| Dispositivo do cliente | `«device»` | Navegador e app Android (Flutter 3.x, Android 8.0+) |
+| Dispositivo do cliente | `«device»` | Navegador e app Android (React Native com Expo, Android 8.0+) |
 | Estação de desenvolvimento | `«device»` | GitHub Codespaces (backend), Android Studio (mobile) |
 | GitHub | `«repository»` | Monorepo `backend/` + `mobile/` |
 | Render | `«cloud»` | Web Service PHP 8.2/Laravel 11 (MVC), Cron Job, PostgreSQL 16 gerenciado |
@@ -104,7 +104,7 @@ Fluxo/
 │   ├── resources/views/        # Blade + Tailwind
 │   ├── routes/api.php
 │   └── tests/
-└── mobile/                     # Flutter (Dart)
+└── mobile/                     # React Native com Expo (TypeScript)
     ├── lib/screens/            # Login, Dashboard, Extrato, Pix, Retirada, Assinatura, Cartao
     ├── lib/services/
     └── test/

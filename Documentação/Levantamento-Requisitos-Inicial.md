@@ -50,4 +50,4 @@
 | **Confiabilidade** | Movimentações financeiras e logs operacionais executados dentro de Transações ACID rigorosas. Uso do tipo de dado `numeric(18,2)` no PostgreSQL para evitar anomalias de arredondamento financeiro. |
 | **LGPD / Privacidade** | Máscara automática (ofuscação) de dados sensíveis na interface (como CPF/CNPJ e número do cartão). O sistema deve fornecer mecanismos de anonimização caso o encerramento da conta seja solicitado, mantendo o balanço contábil íntegro. |
 | **Arquitetura de Software** *(novo)* | Back-end estruturado em **MVC** (Models Eloquent, Controllers finos, Views/Resources), com regra de negócio isolada em Services; autenticação via **token** (Laravel Sanctum), emitido no login e exigido em toda rota protegida da API. |
-| **Stack Técnica** | Frontend: Blade/Tailwind (Web), Flutter (Mobile). Backend: Laravel (PHP). Banco: PostgreSQL 16. Implantação e versão hospedados em nuvem. |
+| **Stack Técnica** | Frontend: Blade/Tailwind (Web), React Native/Expo (Mobile). Backend: Laravel (PHP). Banco: PostgreSQL 16. Implantação e versão hospedados em nuvem. |

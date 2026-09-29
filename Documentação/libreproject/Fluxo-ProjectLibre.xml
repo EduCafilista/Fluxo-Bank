@@ -7,7 +7,7 @@
   <Manager>Grupo 1 - Fluxo</Manager>
   <Author>Grupo 1 - Fluxo</Author>
   <Subject>Checkpoint 1 - Grupo 1</Subject>
-  <Notes>Projeto Fluxo - Sistema Bancario Digital. Banco digital academico com interfaces web (Blade + Tailwind) e mobile (Flutter), backend em Laravel e banco PostgreSQL, hospedado no Render. Disciplina Projetos de Software II - UNIUBE - Prof. Marcus Colantoni. Grupo 1.</Notes>
+  <Notes>Projeto Fluxo - Sistema Bancario Digital. Banco digital academico com interfaces web (Blade + Tailwind) e mobile (React Native com Expo), backend em Laravel e banco PostgreSQL, hospedado no Render. Disciplina Projetos de Software II - UNIUBE - Prof. Marcus Colantoni. Grupo 1.</Notes>
   <CreationDate>2026-02-23T19:00:00</CreationDate>
   <StartDate>2026-02-23T19:00:00</StartDate>
   <FinishDate>2026-12-03T23:00:00</FinishDate>
@@ -343,7 +343,7 @@
     <Task>
       <UID>11</UID>
       <ID>11</ID>
-      <Name>Estudo dirigido - Flutter e Dart</Name>
+      <Name>Estudo dirigido - React Native e Expo</Name>
       <Active>1</Active>
       <Manual>0</Manual>
       <Type>1</Type>
@@ -476,7 +476,7 @@
     <Task>
       <UID>16</UID>
       <ID>16</ID>
-      <Name>Prova de conceito - integracao Laravel + Flutter</Name>
+      <Name>Prova de conceito - integracao Laravel + Expo</Name>
       <Active>1</Active>
       <Manual>0</Manual>
       <Type>1</Type>
@@ -1257,7 +1257,7 @@
     <Task>
       <UID>45</UID>
       <ID>45</ID>
-      <Name>Setup do projeto Flutter no monorepo</Name>
+      <Name>Setup do projeto Expo no monorepo</Name>
       <Active>1</Active>
       <Manual>0</Manual>
       <Type>1</Type>
@@ -2200,7 +2200,7 @@
     <Task>
       <UID>80</UID>
       <ID>80</ID>
-      <Name>App Flutter - login e autenticacao com a API</Name>
+      <Name>App Mobile (Expo) - login e autenticacao com a API</Name>
       <Active>1</Active>
       <Manual>0</Manual>
       <Type>1</Type>
@@ -2227,7 +2227,7 @@
     <Task>
       <UID>81</UID>
       <ID>81</ID>
-      <Name>App Flutter - dashboard, saldo e extrato</Name>
+      <Name>App Mobile (Expo) - dashboard, saldo e extrato</Name>
       <Active>1</Active>
       <Manual>0</Manual>
       <Type>1</Type>
@@ -2254,7 +2254,7 @@
     <Task>
       <UID>82</UID>
       <ID>82</ID>
-      <Name>App Flutter - transferencias Pix</Name>
+      <Name>App Mobile (Expo) - transferencias Pix</Name>
       <Active>1</Active>
       <Manual>0</Manual>
       <Type>1</Type>
@@ -2281,7 +2281,7 @@
     <Task>
       <UID>83</UID>
       <ID>83</ID>
-      <Name>App Flutter - cartoes e pagamentos</Name>
+      <Name>App Mobile (Expo) - cartoes e pagamentos</Name>
       <Active>1</Active>
       <Manual>0</Manual>
       <Type>1</Type>
@@ -2643,17 +2643,6 @@
       <CalendarUID>1</CalendarUID>
     </Resource>
     <Resource>
-      <UID>2</UID>
-      <ID>2</ID>
-      <Name>Joao Alfredo</Name>
-      <Initials>JA</Initials>
-      <Group>Arquiteto / Backend</Group>
-      <Type>1</Type>
-      <IsNull>0</IsNull>
-      <MaxUnits>1</MaxUnits>
-      <CalendarUID>1</CalendarUID>
-    </Resource>
-    <Resource>
       <UID>3</UID>
       <ID>3</ID>
       <Name>Harttur Oliveira Pimenta</Name>
@@ -2694,7 +2683,7 @@
       <Group>Grupo 1 - todos</Group>
       <Type>1</Type>
       <IsNull>0</IsNull>
-      <MaxUnits>5</MaxUnits>
+      <MaxUnits>4</MaxUnits>
       <CalendarUID>1</CalendarUID>
     </Resource>
   </Resources>
@@ -2762,7 +2751,7 @@
     <Assignment>
       <UID>7</UID>
       <TaskUID>9</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>1</ResourceUID>
       <PercentWorkComplete>100</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT36H0M0S</Work>
@@ -2772,7 +2761,7 @@
     <Assignment>
       <UID>8</UID>
       <TaskUID>10</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>4</ResourceUID>
       <PercentWorkComplete>100</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT92H0M0S</Work>
@@ -2832,7 +2821,7 @@
     <Assignment>
       <UID>14</UID>
       <TaskUID>16</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>5</ResourceUID>
       <PercentWorkComplete>100</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT56H0M0S</Work>
@@ -2932,7 +2921,7 @@
     <Assignment>
       <UID>24</UID>
       <TaskUID>28</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>1</ResourceUID>
       <PercentWorkComplete>0</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT12H0M0S</Work>
@@ -3072,7 +3061,7 @@
     <Assignment>
       <UID>38</UID>
       <TaskUID>43</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>4</ResourceUID>
       <PercentWorkComplete>0</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT16H0M0S</Work>
@@ -3172,7 +3161,7 @@
     <Assignment>
       <UID>48</UID>
       <TaskUID>53</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>4</ResourceUID>
       <PercentWorkComplete>0</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT18H0M0S</Work>
@@ -3222,7 +3211,7 @@
     <Assignment>
       <UID>53</UID>
       <TaskUID>59</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>1</ResourceUID>
       <PercentWorkComplete>0</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT16H0M0S</Work>
@@ -3232,7 +3221,7 @@
     <Assignment>
       <UID>54</UID>
       <TaskUID>60</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>3</ResourceUID>
       <PercentWorkComplete>0</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT44H0M0S</Work>
@@ -3242,7 +3231,7 @@
     <Assignment>
       <UID>55</UID>
       <TaskUID>61</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>3</ResourceUID>
       <PercentWorkComplete>0</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT36H0M0S</Work>
@@ -3252,7 +3241,7 @@
     <Assignment>
       <UID>56</UID>
       <TaskUID>62</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>5</ResourceUID>
       <PercentWorkComplete>0</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT36H0M0S</Work>
@@ -3322,7 +3311,7 @@
     <Assignment>
       <UID>63</UID>
       <TaskUID>69</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>5</ResourceUID>
       <PercentWorkComplete>0</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT20H0M0S</Work>
@@ -3462,7 +3451,7 @@
     <Assignment>
       <UID>77</UID>
       <TaskUID>84</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>3</ResourceUID>
       <PercentWorkComplete>0</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT46H0M0S</Work>
@@ -3472,7 +3461,7 @@
     <Assignment>
       <UID>78</UID>
       <TaskUID>85</TaskUID>
-      <ResourceUID>2</ResourceUID>
+      <ResourceUID>5</ResourceUID>
       <PercentWorkComplete>0</PercentWorkComplete>
       <Units>1</Units>
       <Work>PT28H0M0S</Work>

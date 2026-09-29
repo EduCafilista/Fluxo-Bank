@@ -4,7 +4,7 @@
 
 | Elemento | Notação |
 |---|---|
-| Ator | `«ator»` | Boundary | `«boundary»` (App Flutter / Web Blade) |
+| Ator | `«ator»` | Boundary | `«boundary»` (App Expo / Web Blade) |
 | Control | `«control»` (Controller da API) | Database | `«database»` (PostgreSQL) |
 | External | `«external»` (sistema simulado) | Síncrona / Retorno | Seta fechada cheia / seta aberta tracejada |
 | Fragmento | Retângulo `alt`/`loop` com guarda entre colchetes |
