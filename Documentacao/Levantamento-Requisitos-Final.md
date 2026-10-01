@@ -79,6 +79,8 @@ As Regras de Negócio listadas abaixo constam nos diagramas de modelagem e arqui
 
 ## 3. Requisitos Não Funcionais (RNF)
 
+### 3.0 Resumo por categoria
+
 | Categoria | Restrição / Métrica de Qualidade |
 | :--- | :--- |
 | **Desempenho** | Resposta a leituras em até 2 segundos (P95). Escritas e logs executados assincronamente (filas). |
@@ -87,3 +89,81 @@ As Regras de Negócio listadas abaixo constam nos diagramas de modelagem e arqui
 | **LGPD / Privacidade** | Ofuscação de CPF/CNPJ e cartão. Anonimização em encerramento de conta. |
 | **Arquitetura** | Padrão MVC no back-end (Models Eloquent, Controllers, Views/Resources), serviços isolados, token de sessão (Laravel Sanctum). |
 | **Stack Técnica** | Frontend: Blade/Tailwind (Web), React Native (Mobile). Backend: Laravel (PHP). Banco: PostgreSQL 16. |
+
+### 3.1 Especificação detalhada (RNF01–RNF39)
+
+Classificados pela norma **ISO/IEC 25010** (qualidade de produto de software).
+
+### RNF — Desempenho e eficiência
+
+| ID | Requisito | Métrica de verificação |
+|---|---|---|
+| RNF01 | As telas de saldo e extrato devem responder em até 2 segundos no percentil 95. | Teste de carga com 50 usuários simultâneos. |
+| RNF02 | As operações de escrita da API (transferência, pagamento) devem responder em até 3 segundos. | Medição de tempo de resposta no log. |
+| RNF03 | O sistema deve suportar 100 usuários simultâneos sem degradação perceptível. | Teste com k6 ou JMeter. |
+| RNF04 | O aplicativo mobile deve iniciar em até 4 segundos em um aparelho Android de entrada. | Medição em dispositivo real. |
+| RNF05 | Consultas de extrato devem usar paginação de no máximo 50 registros por página. | Inspeção de código e da API. |
+
+### RNF — Segurança
+
+| ID | Requisito | Métrica de verificação |
+|---|---|---|
+| RNF06 | Toda comunicação entre cliente e servidor deve usar HTTPS (TLS 1.2+). | Verificação do certificado no Render. |
+| RNF07 | Senhas devem ser armazenadas com hash bcrypt (custo ≥ 12), nunca em texto claro. | Inspeção da tabela `usuarios`. |
+| RNF08 | Dados sensíveis (CPF, número de cartão) devem ser exibidos mascarados por padrão. | Teste de interface. |
+| RNF09 | O sistema deve estar protegido contra as vulnerabilidades do OWASP Top 10 (SQL injection, XSS, CSRF, IDOR). | Checklist OWASP + uso de Eloquent, Blade escaping e tokens CSRF. |
+| RNF10 | Tokens de API devem expirar em 60 minutos, com renovação por refresh token. | Teste de expiração. |
+| RNF11 | A sessão web deve encerrar após 15 minutos de inatividade. | Teste manual. |
+| RNF12 | O sistema deve aplicar rate limiting de 60 requisições por minuto por usuário. | Teste de estresse no endpoint. |
+| RNF13 | Nenhum dado pessoal deve ser gravado em logs de aplicação. | Revisão de código e amostragem de logs. |
+| RNF14 | O sistema deve atender aos princípios da LGPD: finalidade, minimização, consentimento e direito de exclusão. | Checklist de conformidade. |
+
+### RNF — Confiabilidade e integridade
+
+| ID | Requisito | Métrica de verificação |
+|---|---|---|
+| RNF15 | Toda movimentação financeira deve ocorrer dentro de uma transação ACID; falha parcial implica rollback total. | Teste de falha induzida no meio da operação. |
+| RNF16 | A soma dos lançamentos de uma transação deve ser sempre zero (partidas dobradas). | Teste automatizado sobre o razão. |
+| RNF17 | Requisições de transação devem ser idempotentes por chave de idempotência, evitando duplicidade em reenvios. | Teste de reenvio da mesma requisição. |
+| RNF18 | Valores monetários devem usar `numeric(18,2)` no banco e inteiros em centavos na aplicação — nunca ponto flutuante. | Inspeção das migrations e do código. |
+| RNF19 | O banco de dados deve ter backup semanal, com procedimento de restauração documentado e testado. | Evidência do dump e teste de restore. |
+| RNF20 | O sistema deve ter disponibilidade mensal ≥ 95%, considerando as limitações do plano gratuito. | Monitoramento por uptime checker. |
+
+### RNF — Usabilidade
+
+| ID | Requisito | Métrica de verificação |
+|---|---|---|
+| RNF21 | Interface responsiva, funcional de 320 px (celular) a 1920 px (desktop). | Teste em três resoluções. |
+| RNF22 | Toda operação financeira deve exigir uma tela de confirmação antes da efetivação. | Teste de fluxo. |
+| RNF23 | Mensagens de erro devem ser claras, em português, indicando como corrigir o problema. | Revisão do catálogo de mensagens. |
+| RNF24 | Um usuário novo deve concluir uma transferência sem treinamento em até 3 minutos. | Teste com 5 usuários reais. |
+| RNF25 | O sistema deve atender ao nível AA da WCAG 2.1 em contraste e navegação por teclado. | Auditoria com Lighthouse. |
+
+### RNF — Manutenibilidade e portabilidade
+
+| ID | Requisito | Métrica de verificação |
+|---|---|---|
+| RNF26 | O código deve seguir o padrão PSR-12 (PHP) e as convenções do Dart/Flutter. | Análise com Laravel Pint e `dart analyze`. |
+| RNF27 | O backend deve ter cobertura de testes automatizados ≥ 60% nas regras de negócio, desenvolvidas com TDD. | Relatório de cobertura do PHPUnit. |
+| RNF28 | Toda alteração de esquema deve ser feita por migration versionada. | Histórico do diretório `database/migrations`. |
+| RNF29 | Configurações sensíveis devem residir em variáveis de ambiente, nunca no repositório. | Inspeção do `.gitignore` e do `.env.example`. |
+| RNF30 | A API REST deve ser versionada (`/api/v1`) e documentada em OpenAPI/Swagger. | Acesso à documentação publicada. |
+| RNF31 | O sistema deve rodar em Linux e ser implantável por deploy automático a partir do GitHub. | Deploy funcional no Render. |
+| RNF32 | O aplicativo mobile deve suportar Android 8.0 (API 26) ou superior. | Configuração do `build.gradle`. |
+| RNF32.1 | O código Flutter deve manter compatibilidade com iOS 13+, mesmo que a compilação para iOS não seja demonstrada nesta versão. | Ausência de dependências exclusivas de Android no `pubspec.yaml`. |
+
+### RNF — Restrições de projeto
+
+| ID | Requisito |
+|---|---|
+| RNF33 | O backend deve ser desenvolvido em Laravel (PHP 8.2+). |
+| RNF34 | O frontend web deve usar Blade com Tailwind CSS. |
+| RNF35 | O aplicativo mobile deve ser desenvolvido em Flutter. |
+| RNF36 | O banco de dados deve ser PostgreSQL. |
+| RNF37 | A hospedagem deve ocorrer no Render, com plano gratuito. |
+| RNF38 | O código deve ser versionado no GitHub, com commits semanais e acesso ao professor. |
+| RNF39 | Todo o código deve ser desenvolvido durante o semestre, sem reaproveitamento de código legado. |
+
+**Resumo:** 39 requisitos não funcionais em 6 categorias.
+
+---
