@@ -29,4 +29,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function cliente(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Cliente::class, 'user_id');
+    }
 }
