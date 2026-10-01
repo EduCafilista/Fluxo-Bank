@@ -9,12 +9,12 @@
   <Subject>Checkpoint 1 - Grupo 1</Subject>
   <Notes>Projeto Fluxo - Sistema Bancario Digital. Banco digital academico com interfaces web (Blade + Tailwind) e mobile (React Native com Expo), backend em Laravel e banco PostgreSQL, hospedado no Render. Disciplina Projetos de Software II - UNIUBE - Prof. Marcus Colantoni. Grupo 1.</Notes>
   <CreationDate>2026-02-23T19:00:00</CreationDate>
-  <StartDate>2026-02-23T19:00:00</StartDate>
+  <StartDate>2026-08-13T19:00:00</StartDate>
   <FinishDate>2026-12-03T23:00:00</FinishDate>
   <ScheduleFromStart>1</ScheduleFromStart>
   <CurrentDate>2026-10-01T08:00:00</CurrentDate>
   <StatusDate>2026-10-01T08:00:00</StatusDate>
-  <CalendarUID>1</CalendarUID>
+  <CalendarUID>2</CalendarUID>
   <DefaultStartTime>19:00:00</DefaultStartTime>
   <DefaultFinishTime>23:00:00</DefaultFinishTime>
   <MinutesPerDay>240</MinutesPerDay>
@@ -28,50 +28,7 @@
   <NewTaskStartDate>0</NewTaskStartDate>
   <SpreadPercentComplete>0</SpreadPercentComplete>
   <Calendars>
-    <Calendar>
-      <UID>1</UID>
-      <Name>Fluxo - 32h semanais</Name>
-      <IsBaseCalendar>1</IsBaseCalendar>
-      <BaseCalendarUID>-1</BaseCalendarUID>
-      <WeekDays>
-      <WeekDay><DayType>1</DayType><DayWorking>1</DayWorking>
-        <WorkingTimes>
-          <WorkingTime><FromTime>14:00:00</FromTime><ToTime>20:00:00</ToTime></WorkingTime>
-        </WorkingTimes>
-      </WeekDay>
-      <WeekDay><DayType>2</DayType><DayWorking>1</DayWorking>
-        <WorkingTimes>
-          <WorkingTime><FromTime>19:00:00</FromTime><ToTime>23:00:00</ToTime></WorkingTime>
-        </WorkingTimes>
-      </WeekDay>
-      <WeekDay><DayType>3</DayType><DayWorking>1</DayWorking>
-        <WorkingTimes>
-          <WorkingTime><FromTime>19:00:00</FromTime><ToTime>23:00:00</ToTime></WorkingTime>
-        </WorkingTimes>
-      </WeekDay>
-      <WeekDay><DayType>4</DayType><DayWorking>1</DayWorking>
-        <WorkingTimes>
-          <WorkingTime><FromTime>19:00:00</FromTime><ToTime>23:00:00</ToTime></WorkingTime>
-        </WorkingTimes>
-      </WeekDay>
-      <WeekDay><DayType>5</DayType><DayWorking>1</DayWorking>
-        <WorkingTimes>
-          <WorkingTime><FromTime>19:00:00</FromTime><ToTime>23:00:00</ToTime></WorkingTime>
-        </WorkingTimes>
-      </WeekDay>
-      <WeekDay><DayType>6</DayType><DayWorking>1</DayWorking>
-        <WorkingTimes>
-          <WorkingTime><FromTime>19:00:00</FromTime><ToTime>23:00:00</ToTime></WorkingTime>
-        </WorkingTimes>
-      </WeekDay>
-      <WeekDay><DayType>7</DayType><DayWorking>1</DayWorking>
-        <WorkingTimes>
-          <WorkingTime><FromTime>14:00:00</FromTime><ToTime>20:00:00</ToTime></WorkingTime>
-        </WorkingTimes>
-      </WeekDay>
-      </WeekDays>
-    </Calendar>
-  </Calendars>
+    <Calendar><UID>2</UID><Name>Fluxo - 32h semanais</Name><IsBaseCalendar>1</IsBaseCalendar><BaseCalendarUID>-1</BaseCalendarUID><WeekDays><WeekDay><DayType>1</DayType><DayWorking>1</DayWorking><WorkingTimes><WorkingTime><FromTime>14:00:00</FromTime><ToTime>20:00:00</ToTime></WorkingTime></WorkingTimes></WeekDay><WeekDay><DayType>2</DayType><DayWorking>1</DayWorking><WorkingTimes><WorkingTime><FromTime>19:00:00</FromTime><ToTime>23:00:00</ToTime></WorkingTime></WorkingTimes></WeekDay><WeekDay><DayType>3</DayType><DayWorking>1</DayWorking><WorkingTimes><WorkingTime><FromTime>19:00:00</FromTime><ToTime>23:00:00</ToTime></WorkingTime></WorkingTimes></WeekDay><WeekDay><DayType>4</DayType><DayWorking>1</DayWorking><WorkingTimes><WorkingTime><FromTime>19:00:00</FromTime><ToTime>23:00:00</ToTime></WorkingTime></WorkingTimes></WeekDay><WeekDay><DayType>5</DayType><DayWorking>1</DayWorking><WorkingTimes><WorkingTime><FromTime>19:00:00</FromTime><ToTime>23:00:00</ToTime></WorkingTime></WorkingTimes></WeekDay><WeekDay><DayType>6</DayType><DayWorking>1</DayWorking><WorkingTimes><WorkingTime><FromTime>19:00:00</FromTime><ToTime>23:00:00</ToTime></WorkingTime></WorkingTimes></WeekDay><WeekDay><DayType>7</DayType><DayWorking>1</DayWorking><WorkingTimes><WorkingTime><FromTime>14:00:00</FromTime><ToTime>20:00:00</ToTime></WorkingTime></WorkingTimes></WeekDay></WeekDays></Calendar></Calendars>
   <Tasks>
     <Task>
       <UID>1</UID>
@@ -83,7 +40,7 @@
       <IsNull>0</IsNull>
       <OutlineLevel>1</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-02-23T19:00:00</Start>
+      <Start>2026-08-13T19:00:00</Start>
       <Finish>2026-12-03T23:00:00</Finish>
       <Duration>PT1926H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
@@ -109,8 +66,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>2</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-02-23T19:00:00</Start>
-      <Finish>2026-08-07T23:00:00</Finish>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
       <Duration>PT720H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT720H0M0S</Work>
@@ -125,9 +82,9 @@
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
     </Task>
-    <Task>
+    <Task><UID>100</UID><ID>3</ID><Name>INICIO DO PROJETO</Name><Active>1</Active><Manual>0</Manual><Type>1</Type><IsNull>0</IsNull><OutlineLevel>3</OutlineLevel><Priority>500</Priority><Start>2026-08-13T19:00:00</Start><Finish>2026-08-13T19:00:00</Finish><Duration>PT0H0M0S</Duration><DurationFormat>7</DurationFormat><Work>PT0H0M0S</Work><Milestone>1</Milestone><Summary>0</Summary><PercentComplete>100</PercentComplete><PercentWorkComplete>100</PercentWorkComplete><ConstraintType>4</ConstraintType><ConstraintDate>2026-08-13T19:00:00</ConstraintDate><FixedCostAccrual>3</FixedCostAccrual><EffortDriven>0</EffortDriven><CalendarUID>-1</CalendarUID></Task><Task>
       <UID>3</UID>
-      <ID>3</ID>
+      <ID>4</ID>
       <Name>Aula 01 - Conteudo programatico da disciplina</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -135,8 +92,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-02-23T19:00:00</Start>
-      <Finish>2026-02-24T23:00:00</Finish>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
       <Duration>PT8H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT8H0M0S</Work>
@@ -144,16 +101,16 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-02-23T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-    </Task>
+    <PredecessorLink><PredecessorUID>100</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink></Task>
     <Task>
       <UID>4</UID>
-      <ID>4</ID>
+      <ID>5</ID>
       <Name>Formacao do grupo de trabalho</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -161,8 +118,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-02-25T19:00:00</Start>
-      <Finish>2026-02-27T23:00:00</Finish>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
       <Duration>PT12H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT12H0M0S</Work>
@@ -170,7 +127,7 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-02-25T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -180,7 +137,7 @@
     </Task>
     <Task>
       <UID>5</UID>
-      <ID>5</ID>
+      <ID>6</ID>
       <Name>Aula 02 - Tecnicas de modelagem de sistemas OO</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -188,8 +145,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-03-02T19:00:00</Start>
-      <Finish>2026-03-04T23:00:00</Finish>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
       <Duration>PT12H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT12H0M0S</Work>
@@ -197,17 +154,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-03-02T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>4</PredecessorUID><Type>1</Type><LinkLag>7200</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>4</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>6</UID>
-      <ID>6</ID>
+      <ID>7</ID>
       <Name>Brainstorming e selecao do tema do projeto</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -215,8 +172,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-03-05T19:00:00</Start>
-      <Finish>2026-03-09T23:00:00</Finish>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
       <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT24H0M0S</Work>
@@ -224,7 +181,7 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-03-05T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -234,7 +191,7 @@
     </Task>
     <Task>
       <UID>7</UID>
-      <ID>7</ID>
+      <ID>8</ID>
       <Name>Pesquisa de mercado - bancos digitais (benchmark)</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -242,16 +199,16 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-03-10T19:00:00</Start>
-      <Finish>2026-03-15T20:00:00</Finish>
-      <Duration>PT28H0M0S</Duration>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT28H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-03-10T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -261,7 +218,7 @@
     </Task>
     <Task>
       <UID>8</UID>
-      <ID>8</ID>
+      <ID>9</ID>
       <Name>Definicao do tema: banco digital Fluxo</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -269,8 +226,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-03-16T19:00:00</Start>
-      <Finish>2026-03-17T23:00:00</Finish>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
       <Duration>PT8H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT8H0M0S</Work>
@@ -278,7 +235,7 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-03-16T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -288,7 +245,7 @@
     </Task>
     <Task>
       <UID>9</UID>
-      <ID>9</ID>
+      <ID>10</ID>
       <Name>Estudo de arquitetura de software em camadas</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -296,16 +253,16 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-03-18T19:00:00</Start>
-      <Finish>2026-03-25T23:00:00</Finish>
-      <Duration>PT36H0M0S</Duration>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT36H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-03-18T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -315,7 +272,7 @@
     </Task>
     <Task>
       <UID>10</UID>
-      <ID>10</ID>
+      <ID>11</ID>
       <Name>Estudo dirigido - Laravel e PHP 8</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -323,16 +280,16 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-03-26T19:00:00</Start>
-      <Finish>2026-04-14T23:00:00</Finish>
-      <Duration>PT92H0M0S</Duration>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT92H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-03-26T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -342,7 +299,7 @@
     </Task>
     <Task>
       <UID>11</UID>
-      <ID>11</ID>
+      <ID>12</ID>
       <Name>Estudo dirigido - React Native e Expo</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -350,26 +307,26 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-04-15T19:00:00</Start>
-      <Finish>2026-05-04T23:00:00</Finish>
-      <Duration>PT92H0M0S</Duration>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT92H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-04-15T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>9</PredecessorUID><Type>1</Type><LinkLag>55200</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>9</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>12</UID>
-      <ID>12</ID>
+      <ID>13</ID>
       <Name>Estudo dirigido - PostgreSQL e modelagem relacional</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -377,26 +334,26 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-05-05T19:00:00</Start>
-      <Finish>2026-05-19T23:00:00</Finish>
-      <Duration>PT68H0M0S</Duration>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT68H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-05-05T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>10</PredecessorUID><Type>1</Type><LinkLag>55200</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>10</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>13</UID>
-      <ID>13</ID>
+      <ID>14</ID>
       <Name>Estudo dirigido - Tailwind CSS e Blade</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -404,78 +361,26 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-05-20T19:00:00</Start>
-      <Finish>2026-05-31T20:00:00</Finish>
-      <Duration>PT56H0M0S</Duration>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT56H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-05-20T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>10</PredecessorUID><Type>1</Type><LinkLag>96000</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
-    </Task>
-    <Task>
-      <UID>14</UID>
-      <ID>14</ID>
-      <Name>Avaliacao institucional N1</Name>
-      <Active>1</Active>
-      <Manual>0</Manual>
-      <Type>1</Type>
-      <IsNull>0</IsNull>
-      <OutlineLevel>3</OutlineLevel>
-      <Priority>500</Priority>
-      <Start>2026-04-07T19:00:00</Start>
-      <Finish>2026-04-16T23:00:00</Finish>
-      <Duration>PT44H0M0S</Duration>
-      <DurationFormat>7</DurationFormat>
-      <Work>PT44H0M0S</Work>
-      <Milestone>0</Milestone>
-      <Summary>0</Summary>
-      <PercentComplete>100</PercentComplete>
-      <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
-      <ConstraintDate>2026-04-07T19:00:00</ConstraintDate>
-      <FixedCostAccrual>3</FixedCostAccrual>
-      <EffortDriven>0</EffortDriven>
-      <Estimated>0</Estimated>
-      <CalendarUID>-1</CalendarUID>
-    </Task>
-    <Task>
-      <UID>15</UID>
-      <ID>15</ID>
-      <Name>Avaliacao institucional N2</Name>
-      <Active>1</Active>
-      <Manual>0</Manual>
-      <Type>1</Type>
-      <IsNull>0</IsNull>
-      <OutlineLevel>3</OutlineLevel>
-      <Priority>500</Priority>
-      <Start>2026-06-17T19:00:00</Start>
-      <Finish>2026-06-23T23:00:00</Finish>
-      <Duration>PT32H0M0S</Duration>
-      <DurationFormat>7</DurationFormat>
-      <Work>PT32H0M0S</Work>
-      <Milestone>0</Milestone>
-      <Summary>0</Summary>
-      <PercentComplete>100</PercentComplete>
-      <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
-      <ConstraintDate>2026-06-17T19:00:00</ConstraintDate>
-      <FixedCostAccrual>3</FixedCostAccrual>
-      <EffortDriven>0</EffortDriven>
-      <Estimated>0</Estimated>
-      <CalendarUID>-1</CalendarUID>
+      <PredecessorLink><PredecessorUID>10</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>16</UID>
-      <ID>16</ID>
+      <ID>15</ID>
       <Name>Prova de conceito - integracao Laravel + Expo</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -483,26 +388,25 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-06-24T19:00:00</Start>
-      <Finish>2026-07-05T20:00:00</Finish>
-      <Duration>PT56H0M0S</Duration>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT56H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-06-24T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>15</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
-    </Task>
+      <PredecessorLink><PredecessorUID>100</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink></Task>
     <Task>
       <UID>17</UID>
-      <ID>17</ID>
+      <ID>16</ID>
       <Name>Definicao da stack tecnologica definitiva</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -510,8 +414,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-07-06T19:00:00</Start>
-      <Finish>2026-07-09T23:00:00</Finish>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
       <Duration>PT16H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT16H0M0S</Work>
@@ -519,7 +423,7 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-07-06T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -529,7 +433,7 @@
     </Task>
     <Task>
       <UID>18</UID>
-      <ID>18</ID>
+      <ID>17</ID>
       <Name>Estudo de viabilidade de hospedagem (Render)</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -537,8 +441,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-07-10T19:00:00</Start>
-      <Finish>2026-07-14T23:00:00</Finish>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
       <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT24H0M0S</Work>
@@ -546,7 +450,7 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-07-10T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -555,35 +459,8 @@
       <PredecessorLink><PredecessorUID>17</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
-      <UID>19</UID>
-      <ID>19</ID>
-      <Name>Recesso academico</Name>
-      <Active>1</Active>
-      <Manual>0</Manual>
-      <Type>1</Type>
-      <IsNull>0</IsNull>
-      <OutlineLevel>3</OutlineLevel>
-      <Priority>500</Priority>
-      <Start>2026-07-15T19:00:00</Start>
-      <Finish>2026-08-03T23:00:00</Finish>
-      <Duration>PT92H0M0S</Duration>
-      <DurationFormat>7</DurationFormat>
-      <Work>PT92H0M0S</Work>
-      <Milestone>0</Milestone>
-      <Summary>0</Summary>
-      <PercentComplete>100</PercentComplete>
-      <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
-      <ConstraintDate>2026-07-15T19:00:00</ConstraintDate>
-      <FixedCostAccrual>3</FixedCostAccrual>
-      <EffortDriven>0</EffortDriven>
-      <Estimated>0</Estimated>
-      <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>18</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
-    </Task>
-    <Task>
       <UID>20</UID>
-      <ID>20</ID>
+      <ID>18</ID>
       <Name>Retomada - alinhamento do grupo e divisao de papeis</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -591,8 +468,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-08-04T19:00:00</Start>
-      <Finish>2026-08-06T23:00:00</Finish>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
       <Duration>PT12H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT12H0M0S</Work>
@@ -600,17 +477,16 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-04T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>19</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
-    </Task>
+      <PredecessorLink><PredecessorUID>100</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink></Task>
     <Task>
       <UID>21</UID>
-      <ID>21</ID>
+      <ID>19</ID>
       <Name>Criacao do repositorio no GitHub</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -618,8 +494,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-08-07T19:00:00</Start>
-      <Finish>2026-08-07T23:00:00</Finish>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
       <Duration>PT4H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT4H0M0S</Work>
@@ -627,7 +503,7 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-07T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -637,7 +513,7 @@
     </Task>
     <Task>
       <UID>22</UID>
-      <ID>22</ID>
+      <ID>20</ID>
       <Name>Concessao de acesso ao professor no repositorio</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -645,8 +521,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-08-07T19:00:00</Start>
-      <Finish>2026-08-07T23:00:00</Finish>
+      <Start>2026-08-13T19:00:00</Start>
+      <Finish>2026-08-13T19:00:00</Finish>
       <Duration>PT4H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT4H0M0S</Work>
@@ -654,7 +530,7 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-07T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -664,7 +540,7 @@
     </Task>
     <Task>
       <UID>23</UID>
-      <ID>23</ID>
+      <ID>21</ID>
       <Name>CHECKPOINT 1 - Escopo, Requisitos e Casos de Uso</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -690,7 +566,7 @@
     </Task>
     <Task>
       <UID>24</UID>
-      <ID>24</ID>
+      <ID>22</ID>
       <Name>4.1 Definicao do escopo do projeto</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -707,17 +583,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-18T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>22</PredecessorUID><Type>1</Type><LinkLag>28800</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>22</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>25</UID>
-      <ID>25</ID>
+      <ID>23</ID>
       <Name>Identificacao e analise de stakeholders</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -734,17 +610,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>100</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-20T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>24</PredecessorUID><Type>3</Type><LinkLag>4800</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>24</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>26</UID>
-      <ID>26</ID>
+      <ID>24</ID>
       <Name>4.2 Levantamento de requisitos funcionais</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -761,17 +637,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>60</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-21T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>24</PredecessorUID><Type>3</Type><LinkLag>7200</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>24</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>27</UID>
-      <ID>27</ID>
+      <ID>25</ID>
       <Name>4.2 Levantamento de requisitos nao funcionais</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -788,17 +664,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>25</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-23T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>26</PredecessorUID><Type>3</Type><LinkLag>6000</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>26</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>28</UID>
-      <ID>28</ID>
+      <ID>26</ID>
       <Name>Definicao das regras de negocio</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -815,17 +691,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-25T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>27</PredecessorUID><Type>3</Type><LinkLag>6000</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>27</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>29</UID>
-      <ID>29</ID>
+      <ID>27</ID>
       <Name>4.3 Diagrama de casos de uso 1 - Acesso e conta</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -842,17 +718,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-26T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>27</PredecessorUID><Type>3</Type><LinkLag>8400</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>27</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>30</UID>
-      <ID>30</ID>
+      <ID>28</ID>
       <Name>4.3 Diagrama de casos de uso 3 - Movimentacoes</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -869,17 +745,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-27T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>29</PredecessorUID><Type>3</Type><LinkLag>2400</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>29</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>31</UID>
-      <ID>31</ID>
+      <ID>29</ID>
       <Name>4.3 Diagrama de casos de uso 4 - Cartoes</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -896,17 +772,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-28T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>30</PredecessorUID><Type>3</Type><LinkLag>2400</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>30</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>32</UID>
-      <ID>32</ID>
+      <ID>30</ID>
       <Name>4.3 Diagrama de casos de uso 5 - Pagamentos</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -923,17 +799,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-29T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>31</PredecessorUID><Type>3</Type><LinkLag>2400</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>31</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>33</UID>
-      <ID>33</ID>
+      <ID>31</ID>
       <Name>4.3 Diagrama de casos de uso 7 - Administracao</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -950,17 +826,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-30T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>32</PredecessorUID><Type>3</Type><LinkLag>3600</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>32</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>34</UID>
-      <ID>34</ID>
+      <ID>32</ID>
       <Name>Modelo de dados preliminar - 16 entidades</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -977,17 +853,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-29T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>28</PredecessorUID><Type>1</Type><LinkLag>2400</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>28</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>35</UID>
-      <ID>35</ID>
+      <ID>33</ID>
       <Name>Definicao da estrutura monorepo (backend/mobile)</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1004,17 +880,17 @@
       <Summary>0</Summary>
       <PercentComplete>50</PercentComplete>
       <PercentWorkComplete>50</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-23T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>22</PredecessorUID><Type>1</Type><LinkLag>42000</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>22</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>36</UID>
-      <ID>36</ID>
+      <ID>34</ID>
       <Name>Configuracao do .gitignore do monorepo</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1031,17 +907,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-24T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>35</PredecessorUID><Type>3</Type><LinkLag>3600</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>35</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>37</UID>
-      <ID>37</ID>
+      <ID>35</ID>
       <Name>4.4 Quadro de gestao das atividades</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1058,17 +934,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-08-31T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>33</PredecessorUID><Type>3</Type><LinkLag>3600</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>33</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>38</UID>
-      <ID>38</ID>
+      <ID>36</ID>
       <Name>4.4.2 Criacao do projeto no LibreProject</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1085,17 +961,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-01T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>37</PredecessorUID><Type>3</Type><LinkLag>2400</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>37</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>39</UID>
-      <ID>39</ID>
+      <ID>37</ID>
       <Name>Consolidacao do PDF unico do checkpoint 1</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1112,17 +988,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-02T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>38</PredecessorUID><Type>3</Type><LinkLag>2400</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>38</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>40</UID>
-      <ID>40</ID>
+      <ID>38</ID>
       <Name>Entrega pelo diario de bordo</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1139,7 +1015,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-02T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1149,7 +1025,7 @@
     </Task>
     <Task>
       <UID>41</UID>
-      <ID>41</ID>
+      <ID>39</ID>
       <Name>APRESENTACAO CHECKPOINT 1</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1158,14 +1034,14 @@
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
       <Start>2026-09-03T19:00:00</Start>
-      <Finish>2026-09-03T23:00:00</Finish>
+      <Finish>2026-09-03T19:00:00</Finish>
       <Duration>PT0H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT0H0M0S</Work>
       <Milestone>1</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
-      <PercentWorkComplete>0</PercentWorkComplete>
+      <PercentComplete>100</PercentComplete>
+      <PercentWorkComplete>100</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-09-03T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
@@ -1173,10 +1049,10 @@
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
       <PredecessorLink><PredecessorUID>40</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
-    </Task>
-    <Task>
+    <PredecessorLink><PredecessorUID>3</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>4</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>5</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>6</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>7</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>8</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>9</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>10</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>11</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>12</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>13</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>16</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>17</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>18</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>20</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>21</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>22</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>24</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>25</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>26</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>27</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>28</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>29</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>30</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>31</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>32</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>33</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>34</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>35</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>36</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>37</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>38</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>39</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink></Task>
+    <Task><UID>96</UID><ID>40</ID><Name>REGULARIZACAO POS-CHECKPOINT 1</Name><Active>1</Active><Manual>0</Manual><Type>1</Type><IsNull>0</IsNull><OutlineLevel>2</OutlineLevel><Priority>500</Priority><Start>2026-09-04T19:00:00</Start><Finish>2026-09-10T23:00:00</Finish><Duration>PT192H0M0S</Duration><DurationFormat>7</DurationFormat><Work>PT192H0M0S</Work><Milestone>0</Milestone><Summary>1</Summary><PercentComplete>100</PercentComplete><PercentWorkComplete>100</PercentWorkComplete><ConstraintType>0</ConstraintType><ConstraintDate>2026-09-04T19:00:00</ConstraintDate><FixedCostAccrual>3</FixedCostAccrual><EffortDriven>0</EffortDriven><CalendarUID>-1</CalendarUID></Task><Task><UID>101</UID><ID>41</ID><Name>INICIO REGULARIZACAO POS-CP1</Name><Active>1</Active><Manual>0</Manual><Type>1</Type><IsNull>0</IsNull><OutlineLevel>3</OutlineLevel><Priority>500</Priority><Start>2026-09-04T19:00:00</Start><Finish>2026-09-04T19:00:00</Finish><Duration>PT0H0M0S</Duration><DurationFormat>7</DurationFormat><Work>PT0H0M0S</Work><Milestone>1</Milestone><Summary>0</Summary><PercentComplete>100</PercentComplete><PercentWorkComplete>100</PercentWorkComplete><ConstraintType>4</ConstraintType><ConstraintDate>2026-09-04T19:00:00</ConstraintDate><FixedCostAccrual>3</FixedCostAccrual><EffortDriven>0</EffortDriven><CalendarUID>-1</CalendarUID></Task><Task><UID>97</UID><ID>42</ID><Name>Ajustes de modelagem solicitados na apresentacao</Name><Active>1</Active><Manual>0</Manual><Type>1</Type><IsNull>0</IsNull><OutlineLevel>3</OutlineLevel><Priority>500</Priority><Start>2026-09-04T19:00:00</Start><Finish>2026-09-09T23:00:00</Finish><Duration>PT8H0M0S</Duration><DurationFormat>7</DurationFormat><Work>PT8H0M0S</Work><Milestone>0</Milestone><Summary>0</Summary><PercentComplete>100</PercentComplete><PercentWorkComplete>100</PercentWorkComplete><ConstraintType>0</ConstraintType><ConstraintDate>2026-09-04T19:00:00</ConstraintDate><FixedCostAccrual>3</FixedCostAccrual><EffortDriven>0</EffortDriven><CalendarUID>-1</CalendarUID><PredecessorLink><PredecessorUID>101</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink></Task><Task><UID>98</UID><ID>43</ID><Name>Regularizacao do ProjectLibre e planejamento</Name><Active>1</Active><Manual>0</Manual><Type>1</Type><IsNull>0</IsNull><OutlineLevel>3</OutlineLevel><Priority>500</Priority><Start>2026-09-04T19:00:00</Start><Finish>2026-09-09T23:00:00</Finish><Duration>PT8H0M0S</Duration><DurationFormat>7</DurationFormat><Work>PT8H0M0S</Work><Milestone>0</Milestone><Summary>0</Summary><PercentComplete>100</PercentComplete><PercentWorkComplete>100</PercentWorkComplete><ConstraintType>0</ConstraintType><ConstraintDate>2026-09-04T19:00:00</ConstraintDate><FixedCostAccrual>3</FixedCostAccrual><EffortDriven>0</EffortDriven><CalendarUID>-1</CalendarUID><PredecessorLink><PredecessorUID>101</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink></Task><Task><UID>99</UID><ID>44</ID><Name>Demais correcoes do CP1</Name><Active>1</Active><Manual>0</Manual><Type>1</Type><IsNull>0</IsNull><OutlineLevel>3</OutlineLevel><Priority>500</Priority><Start>2026-09-04T19:00:00</Start><Finish>2026-09-09T23:00:00</Finish><Duration>PT8H0M0S</Duration><DurationFormat>7</DurationFormat><Work>PT8H0M0S</Work><Milestone>0</Milestone><Summary>0</Summary><PercentComplete>100</PercentComplete><PercentWorkComplete>100</PercentWorkComplete><ConstraintType>0</ConstraintType><ConstraintDate>2026-09-04T19:00:00</ConstraintDate><FixedCostAccrual>3</FixedCostAccrual><EffortDriven>0</EffortDriven><CalendarUID>-1</CalendarUID><PredecessorLink><PredecessorUID>101</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink></Task><Task><UID>105</UID><ID>45</ID><Name>PRAZO REGULARIZACAO CHECKPOINT 1</Name><Active>1</Active><Manual>0</Manual><Type>1</Type><IsNull>0</IsNull><OutlineLevel>3</OutlineLevel><Priority>500</Priority><Start>2026-09-10T19:00:00</Start><Finish>2026-09-10T19:00:00</Finish><Duration>PT0H0M0S</Duration><DurationFormat>7</DurationFormat><Work>PT0H0M0S</Work><Milestone>1</Milestone><Summary>0</Summary><PercentComplete>100</PercentComplete><PercentWorkComplete>100</PercentWorkComplete><ConstraintType>4</ConstraintType><ConstraintDate>2026-09-10T19:00:00</ConstraintDate><FixedCostAccrual>3</FixedCostAccrual><EffortDriven>0</EffortDriven><CalendarUID>-1</CalendarUID><PredecessorLink><PredecessorUID>97</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>98</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>99</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink></Task><Task>
       <UID>42</UID>
-      <ID>42</ID>
+      <ID>46</ID>
       <Name>CHECKPOINT 2 - Modelagem e Prototipacao</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1200,9 +1076,9 @@
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
     </Task>
-    <Task>
+    <Task><UID>102</UID><ID>47</ID><Name>INICIO CHECKPOINT 2</Name><Active>1</Active><Manual>0</Manual><Type>1</Type><IsNull>0</IsNull><OutlineLevel>3</OutlineLevel><Priority>500</Priority><Start>2026-09-11T19:00:00</Start><Finish>2026-09-11T19:00:00</Finish><Duration>PT0H0M0S</Duration><DurationFormat>7</DurationFormat><Work>PT0H0M0S</Work><Milestone>1</Milestone><Summary>0</Summary><PercentComplete>100</PercentComplete><PercentWorkComplete>100</PercentWorkComplete><ConstraintType>4</ConstraintType><ConstraintDate>2026-09-11T19:00:00</ConstraintDate><FixedCostAccrual>3</FixedCostAccrual><EffortDriven>0</EffortDriven><CalendarUID>-1</CalendarUID></Task><Task>
       <UID>43</UID>
-      <ID>43</ID>
+      <ID>48</ID>
       <Name>Setup do projeto Laravel no monorepo</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1219,7 +1095,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-04T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1229,7 +1105,7 @@
     </Task>
     <Task>
       <UID>44</UID>
-      <ID>44</ID>
+      <ID>49</ID>
       <Name>Configuracao do PostgreSQL local (Docker)</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1246,7 +1122,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-04T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1256,7 +1132,7 @@
     </Task>
     <Task>
       <UID>45</UID>
-      <ID>45</ID>
+      <ID>50</ID>
       <Name>Setup do projeto Expo no monorepo</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1273,17 +1149,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-05T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>41</PredecessorUID><Type>1</Type><LinkLag>2400</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>41</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>46</UID>
-      <ID>46</ID>
+      <ID>51</ID>
       <Name>4.2 Consolidacao dos requisitos finais</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1300,17 +1176,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-06T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>41</PredecessorUID><Type>1</Type><LinkLag>6000</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>41</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>47</UID>
-      <ID>47</ID>
+      <ID>52</ID>
       <Name>4.5 Prototipacao de telas no Figma - fluxos do cliente</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1320,24 +1196,24 @@
       <Priority>500</Priority>
       <Start>2026-09-07T19:00:00</Start>
       <Finish>2026-09-12T20:00:00</Finish>
-      <Duration>PT26H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT26H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>50</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-07T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>46</PredecessorUID><Type>3</Type><LinkLag>3600</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>46</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>48</UID>
-      <ID>48</ID>
+      <ID>53</ID>
       <Name>4.5 Prototipacao de telas no Figma - area administrativa</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1354,7 +1230,7 @@
       <Summary>0</Summary>
       <PercentComplete>50</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-13T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1364,7 +1240,7 @@
     </Task>
     <Task>
       <UID>49</UID>
-      <ID>49</ID>
+      <ID>54</ID>
       <Name>4.6 Documentos detalhados dos casos de uso</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1381,17 +1257,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-08T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>46</PredecessorUID><Type>3</Type><LinkLag>6000</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>46</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>50</UID>
-      <ID>50</ID>
+      <ID>55</ID>
       <Name>4.7 Diagrama de dados (DER)</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1408,17 +1284,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-09T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>44</PredecessorUID><Type>1</Type><LinkLag>8400</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>44</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>51</UID>
-      <ID>51</ID>
+      <ID>56</ID>
       <Name>4.8 Diagrama de classes do modelo de dados</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1435,17 +1311,17 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-15T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>50</PredecessorUID><Type>1</Type><LinkLag>6000</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>50</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>52</UID>
-      <ID>52</ID>
+      <ID>57</ID>
       <Name>Migrations iniciais - usuarios, clientes, contas</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1462,17 +1338,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-11T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>50</PredecessorUID><Type>3</Type><LinkLag>4800</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>50</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>53</UID>
-      <ID>53</ID>
+      <ID>58</ID>
       <Name>Implementacao da autenticacao (Laravel Sanctum)</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1489,17 +1365,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-13T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>52</PredecessorUID><Type>3</Type><LinkLag>6000</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>52</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>54</UID>
-      <ID>54</ID>
+      <ID>59</ID>
       <Name>Layout base em Blade + Tailwind CSS</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1516,7 +1392,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-13T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1526,7 +1402,7 @@
     </Task>
     <Task>
       <UID>55</UID>
-      <ID>55</ID>
+      <ID>60</ID>
       <Name>Atualizacao do LibreProject</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1543,7 +1419,7 @@
       <Summary>0</Summary>
       <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-15T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1553,7 +1429,7 @@
     </Task>
     <Task>
       <UID>56</UID>
-      <ID>56</ID>
+      <ID>61</ID>
       <Name>Consolidacao do PDF unico do checkpoint 2</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1570,7 +1446,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-16T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1580,7 +1456,7 @@
     </Task>
     <Task>
       <UID>57</UID>
-      <ID>57</ID>
+      <ID>62</ID>
       <Name>APRESENTACAO CHECKPOINT 2</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1588,8 +1464,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-09-17T19:00:00</Start>
-      <Finish>2026-09-17T23:00:00</Finish>
+      <Start>2026-10-01T19:00:00</Start>
+      <Finish>2026-10-01T19:00:00</Finish>
       <Duration>PT0H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT0H0M0S</Work>
@@ -1598,16 +1474,16 @@
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
-      <ConstraintDate>2026-09-17T19:00:00</ConstraintDate>
+      <ConstraintDate>2026-10-01T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
       <PredecessorLink><PredecessorUID>56</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
-    </Task>
+    <PredecessorLink><PredecessorUID>43</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>44</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>45</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>46</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>47</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>48</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>49</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>50</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>51</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>52</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>53</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>54</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>55</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink></Task>
     <Task>
       <UID>58</UID>
-      <ID>58</ID>
+      <ID>63</ID>
       <Name>CHECKPOINT 3 - Backend REST com TDD</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1631,9 +1507,9 @@
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
     </Task>
-    <Task>
+    <Task><UID>103</UID><ID>64</ID><Name>INICIO CHECKPOINT 3</Name><Active>1</Active><Manual>0</Manual><Type>1</Type><IsNull>0</IsNull><OutlineLevel>3</OutlineLevel><Priority>500</Priority><Start>2026-10-02T19:00:00</Start><Finish>2026-10-02T19:00:00</Finish><Duration>PT0H0M0S</Duration><DurationFormat>7</DurationFormat><Work>PT0H0M0S</Work><Milestone>1</Milestone><Summary>0</Summary><PercentComplete>0</PercentComplete><PercentWorkComplete>0</PercentWorkComplete><ConstraintType>4</ConstraintType><ConstraintDate>2026-10-02T19:00:00</ConstraintDate><FixedCostAccrual>3</FixedCostAccrual><EffortDriven>0</EffortDriven><CalendarUID>-1</CalendarUID></Task><Task>
       <UID>59</UID>
-      <ID>59</ID>
+      <ID>65</ID>
       <Name>Definicao da estrategia de testes (TDD)</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1650,7 +1526,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-18T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1660,7 +1536,7 @@
     </Task>
     <Task>
       <UID>60</UID>
-      <ID>60</ID>
+      <ID>66</ID>
       <Name>Motor transacional - partidas dobradas (TDD)</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1670,14 +1546,14 @@
       <Priority>500</Priority>
       <Start>2026-09-21T19:00:00</Start>
       <Finish>2026-09-30T23:00:00</Finish>
-      <Duration>PT44H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT44H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-09-21T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1687,7 +1563,7 @@
     </Task>
     <Task>
       <UID>61</UID>
-      <ID>61</ID>
+      <ID>67</ID>
       <Name>API REST - contas, saldo e extrato (TDD)</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1697,14 +1573,14 @@
       <Priority>500</Priority>
       <Start>2026-10-01T19:00:00</Start>
       <Finish>2026-10-08T23:00:00</Finish>
-      <Duration>PT36H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT36H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-01T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1714,7 +1590,7 @@
     </Task>
     <Task>
       <UID>62</UID>
-      <ID>62</ID>
+      <ID>68</ID>
       <Name>API REST - chaves Pix e transferencias (TDD)</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1724,14 +1600,14 @@
       <Priority>500</Priority>
       <Start>2026-10-09T19:00:00</Start>
       <Finish>2026-10-16T23:00:00</Finish>
-      <Duration>PT36H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT36H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-09T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1741,7 +1617,7 @@
     </Task>
     <Task>
       <UID>63</UID>
-      <ID>63</ID>
+      <ID>69</ID>
       <Name>API REST - pagamentos, boletos e QR Code (TDD)</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1751,24 +1627,24 @@
       <Priority>500</Priority>
       <Start>2026-10-17T14:00:00</Start>
       <Finish>2026-10-23T23:00:00</Finish>
-      <Duration>PT32H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT32H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-17T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>61</PredecessorUID><Type>1</Type><LinkLag>21600</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>61</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>64</UID>
-      <ID>64</ID>
+      <ID>70</ID>
       <Name>Motor antifraude por regras de risco</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1785,17 +1661,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-14T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>62</PredecessorUID><Type>3</Type><LinkLag>14400</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>62</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>65</UID>
-      <ID>65</ID>
+      <ID>71</ID>
       <Name>Trilha de auditoria imutavel</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1812,7 +1688,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-15T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1822,7 +1698,7 @@
     </Task>
     <Task>
       <UID>66</UID>
-      <ID>66</ID>
+      <ID>72</ID>
       <Name>Documentacao da API em OpenAPI/Swagger</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1839,17 +1715,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-17T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>64</PredecessorUID><Type>3</Type><LinkLag>7200</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>64</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>67</UID>
-      <ID>67</ID>
+      <ID>73</ID>
       <Name>Deploy do backend no Render</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1866,7 +1742,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-18T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1876,7 +1752,7 @@
     </Task>
     <Task>
       <UID>68</UID>
-      <ID>68</ID>
+      <ID>74</ID>
       <Name>Provisionamento do PostgreSQL no Render</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1893,7 +1769,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-18T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -1903,7 +1779,7 @@
     </Task>
     <Task>
       <UID>69</UID>
-      <ID>69</ID>
+      <ID>75</ID>
       <Name>4.9 Diagramas de classes das interacoes</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1920,17 +1796,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-17T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>64</PredecessorUID><Type>3</Type><LinkLag>7200</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>64</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>70</UID>
-      <ID>70</ID>
+      <ID>76</ID>
       <Name>Testes de integracao da API publicada</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1947,17 +1823,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-20T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>67</PredecessorUID><Type>3</Type><LinkLag>6000</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>67</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>71</UID>
-      <ID>71</ID>
+      <ID>77</ID>
       <Name>Atualizacao do LibreProject</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -1974,17 +1850,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-20T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>69</PredecessorUID><Type>3</Type><LinkLag>9600</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>69</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>72</UID>
-      <ID>72</ID>
+      <ID>78</ID>
       <Name>Consolidacao do PDF unico do checkpoint 3</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2001,7 +1877,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-21T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2011,7 +1887,7 @@
     </Task>
     <Task>
       <UID>73</UID>
-      <ID>73</ID>
+      <ID>79</ID>
       <Name>APRESENTACAO CHECKPOINT 3</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2019,8 +1895,8 @@
       <IsNull>0</IsNull>
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
-      <Start>2026-10-22T19:00:00</Start>
-      <Finish>2026-10-22T23:00:00</Finish>
+      <Start>2026-10-29T19:00:00</Start>
+      <Finish>2026-10-29T19:00:00</Finish>
       <Duration>PT0H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT0H0M0S</Work>
@@ -2029,16 +1905,16 @@
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
-      <ConstraintDate>2026-10-22T19:00:00</ConstraintDate>
+      <ConstraintDate>2026-10-29T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
       <PredecessorLink><PredecessorUID>72</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
-    </Task>
+    <PredecessorLink><PredecessorUID>59</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>60</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>61</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>62</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>63</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>64</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>65</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>66</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>67</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>68</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>69</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>70</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>71</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink></Task>
     <Task>
       <UID>74</UID>
-      <ID>74</ID>
+      <ID>80</ID>
       <Name>CHECKPOINT 4 - Frontend Web, Mobile e Entrega Final</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2062,9 +1938,9 @@
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
     </Task>
-    <Task>
+    <Task><UID>104</UID><ID>81</ID><Name>INICIO CHECKPOINT 4</Name><Active>1</Active><Manual>0</Manual><Type>1</Type><IsNull>0</IsNull><OutlineLevel>3</OutlineLevel><Priority>500</Priority><Start>2026-10-30T19:00:00</Start><Finish>2026-10-30T19:00:00</Finish><Duration>PT0H0M0S</Duration><DurationFormat>7</DurationFormat><Work>PT0H0M0S</Work><Milestone>1</Milestone><Summary>0</Summary><PercentComplete>0</PercentComplete><PercentWorkComplete>0</PercentWorkComplete><ConstraintType>4</ConstraintType><ConstraintDate>2026-10-30T19:00:00</ConstraintDate><FixedCostAccrual>3</FixedCostAccrual><EffortDriven>0</EffortDriven><CalendarUID>-1</CalendarUID></Task><Task>
       <UID>75</UID>
-      <ID>75</ID>
+      <ID>82</ID>
       <Name>Portal do cliente web - autenticacao e dashboard</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2074,14 +1950,14 @@
       <Priority>500</Priority>
       <Start>2026-10-23T19:00:00</Start>
       <Finish>2026-10-30T23:00:00</Finish>
-      <Duration>PT36H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT36H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-23T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2091,7 +1967,7 @@
     </Task>
     <Task>
       <UID>76</UID>
-      <ID>76</ID>
+      <ID>83</ID>
       <Name>Portal do cliente web - extrato e transferencias</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2101,14 +1977,14 @@
       <Priority>500</Priority>
       <Start>2026-10-31T14:00:00</Start>
       <Finish>2026-11-07T20:00:00</Finish>
-      <Duration>PT38H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT38H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-31T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2118,7 +1994,7 @@
     </Task>
     <Task>
       <UID>77</UID>
-      <ID>77</ID>
+      <ID>84</ID>
       <Name>Portal do cliente web - cartoes e pagamentos</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2128,14 +2004,14 @@
       <Priority>500</Priority>
       <Start>2026-11-08T14:00:00</Start>
       <Finish>2026-11-14T20:00:00</Finish>
-      <Duration>PT32H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT32H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-11-08T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2145,7 +2021,7 @@
     </Task>
     <Task>
       <UID>78</UID>
-      <ID>78</ID>
+      <ID>85</ID>
       <Name>Portal administrativo web - usuarios e perfis</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2155,14 +2031,14 @@
       <Priority>500</Priority>
       <Start>2026-11-15T14:00:00</Start>
       <Finish>2026-11-20T23:00:00</Finish>
-      <Duration>PT26H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT26H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-11-15T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2172,7 +2048,7 @@
     </Task>
     <Task>
       <UID>79</UID>
-      <ID>79</ID>
+      <ID>86</ID>
       <Name>Portal administrativo web - auditoria e relatorios</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2189,7 +2065,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-11-21T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2199,7 +2075,7 @@
     </Task>
     <Task>
       <UID>80</UID>
-      <ID>80</ID>
+      <ID>87</ID>
       <Name>App Mobile (Expo) - login e autenticacao com a API</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2209,14 +2085,14 @@
       <Priority>500</Priority>
       <Start>2026-10-23T19:00:00</Start>
       <Finish>2026-10-30T23:00:00</Finish>
-      <Duration>PT36H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT36H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-23T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2226,7 +2102,7 @@
     </Task>
     <Task>
       <UID>81</UID>
-      <ID>81</ID>
+      <ID>88</ID>
       <Name>App Mobile (Expo) - dashboard, saldo e extrato</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2236,14 +2112,14 @@
       <Priority>500</Priority>
       <Start>2026-10-31T14:00:00</Start>
       <Finish>2026-11-08T20:00:00</Finish>
-      <Duration>PT44H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT44H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-10-31T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2253,7 +2129,7 @@
     </Task>
     <Task>
       <UID>82</UID>
-      <ID>82</ID>
+      <ID>89</ID>
       <Name>App Mobile (Expo) - transferencias Pix</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2263,14 +2139,14 @@
       <Priority>500</Priority>
       <Start>2026-11-09T19:00:00</Start>
       <Finish>2026-11-16T23:00:00</Finish>
-      <Duration>PT36H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT36H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-11-09T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2280,7 +2156,7 @@
     </Task>
     <Task>
       <UID>83</UID>
-      <ID>83</ID>
+      <ID>90</ID>
       <Name>App Mobile (Expo) - cartoes e pagamentos</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2290,14 +2166,14 @@
       <Priority>500</Priority>
       <Start>2026-11-17T19:00:00</Start>
       <Finish>2026-11-24T23:00:00</Finish>
-      <Duration>PT36H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT36H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-11-17T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2307,7 +2183,7 @@
     </Task>
     <Task>
       <UID>84</UID>
-      <ID>84</ID>
+      <ID>91</ID>
       <Name>Modulo de cartoes e faturas no backend</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2317,24 +2193,24 @@
       <Priority>500</Priority>
       <Start>2026-11-01T14:00:00</Start>
       <Finish>2026-11-10T23:00:00</Finish>
-      <Duration>PT46H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT46H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-11-01T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>73</PredecessorUID><Type>1</Type><LinkLag>25200</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>73</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>85</UID>
-      <ID>85</ID>
+      <ID>92</ID>
       <Name>Modulo de suporte e chamados</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2344,14 +2220,14 @@
       <Priority>500</Priority>
       <Start>2026-11-11T19:00:00</Start>
       <Finish>2026-11-16T23:00:00</Finish>
-      <Duration>PT28H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT28H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-11-11T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2361,7 +2237,7 @@
     </Task>
     <Task>
       <UID>86</UID>
-      <ID>86</ID>
+      <ID>93</ID>
       <Name>Relatorios gerenciais</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2378,7 +2254,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-11-17T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2388,7 +2264,7 @@
     </Task>
     <Task>
       <UID>87</UID>
-      <ID>87</ID>
+      <ID>94</ID>
       <Name>Testes de integracao ponta a ponta</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2398,24 +2274,24 @@
       <Priority>500</Priority>
       <Start>2026-11-22T14:00:00</Start>
       <Finish>2026-11-27T23:00:00</Finish>
-      <Duration>PT26H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT26H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-11-22T14:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>83</PredecessorUID><Type>3</Type><LinkLag>13200</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>83</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>88</UID>
-      <ID>88</ID>
+      <ID>95</ID>
       <Name>Correcao de defeitos identificados</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2432,17 +2308,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-11-26T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>87</PredecessorUID><Type>3</Type><LinkLag>10800</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>87</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>89</UID>
-      <ID>89</ID>
+      <ID>96</ID>
       <Name>5.3 Elaboracao do manual do usuario</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2452,24 +2328,24 @@
       <Priority>500</Priority>
       <Start>2026-11-20T19:00:00</Start>
       <Finish>2026-11-27T23:00:00</Finish>
-      <Duration>PT36H0M0S</Duration>
+      <Duration>PT24H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
-      <Work>PT36H0M0S</Work>
+      <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-11-20T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>83</PredecessorUID><Type>3</Type><LinkLag>7200</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>83</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>90</UID>
-      <ID>90</ID>
+      <ID>97</ID>
       <Name>Build do APK e disponibilizacao para download</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2486,17 +2362,17 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-11-30T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
-      <PredecessorLink><PredecessorUID>88</PredecessorUID><Type>3</Type><LinkLag>12000</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
+      <PredecessorLink><PredecessorUID>88</PredecessorUID><Type>3</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
     </Task>
     <Task>
       <UID>91</UID>
-      <ID>91</ID>
+      <ID>98</ID>
       <Name>Deploy final e testes em producao</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2513,7 +2389,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-12-01T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2523,7 +2399,7 @@
     </Task>
     <Task>
       <UID>92</UID>
-      <ID>92</ID>
+      <ID>99</ID>
       <Name>5.4 Atualizacao final do LibreProject</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2540,7 +2416,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-12-01T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2550,7 +2426,7 @@
     </Task>
     <Task>
       <UID>93</UID>
-      <ID>93</ID>
+      <ID>100</ID>
       <Name>5.5 Commit final com todo o codigo</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2567,7 +2443,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-12-02T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2577,7 +2453,7 @@
     </Task>
     <Task>
       <UID>94</UID>
-      <ID>94</ID>
+      <ID>101</ID>
       <Name>Consolidacao do PDF unico final</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2594,7 +2470,7 @@
       <Summary>0</Summary>
       <PercentComplete>0</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
-      <ConstraintType>4</ConstraintType>
+      <ConstraintType>0</ConstraintType>
       <ConstraintDate>2026-12-02T19:00:00</ConstraintDate>
       <FixedCostAccrual>3</FixedCostAccrual>
       <EffortDriven>0</EffortDriven>
@@ -2604,7 +2480,7 @@
     </Task>
     <Task>
       <UID>95</UID>
-      <ID>95</ID>
+      <ID>102</ID>
       <Name>APRESENTACAO CHECKPOINT 4 - ENTREGA FINAL</Name>
       <Active>1</Active>
       <Manual>0</Manual>
@@ -2613,7 +2489,7 @@
       <OutlineLevel>3</OutlineLevel>
       <Priority>500</Priority>
       <Start>2026-12-03T19:00:00</Start>
-      <Finish>2026-12-03T23:00:00</Finish>
+      <Finish>2026-12-03T19:00:00</Finish>
       <Duration>PT0H0M0S</Duration>
       <DurationFormat>7</DurationFormat>
       <Work>PT0H0M0S</Work>
@@ -2628,7 +2504,7 @@
       <Estimated>0</Estimated>
       <CalendarUID>-1</CalendarUID>
       <PredecessorLink><PredecessorUID>94</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink>
-    </Task>
+    <PredecessorLink><PredecessorUID>75</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>76</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>77</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>78</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>79</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>80</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>81</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>82</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>83</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>84</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>85</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>86</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>87</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>88</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>89</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>90</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>91</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>92</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink><PredecessorLink><PredecessorUID>93</PredecessorUID><Type>1</Type><LinkLag>0</LinkLag><LagFormat>7</LagFormat></PredecessorLink></Task>
   </Tasks>
   <Resources>
     <Resource>
@@ -2636,44 +2512,44 @@
       <ID>1</ID>
       <Name>Gabriel Henrique</Name>
       <Initials>GH</Initials>
-      <Group>Lider / Gerente de projeto</Group>
+      <Group>Líder / Gerente de projeto</Group>
       <Type>1</Type>
       <IsNull>0</IsNull>
       <MaxUnits>1</MaxUnits>
-      <CalendarUID>1</CalendarUID>
+      <CalendarUID>2</CalendarUID>
     </Resource>
     <Resource>
       <UID>3</UID>
       <ID>3</ID>
       <Name>Harttur Oliveira Pimenta</Name>
       <Initials>HP</Initials>
-      <Group>BDA - Banco de Dados</Group>
+      <Group>BDA — Banco de dados</Group>
       <Type>1</Type>
       <IsNull>0</IsNull>
       <MaxUnits>1</MaxUnits>
-      <CalendarUID>1</CalendarUID>
+      <CalendarUID>2</CalendarUID>
     </Resource>
     <Resource>
       <UID>4</UID>
       <ID>4</ID>
-      <Name>Eduardo Henrique</Name>
+      <Name>Eduardo Henrique (EduCafilista)</Name>
       <Initials>EH</Initials>
       <Group>Infraestrutura</Group>
       <Type>1</Type>
       <IsNull>0</IsNull>
       <MaxUnits>1</MaxUnits>
-      <CalendarUID>1</CalendarUID>
+      <CalendarUID>2</CalendarUID>
     </Resource>
     <Resource>
       <UID>5</UID>
       <ID>5</ID>
       <Name>Marcus Vinicius</Name>
       <Initials>MV</Initials>
-      <Group>Frontend / UX UI</Group>
+      <Group>Frontend / UX-UI</Group>
       <Type>1</Type>
       <IsNull>0</IsNull>
       <MaxUnits>1</MaxUnits>
-      <CalendarUID>1</CalendarUID>
+      <CalendarUID>2</CalendarUID>
     </Resource>
     <Resource>
       <UID>6</UID>
@@ -2684,7 +2560,7 @@
       <Type>1</Type>
       <IsNull>0</IsNull>
       <MaxUnits>4</MaxUnits>
-      <CalendarUID>1</CalendarUID>
+      <CalendarUID>2</CalendarUID>
     </Resource>
   </Resources>
   <Assignments>
@@ -2797,26 +2673,6 @@
       <Work>PT56H0M0S</Work>
       <Start>2026-05-20T19:00:00</Start>
       <Finish>2026-05-31T20:00:00</Finish>
-    </Assignment>
-    <Assignment>
-      <UID>12</UID>
-      <TaskUID>14</TaskUID>
-      <ResourceUID>6</ResourceUID>
-      <PercentWorkComplete>100</PercentWorkComplete>
-      <Units>1</Units>
-      <Work>PT44H0M0S</Work>
-      <Start>2026-04-07T19:00:00</Start>
-      <Finish>2026-04-16T23:00:00</Finish>
-    </Assignment>
-    <Assignment>
-      <UID>13</UID>
-      <TaskUID>15</TaskUID>
-      <ResourceUID>6</ResourceUID>
-      <PercentWorkComplete>100</PercentWorkComplete>
-      <Units>1</Units>
-      <Work>PT32H0M0S</Work>
-      <Start>2026-06-17T19:00:00</Start>
-      <Finish>2026-06-23T23:00:00</Finish>
     </Assignment>
     <Assignment>
       <UID>14</UID>

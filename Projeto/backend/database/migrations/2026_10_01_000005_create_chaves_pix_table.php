@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignUuid('conta_id')->constrained('contas');
             
             $table->string('tipo_chave'); // CPF, EMAIL, CELULAR, ALEATORIA
-            $table->string('valor_chave')->unique(); // Requisito de duplicidade no ecossistema
+            $table->string('valor_chave');
             $table->timestamp('registrado_em')->useCurrent();
             
             $table->timestamps();
