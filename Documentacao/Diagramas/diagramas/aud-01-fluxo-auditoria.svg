@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="720" viewBox="0 0 1240 720">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#8a97a5"/>
+</marker>
+<marker id="arrow-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#1b2430"/>
+</marker>
+<marker id="arrow-ret" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#0f6f5c"/>
+</marker>
+<marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+<path d="M 0 0 L 12 6 L 0 12" fill="none" stroke="#1b2430" stroke-width="1.6"/>
+</marker>
+<marker id="open-gen" viewBox="0 0 14 14" refX="12" refY="7" markerWidth="11" markerHeight="11" orient="auto-start-reverse">
+<path d="M 0 0 L 14 7 L 0 14" fill="#ffffff" stroke="#1b2430" stroke-width="1.6"/>
+</marker>
+<marker id="diamond" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M 0 6 L 6 3 L 12 6 L 6 9 z" fill="#ffffff" stroke="#1b2430" stroke-width="1.5"/>
+</marker>
+<marker id="diamond-fill" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M 0 6 L 6 3 L 12 6 L 6 9 z" fill="#1b2430" stroke="#1b2430" stroke-width="1.2"/>
+</marker>
+</defs>
+<rect width="1240" height="720" fill="#ffffff"/>
+<text x="620.0" y="32.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#1b2430">Log de Auditoria — fluxo de registro, proteção e consulta</text>
+<text x="620.0" y="52.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" text-anchor="middle" fill="#5a6b7b">Projeto Fluxo · Grupo 1 · Checkpoint 2 · RF45, RF46, RF48 · RN17</text>
+<rect x="16.0" y="70.0" width="1208.0" height="620.0" rx="10" fill="#fcfdfd" stroke="#8a97a5" stroke-width="1.2" stroke-dasharray="5 5"/>
+<rect x="40.0" y="110.0" width="230.0" height="92.0" rx="7" fill="#eef7f4" stroke="#0f6f5c" stroke-width="1.7"/>
+<text x="155.0" y="130.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.2" font-weight="700" text-anchor="middle" fill="#0f6f5c">1. Operacao sensivel</text>
+<line x1="52.0" y1="146.0" x2="258.0" y2="146.0" stroke="#0f6f5c" stroke-width="0.9"/>
+<text x="52.0" y="162.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">Login, transferencia, retirada,</text>
+<text x="52.0" y="176.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">alteracao de limite, exclusao</text>
+<text x="52.0" y="191.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">de usuario, contestacao...</text>
+<line x1="270.0" y1="156.0" x2="310.0" y2="156.0" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<rect x="330.0" y="110.0" width="250.0" height="92.0" rx="7" fill="#e8f0f8" stroke="#1d4f91" stroke-width="1.7"/>
+<text x="455.0" y="130.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.2" font-weight="700" text-anchor="middle" fill="#1d4f91">2. Interceptor</text>
+<line x1="342.0" y1="146.0" x2="568.0" y2="146.0" stroke="#1d4f91" stroke-width="0.9"/>
+<text x="342.0" y="162.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">Trait RegistraAuditoria +</text>
+<text x="342.0" y="176.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">Observer do Eloquent capturam</text>
+<text x="342.0" y="191.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">antes/depois, IP e user-agent</text>
+<line x1="580.0" y1="156.0" x2="620.0" y2="156.0" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<rect x="640.0" y="110.0" width="250.0" height="92.0" rx="7" fill="#e8f0f8" stroke="#1d4f91" stroke-width="1.7"/>
+<text x="765.0" y="130.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.2" font-weight="700" text-anchor="middle" fill="#1d4f91">3. Normalizacao</text>
+<line x1="652.0" y1="146.0" x2="878.0" y2="146.0" stroke="#1d4f91" stroke-width="0.9"/>
+<text x="652.0" y="162.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">Mascara CPF, senha e codigo 2FA;</text>
+<text x="652.0" y="176.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">monta payload JSONB;</text>
+<text x="652.0" y="191.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">calcula hash encadeado SHA-256</text>
+<line x1="890.0" y1="156.0" x2="930.0" y2="156.0" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<rect x="950.0" y="110.0" width="250.0" height="92.0" rx="7" fill="#e8f0f8" stroke="#1d4f91" stroke-width="1.7"/>
+<text x="1075.0" y="130.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.2" font-weight="700" text-anchor="middle" fill="#1d4f91">4. Gravacao (fila)</text>
+<line x1="962.0" y1="146.0" x2="1188.0" y2="146.0" stroke="#1d4f91" stroke-width="0.9"/>
+<text x="962.0" y="162.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">Job ProcessaAuditoria grava em</text>
+<text x="962.0" y="176.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">logs_auditoria sem impactar</text>
+<text x="962.0" y="191.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">a latencia da resposta</text>
+<line x1="1200.0" y1="156.0" x2="1240.0" y2="156.0" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<rect x="330.0" y="260.0" width="560.0" height="96.0" rx="7" fill="#fff8e6" stroke="#b45309" stroke-width="1.8"/>
+<text x="610.0" y="280.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.4" font-weight="700" text-anchor="middle" fill="#7c4a03">logs_auditoria  (tabela append-only)</text>
+<line x1="342.0" y1="296.0" x2="878.0" y2="296.0" stroke="#b45309" stroke-width="0.9"/>
+<text x="342.0" y="312.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">id, criado_em, ator_id, perfil, acao, entidade, entidade_id,</text>
+<text x="342.0" y="326.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">dados_anteriores JSONB, dados_novos JSONB, ip INET, user_agent,</text>
+<text x="342.0" y="341.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">hash_registro, hash_anterior - sem UPDATE e sem DELETE</text>
+<line x1="1075.0" y1="202.0" x2="1075.0" y2="300.0" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<line x1="1075.0" y1="300.0" x2="890.0" y2="300.0" stroke="#1b2430" stroke-width="1.5"/>
+<line x1="890.0" y1="300.0" x2="890.0" y2="260.0" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<rect x="950.0" y="260.0" width="250.0" height="96.0" rx="7" fill="#fdeceb" stroke="#b3261e" stroke-width="1.7"/>
+<text x="1075.0" y="280.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.2" font-weight="700" text-anchor="middle" fill="#b3261e">Trigger de protecao</text>
+<line x1="962.0" y1="296.0" x2="1188.0" y2="296.0" stroke="#b3261e" stroke-width="0.9"/>
+<text x="962.0" y="312.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">BEFORE UPDATE OR DELETE</text>
+<text x="962.0" y="326.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">FOR EACH ROW EXECUTE FUNCTION</text>
+<text x="962.0" y="341.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">bloquear_alteracao_auditoria()</text>
+<text x="962.0" y="355.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">RAISE EXCEPTION</text>
+<line x1="950.0" y1="308.0" x2="890.0" y2="308.0" stroke="#b3261e" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#arrow-ink)"/>
+<rect x="40.0" y="420.0" width="250.0" height="92.0" rx="7" fill="#eef7f4" stroke="#0f6f5c" stroke-width="1.7"/>
+<text x="165.0" y="440.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.2" font-weight="700" text-anchor="middle" fill="#0f6f5c">5. Consulta do auditor</text>
+<line x1="52.0" y1="456.0" x2="278.0" y2="456.0" stroke="#0f6f5c" stroke-width="0.9"/>
+<text x="52.0" y="472.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">Filtros por autor, periodo, acao</text>
+<text x="52.0" y="486.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">e entidade; perfil somente</text>
+<text x="52.0" y="501.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">leitura; exportacao CSV</text>
+<rect x="330.0" y="420.0" width="250.0" height="92.0" rx="7" fill="#fdf3e7" stroke="#b45309" stroke-width="1.7"/>
+<text x="455.0" y="440.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.2" font-weight="700" text-anchor="middle" fill="#b45309">6. Alerta de seguranca</text>
+<line x1="342.0" y1="456.0" x2="568.0" y2="456.0" stroke="#b45309" stroke-width="0.9"/>
+<text x="342.0" y="472.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">Regras: 5 logins falhos, 2FA</text>
+<text x="342.0" y="486.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">reprovado, retirada acima do</text>
+<text x="342.0" y="501.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">teto, alteracao de limite</text>
+<rect x="640.0" y="420.0" width="250.0" height="92.0" rx="7" fill="#e8f0f8" stroke="#1d4f91" stroke-width="1.7"/>
+<text x="765.0" y="440.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.2" font-weight="700" text-anchor="middle" fill="#1d4f91">7. Evidencia para o cliente</text>
+<line x1="652.0" y1="456.0" x2="878.0" y2="456.0" stroke="#1d4f91" stroke-width="0.9"/>
+<text x="652.0" y="472.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">Extrato de auditoria do proprio</text>
+<text x="652.0" y="486.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">cliente: quem acessou, quando</text>
+<text x="652.0" y="501.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">e de onde</text>
+<rect x="950.0" y="420.0" width="250.0" height="92.0" rx="7" fill="#e8f0f8" stroke="#1d4f91" stroke-width="1.7"/>
+<text x="1075.0" y="440.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.2" font-weight="700" text-anchor="middle" fill="#1d4f91">8. Retencao e LGPD</text>
+<line x1="962.0" y1="456.0" x2="1188.0" y2="456.0" stroke="#1d4f91" stroke-width="0.9"/>
+<text x="962.0" y="472.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">5 anos para operacoes financeiras;</text>
+<text x="962.0" y="486.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">anonimizacao de dados pessoais;</text>
+<text x="962.0" y="501.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">nada de senha ou codigo 2FA</text>
+<line x1="610.0" y1="356.0" x2="610.0" y2="380.0" stroke="#1b2430" stroke-width="1.6"/>
+<line x1="165.0" y1="380.0" x2="1055.0" y2="380.0" stroke="#1b2430" stroke-width="1.6"/>
+<line x1="165.0" y1="380.0" x2="165.0" y2="420.0" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<line x1="455.0" y1="380.0" x2="455.0" y2="420.0" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<line x1="765.0" y1="380.0" x2="765.0" y2="420.0" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<line x1="1075.0" y1="380.0" x2="1075.0" y2="420.0" stroke="#1b2430" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+<rect x="40.0" y="560.0" width="1160.0" height="92.0" rx="7" fill="#f6f6fb" stroke="#1b2430" stroke-width="1.5"/>
+<text x="620.0" y="580.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.2" font-weight="700" text-anchor="middle" fill="#1b2430">Rastreabilidade</text>
+<line x1="52.0" y1="596.0" x2="1188.0" y2="596.0" stroke="#1b2430" stroke-width="0.9"/>
+<text x="52.0" y="612.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">RF45 (registrar), RF46 (imutabilidade), RF48 (consulta pelo auditor), RF53-RF58 (2FA), RF59-RF64</text>
+<text x="52.0" y="624.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">(retirada), RF65-RF72 (assinatura)</text>
+<text x="52.0" y="639.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">RN17 (todo acesso a dados de terceiros e auditado) - RNF13 (nenhum dado pessoal em log de aplicacao) -</text>
+<text x="52.0" y="651.5" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.2" font-weight="500" text-anchor="start" fill="#1b2430">RNF14 (LGPD) - RNF19 (backup semanal)</text>
+<text x="40.0" y="690.0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.5" font-weight="600" text-anchor="start" fill="#b3261e">Nenhum registro de auditoria pode ser alterado ou excluido: a correcao de um erro e feita por novo lancamento, nunca por edicao.</text>
+
+</svg>
