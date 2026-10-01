@@ -2,6 +2,11 @@
 
 Este documento contém a especificação dos casos de uso, descrevendo as interações entre os atores e o sistema em aderência estrita aos requisitos e diagramas estabelecidos.
 
+## Regras Transversais
+
+**Regra de Auditoria Geral:**
+Operações executadas com sucesso ou tentativas de operações sensíveis (incluindo falhas de autenticação e acessos negados) devem gerar registro no Log de Auditoria. Esta regra se aplica transversalmente a todos os casos de uso operacionais e administrativos abaixo.
+
 ## ACC-01 - Cadastrar-se na plataforma
 
 **Objetivo:**
