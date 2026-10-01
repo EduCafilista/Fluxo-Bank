@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <Project xmlns="http://schemas.microsoft.com/project">
   <SaveVersion>14</SaveVersion>
   <Name>Fluxo - Sistema Bancario Digital</Name>
@@ -12,8 +12,8 @@
   <StartDate>2026-02-23T19:00:00</StartDate>
   <FinishDate>2026-12-03T23:00:00</FinishDate>
   <ScheduleFromStart>1</ScheduleFromStart>
-  <CurrentDate>2026-08-24T08:00:00</CurrentDate>
-  <StatusDate>2026-08-24T08:00:00</StatusDate>
+  <CurrentDate>2026-10-01T08:00:00</CurrentDate>
+  <StatusDate>2026-10-01T08:00:00</StatusDate>
   <CalendarUID>1</CalendarUID>
   <DefaultStartTime>19:00:00</DefaultStartTime>
   <DefaultFinishTime>23:00:00</DefaultFinishTime>
@@ -759,7 +759,7 @@
       <Work>PT24H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>60</PercentComplete>
+      <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>60</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-08-21T19:00:00</ConstraintDate>
@@ -786,7 +786,7 @@
       <Work>PT18H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>25</PercentComplete>
+      <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>25</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-08-23T14:00:00</ConstraintDate>
@@ -840,7 +840,7 @@
       <Work>PT8H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
+      <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-08-26T19:00:00</ConstraintDate>
@@ -867,7 +867,7 @@
       <Work>PT8H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
+      <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-08-27T19:00:00</ConstraintDate>
@@ -894,7 +894,7 @@
       <Work>PT10H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
+      <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-08-28T19:00:00</ConstraintDate>
@@ -921,7 +921,7 @@
       <Work>PT12H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
+      <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-08-29T14:00:00</ConstraintDate>
@@ -948,7 +948,7 @@
       <Work>PT10H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
+      <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-08-30T14:00:00</ConstraintDate>
@@ -1298,7 +1298,7 @@
       <Work>PT18H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
+      <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-09-06T14:00:00</ConstraintDate>
@@ -1325,7 +1325,7 @@
       <Work>PT26H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
+      <PercentComplete>50</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-09-07T19:00:00</ConstraintDate>
@@ -1352,7 +1352,7 @@
       <Work>PT18H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
+      <PercentComplete>50</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-09-13T14:00:00</ConstraintDate>
@@ -1379,7 +1379,7 @@
       <Work>PT22H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
+      <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-09-08T19:00:00</ConstraintDate>
@@ -1406,7 +1406,7 @@
       <Work>PT18H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
+      <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-09-09T19:00:00</ConstraintDate>
@@ -1433,7 +1433,7 @@
       <Work>PT16H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
+      <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-09-15T19:00:00</ConstraintDate>
@@ -1541,7 +1541,7 @@
       <Work>PT4H0M0S</Work>
       <Milestone>0</Milestone>
       <Summary>0</Summary>
-      <PercentComplete>0</PercentComplete>
+      <PercentComplete>100</PercentComplete>
       <PercentWorkComplete>0</PercentWorkComplete>
       <ConstraintType>4</ConstraintType>
       <ConstraintDate>2026-09-15T19:00:00</ConstraintDate>
