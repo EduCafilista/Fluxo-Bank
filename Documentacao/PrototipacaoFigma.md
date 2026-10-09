@@ -86,6 +86,7 @@ O Figma deve ser organizado em 4 páginas (Pages) lógicas:
 ---
 *Observação de Validação: O presente projeto visual materializa o escopo dos casos de uso arquitetados sem envolver escrita de código Blade/Vue ou React Native. A URL final do projeto Figma será vinculada neste mesmo documento após a transposição pelo designer responsável.*
 
+<<<<<<< HEAD
 **Status do Figma: PENDENTE DE MONTAGEM**
 
 ## Checklist de Montagem
@@ -101,3 +102,16 @@ O Figma deve ser organizado em 4 páginas (Pages) lógicas:
 [ ] Conectar fluxo administrativo
 [ ] Testar Prototype
 [ ] Inserir link público/compartilhável neste documento
+=======
+**Link do Figma:** https://www.figma.com/design/qlMt1TssshlJmFvT1Ueqm2/Fluxo---Banco-Digital-%7C-Checkpoint-2
+
+**Status do Figma: PARCIAL — Design System validado visualmente; Mobile, Administrativo e Prototype aguardam validação visual final.**
+
+## Checklist de Montagem
+[x] Criar página 01 - Design System
+[ ] Criar página 02 - Cliente Mobile
+[ ] Criar página 03 - Administrativo Web
+[ ] 14 telas Mobile validadas
+[ ] 5 telas Admin validadas
+[ ] Prototype navegável validado
+>>>>>>> e217f45e01ed74ee54a7c834faeb5061dee4afc3

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="444" viewBox="0 0 1180 444"><rect width="1180" height="444" fill="#ffffff"/>
+<text x="590.0" y="34" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#1b2430">Cronograma do Projeto Fluxo — visão por fase</text>
+<text x="590.0" y="54" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" text-anchor="middle" fill="#5a6b7b">Grupo 1 · 23/02/2026 a 03/12/2026 · calendário de 32h semanais</text>
+<line x1="286.5" y1="80" x2="286.5" y2="334" stroke="#e6ecf1" stroke-width="1"/>
+<text x="290.5" y="74" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#6b7887">mar</text>
+<line x1="382.0" y1="80" x2="382.0" y2="334" stroke="#e6ecf1" stroke-width="1"/>
+<text x="386.0" y="74" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#6b7887">abr</text>
+<line x1="474.4" y1="80" x2="474.4" y2="334" stroke="#e6ecf1" stroke-width="1"/>
+<text x="478.4" y="74" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#6b7887">mai</text>
+<line x1="570.0" y1="80" x2="570.0" y2="334" stroke="#e6ecf1" stroke-width="1"/>
+<text x="574.0" y="74" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#6b7887">jun</text>
+<line x1="662.4" y1="80" x2="662.4" y2="334" stroke="#e6ecf1" stroke-width="1"/>
+<text x="666.4" y="74" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#6b7887">jul</text>
+<line x1="757.9" y1="80" x2="757.9" y2="334" stroke="#e6ecf1" stroke-width="1"/>
+<text x="761.9" y="74" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#6b7887">ago</text>
+<line x1="853.4" y1="80" x2="853.4" y2="334" stroke="#e6ecf1" stroke-width="1"/>
+<text x="857.4" y="74" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#6b7887">set</text>
+<line x1="945.9" y1="80" x2="945.9" y2="334" stroke="#e6ecf1" stroke-width="1"/>
+<text x="949.9" y="74" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#6b7887">out</text>
+<line x1="1041.4" y1="80" x2="1041.4" y2="334" stroke="#e6ecf1" stroke-width="1"/>
+<text x="1045.4" y="74" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#6b7887">nov</text>
+<line x1="1133.8" y1="80" x2="1133.8" y2="334" stroke="#e6ecf1" stroke-width="1"/>
+<text x="1137.8" y="74" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#6b7887">dez</text>
+<text x="254" y="118" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="600" text-anchor="end" fill="#1b2430">Fundamentacao e Concepcao</text>
+<rect x="268.0" y="104" width="508.4" height="20" rx="4" fill="#8aa3b8" opacity="0.28"/>
+<rect x="268.0" y="104" width="508.4" height="20" rx="4" fill="#8aa3b8"/>
+<text x="784.4" y="118" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#5a6b7b">100%</text>
+<text x="254" y="164" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="600" text-anchor="end" fill="#1b2430">CP1 - Escopo, Requisitos e Casos …</text>
+<rect x="810.3" y="150" width="49.3" height="20" rx="4" fill="#0f6f5c" opacity="0.28"/>
+<rect x="810.3" y="150" width="17.3" height="20" rx="4" fill="#0f6f5c"/>
+<text x="867.6" y="164" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#5a6b7b">35%</text>
+<text x="254" y="210" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="600" text-anchor="end" fill="#1b2430">CP2 - Modelagem e Prototipacao</text>
+<rect x="862.7" y="196" width="43.1" height="20" rx="4" fill="#2f8f76" opacity="0.28"/>
+<rect x="862.7" y="196" width="2.0" height="20" rx="4" fill="#2f8f76"/>
+<text x="913.8" y="210" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#5a6b7b">0%</text>
+<text x="254" y="256" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="600" text-anchor="end" fill="#1b2430">CP3 - Backend REST com TDD</text>
+<rect x="905.8" y="242" width="107.8" height="20" rx="4" fill="#d9a441" opacity="0.28"/>
+<rect x="905.8" y="242" width="2.0" height="20" rx="4" fill="#d9a441"/>
+<text x="1021.7" y="256" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#5a6b7b">0%</text>
+<text x="254" y="302" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" font-weight="600" text-anchor="end" fill="#1b2430">CP4 - Frontend Web, Mobile e Entr…</text>
+<rect x="1013.7" y="288" width="126.3" height="20" rx="4" fill="#b5651d" opacity="0.28"/>
+<rect x="1013.7" y="288" width="2.0" height="20" rx="4" fill="#b5651d"/>
+<text x="1148.0" y="302" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#5a6b7b">0%</text>
+<polygon points="859.6042402826855,335 866.6042402826855,342 859.6042402826855,349 852.6042402826855,342" fill="#b5651d"/>
+<text x="859.6" y="366" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle" fill="#8a4a12">CP1</text>
+<text x="859.6" y="378" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="8.5" text-anchor="middle" fill="#6b7887">03/09</text>
+<polygon points="902.7420494699646,335 909.7420494699646,342 902.7420494699646,349 895.7420494699646,342" fill="#b5651d"/>
+<text x="902.7" y="366" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle" fill="#8a4a12">CP2</text>
+<text x="902.7" y="378" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="8.5" text-anchor="middle" fill="#6b7887">17/09</text>
+<polygon points="1010.5865724381625,335 1017.5865724381625,342 1010.5865724381625,349 1003.5865724381625,342" fill="#b5651d"/>
+<text x="1010.6" y="366" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle" fill="#8a4a12">CP3</text>
+<text x="1010.6" y="378" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="8.5" text-anchor="middle" fill="#6b7887">22/10</text>
+<polygon points="1140.0,335 1147.0,342 1140.0,349 1133.0,342" fill="#b5651d"/>
+<text x="1140.0" y="366" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle" fill="#8a4a12">CP4</text>
+<text x="1140.0" y="378" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="8.5" text-anchor="middle" fill="#6b7887">03/12</text>
+<line x1="828.8" y1="80" x2="828.8" y2="330" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="5 4"/>
+<text x="828.8" y="66" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle" fill="#c0392b">hoje</text>
+<text x="268" y="428" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9" fill="#8a97a5">Barra clara = duração planejada · barra sólida = percentual concluído · losango = checkpoint avaliativo</text></svg>
