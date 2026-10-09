@@ -2,14 +2,6 @@
 
 Este documento contém a especificação dos casos de uso, descrevendo as interações entre os atores e o sistema em aderência estrita aos requisitos e diagramas estabelecidos.
 
-<<<<<<< HEAD
-=======
-## Regras Transversais
-
-**Regra de Auditoria Geral:**
-Operações executadas com sucesso ou tentativas de operações sensíveis (incluindo falhas de autenticação e acessos negados) devem gerar registro no Log de Auditoria. Esta regra se aplica transversalmente a todos os casos de uso operacionais e administrativos abaixo.
-
->>>>>>> e217f45e01ed74ee54a7c834faeb5061dee4afc3
 ## ACC-01 - Cadastrar-se na plataforma
 
 **Objetivo:**
@@ -28,13 +20,15 @@ Visitante submete formulário de cadastro.
 1. Visitante acessa tela de cadastro.
 2. Informa dados básicos, como e-mail, senha e CPF/CNPJ.
 3. Sistema valida matematicamente o CPF/CNPJ.
-4. Sistema submete os dados ao processo automatizado de KYC.
+4. Sistema cria a conta com `status = PENDENTE` e `status_abertura = PENDENTE_KYC`.
+5. Sistema submete os dados ao processo automatizado de KYC.
 
 **Fluxos alternativos/exceções:**
 - CPF/CNPJ inválido matematicamente: sistema recusa a entrada.
+- Conta ou documento já existente: sistema não cria nova conta.
 
 **Pós-condições:**
-A conta passa pela análise de KYC.
+A conta passa pela análise de KYC e permanece sem movimentação até sua aprovação.
 
 **Requisitos relacionados:**
 RF01, RF10
@@ -58,11 +52,14 @@ Solicitação de cadastro recebida.
 Envio dos dados de cadastro.
 
 **Fluxo principal:**
-1. Sistema processa os dados recebidos pelo KYC.
+1. Sistema processa os dados recebidos pelo KYC e muda `status_abertura` para `EM_ANALISE`.
 2. Sistema avalia o cadastro e decide entre aprovação e reprovação.
+3. Em aprovação, grava `status_abertura = APROVADA` e `status = ATIVA` na mesma transação.
+4. Em reprovação, grava `status_abertura = REPROVADA` e mantém a conta não operacional.
+5. A transição é registrada em `logs_auditoria`.
 
 **Pós-condições:**
-O status da conta é atualizado.
+O status da abertura e o status operacional da conta estão coerentes.
 
 **Requisitos relacionados:**
 RF01
@@ -86,12 +83,14 @@ O cliente passou pela análise de KYC.
 Acesso à fila de cadastros.
 
 **Fluxo principal:**
-1. Analista seleciona um cadastro.
+1. Analista seleciona um cadastro com `status_abertura = EM_ANALISE`.
 2. Visualiza a análise do KYC.
 3. Confirma a aprovação ou reprovação da conta.
+4. O sistema grava a transição de `status_abertura` e o novo `status` operacional.
+5. A alteração é registrada na trilha de auditoria.
 
 **Pós-condições:**
-A conta é ativada ou recusada.
+A conta fica `ATIVA` quando aprovada ou permanece não operacional quando recusada.
 
 **Requisitos relacionados:**
 RF01, RF09
@@ -246,17 +245,23 @@ Cliente autenticado.
 Acesso ao aviso de viagem.
 
 **Fluxo principal:**
-1. Cliente seleciona o destino e o intervalo de datas.
-2. Sistema registra o aviso de viagem associado à conta.
+1. Cliente seleciona um cartão ativo, o destino, as localidades e o intervalo de datas.
+2. Sistema confirma que o cartão pertence à conta autenticada.
+3. Sistema registra o aviso em `avisos_viagem` com `cartao_id`, `conta_id` e `status = AGENDADO`.
+4. Na data de início, o aviso passa a `ATIVO`; ao final, passa a `ENCERRADO`.
+
+**Fluxos alternativos/exceções:**
+- Cartão não pertence à conta: sistema recusa o cadastro.
+- Data final anterior à inicial: sistema recusa o período.
 
 **Pós-condições:**
-A localização é considerada válida pelo sistema.
+A localização é considerada válida somente para o cartão vinculado, no período e localidades declarados.
 
 **Requisitos relacionados:**
-RF05
+RF05, RF24
 
 **Regras de negócio relacionadas:**
-RN31
+RN31, RN44
 
 
 ## ACC-10 - Bloquear/desbloquear a própria conta
@@ -364,20 +369,24 @@ Cliente preenche dados de transferência.
 2. Sistema exibe a tela de confirmação do favorecido.
 3. Cliente confirma.
 4. Sistema verifica o saldo disponível.
-5. Sistema submete os dados à análise de risco.
-6. Sistema efetua a transferência.
+5. Sistema verifica a chave Pix ativa da conta de origem e seleciona o limite aplicável.
+6. Sistema reserva o consumo diário da conta na janela diurna/noturna.
+7. Sistema submete os dados à análise de risco.
+8. Sistema efetua a transferência e converte a reserva em uso.
 
 **Fluxos alternativos/exceções:**
-- Saldo disponível insuficiente: Operação não avança.
+- Saldo disponível insuficiente: operação não avança.
+- Sem chave Pix ativa: aplicar `limite_sem_chave_*`; se o teto for zero ou excedido, operação é recusada.
+- Limite de valor, quantidade ou janela excedido: operação é recusada sem duplicar o consumo.
 
 **Pós-condições:**
-Transferência realizada.
+Transferência realizada, ou reserva liberada em caso de falha/cancelamento.
 
 **Requisitos relacionados:**
-RF03, RF05
+RF03, RF05, RF23
 
 **Regras de negócio relacionadas:**
-RN27, RN32
+RN27, RN42, RN43, RN32
 
 
 ## MOV-04 - Analisar risco da transação
@@ -395,19 +404,21 @@ Transação submetida.
 Efetivação de transferência ou pagamento.
 
 **Fluxo principal:**
-1. Sistema verifica se o valor e a quantidade respeitam os limites diários e por operação.
-2. Sistema verifica a incidência de horário noturno para redução de limites.
-3. Sistema verifica a divergência de localidade contra o aviso de viagem.
-4. Se o risco for elevado, o sistema exige verificação via 2FA.
+1. Sistema verifica se existe chave Pix `ATIVA` na conta de origem.
+2. Sistema escolhe `DIURNA` ou `NOTURNA` conforme o horário local.
+3. Sistema verifica se valor, quantidade e reservas respeitam `limites_pix` e `consumos_limites_pix`.
+4. Sem chave ativa, aplica os campos `limite_sem_chave_por_transacao` e `limite_sem_chave_diario`.
+5. Sistema verifica a divergência de localidade contra o aviso de viagem do cartão utilizado.
+6. Se o risco for elevado, o sistema exige verificação via 2FA ou retém a operação.
 
 **Pós-condições:**
-Operação é aprovada ou retida.
+Operação é aprovada, retida ou recusada com a reserva liberada.
 
 **Requisitos relacionados:**
-RF05
+RF05, RF23, RF24
 
 **Regras de negócio relacionadas:**
-RN28, RN29, RN30, RN31, RN32
+RN28, RN29, RN30, RN31, RN32, RN42, RN43, RN44
 
 
 ## MOV-05 - Transferir entre contas Fluxo
@@ -455,15 +466,26 @@ Cliente autenticado.
 Opção de agendamento selecionada.
 
 **Fluxo principal:**
-1. Cliente informa a data futura desejada.
-2. Sistema grava o agendamento da operação.
-3. Sistema gera comprovante único de agendamento.
+1. Cliente informa a data/hora futura, a operação e o payload.
+2. Sistema cria `agendamentos` com `status = PENDENTE_VALIDACAO` e uma chave de idempotência.
+3. Após validar saldo, limites e dados do favorecido, muda o registro para `AGENDADO`.
+4. Sistema gera comprovante único de agendamento.
+5. Worker captura o registro com lock, muda para `EM_PROCESSAMENTO` e executa a transação uma única vez.
+6. Em sucesso grava `transacao_id`, `executado_em` e `status = EXECUTADO`; em falha grava tentativas e motivo.
+
+**Fluxos alternativos/exceções:**
+- Cliente cancela antes da execução: `status = CANCELADO`.
+- Data/hora vencida sem possibilidade de execução: `status = EXPIRADO`.
+- Falha recuperável: permanece/retorna a `AGENDADO` até o limite de tentativas.
 
 **Pós-condições:**
-Operação programada.
+Operação programada com status rastreável.
 
 **Requisitos relacionados:**
-RF06
+RF06, RF25
+
+**Regras de negócio relacionadas:**
+RN45
 
 
 ## MOV-07 - Depositar via Pix/boleto
@@ -535,19 +557,19 @@ Cliente autenticado.
 Acesso às configurações de limite.
 
 **Fluxo principal:**
-1. Cliente visualiza limites de valor por transação e limite diário.
+1. Cliente visualiza limites diurnos, noturnos, por quantidade e os limites aplicáveis sem chave.
 2. Cliente solicita alteração de limites.
-3. Sistema verifica se o valor respeita o teto máximo da instituição.
-4. Limites são atualizados.
+3. Sistema verifica se os valores respeitam o teto máximo da instituição e não reduzem abaixo do consumo reservado.
+4. Limites são atualizados em `limites_pix`, com vigência e auditoria.
 
 **Pós-condições:**
-Limites salvos.
+Limites salvos e prontos para seleção por horário/chave ativa.
 
 **Requisitos relacionados:**
-RF14
+RF14, RF23
 
 **Regras de negócio relacionadas:**
-RN28, RN29
+RN28, RN29, RN30, RN42, RN43
 
 
 ## CRT-01 - Solicitar cartão físico (Débito ou Crédito)
@@ -567,13 +589,17 @@ Solicitação de cartão físico.
 **Fluxo principal:**
 1. Cliente solicita a emissão do cartão físico.
 2. Sistema registra a solicitação e providencia a emissão.
-3. Cartão é criado no sistema.
+3. Cartão é criado em `cartoes` e `cartoes_fisicos`.
+4. Sistema grava `permite_compras_online = false` por padrão; o cliente pode habilitar depois.
 
 **Pós-condições:**
-Cartão físico registrado.
+Cartão físico registrado com política de compras on-line explícita.
 
 **Requisitos relacionados:**
-RF07
+RF07, RF20
+
+**Regras de negócio relacionadas:**
+RN39
 
 
 ## CRT-02 - Gerar cartão virtual a partir do físico
@@ -591,18 +617,22 @@ Cartão físico da modalidade correspondente ativo.
 Solicitação de cartão virtual.
 
 **Fluxo principal:**
-1. Sistema verifica a existência de cartão físico ativo correspondente à mesma modalidade.
-2. Sistema gera os dados do cartão virtual.
-3. Cartão virtual é disponibilizado ao cliente.
+1. Sistema verifica a existência de cartão físico `ATIVO` correspondente à mesma modalidade e conta.
+2. Sistema cria uma nova instância em `cartoes` com o mesmo `conta_id`.
+3. Sistema cria `cartoes_virtuais` apontando para o novo cartão e para `cartao_fisico_id`.
+4. Cartão virtual é disponibilizado ao cliente.
+
+**Fluxos alternativos/exceções:**
+- Físico bloqueado, cancelado ou pertencente a outra conta: geração recusada.
 
 **Pós-condições:**
-Cartão virtual gerado.
+Cartão virtual gerado, vinculado à conta e ao físico de origem.
 
 **Requisitos relacionados:**
-RF07, RF12
+RF07, RF12, RF19
 
 **Regras de negócio relacionadas:**
-RN33
+RN33, RN38
 
 
 ## CRT-03 - Bloquear/desbloquear cartão
@@ -674,13 +704,22 @@ Recebimento da autorização.
 **Fluxo principal:**
 1. Sistema recebe os dados da compra associados ao cartão.
 2. Verifica se o cartão está bloqueado e se há limite.
-3. Responde autorizando ou negando o pedido.
+3. Se o canal for `ONLINE` e o cartão de origem for físico, verifica `permite_compras_online`.
+4. Registra a decisão e a compra na trilha de auditoria.
+5. Responde autorizando ou negando o pedido.
+
+**Fluxos alternativos/exceções:**
+- Flag on-line desligada: compra negada sem lançamento financeiro.
+- Cartão bloqueado ou limite insuficiente: compra negada.
 
 **Pós-condições:**
-Transação validada.
+Transação validada e decisão auditável.
 
 **Requisitos relacionados:**
-RF07
+RF07, RF20, RF22
+
+**Regras de negócio relacionadas:**
+RN39, RN41
 
 
 ## CRT-06 - Consultar fatura
@@ -756,6 +795,40 @@ Contestação resolvida.
 
 **Requisitos relacionados:**
 RF07, RF09
+
+
+## CRT-09 - Consultar assinaturas identificadas no cartão
+
+**Objetivo:**
+Listar as assinaturas recorrentes detectadas a partir das compras de um cartão.
+
+**Ator principal:**
+Cliente
+
+**Pré-condições:**
+Cliente autenticado e cartão pertencente à conta.
+
+**Gatilho:**
+Cliente acessa a área de assinaturas do cartão.
+
+**Fluxo principal:**
+1. Cliente seleciona um cartão físico ou virtual.
+2. Sistema consulta `assinaturas_cartao` filtrando por `cartao_id` e `conta_id`.
+3. Sistema exibe estabelecimento, periodicidade, valor estimado, última/próxima cobrança e status.
+4. O evento de consulta é registrado como `CONSULTA` na trilha.
+
+**Fluxos alternativos/exceções:**
+- Cartão de outra conta: sistema retorna `403` e não expõe dados.
+- Nenhuma recorrência identificada: sistema exibe lista vazia, sem criar assinatura do Fluxo.
+
+**Pós-condições:**
+Consulta apresentada sem alterar transações ou a contratação de planos próprios.
+
+**Requisitos relacionados:**
+RF21, RF22
+
+**Regras de negócio relacionadas:**
+RN40, RN41
 
 
 ## ASS-01 - Contratar plano/assinatura
@@ -1069,14 +1142,18 @@ Pagamento realizado.
 Seleção da recorrência.
 
 **Fluxo principal:**
-1. Cliente indica a repetição.
-2. Sistema grava a intenção de pagamentos automáticos.
+1. Cliente indica a repetição e a data da próxima execução.
+2. Sistema grava `agendamentos` com `recorrente = true`, `frequencia` e `status = AGENDADO`.
+3. Cada ciclo cria uma transação idempotente e atualiza `proxima_execucao`.
 
 **Pós-condições:**
-Pagamentos futuros registrados.
+Pagamentos futuros registrados com status individual por execução.
 
 **Requisitos relacionados:**
-RF08
+RF08, RF25
+
+**Regras de negócio relacionadas:**
+RN45
 
 
 ## PAG-05 - Liquidar cobrança emitida
@@ -1169,15 +1246,19 @@ Execução de requisições ou alterações.
 Processamento de rotina.
 
 **Fluxo principal:**
-1. O middleware grava os dados das requisições.
-2. Os triggers do banco de dados salvam as alterações de estado, armazenando o estado anterior (OLD) e o novo (NEW).
-3. O evento de log e banco de dados é salvo estruturalmente como append-only.
+1. O middleware cria o contexto `request_id`, usuário, IP e User-Agent, mascarando senha, token e CVV.
+2. Para `INSERT`, `UPDATE` e `DELETE`, os triggers PostgreSQL salvam `OLD`, `NEW` e `diff` sanitizados em `logs_auditoria`.
+3. Para login/logout e leituras de saldo, extrato, fatura e auditoria, o `AuditoriaService` salva evento `ACESSO` ou `CONSULTA`.
+4. O trigger append-only rejeita `UPDATE` e `DELETE` na própria trilha.
 
 **Pós-condições:**
-Registro salvo em trilha.
+Registro de alteração ou consulta salvo em trilha imutável e correlacionado à requisição.
 
 **Requisitos relacionados:**
-RF-SEG01, RF-SEG02, RF-SEG03, RF-SEG04
+RF-SEG01, RF-SEG02, RF-SEG03, RF-SEG04, RF22
+
+**Regras de negócio relacionadas:**
+RN41
 
 
 ## ADM-03 - Bloquear conta (fraude/decisão interna)

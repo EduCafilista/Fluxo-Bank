@@ -1,0 +1,57 @@
+%% Classes adicionadas — revisão 4.0
+classDiagram
+    class Conta {
+      +status: StatusConta
+      +statusAbertura: StatusAbertura
+    }
+    class Cartao {
+      +contaId: UUID
+      +modalidade: Modalidade
+      +status: StatusCartao
+    }
+    class CartaoFisico {
+      +permiteComprasOnline: bool = false
+    }
+    class CartaoVirtual {
+      +cartaoFisicoId: UUID
+      +geradoEm: datetime
+    }
+    class LimitePix {
+      +limiteDiario: decimal
+      +limiteNoturnoDiario: decimal
+      +limiteSemChaveDiario: decimal
+    }
+    class ConsumoLimitePix {
+      +dataReferencia: date
+      +janela: DIURNA|NOTURNA
+      +valorReservado: decimal
+    }
+    class AvisoViagem {
+      +cartaoId: UUID
+      +dataInicio: date
+      +dataFim: date
+    }
+    class AssinaturaCartao {
+      +nomeEstabelecimento: string
+      +periodicidade: string
+      +status: string
+    }
+    class Agendamento {
+      +status: StatusAgendamento
+      +chaveIdempotencia: string
+    }
+    class LogAuditoria {
+      +antes: JSONB
+      +depois: JSONB
+      +diff: JSONB
+      +appendOnly()
+    }
+    Conta "1" --> "0..*" Cartao
+    Cartao "1" --> "1" CartaoFisico
+    Cartao "1" --> "0..1" CartaoVirtual
+    CartaoFisico "1" --> "0..1" CartaoVirtual : origina
+    Conta "1" --> "0..*" LimitePix
+    LimitePix "1" --> "0..*" ConsumoLimitePix
+    Cartao "1" --> "0..*" AvisoViagem
+    Cartao "1" --> "0..*" AssinaturaCartao
+    Conta "1" --> "0..*" Agendamento

@@ -21,7 +21,7 @@
 | 3 | Cartões | Cliente, Bandeira/Adquirente, Analista de Backoffice | `diagramas/ucd-03-cartoes.svg` |
 | 4 | Assinaturas e Planos | Cliente, Motor de Cobrança | `diagramas/ucd-04-assinaturas.svg` |
 | 5 | Pagamentos e Cobranças | Cliente, Pagador externo, Registradora, Motor de Notificações | `diagramas/ucd-05-pagamentos.svg` |
-| 6 | Administração, Segurança e Suporte | Administrador, Analista de Suporte, Auditor, Cliente | `diagramas/ucd-06-administracao.svg` |
+| 6 | Administração, Segurança e Suporte | Administrador, Analista de Suporte, Auditor, Cliente | `diagramas/ucd-07-administracao.svg` |
 
 ---
 
@@ -144,7 +144,7 @@
 
 ## 9. Diagrama 6 — Administração, Segurança e Suporte
 
-![Diagrama de casos de uso 6 — Administração, Segurança e Suporte](diagramas/ucd-06-administracao.svg)
+![Diagrama de casos de uso 6 — Administração, Segurança e Suporte](diagramas/ucd-07-administracao.svg)
 
 | ID | Caso de uso | Ator principal | Resumo |
 |---|---|---|---|
@@ -161,20 +161,37 @@
 
 ---
 
-## 10. Rastreabilidade caso de uso × requisito
+## 10. Extensões da revisão 4.0
+
+![UCD-08 — Controles operacionais](diagramas/ucd-08-controles-operacionais.svg)
+
+| ID | Caso de uso | Ator principal | Resumo |
+|---|---|---|---|
+| ACC-01/02/03 | Abrir conta com status | Visitante, KYC, Backoffice | `status_abertura` percorre KYC; somente aprovação muda `status` para `ATIVA`. |
+| MOV-03/04 | Transferir sem chave e por janela | Cliente, Motor Antifraude | Consulta `chaves_pix.status`, seleciona limite diurno/noturno/sem chave e reserva consumo. |
+| MOV-06/PAG-04 | Executar agendamento com status | Cliente, Worker | `PENDENTE_VALIDACAO` → `AGENDADO` → `EM_PROCESSAMENTO` → resultado, com idempotência. |
+| CRT-02 | Gerar virtual vinculado | Cliente | Cria instância em `cartoes`, com `conta_id` e origem física ativa. |
+| CRT-05 | Autorizar compra on-line | Bandeira/Adquirente | Exige `cartoes_fisicos.permite_compras_online = true` no canal on-line. |
+| CRT-09 | Consultar assinaturas do cartão | Cliente | Consulta `assinaturas_cartao`; não altera `assinaturas` de planos Fluxo. |
+| ACC-09 | Registrar aviso por cartão | Cliente | `avisos_viagem.cartao_id` restringe o efeito do aviso ao cartão escolhido. |
+| ADM-02 | Auditar alteração de banco | Sistema/Auditor | Trigger registra OLD/NEW/DIFF; middleware registra ACESSO/CONSULTA. |
+
+**Relações adicionais:** MOV-03 `«include»` MOV-04 e consumo de limite; CRT-02 `«include»` validação do físico; CRT-05 `«include»` política on-line; CRT-09 `«include»` consulta auditada; MOV-06 `«include»` máquina de estados do agendamento.
+
+## 11. Rastreabilidade caso de uso × requisito
 
 | Diagrama | Casos de uso | Requisitos |
 |:---:|---|---|
-| 1 — Acesso e Conta | ACC-01 a ACC-10 | RF01, RF02, RF10, RF13, RF17, RN31, RN34, RN35 |
-| 2 — Movimentações | MOV-01 a MOV-09 | RF03, RF04, RF05, RF06, RF14, RN27–RN30 |
-| 3 — Cartões | CRT-01 a CRT-08 | RF07, RF12, RN33 |
+| 1 — Acesso e Conta | ACC-01 a ACC-10 | RF01, RF02, RF10, RF13, RF17, RF18, RF24, RN31, RN34, RN35, RN37, RN44 |
+| 2 — Movimentações | MOV-01 a MOV-09 | RF03, RF04, RF05, RF06, RF14, RF23, RF25, RN27–RN30, RN42–RN43 |
+| 3 — Cartões | CRT-01 a CRT-09 | RF07, RF12, RF19–RF21, RF24, RN33, RN38–RN40, RN44 |
 | 4 — Assinaturas | ASS-01 a ASS-08 | Módulo de Cartões e Assinaturas (Escopo 4.1) |
 | 5 — Pagamentos | PAG-01 a PAG-06 | RF08, RF15, RN36 |
-| 6 — Administração | ADM-01 a ADM-08 | RF09, RF-SEG01–04 |
+| 6 — Administração | ADM-01 a ADM-08 | RF09, RF22, RF-SEG01–04, RN41 |
 
 ---
 
-## 11. Como este diagrama deve ser produzido
+## 12. Como este diagrama deve ser produzido
 
 Manter o padrão adotado nos demais artefatos: geração por script a partir da descrição de atores/casos de uso, garantindo estilo consistente e regeneração automática quando um requisito mudar.
 
@@ -185,3 +202,4 @@ Manter o padrão adotado nos demais artefatos: geração por script a partir da 
 | 1.0 | 31/08/2026 | Versão inicial (5 diagramas, numeração 1/3/4/5/7) |
 | 2.0 | 10/09/2026 | Conflito de merge resolvido; diagramas renumerados 1–6; Diagrama 4 — Assinaturas e Planos adicionado |
 | 3.0 | 10/09/2026 | Adicionados ACC-09/ACC-10 (viagem, bloqueio), MOV-09 (limites do Pix); reordenado o módulo de Cartões (físico antes do virtual, RN33); detalhado PAG-03 (geração de QR Code); Cliente esclarecido como PF/PJ |
+| 4.0 | 08/10/2026 | Status da conta, limites sem chave e por janela, cartão virtual com conta/físico, flag de compra on-line, consulta de assinaturas do cartão, auditoria em duas camadas, aviso por cartão e agendamento com estados persistidos |

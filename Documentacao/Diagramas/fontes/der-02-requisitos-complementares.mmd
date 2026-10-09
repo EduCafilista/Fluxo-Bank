@@ -1,0 +1,16 @@
+%% DER complementar — revisão 4.0
+erDiagram
+    CONTAS ||--o{ CARTOES : emite
+    CARTOES ||--|| CARTOES_FISICOS : possui
+    CARTOES ||--o| CARTOES_VIRTUAIS : possui
+    CARTOES_FISICOS ||--o| CARTOES_VIRTUAIS : origina
+    CONTAS ||--o{ LIMITES_PIX : configura
+    LIMITES_PIX ||--o{ CONSUMOS_LIMITES_PIX : mede
+    CONTAS ||--o{ AVISOS_VIAGEM : escopa
+    CARTOES ||--o{ AVISOS_VIAGEM : recebe
+    CARTOES ||--o{ ASSINATURAS_CARTAO : origina
+    CONTAS ||--o{ ASSINATURAS_CARTAO : consulta
+    TRANSACOES ||--o{ ASSINATURAS_CARTAO : detecta
+    CONTAS ||--o{ AGENDAMENTOS : programa
+    TRANSACOES ||--o{ AGENDAMENTOS : efetiva
+    TODAS_AS_TABELAS ||--o{ LOGS_AUDITORIA : audita

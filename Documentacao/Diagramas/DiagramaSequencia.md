@@ -9,7 +9,7 @@
 | External | `«external»` (sistema simulado) | Síncrona / Retorno | Seta fechada cheia / seta aberta tracejada |
 | Fragmento | Retângulo `alt`/`loop` com guarda entre colchetes |
 
-Foram modelados **8 diagramas**, cobrindo os fluxos de maior risco (dinheiro, identidade, segurança), o ciclo de assinatura e a geração de QR Code.
+Foram modelados **10 diagramas**, cobrindo os fluxos de maior risco (dinheiro, identidade, segurança), o ciclo de assinatura, a geração de QR Code e os controles operacionais da revisão 4.0.
 
 | ID | Diagrama | Fluxo | Requisitos | Imagem |
 |---|---|---|---|---|
@@ -21,6 +21,8 @@ Foram modelados **8 diagramas**, cobrindo os fluxos de maior risco (dinheiro, id
 | SEQ-06 | Trilha de auditoria | Registro (escrita) → consulta (leitura) | RF-SEG01–04, RF09 | `diagramas/seq-06-trilha-auditoria.svg` |
 | SEQ-07 | Assinatura — contratação e retirada de item | Contratação → inclusão/retirada → cobrança | RN22, RN23 | `diagramas/seq-07-assinatura.svg` |
 | SEQ-08 | **Geração de QR Code Pix** *(novo)* | Cliente emite cobrança → payload EMV → imagem QR | RF15, RN36 | `diagramas/seq-08-qrcode-pix.svg` |
+| SEQ-09 | **Limites Pix e agendamento** *(novo)* | Chave/status → janela → reserva → worker → execução | RF23, RF25, RN42–RN45 | `diagramas/seq-09-limites-agendamento.svg` |
+| SEQ-10 | **Auditoria de alterações do banco** *(novo)* | Contexto HTTP → trigger OLD/NEW/DIFF → trilha append-only | RF22, RF-SEG01–04, RN41 | `diagramas/seq-10-auditoria-banco.svg` |
 
 ---
 
@@ -109,9 +111,9 @@ Foram modelados **8 diagramas**, cobrindo os fluxos de maior risco (dinheiro, id
 **Participantes:** Usuário interno · Portal Admin · AdminController · Serviço de domínio · PostgreSQL · AuditoriaService
 
 **Pontos-chave:**
-1. Escrita desacoplada: gravação feita por job em fila (não penaliza a operação de negócio).
+1. Alterações de estado entram na mesma transação por trigger PostgreSQL; eventos de leitura podem ser enfileirados pelo `AuditoriaService`.
 2. **Todo tipo de operação é registrado** — `ACESSO` (login/logout), `CONSULTA` (leitura) e `MOVIMENTACAO` (RF-SEG04) — não só escritas financeiras.
-3. Hash encadeado (SHA-256 do registro anterior) detecta remoção/adulteração.
+3. Hash encadeado do registro anterior fornece evidência de remoção/adulteração.
 4. Trigger no PostgreSQL bloqueia `UPDATE`/`DELETE` (append-only).
 5. A própria consulta é auditada (`AUDITORIA_CONSULTADA`); acesso restrito a `AUDITOR`/`ADMINISTRADOR`.
 
@@ -149,24 +151,55 @@ Foram modelados **8 diagramas**, cobrindo os fluxos de maior risco (dinheiro, id
 
 ---
 
-## 10. Rastreabilidade requisito × diagrama de sequência
+## 10. SEQ-09 — Limites Pix e execução de agendamento
 
-| Requisito | SEQ-01 | SEQ-02 | SEQ-03 | SEQ-04 | SEQ-05 | SEQ-06 | SEQ-07 | SEQ-08 |
-|---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| RF01 (cadastro/KYC) | ✅ | | | | | | | |
-| RF02, RF17 (login/2FA/token) | | ✅ | | ✅ | | | | |
-| RF04, RF05 (Pix) | | | ✅ | | | | | |
-| RF07 (retirada) | | | | ✅ | | | | |
-| RF08 (boleto) | | | | | ✅ | | | |
-| RF09, RF-SEG01–04 (auditoria) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| RN22, RN23 (assinatura) | | | | | | | ✅ | |
-| RN27–RN32 (antifraude Pix) | | | ✅ | | | | | |
-| RF15, RN36 (QR Code) | | | | | | | | ✅ |
-| RNF ACID / idempotência | | | ✅ | ✅ | ✅ | | ✅ | ✅ |
+![SEQ-09 — Limites Pix e agendamento](diagramas/seq-09-limites-agendamento.svg)
+
+**Participantes:** Cliente · App/Web · PixController · MotorAntifraude · PostgreSQL · Worker de Agendamento · Auditoria
+
+**Pontos-chave:**
+1. A API carrega a política ativa em `limites_pix` e verifica se há chave Pix `ATIVA` na conta de origem.
+2. O motor seleciona `DIURNA` ou `NOTURNA`; sem chave, aplica o menor teto entre a janela e `limite_sem_chave_*`.
+3. A reserva é feita em `consumos_limites_pix` com lock transacional. Excesso de valor/quantidade encerra a operação sem débito.
+4. Para uma operação futura, `agendamentos` nasce `PENDENTE_VALIDACAO`, muda para `AGENDADO` e recebe uma chave de idempotência.
+5. O worker captura somente registros vencidos `AGENDADO`, muda para `EM_PROCESSAMENTO` e cria a transação uma única vez.
+6. O final é `EXECUTADO`, `FALHOU`, `CANCELADO` ou `EXPIRADO`; a reserva é convertida em uso ou devolvida.
+
+**Fragmentos `alt`:** sem chave e limite zero → `LIMITE_EXCEDIDO` · duas requisições para o mesmo agendamento → uma obtém lock e a outra não executa · falha recuperável → retentativa com contador.
+
+## 11. SEQ-10 — Auditoria de alterações do banco
+
+![SEQ-10 — Auditoria de alterações do banco](diagramas/seq-10-auditoria-banco.svg)
+
+**Participantes:** Cliente/Backoffice · Middleware · Serviço de domínio · PostgreSQL · Trigger de auditoria · `logs_auditoria` · AuditoriaService
+
+**Pontos-chave:**
+1. O middleware gera `request_id`, captura usuário/IP/User-Agent, mascara payload e define variáveis `SET LOCAL app.*` dentro da transação.
+2. O serviço executa a alteração normalmente; o trigger observa `INSERT`, `UPDATE` ou `DELETE` nas tabelas de domínio.
+3. O trigger sanitiza `OLD`/`NEW`, calcula `diff`, hash encadeado e insere um registro na mesma transação.
+4. Login/logout, leituras e consulta da trilha são registrados pelo `AuditoriaService` como `ACESSO`/`CONSULTA`, pois não geram trigger de escrita.
+5. Qualquer `UPDATE`/`DELETE` em `logs_auditoria` é rejeitado pelo trigger append-only.
+
+**Fragmento `alt`:** operação financeira falha → rollback inclui a alteração e seu log · payload contém senha/token/CVV → campos são removidos antes da persistência · auditor sem permissão de escrita → consulta somente leitura é auditada.
+
+## 12. Rastreabilidade requisito × diagrama de sequência
+
+| Requisito | SEQ-01 | SEQ-02 | SEQ-03 | SEQ-04 | SEQ-05 | SEQ-06 | SEQ-07 | SEQ-08 | SEQ-09 | SEQ-10 |
+|---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| RF01/RF18 (cadastro/status) | ✅ | | | | | | | | | |
+| RF02, RF17 (login/2FA/token) | | ✅ | | ✅ | | | | | | ✅ |
+| RF04, RF05, RF23 (Pix/limites) | | | ✅ | | | | | | ✅ | |
+| RF06/RF25 (agendamento) | | | ✅ | | | | | | ✅ | |
+| RF07, RF19, RF20 (cartões) | | | | | | | | | | ✅ |
+| RF09, RF22, RF-SEG01–04 (auditoria) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| RF21 (assinatura do cartão) | | | | | | | ✅ | | | |
+| RF15, RN36 (QR Code) | | | | | | | | ✅ | | |
+| RN27–RN32/RN42–RN44 (antifraude) | | | ✅ | | | | | | ✅ | |
+| RNF ACID / idempotência | | | ✅ | ✅ | ✅ | | ✅ | ✅ | ✅ | ✅ |
 
 ---
 
-## 11. Como estes diagramas são produzidos
+## 13. Como estes diagramas são produzidos
 
 Gerados por script (`scripts/gen_seq.py`) a partir da descrição de participantes e mensagens — layout recalculado a cada alteração de requisito, mantendo estilo consistente entre todos os diagramas do projeto.
 
@@ -177,3 +210,4 @@ Gerados por script (`scripts/gen_seq.py`) a partir da descrição de participant
 | 1.0 | 31/08/2026 | Versão inicial com 6 diagramas |
 | 2.0 | 10/09/2026 | Texto condensado; SEQ-07 — Assinatura adicionado |
 | 3.0 | 10/09/2026 | SEQ-03 detalhado com saldo e antifraude expandido (RN27–RN32); **SEQ-08 — Geração de QR Code Pix** adicionado; SEQ-02 e SEQ-06 ajustados (token, log de todo tipo de operação) |
+| 4.0 | 08/10/2026 | **SEQ-09 — Limites Pix e execução de agendamento** e **SEQ-10 — Auditoria de alterações do banco** adicionados. |

@@ -1,0 +1,20 @@
+%% Auditoria de alterações — revisão 4.0
+sequenceDiagram
+    actor Ator
+    participant MW as Middleware
+    participant S as Serviço
+    participant DB as PostgreSQL
+    participant T as Trigger
+    participant L as logs_auditoria
+    participant Q as AuditoriaService
+    Ator->>MW: requisição
+    MW->>DB: SET LOCAL app.*
+    MW->>S: delega operação
+    S->>DB: INSERT/UPDATE/DELETE
+    DB->>T: OLD/NEW
+    T->>T: sanitiza e calcula diff/hash
+    T->>L: append INSERT
+    L-->>DB: commit junto da operação
+    MW->>Q: login/leitura/consulta
+    Q->>L: ACESSO ou CONSULTA
+    L-->>Q: somente leitura

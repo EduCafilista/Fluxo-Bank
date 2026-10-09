@@ -1,0 +1,30 @@
+%% Casos de uso dos requisitos complementares — revisão 4.0
+flowchart LR
+    Cliente((Cliente))
+    Backoffice((Backoffice))
+    Auditor((Auditor))
+    Risco[[Motor Antifraude]]
+    Worker[[Worker]]
+    U1([Abrir conta / acompanhar status])
+    U2([Gerar cartão virtual])
+    U3([Habilitar compras online])
+    U4([Consultar assinaturas do cartão])
+    U5([Configurar limites Pix])
+    U6([Registrar aviso por cartão])
+    U7([Agendar pagamento/transferência])
+    U8([Executar agendamento])
+    U9([Consultar trilha])
+    Cliente --- U1
+    Cliente --- U2
+    Cliente --- U3
+    Cliente --- U4
+    Cliente --- U5
+    Cliente --- U6
+    Cliente --- U7
+    Backoffice --- U1
+    Worker --- U8
+    Auditor --- U9
+    Risco -.-> U5
+    Risco -.-> U6
+    U7 -.-> U8
+    U9 -.-> U1

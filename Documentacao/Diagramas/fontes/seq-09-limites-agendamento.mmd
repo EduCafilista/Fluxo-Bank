@@ -1,0 +1,26 @@
+%% Sequência de limites Pix e agendamento — revisão 4.0
+sequenceDiagram
+    actor Cliente
+    participant API
+    participant Risco as MotorAntifraude
+    participant DB as PostgreSQL
+    participant Worker
+    Cliente->>API: Pix/agendamento + Idempotency-Key
+    API->>DB: chave ativa, política vigente
+    API->>Risco: janela e limites aplicáveis
+    Risco->>DB: reserva em consumos_limites_pix
+    alt sem chave Pix ativa
+      Risco-->>API: aplicar limite_sem_chave_*
+    else limite excedido
+      Risco-->>API: recusar e liberar reserva
+    else dentro do limite
+      alt execução futura
+        API->>DB: agendamentos = AGENDADO
+        Worker->>DB: lock de agendamento vencido
+        Worker->>DB: EM_PROCESSAMENTO
+        Worker->>DB: transação idempotente
+      else execução imediata
+        API->>DB: transação Pix
+      end
+      DB-->>API: EXECUTADO / FALHOU
+    end

@@ -33,6 +33,10 @@ O Figma deve ser organizado em 4 páginas (Pages) lógicas:
 | **17** | Gestão de Conta | Web | ADM-02, ADM-03 | Bloqueio/desbloqueio antifraude e visualização de status. | Suporte/Admin |
 | **18** | Auditoria | Web | ADM-05 | Tela da trilha de eventos do MotorAntifraude (append-only). | Auditor/Admin |
 | **19** | Suporte Técnico | Web | ADM-07, ADM-08 | Caixa de entrada de tickets e ferramenta de resposta. | Analista Suporte |
+| **20** | Status da Conta/KYC | Mobile/Web | ACC-01, ACC-02, ACC-03 | Exibe `PENDENTE`, `EM_ANALISE`, `APROVADA`, `ATIVA`, `BLOQUEADA` ou `ENCERRADA` sem misturar os dois status. | Cliente / Backoffice |
+| **21** | Limites Pix por horário | Mobile | MOV-04, MOV-09 | Mostra limites diurno/noturno, quantidade, consumo reservado e aviso de conta sem chave ativa. | Cliente |
+| **22** | Assinaturas do cartão | Mobile | CRT-09 | Lista recorrências identificadas por cartão, próxima cobrança, valor estimado e status. | Cliente |
+| **23** | Agendamentos | Mobile/Web | MOV-06, PAG-04 | Lista agendamentos e estados `AGENDADO`, `EM_PROCESSAMENTO`, `EXECUTADO`, `FALHOU`, `CANCELADO`. | Cliente / Backoffice |
 
 ## Design System Resumido
 
@@ -66,7 +70,10 @@ O Figma deve ser organizado em 4 páginas (Pages) lógicas:
 **2. Fluxos Secundários (Mobile)**
 - **Ver Extrato:** `03. Dashboard` → [Ver Extrato Completo] → `04. Extrato`.
 - **Gerenciar Cartões:** `03. Dashboard` → [Tab Cartões] → `10. Meus Cartões` → [Ver Detalhes] → `11. Detalhes do Cartão`.
-- **Segurança:** `03. Dashboard` → [Tab Perfil/Opções] → `12. Segurança / Limites`.
+- **Segurança:** `03. Dashboard` → [Tab Perfil/Opções] → `12. Segurança / Limites` → [Limites diurno/noturno e sem chave].
+- **Cartões:** `10. Meus Cartões` → `11. Detalhes do Cartão` → [Ativar compras on-line] / [Gerar virtual] → [Assinaturas deste cartão].
+- **Viagem:** `13. Configurações/Perfil` → [Aviso de viagem] → [Selecionar cartão] → [Destino/período/localidades].
+- **Agendamentos:** `06. Transferência Pix` → [Agendar] → `23. Agendamentos` → [Detalhar/cancelar].
 
 **3. Fluxo Administrativo (Web Desktop)**
 `Login Admin` → `15. Dashboard Admin` → [Sidebar: Clientes] → `16. Pesquisa de Clientes` → [Clicar na linha de um usuário] → `17. Gestão de Conta` → [Bloquear Conta].
@@ -86,7 +93,6 @@ O Figma deve ser organizado em 4 páginas (Pages) lógicas:
 ---
 *Observação de Validação: O presente projeto visual materializa o escopo dos casos de uso arquitetados sem envolver escrita de código Blade/Vue ou React Native. A URL final do projeto Figma será vinculada neste mesmo documento após a transposição pelo designer responsável.*
 
-<<<<<<< HEAD
 **Status do Figma: PENDENTE DE MONTAGEM**
 
 ## Checklist de Montagem
@@ -102,16 +108,3 @@ O Figma deve ser organizado em 4 páginas (Pages) lógicas:
 [ ] Conectar fluxo administrativo
 [ ] Testar Prototype
 [ ] Inserir link público/compartilhável neste documento
-=======
-**Link do Figma:** https://www.figma.com/design/qlMt1TssshlJmFvT1Ueqm2/Fluxo---Banco-Digital-%7C-Checkpoint-2
-
-**Status do Figma: PARCIAL — Design System validado visualmente; Mobile, Administrativo e Prototype aguardam validação visual final.**
-
-## Checklist de Montagem
-[x] Criar página 01 - Design System
-[ ] Criar página 02 - Cliente Mobile
-[ ] Criar página 03 - Administrativo Web
-[ ] 14 telas Mobile validadas
-[ ] 5 telas Admin validadas
-[ ] Prototype navegável validado
->>>>>>> e217f45e01ed74ee54a7c834faeb5061dee4afc3

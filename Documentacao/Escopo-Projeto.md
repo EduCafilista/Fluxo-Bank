@@ -23,18 +23,24 @@ O desenvolvimento contempla quatro grandes blocos estruturais que operam de form
 *   **Mecanismos de antifraude:** limites de valor por transação e diários (com redução em horário noturno), limite de quantidade de transações por dia, aviso de viagem e verificação de localização divergente. *(revisão)*
 *   Pagamento de boletos por código de barras/linha digitável e cobranças via QR Code EMV.
 *   Geração de comprovantes detalhados e extratos categorizados.
-*   Agendamentos de pagamentos e transferências recorrentes.
+*   Agendamentos de pagamentos e transferências recorrentes, com status persistido, tentativas e idempotência.
+*   Limites Pix por transação, por dia e por janela (20h–6h), incluindo teto reduzido para conta sem chave Pix ativa.
+*   Avisos de viagem associados a cartões específicos para reduzir falso positivo de localização.
 
 ### Módulo de Cartões e Assinaturas
 *   **Estrutura de cartões especializada:** cartão de **Débito** e cartão de **Crédito**, cada um existindo nas formas **Física** e **Virtual** — o cartão virtual é sempre gerado a partir de um cartão físico ativo; o físico pode existir e ser usado sem que um virtual tenha sido gerado. *(revisão)*
 *   Bloqueio/desbloqueio dinâmico dos cartões.
 *   Ajuste de limites pelo próprio aplicativo, dentro de um teto pré-aprovado.
 *   Contratação e gerenciamento de planos/assinaturas com faturamento proporcional.
+*   Consulta separada das assinaturas recorrentes detectadas nos cartões (`assinaturas_cartao`), sem confundir com os planos contratados do Fluxo.
+*   Cartão virtual sempre vinculado à mesma conta e ao cartão físico ativo que o originou.
+*   Controle explícito de compras on-line no cartão físico por `permite_compras_online`, com default seguro `false`.
 
 ### Módulo Administrativo e Backoffice
 *   Painel web administrativo para gestão de usuários, limites e aprovações manuais.
 *   Gestão de chamados de suporte técnico integrados ao perfil do cliente.
 *   **Trilha de auditoria (logs) para todo tipo de operação do aplicativo** — acesso (login/logout), consulta (leitura de saldo/extrato/fatura) e movimentação (Pix, transferências, pagamentos, cartões) — não somente escritas financeiras. *(revisão)*
+*   Registro de alterações do banco por triggers PostgreSQL com OLD/NEW/DIFF sanitizados e trilha `logs_auditoria` append-only; consultas continuam sendo registradas pelo middleware.
 
 ### Arquitetura Técnica Adotada
 O sistema será desenvolvido em uma arquitetura moderna compreendendo:
@@ -56,3 +62,4 @@ O sistema será desenvolvido em uma arquitetura moderna compreendendo:
 |---|---|---|
 | 1.0 | 31/08/2026 | Versão inicial |
 | 2.0 | 10/09/2026 | Adicionados: arquitetura MVC, token de autenticação, PF/PJ, contas especializadas, cartões especializados (físico/virtual, débito/crédito), QR Code Pix, antifraude detalhado e log de todo tipo de operação |
+| 4.0 | 08/10/2026 | Status separado de conta/KYC, vínculo explícito de cartão virtual com conta e físico, flag on-line, consulta de assinaturas do cartão, auditoria por triggers, limites Pix sem chave/por horário, avisos por cartão e agendamentos com status. |

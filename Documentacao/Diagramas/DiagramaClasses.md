@@ -123,7 +123,7 @@ public function efetivar(): void
 
 ![CLS-04 — Especialização de clientes, contas e cartões](diagramas/cls-04-especializacao.svg)
 
-Conforme definido na apresentação, três hierarquias de especialização foram detalhadas: **Cliente** (PF/PJ), **Conta** (Corrente/Poupança/Salário/PJ) e **Cartão** (Débito/Crédito, cada um com forma Física obrigatória e Virtual opcional e dependente).
+Conforme definido na apresentação, três hierarquias de especialização foram detalhadas: **Cliente** (PF/PJ), **Conta** (Corrente/Poupança/Salário/PJ) e **Cartão** (Débito/Crédito, com instâncias Física e Virtual). A instância virtual é opcional, possui `contaId` por meio de `Cartao` e depende de um físico ativo da mesma modalidade.
 
 ### 5.1 Especialização de `Cliente` (RF10)
 
@@ -150,35 +150,73 @@ Conforme definido na apresentação, três hierarquias de especialização foram
 | `Cartao` `«abstract»` | Atributos comuns: `id`, `numeroMascarado`, `validade`, `cvvHash`, `status` |
 | `CartaoDebito` | Extends `Cartao` — usa o saldo da conta diretamente |
 | `CartaoCredito` | Extends `Cartao` — `limiteAprovado: numeric`, `diaFechamentoFatura: int` |
-| `CartaoFisico` | Forma física de um `CartaoDebito`/`CartaoCredito` — `dataEntrega`, `enderecoEntrega`; **existe de forma independente** |
-| `CartaoVirtual` | Forma virtual — `geradoEm: datetime`; **associação obrigatória (1) com um `CartaoFisico` ativo — nunca existe sozinho** (RN33) |
+| `CartaoFisico` | Forma física de um `CartaoDebito`/`CartaoCredito` — `dataEntrega`, `enderecoEntrega`, `permiteComprasOnline`; é a origem do virtual |
+| `CartaoVirtual` | Instância virtual com `cartaoId` próprio, `geradoEm` e `cartaoFisicoId`; **associação obrigatória com um `CartaoFisico` ativo da mesma conta/modalidade** (RN33) |
 
-**Multiplicidades:** `Cartao 1—1 CartaoFisico` (todo cartão nasce físico) · `CartaoFisico 1—0..1 CartaoVirtual` (o virtual é opcional e dependente)
+**Multiplicidades:** `Cartao 1—0..1 CartaoFisico` · `Cartao 1—0..1 CartaoVirtual` · `CartaoFisico 1—0..1 CartaoVirtual` (origem obrigatória do virtual). Em ambos os casos `Cartao.contaId` aponta para a conta titular.
 
 **RN33 (Laravel):**
 ```php
-// app/Models/CartaoVirtual.php
-public static function gerarAPartirDoFisico(CartaoFisico $fisico): self
+// app/Services/CartoesService.php (transação única)
+public function gerarVirtual(CartaoFisico $fisico): CartaoVirtual
 {
-    if ($fisico->status !== 'ATIVO') {
-        throw new CartaoFisicoInativoException(); // RN33: sem físico ativo, não há virtual
+    $fisico->loadMissing('cartao');
+
+    if ($fisico->cartao->status !== 'ATIVO') {
+        throw new CartaoFisicoInativoException(); // RN33
     }
 
-    return self::create([
-        'cartao_fisico_id' => $fisico->id,
-        'gerado_em'        => now(),
-    ]);
+    return DB::transaction(function () use ($fisico) {
+        $dados = $this->tokenizarVirtual();
+        $cartaoVirtual = Cartao::create([
+            'conta_id'        => $fisico->cartao->conta_id,
+            'modalidade'      => $fisico->cartao->modalidade,
+            'numero_mascarado'=> $dados->numeroMascarado,
+            'validade'        => $dados->validade,
+            'cvv_hash'        => $dados->cvvHash,
+            'status'          => 'ATIVO',
+        ]);
+
+        return CartaoVirtual::create([
+            'cartao_id'       => $cartaoVirtual->id,
+            'cartao_fisico_id' => $fisico->id,
+            'gerado_em'       => now(),
+        ]);
+    });
 }
 ```
 
 ---
 
-## 6. Mapeamento classes → tabelas
+## 6. CLS-05 — Controles operacionais da revisão 4.0
+
+![CLS-05 — Controles operacionais](diagramas/cls-05-controles-operacionais.svg)
+
+| Classe | Atributos/relacionamentos | Responsabilidade |
+|---|---|---|
+| `Conta` | `status`, `statusAbertura`, `statusAberturaAtualizadoEm` | Separa ciclo operacional do KYC; `ATIVA` só após aprovação. |
+| `Cartao` | `conta`, `modalidade`, `status` | Uma instância lógica por cartão físico ou virtual. |
+| `CartaoFisico` | `permiteComprasOnline: boolean` | Flag de autorização de compras on-line, default `false`. |
+| `CartaoVirtual` | `cartao`, `cartaoFisico` | Instância própria ligada à mesma conta e ao físico de origem. |
+| `LimitePix` | Limites diurno/noturno e `limiteSemChave*` | Política vigente por conta. |
+| `ConsumoLimitePix` | `dataReferencia`, `janela`, usado/reservado | Controle atômico por dia e horário. |
+| `AvisoViagem` | `conta`, `cartao`, período, localidades, status | Neutraliza divergência de localização só para o cartão vinculado. |
+| `AssinaturaCartao` | `cartao`, `conta`, estabelecimento, periodicidade, status | Read model de assinaturas recorrentes detectadas no cartão. |
+| `Agendamento` | `agendadoPara`, `status`, tentativas, idempotência | Fila persistida para execução futura/recorrente. |
+| `LogAuditoria` | `antes`, `depois`, `diff`, hashes | Trilha append-only de alterações e consultas. |
+
+**Invariantes da classe `CartaoVirtual`:** o serviço de emissão abre a transação, valida físico ativo + mesma modalidade + mesma conta e cria a instância virtual. O banco garante os FKs; a regra de equivalência entre conta/modalidade fica no serviço e é auditada.
+
+**Invariantes da classe `LimitePix`:** na ausência de chave Pix ativa, o teto aplicável é o menor entre o limite da janela e `limiteSemChave*`. O consumo é reservado antes do risco e convertido em uso somente após a efetivação.
+
+**Invariantes da classe `Agendamento`:** um worker só captura `AGENDADO`; `chaveIdempotencia` é reutilizada na `Transacao` para impedir execução duplicada.
+
+## 7. Mapeamento classes → tabelas
 
 | Classe | Tabela | Observação |
 |---|---|---|
 | `Cliente` / `ClientePF` / `ClientePJ` | `clientes` (com `tipo` discriminador) | Single Table Inheritance *(revisão)* |
-| `Usuario` | `usuarios` | 1:1 com `Cliente` |
+| `Usuario` | `users` (Laravel) | 1:1 com `Cliente` |
 | `Conta` / `ContaCorrente` / `ContaPoupanca` / `ContaSalario` / `ContaPJ` | `contas` (com `tipo` discriminador) | Sem coluna de saldo; `bloqueada: boolean` *(revisão)* |
 | `Transacao` / `Lancamento` | `transacoes` / `lancamentos` | Núcleo de partidas dobradas |
 | `Retirada` | `retiradas` | FK para `contas` e `transacoes` |
@@ -188,10 +226,14 @@ public static function gerarAPartirDoFisico(CartaoFisico $fisico): self
 | `CartaoFisico` / `CartaoVirtual` | `cartoes_fisicos` / `cartoes_virtuais` | `cartoes_virtuais.cartao_fisico_id` obrigatório (RN33) *(novo)* |
 | `Plano` / `Assinatura` / `Item` / `ItemAssinatura` / `Cobranca` | `planos`, `assinaturas`, `itens`, `itens_assinatura`, `cobrancas` | `itens_assinatura` sem exclusão física |
 | `LogAuditoria` | `logs_auditoria` | Append-only, com trigger de proteção |
+| `LimitePix` / `ConsumoLimitePix` | `limites_pix` / `consumos_limites_pix` | Política e consumo por dia/janela; inclui limite sem chave |
+| `AvisoViagem` | `avisos_viagem` | FK obrigatória para `cartoes` e `contas` |
+| `AssinaturaCartao` | `assinaturas_cartao` | Read model de recorrências detectadas no cartão |
+| `Agendamento` | `agendamentos` | Status, tentativas, idempotência e execução futura |
 
 ---
 
-## 7. Rastreabilidade
+## 8. Rastreabilidade
 
 | Requisito | Classe / diagrama |
 |---|---|
@@ -214,3 +256,4 @@ public static function gerarAPartirDoFisico(CartaoFisico $fisico): self
 | 1.0 | 31/08/2026 | Versão inicial: CLS-01 e CLS-02 |
 | 2.0 | 10/09/2026 | Texto condensado; CLS-03 — Núcleo Contábil adicionado |
 | 3.0 | 10/09/2026 | **CLS-04 — Especialização de Clientes, Contas e Cartões** adicionado; CLS-01/02 ajustados para apontar à nova especialização; `Conta.bloqueada` e `Usuario.tokenAcesso` adicionados |
+| 4.0 | 08/10/2026 | **CLS-05 — Controles operacionais** adicionado: status da conta, flag on-line, limites Pix, aviso por cartão, consulta de assinaturas do cartão, auditoria e agendamento |

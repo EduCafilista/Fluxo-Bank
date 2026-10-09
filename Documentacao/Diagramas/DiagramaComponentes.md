@@ -10,7 +10,7 @@
 |---|---|---|
 | Apresentação | App Mobile (React Native/Expo), Web App (Blade), Portal Admin (Blade) | Interface com o usuário |
 | Fronteira | `API REST v1` `«gateway»` | Autenticação Sanctum (token), versionamento, rate limiting, validação |
-| Domínio | 10 serviços de negócio, em arquitetura **MVC** *(revisão)* | Regras do banco; cada serviço é substituível |
+| Domínio | 14 serviços de negócio, em arquitetura **MVC** *(revisão)* | Regras do banco; cada serviço é substituível |
 | Persistência | Eloquent ORM (Models), Migrations/Seeders, PostgreSQL 16 | Mapeamento objeto-relacional e armazenamento |
 | Externa | Serviço KYC, SPI/Pix, Registradora, SMTP/Push | Integrações **simuladas** |
 
@@ -24,12 +24,16 @@
 | `CadastroService` | `cadastrar()` (PF ou PJ) *(revisão)*, `verificarKyc()`, `abrirConta()` | RF01, RF10 |
 | `ContaService` | `saldo()`, `extrato()`, `encerrar()`, `bloquear()`/`desbloquear()` *(revisão)* | RF03, RF13 |
 | `MotorTransacao` | `transferir()`, `partidasDobradas()`, `estornar()` | RF04, RN02, RN03 |
-| `MotorAntifraude` | `analisar()`, `verificarSaldo()`, `verificarLimites()`, `verificarLocalizacao()`, `verificarAvisoViagem()`, `classificar()` *(revisão)* | RF05, RN27–RN32 |
-| `CartoesService` | `emitirFisico()`, `gerarVirtual()` *(revisão)*, `bloquear()`, `fatura()` | RF07, RF12, RN33 |
+| `MotorAntifraude` | `analisar()`, `verificarSaldo()`, `verificarLimites()`, `verificarChavePix()`, `verificarLocalizacao()`, `verificarAvisoViagem()`, `classificar()` *(revisão)* | RF05, RF23, RF24, RN27–RN32, RN42–RN44 |
+| `CartoesService` | `emitirFisico()`, `gerarVirtual()` *(revisão)*, `habilitarComprasOnline()`, `bloquear()`, `fatura()` | RF07, RF12, RF19, RF20, RN33, RN39 |
 | `AssinaturaService` | `contratar()`, `adicionarItem()`, `removerItem()`, `trocarPlano()`, `gerarCobranca()` | Módulo de Assinaturas (Escopo 4.1), RN22–RN25 |
 | `PagamentosService` | `pagarBoleto()`, `cobrancaPix()`, `gerarQrCodePix()` *(revisão)*, `agendar()` | RF08, RF15 |
 | `NotificacoesService` | `email()`, `push()`, `fila` | — |
-| `AuditoriaService` | `registrar()`, `consultar()`, `relatorio()` | RF09, RF-SEG01–04 |
+| `AuditoriaService` | `registrar()`, `consultar()`, `registrarAcesso()`, `registrarConsulta()`, `relatorio()` | RF09, RF22, RF-SEG01–04 |
+| `AuditoriaBanco` | Trigger `registrar_alteracao_banco()`, sanitização OLD/NEW/DIFF, append-only | RF22, RN41 |
+| `LimitesPixService` | `selecionarPolitica()`, `verificarChaveAtiva()`, `reservarConsumo()`, `liberarReserva()` | RF23, RN42–RN43 |
+| `AgendamentoService` | `validar()`, `agendar()`, `cancelar()`, `capturarVencidos()` | RF06, RF25, RN45 |
+| `AssinaturaCartaoQuery` | `listarPorCartao()`, `atualizarRecorrencia()` | RF21, RN40 |
 
 ### 1.3 Interfaces oferecidas e requeridas
 
@@ -47,9 +51,11 @@
 2. Uma única API `/api/v1` serve app e web, evitando duplicidade de regra de negócio.
 3. A regra de negócio vive nos Services, nunca nos Controllers (testabilidade, RNF27).
 4. `AuditoriaService` é transversal — todo serviço de domínio depende dele, incluindo os métodos de log expandidos (RF-SEG04).
-5. Nenhum serviço escreve SQL direto; migrations versionam o esquema, inclusive as tabelas de especialização (discriminador `tipo`/`modalidade`).
-6. Notificações e cobrança de assinatura rodam por fila, preservando o tempo de resposta de escrita.
-7. Autenticação via **token Sanctum**, emitido por `AuthService::emitirToken()` e exigido por todo middleware de rota protegida (RF17).
+5. Nenhum serviço escreve SQL direto; migrations versionam o esquema, inclusive as tabelas de especialização (discriminador `tipo`/`modalidade`), limites, agendamento e read model de assinaturas do cartão.
+6. `AuditoriaBanco` captura alterações de estado por trigger PostgreSQL na mesma transação; `AuditoriaService` captura acessos e consultas que não geram escrita.
+7. `LimitesPixService` reserva consumo por conta/data/janela com lock e aplica teto reduzido quando não há chave Pix ativa.
+8. Notificações e cobrança de assinatura rodam por fila, preservando o tempo de resposta de escrita.
+9. Autenticação via **token Sanctum**, emitido por `AuthService::emitirToken()` e exigido por todo middleware de rota protegida (RF17).
 
 ---
 
@@ -64,7 +70,7 @@
 | Dispositivo do cliente | `«device»` | Navegador e app Android (React Native com Expo, Android 8.0+) |
 | Estação de desenvolvimento | `«device»` | GitHub Codespaces (backend), Android Studio (mobile) |
 | GitHub | `«repository»` | Monorepo `backend/` + `mobile/` |
-| Render | `«cloud»` | Web Service PHP 8.2/Laravel 11 (MVC), Cron Job, PostgreSQL 16 gerenciado |
+| Render | `«cloud»` | Web Service PHP 8.3/Laravel 13 (MVC), Cron Job, PostgreSQL 16 gerenciado |
 | Serviços externos simulados | `«external»` | SPI/Pix, registradora, KYC, SMTP/Push |
 
 ### 2.2 Conexões
@@ -92,12 +98,14 @@
 
 ```
 Fluxo/
-├── backend/                    # Laravel 11 (PHP 8.2+) — arquitetura MVC
+├── backend/                    # Laravel 13 (PHP 8.3+) — arquitetura MVC
 │   ├── app/Http/Controllers/   # Auth, Transacao, Retirada, Assinatura, Cartao...
 │   ├── app/Models/             # Cliente, ClientePF, ClientePJ, Conta, ContaCorrente,
 │   │                           # ContaPoupanca, ContaSalario, ContaPJ, Cartao,
-│   │                           # CartaoFisico, CartaoVirtual, LogAuditoria...
+│   │                           # CartaoFisico, CartaoVirtual, LimitePix, Agendamento,
+│   │                           # AssinaturaCartao, LogAuditoria...
 │   ├── app/Services/           # MotorTransacao, MotorAntifraude, AssinaturaService,
+│   │                           # LimitesPixService, AgendamentoService,
 │   │                           # PagamentosService (QR Code), AuditoriaService...
 │   ├── app/Policies/           # RBAC (RF09)
 │   ├── database/migrations/
@@ -125,6 +133,11 @@ Fluxo/
 | Auditoria transversal (RF09, RF-SEG04) | CMP-01 — `AuditoriaService` dependido por todo o domínio |
 | Módulo de Assinaturas (Escopo 4.1) | CMP-01 — `AssinaturaService` |
 | Backup semanal | CMP-02 — mitigação do free tier |
+| Status da conta e KYC | `CadastroService` + `ContaService`, migration `000006` |
+| Limites sem chave e por janela | `LimitesPixService`, `limites_pix`, `consumos_limites_pix` |
+| Agendamentos com status | `AgendamentoService`, worker e migration `000011` |
+| Assinaturas detectadas no cartão | `AssinaturaCartaoQuery`, tabela `assinaturas_cartao` |
+| Auditoria de alterações do banco | `AuditoriaBanco`, trigger PostgreSQL e `logs_auditoria` |
 
 **Registro de alterações**
 
@@ -133,3 +146,4 @@ Fluxo/
 | 1.0 | 31/08/2026 | Versão inicial: CMP-01 e CMP-02 |
 | 2.0 | 10/09/2026 | Texto condensado; `AssinaturaService` adicionado ao domínio |
 | 3.0 | 10/09/2026 | Explicitado o padrão MVC; adicionados `emitirToken()`/`revogarToken()`, `gerarQrCodePix()` e as interfaces expandidas do `MotorAntifraude` |
+| 4.0 | 08/10/2026 | Serviços de limites Pix, agendamento, auditoria de banco e consulta de assinaturas de cartão; status da conta e flag de compras on-line incorporados ao contrato de persistência. |

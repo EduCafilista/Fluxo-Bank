@@ -1,0 +1,19 @@
+%% Atividade de controles de cartão — revisão 4.0
+flowchart TD
+    A[Solicitar cartão virtual] --> B{Físico ativo, mesma conta e modalidade?}
+    B -- não --> X[Recusar e auditar]
+    B -- sim --> C[Criar cartão virtual]
+    C --> D[Receber compra]
+    D --> E{Canal ONLINE?}
+    E -- não --> F{Status e limite válidos?}
+    E -- sim --> G{permite_compras_online?}
+    G -- não --> X2[Negar compra]
+    G -- sim --> F
+    F -- não --> X2
+    F -- sim --> H{Aviso de viagem válido para este cartão?}
+    H -- não --> I[Elevar risco / exigir 2FA]
+    H -- sim --> J[Autorizar e registrar]
+    I --> J
+    J --> K{Cobrança recorrente?}
+    K -- sim --> L[Atualizar assinaturas_cartao]
+    K -- não --> M[Concluir]
