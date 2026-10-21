@@ -8,33 +8,9 @@ Este README explica **como organizar o backend do Fluxo da forma mais simples po
 
 ## 1. O que é o projeto
 
-O **Fluxo** é um banco digital, acessível pelo navegador e pelo aplicativo. O escopo completo é grande: cadastro com KYC, 2FA, Pix, boletos, cartões, assinaturas, antifraude, backoffice e auditoria.
-
-Esta etapa implementa **o menor corte que funciona de ponta a ponta**:
-
-| Funcionalidade | Nesta etapa |
-|---|---|
-| Login com token (Laravel Sanctum) | ✅ |
-| Consultar saldo e últimos 50 lançamentos | ✅ |
-| Transferência entre contas, com verificação de saldo | ✅ |
-| Logout (encerra o token) | ✅ |
-| Cadastro com KYC, CPF/CNPJ, 2FA, Pix, boletos, cartões, assinaturas, backoffice, auditoria | ❌ próximas etapas |
-| Aplicativo mobile | ❌ outra etapa |
-
-Regras de negócio já valendo nesta etapa, vindas da documentação:
-
-- **O saldo nunca é guardado num campo.** Ele é a soma dos lançamentos (RF03).
-- **Toda transferência gera dois lançamentos**, um débito na origem e um crédito no destino, dentro de uma transação de banco. Ou gravam os dois, ou nenhum (partidas dobradas).
-- **Valores são inteiros em centavos** (`valor_centavos`). Isso evita erro de arredondamento.
-- **O controller não tem regra de negócio.** Ele valida a entrada e chama o Service (RF16, MVC).
-- **Rotas protegidas exigem token** no header `Authorization: Bearer` (RF17).
-- **O extrato mostra no máximo 50 registros** (RNF05).
-
----
+O **Fluxo** é um banco digital, acessível pelo navegador e pelo aplicativo. 
 
 ## 2. Estrutura de pastas
-
-O Laravel já traz quase tudo pronto. A regra é: **use o esqueleto padrão e acrescente só o necessário**. Não crie pastas à toa.
 
 ```
 Projeto/
