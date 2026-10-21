@@ -2,23 +2,34 @@
 
 namespace Database\Seeders;
 
-use App\Models\Conta;
 use App\Models\Lancamento;
 use App\Models\Transacao;
-use App\Models\User;
+use App\Services\CadastroService;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     // SOMENTE para testes locais. Não rode em produção.
-    // Cria 2 clientes; a Ana começa com R$ 1.000,00.
+    // Cria 2 clientes pelo mesmo serviço do cadastro; a Ana começa com R$ 1.000,00.
     public function run(): void
     {
-        $ana = User::create(['name' => 'Ana', 'email' => 'ana@fluxo.test', 'password' => 'senha123']);
-        $bruno = User::create(['name' => 'Bruno', 'email' => 'bruno@fluxo.test', 'password' => 'senha123']);
+        $cadastro = app(CadastroService::class);
 
-        $contaAna = Conta::create(['user_id' => $ana->id, 'numero' => '0001-1']);
-        Conta::create(['user_id' => $bruno->id, 'numero' => '0002-2']);
+        $contaAna = $cadastro->cadastrarPessoaFisica([
+            'nome' => 'Ana',
+            'cpf' => '52998224725',
+            'data_nascimento' => '1990-01-01',
+            'email' => 'ana@fluxo.test',
+            'password' => 'senha123',
+        ]);
+
+        $cadastro->cadastrarPessoaFisica([
+            'nome' => 'Bruno',
+            'cpf' => '11144477735',
+            'data_nascimento' => '1992-06-15',
+            'email' => 'bruno@fluxo.test',
+            'password' => 'senha123',
+        ]);
 
         $deposito = Transacao::create(['descricao' => 'Depósito inicial']);
         Lancamento::create([

@@ -21,7 +21,13 @@ class User extends Authenticatable
         return ['password' => 'hashed'];
     }
 
-    // Por simplicidade, cada usuário (cliente) tem uma conta
+    // Dados cadastrais (nome, CPF, nascimento) de Pessoa Física
+    public function cliente(): HasOne
+    {
+        return $this->hasOne(Cliente::class);
+    }
+
+    // Por simplicidade, cada usuário tem uma conta
     public function conta(): HasOne
     {
         return $this->hasOne(Conta::class);
