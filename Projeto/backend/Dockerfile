@@ -1,5 +1,5 @@
-# Imagem PHP 8.3 com a extensão do PostgreSQL
-FROM php:8.3-cli
+# Imagem PHP 8.4 com a extensão do PostgreSQL (mesma versão usada no composer.lock)
+FROM php:8.4-cli
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libpq-dev unzip git \
