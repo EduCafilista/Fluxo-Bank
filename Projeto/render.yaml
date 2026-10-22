@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: fluxo-api
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Projeto/backend/Dockerfile
+    dockerContext: ./Projeto/backend
+    healthCheckPath: /up
+    envVars:
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        sync: false
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_SSLMODE
+        value: require
+      # ATENCAO: o Laravel le DB_URL (nao DATABASE_URL)
+      - key: DB_URL
+        fromDatabase:
+          name: fluxo-db
+          property: connectionString
+
+databases:
+  - name: fluxo-db
+    plan: free
+    region: oregon
+    databaseName: fluxodb
+    user: fluxouser
