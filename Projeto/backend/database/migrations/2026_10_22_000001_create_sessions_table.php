@@ -8,6 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // Idempotente: se a tabela ja existir (deploy anterior interrompido),
+        // nao tenta criar de novo e apenas deixa a migration ser registrada.
+        if (Schema::hasTable('sessions')) {
+            return;
+        }
+
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
