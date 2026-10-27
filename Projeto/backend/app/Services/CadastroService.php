@@ -2,38 +2,141 @@
 
 namespace App\Services;
 
+use App\Exceptions\RegraDeNegocioException;
 use App\Models\Cliente;
 use App\Models\Conta;
+use App\Models\LogAuditoria;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Cadastro de cliente PF/PJ + abertura de conta + KYC simulado (RF01/RF10/RN35/RN37).
+ * Tudo em uma transação: ou cria usuário, cliente e conta, ou nada.
+ */
 class CadastroService
 {
-    // Cria usuário, cliente e conta numa só transação: ou cria tudo, ou nada
     public function cadastrarPessoaFisica(array $dados): Conta
     {
-        return DB::transaction(function () use ($dados) {
+        return $this->cadastrar($dados, Cliente::TIPO_PF);
+    }
+
+    public function cadastrarPessoaJuridica(array $dados): Conta
+    {
+        return $this->cadastrar($dados, Cliente::TIPO_PJ);
+    }
+
+    private function cadastrar(array $dados, string $tipoCliente): Conta
+    {
+        return DB::transaction(function () use ($dados, $tipoCliente) {
             $user = User::create([
                 'name' => $dados['nome'],
                 'email' => $dados['email'],
-                'password' => $dados['password'], // o cast 'hashed' do User gera o hash
+                'password' => $dados['password'], // cast 'hashed' gera o bcrypt
+                'perfil' => User::PERFIL_CLIENTE,
+                'dois_fatores_ativo' => (bool) ($dados['dois_fatores_ativo'] ?? config('fluxo.dois_fatores.ativo_por_padrao')),
             ]);
 
-            Cliente::create([
+            $cliente = Cliente::create([
                 'user_id' => $user->id,
+                'tipo_cliente' => $tipoCliente,
                 'nome' => $dados['nome'],
-                'cpf' => $dados['cpf'],
-                'data_nascimento' => $dados['data_nascimento'],
+                'cpf' => $tipoCliente === Cliente::TIPO_PF ? ($dados['cpf'] ?? null) : null,
+                'razao_social' => $dados['razao_social'] ?? null,
+                'cnpj' => $tipoCliente === Cliente::TIPO_PJ ? ($dados['cnpj'] ?? null) : null,
+                'data_nascimento' => $dados['data_nascimento'] ?? null,
+                'representante_legal' => $dados['representante_legal'] ?? null,
+                'status' => Cliente::STATUS_PENDENTE,
             ]);
 
-            return Conta::create([
-                'user_id' => $user->id,
-                'numero' => $this->gerarNumeroConta(),
-            ]);
+            $conta = $this->abrirConta($user, $cliente, $dados['tipo_conta'] ?? ($tipoCliente === Cliente::TIPO_PJ ? 'PJ' : 'CORRENTE'));
+
+            $this->executarKyc($conta);
+
+            app(AuditoriaService::class)->registrar(
+                LogAuditoria::CATEGORIA_ACESSO,
+                'CADASTRO',
+                ['cliente_id' => $cliente->id, 'tipo_cliente' => $tipoCliente, 'conta' => $conta->numero],
+                'clientes',
+                (string) $cliente->id,
+                $user->id,
+            );
+
+            return $conta->refresh();
         });
     }
 
-    // Número no formato 0001-000000, garantido único
+    public function abrirConta(User $user, Cliente $cliente, string $tipoConta = 'CORRENTE'): Conta
+    {
+        if (! in_array($tipoConta, Conta::TIPOS, true)) {
+            throw new RegraDeNegocioException('Tipo de conta inválido.');
+        }
+
+        if ($tipoConta === 'PJ' && $cliente->tipo_cliente !== Cliente::TIPO_PJ) {
+            throw new RegraDeNegocioException('Conta PJ exige cliente Pessoa Jurídica.');
+        }
+
+        if (in_array($tipoConta, ['CORRENTE', 'POUPANCA', 'SALARIO'], true) && $cliente->tipo_cliente !== Cliente::TIPO_PF) {
+            throw new RegraDeNegocioException('Este tipo de conta é exclusivo de Pessoa Física.');
+        }
+
+        return Conta::create([
+            'user_id' => $user->id,
+            'cliente_id' => $cliente->id,
+            'numero' => $this->gerarNumeroConta(),
+            'tipo_conta' => $tipoConta,
+            'agencia' => '0001',
+            'status' => Conta::STATUS_PENDENTE,
+            'status_abertura' => Conta::ABERTURA_PENDENTE,
+            'status_abertura_atualizado_em' => now(),
+            'bloqueada' => false,
+        ]);
+    }
+
+    /**
+     * KYC simulado (fora de escopo fazer documentoscopia real).
+     * Aprova automaticamente quando configurado; senão deixa para o backoffice.
+     */
+    private function executarKyc(Conta $conta): void
+    {
+        $conta->update([
+            'status_abertura' => Conta::ABERTURA_EM_ANALISE,
+            'status_abertura_atualizado_em' => now(),
+        ]);
+
+        if (! config('fluxo.kyc.automatico')) {
+            return;
+        }
+
+        $cliente = $conta->cliente;
+        $aprovado = true;
+
+        if ($cliente->ehPessoaFisica() && $cliente->data_nascimento) {
+            $idade = Carbon::parse($cliente->data_nascimento)->age;
+            $aprovado = $idade >= (int) config('fluxo.kyc.idade_minima');
+        }
+
+        if ($aprovado) {
+            $conta->update([
+                'status_abertura' => Conta::ABERTURA_APROVADA,
+                'status_abertura_atualizado_em' => now(),
+                'status' => Conta::STATUS_ATIVA,
+            ]);
+
+            $cliente->update(['status' => Cliente::STATUS_ATIVO]);
+        } else {
+            $conta->update([
+                'status_abertura' => Conta::ABERTURA_RECUSADA,
+                'status_abertura_atualizado_em' => now(),
+                'status' => Conta::STATUS_BLOQUEADA,
+                'bloqueada' => true,
+            ]);
+
+            $cliente->update(['status' => Cliente::STATUS_BLOQUEADO]);
+        }
+    }
+
+    /** Número no formato 0001-000000, garantido único. */
     private function gerarNumeroConta(): string
     {
         do {

@@ -1,16 +1,27 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CadastroController;
-use App\Http\Controllers\ContaController;
-use App\Http\Controllers\TransacaoController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
-Route::post('/cadastro', [CadastroController::class, 'store']);
-Route::post('/login', [AuthController::class, 'login']);
+/*
+|--------------------------------------------------------------------------
+| Rotas da API
+|--------------------------------------------------------------------------
+| A versão vigente fica em routes/api_v1.php e é publicada em /api/v1.
+| Este arquivo mantém apenas compatibilidade: as rotas antigas (/api/login,
+| /api/conta, ...) redirecionam para /api/v1, evitando quebrar clientes já
+| integrados (o mobile do checkpoint anterior, por exemplo).
+| RNF30: a API é versionada; o prefixo novo é /api/v1.
+*/
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/conta', [ContaController::class, 'show']);
-    Route::post('/transferencias', [TransacaoController::class, 'store']);
-});
+Route::prefix('v1')->group(base_path('routes/api_v1.php'));
+
+Route::any('{caminho?}', function () {
+    $destino = '/api/v1/'.ltrim(request()->path() === 'api' ? '' : Str::after(request()->path(), 'api'), '/');
+
+    return response()->json([
+        'erro' => 'Rota não versionada. Use a API v1.',
+        'use' => url($destino),
+        'versao' => 'v1',
+    ], 308)->header('Location', url($destino));
+})->where('caminho', '.*')->name('compatibilidade.v1');

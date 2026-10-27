@@ -1,0 +1,69 @@
+# ---------------------------------------------------------------------------
+# Fluxo — backend Laravel + PostgreSQL (somente PostgreSQL, sem MySQL/SQLite)
+#
+#   docker compose up --build        → API em http://localhost:8000
+#   docker compose exec api ./scripts/smoke-test.sh
+#   docker compose exec api php artisan fluxo:verificar
+#   docker compose down -v           → para tudo e apaga os dados
+#
+# Senha e APP_KEY abaixo são de DESENVOLVIMENTO. Em produção (Render) use as
+# variáveis do painel — nunca versione segredos reais (RNF29).
+# ---------------------------------------------------------------------------
+services:
+  db:
+    image: postgres:16-alpine          # RNF36: PostgreSQL 16
+    container_name: fluxo-db
+    environment:
+      POSTGRES_DB: fluxodb
+      POSTGRES_USER: fluxouser
+      POSTGRES_PASSWORD: fluxopass
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - fluxo_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fluxouser -d fluxodb"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  api:
+    build: .
+    container_name: fluxo-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      APP_NAME: Fluxo
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_KEY: "base64:HfvaCsSKd9jGo5f755CKhFyL9nJaKbObEwRYMXcwMo8="
+      APP_URL: http://localhost:8000
+      LOG_CHANNEL: stack
+      LOG_LEVEL: debug
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: fluxodb
+      DB_USERNAME: fluxouser
+      DB_PASSWORD: fluxopass
+      DB_SSLMODE: prefer
+      SESSION_DRIVER: database
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
+      MAIL_MAILER: log
+      SANCTUM_EXPIRATION: "60"
+      FLUXO_KYC_AUTOMATICO: "true"
+    ports:
+      - "8000:8000"
+    # migrations → catálogo → demo (idempotente) → worker em background → servidor
+    command: >
+      sh -c "php artisan migrate --force &&
+             php artisan db:seed --force &&
+             php artisan db:seed --class=DemoSeeder --force &&
+             (php artisan schedule:work >/tmp/schedule.log 2>&1 &) &&
+             php artisan serve --host=0.0.0.0 --port=8000"
+
+volumes:
+  fluxo_pgdata:

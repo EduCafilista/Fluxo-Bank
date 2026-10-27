@@ -7,7 +7,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Lancamento extends Model
 {
-    protected $fillable = ['transacao_id', 'conta_id', 'tipo', 'valor_centavos'];
+    public const TIPO_DEBITO = 'debito';
+
+    public const TIPO_CREDITO = 'credito';
+
+    protected $fillable = ['transacao_id', 'conta_id', 'tipo', 'valor_centavos', 'descricao'];
+
+    protected function casts(): array
+    {
+        return ['valor_centavos' => 'integer'];
+    }
 
     public function transacao(): BelongsTo
     {

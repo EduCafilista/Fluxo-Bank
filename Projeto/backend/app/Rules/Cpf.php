@@ -5,7 +5,7 @@ namespace App\Rules;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-// Valida o CPF pelos dois dígitos verificadores (RF01).
+// Valida o CPF pelos dois dígitos verificadores (RF01/RN35).
 // Aceita com ou sem pontos e traço.
 class Cpf implements ValidationRule
 {
