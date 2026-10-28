@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/** RF09 + RN37: RBAC, aprovação de KYC, bloqueio por fraude e chamados. */
 class BackofficeTest extends TestCase
 {
     use RefreshDatabase;

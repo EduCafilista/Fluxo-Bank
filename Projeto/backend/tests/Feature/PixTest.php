@@ -7,7 +7,6 @@ use App\Models\LimitePix;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/** RF04/RF14/RF23 + RN28-RN30/RN42: chaves e limites Pix. */
 class PixTest extends TestCase
 {
     use RefreshDatabase;
@@ -95,13 +94,11 @@ class PixTest extends TestCase
         $ana = $this->usuarioComConta([], 500000);
         $bruno = $this->usuarioComConta([]);
 
-        // Sem chave Pix ativa: teto global de R$ 500,00 por transação
         $this->withHeaders($this->autenticarSem2fa($ana))->postJson("{$this->api}/transferencias", [
             'conta_destino_id' => $bruno->conta->id,
             'valor_centavos' => 60000,
         ])->assertStatus(422)->assertJsonPath('erro', 'Valor acima do limite por transação (R$ 500,00).');
 
-        // Dentro do teto: passa
         $this->withHeaders($this->autenticarSem2fa($ana))->postJson("{$this->api}/transferencias", [
             'conta_destino_id' => $bruno->conta->id,
             'valor_centavos' => 40000,

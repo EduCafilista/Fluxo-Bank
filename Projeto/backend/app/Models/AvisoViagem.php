@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** Aviso de viagem por cartão (RF24, RN44). */
 class AvisoViagem extends Model
 {
     public const STATUS_ATIVO = 'ATIVO';

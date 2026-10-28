@@ -10,10 +10,6 @@ use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Cadastro de cliente PF/PJ + abertura de conta + KYC simulado (RF01/RF10/RN35/RN37).
- * Tudo em uma transação: ou cria usuário, cliente e conta, ou nada.
- */
 class CadastroService
 {
     public function cadastrarPessoaFisica(array $dados): Conta
@@ -32,7 +28,7 @@ class CadastroService
             $user = User::create([
                 'name' => $dados['nome'],
                 'email' => $dados['email'],
-                'password' => $dados['password'], // cast 'hashed' gera o bcrypt
+                'password' => $dados['password'],
                 'perfil' => User::PERFIL_CLIENTE,
                 'dois_fatores_ativo' => (bool) ($dados['dois_fatores_ativo'] ?? config('fluxo.dois_fatores.ativo_por_padrao')),
             ]);
@@ -93,10 +89,6 @@ class CadastroService
         ]);
     }
 
-    /**
-     * KYC simulado (fora de escopo fazer documentoscopia real).
-     * Aprova automaticamente quando configurado; senão deixa para o backoffice.
-     */
     private function executarKyc(Conta $conta): void
     {
         $conta->update([
@@ -136,7 +128,6 @@ class CadastroService
         }
     }
 
-    /** Número no formato 0001-000000, garantido único. */
     private function gerarNumeroConta(): string
     {
         do {

@@ -10,12 +10,10 @@ use App\Services\TransferenciaService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-/** Transferências internas e Pix (RF05). */
 class TransacaoController extends Controller
 {
     public function __construct(private TransferenciaService $transferencias) {}
 
-    /** POST /api/v1/transferencias */
     public function store(Request $request): JsonResponse
     {
         $dados = $request->validate([
@@ -58,7 +56,6 @@ class TransacaoController extends Controller
             ->header('X-Saldo-Centavos', (string) $origem->refresh()->saldo());
     }
 
-    /** GET /api/v1/transacoes/{transacao} — comprovante (RF06). */
     public function show(Request $request, Transacao $transacao): JsonResponse
     {
         $conta = $request->user()->conta()->firstOrFail();
@@ -70,7 +67,6 @@ class TransacaoController extends Controller
         return response()->json(app(RelatorioService::class)->comprovante($transacao));
     }
 
-    /** GET /api/v1/transacoes — últimas transações da conta. */
     public function index(Request $request): JsonResponse
     {
         $conta = $request->user()->conta()->firstOrFail();

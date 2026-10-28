@@ -8,7 +8,6 @@ use Database\Seeders\CatalogoSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/** Assinaturas de planos + RN22 (retirada lógica de item). */
 class AssinaturaTest extends TestCase
 {
     use RefreshDatabase;
@@ -56,7 +55,6 @@ class AssinaturaTest extends TestCase
             ->assertOk()
             ->assertJsonPath('valor_atual_centavos', $plano->mensalidade_centavos);
 
-        // RN22: o vínculo continua no banco, com data/motivo de exclusão
         $this->assertDatabaseHas('itens_assinatura', [
             'assinatura_id' => $assinaturaId,
             'item_id' => $item->id,

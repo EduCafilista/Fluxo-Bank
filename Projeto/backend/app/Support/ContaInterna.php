@@ -9,10 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
- * Conta da instituição usada como contrapartida dos lançamentos internos
- * (depósito inicial, pagamento de boleto, recebimento de QR Code).
- * Ela garante a partida dobrada: todo crédito em conta de cliente tem um
- * débito (ou crédito) correspondente na conta interna (RN02/RN03).
+ * Conta institucional de contrapartida para lançamentos internos (RN02/RN03).
  */
 class ContaInterna
 {

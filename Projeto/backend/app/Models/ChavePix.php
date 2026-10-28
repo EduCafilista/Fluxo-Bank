@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** Chaves Pix da conta (RF04, RN42). */
 class ChavePix extends Model
 {
     public const TIPO_CPF = 'CPF';

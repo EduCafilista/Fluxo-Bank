@@ -13,10 +13,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Dados de demonstração — SOMENTE local/teste (senha conhecida!).
- * Idempotente: pode rodar quantas vezes quiser (usa updateOrCreate por CPF/e-mail),
- * e o depósito inicial passa pelo LancamentoService, então fecha em zero
- * (partidas dobradas, RN02/RN03) — antes o seeder gravava só um crédito.
+ * Seeder de dados de demonstração para ambientes local e de teste.
  */
 class DemoSeeder extends Seeder
 {
@@ -43,12 +40,10 @@ class DemoSeeder extends Seeder
             'password' => 'senha123',
         ]);
 
-        // Depósito inicial da Ana (com contrapartida na conta interna)
         if ($ana->saldo() === 0) {
             $pagamentos->depositar($ana, 100000, 'Depósito inicial de demonstração');
         }
 
-        // Chaves Pix de exemplo
         $chaves = app(ChavePixService::class);
         foreach ([[$ana, 'EMAIL', 'ana@fluxo.test'], [$ana, 'ALEATORIA', 'ana-pix-aleatoria'], [$bruno, 'EMAIL', 'bruno@fluxo.test']] as [$conta, $tipo, $valor]) {
             if (! $conta->chavesPix()->where('valor_chave', $valor)->exists()) {
@@ -56,23 +51,21 @@ class DemoSeeder extends Seeder
             }
         }
 
-        // Cartões de exemplo (físico débito + virtual, e um físico crédito)
         $cartoes = app(CartoesService::class);
-        $fisicoDebito = $ana->cartoes()->where('modalidade', 'DEBITO')->first();
+        $fisicoDebito = $ana->cartoes()->where('modalidade', 'DEBITO')->whereHas('fisico')->first();
 
         if (! $fisicoDebito) {
             $fisicoDebito = $cartoes->emitirFisico($ana, 'DEBITO', 'Rua das Flores, 100 - Uberlândia/MG');
         }
 
-        if (! $fisicoDebito->virtual()->exists()) {
+        if ($fisicoDebito->fisico && ! $fisicoDebito->fisico->cartaoVirtual()->exists()) {
             $cartoes->gerarVirtual($fisicoDebito);
         }
 
-        if (! $ana->cartoes()->where('modalidade', 'CREDITO')->exists()) {
+        if (! $ana->cartoes()->where('modalidade', 'CREDITO')->whereHas('fisico')->exists()) {
             $cartoes->emitirFisico($ana, 'CREDITO', 'Rua das Flores, 100 - Uberlândia/MG');
         }
 
-        // Um usuário de backoffice para testar o painel admin (RF09)
         User::updateOrCreate(
             ['email' => 'admin@fluxo.test'],
             [
@@ -97,7 +90,6 @@ class DemoSeeder extends Seeder
         $clienteExiste = Cliente::where('cpf', $dados['cpf'])->exists();
 
         if ($clienteExiste) {
-            // Cliente já cadastrado mas conta apagada: recria a conta
             $user = User::where('email', $dados['email'])->firstOrFail();
             $cliente = Cliente::where('cpf', $dados['cpf'])->firstOrFail();
 

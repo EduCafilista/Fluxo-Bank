@@ -16,7 +16,6 @@ abstract class TestCase extends BaseTestCase
 {
     protected string $api = '/api/v1';
 
-    /** Cria usuário + cliente PF + conta ativa e devolve o usuário autenticado por token. */
     protected function usuarioComConta(array $atributos = [], ?int $saldoCentavos = null): User
     {
         $user = User::factory()->create(array_merge([
@@ -43,11 +42,8 @@ abstract class TestCase extends BaseTestCase
         return $user->refresh();
     }
 
-    /** Token real via Sanctum (Bearer) — exercita auth:sanctum de verdade. */
     protected function autenticar(User $user): string
     {
-        // Em testes, o container é reaproveitado entre requisições: sem isto,
-        // o guard guarda o usuário anterior e um segundo usuário herda a sessão.
         $this->app['auth']->forgetGuards();
 
         return $user->createToken('teste')->plainTextToken;
@@ -58,7 +54,6 @@ abstract class TestCase extends BaseTestCase
         return ['Authorization' => 'Bearer '.$this->autenticar($user)];
     }
 
-    /** Dá ao usuário uma chave Pix ativa (libera o teto cheio de limites). */
     protected function comChavePix(User $user, ?string $valor = null): User
     {
         ChavePix::create([

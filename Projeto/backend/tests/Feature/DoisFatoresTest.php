@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
-/** RF02 + RN19/RN20: desafio de 6 dígitos, uso único, expiração e tentativas. */
 class DoisFatoresTest extends TestCase
 {
     use RefreshDatabase;
@@ -93,7 +92,6 @@ class DoisFatoresTest extends TestCase
             ->postJson("{$this->api}/2fa/validar", ['codigo' => $codigo])
             ->assertOk();
 
-        // Mesmo código, nova tentativa: não existe mais código pendente
         $novoTemporario = $this->postJson("{$this->api}/login", ['email' => $user->email, 'password' => 'senha123'])
             ->json('token_temporario');
 

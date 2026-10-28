@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** Chamados de suporte integrados ao perfil do cliente (RF09). */
 class ChamadoSuporte extends Model
 {
     public const STATUS_ABERTO = 'ABERTO';

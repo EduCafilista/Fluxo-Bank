@@ -8,14 +8,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
-/** RF-SEG01/02/03/04 + RF22: middleware, triggers e imutabilidade. */
 class AuditoriaTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_requisicao_http_gera_registro_com_categoria(): void
     {
-        $this->getJson("{$this->api}/health")->assertOk(); // health é ignorado de propósito
+        $this->getJson("{$this->api}/health")->assertOk();
         $this->assertSame(0, LogAuditoria::count());
 
         $user = $this->usuarioComConta();
@@ -81,11 +80,9 @@ class AuditoriaTest extends TestCase
         $total = LogAuditoria::count();
         $this->assertGreaterThan(0, $total);
 
-        // DELETE via query builder: o banco ignora (rule) e o registro permanece
         DB::table('logs_auditoria')->delete();
         $this->assertSame($total, LogAuditoria::count());
 
-        // UPDATE idem
         DB::table('logs_auditoria')->update(['categoria' => 'HACKEADA']);
         $this->assertSame(0, LogAuditoria::where('categoria', 'HACKEADA')->count());
     }

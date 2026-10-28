@@ -6,15 +6,30 @@ use App\Models\Transacao;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/** RF08/RF15: boleto, recebimento Pix e comprovante. */
 class PagamentoTest extends TestCase
 {
     use RefreshDatabase;
 
     private function linhaDigitavel(): string
     {
-        // 47 dígitos (padrão de cobrança): 3 campos + DV + 14 dígitos
         return '34191790010104351004791020150008291070026000142';
+    }
+
+    public function test_valida_linha_digitavel_sem_debitar_conta(): void
+    {
+        $user = $this->usuarioComConta([], 20000);
+        $h = $this->autenticarSem2fa($user);
+
+        $this->withHeaders($h)
+            ->postJson("{$this->api}/boletos/validar", ['linha_digitavel' => $this->linhaDigitavel()])
+            ->assertOk()
+            ->assertJsonPath('valido', true)
+            ->assertJsonPath('digitos', 47);
+
+        $this->withHeaders($h)
+            ->postJson("{$this->api}/boletos/validar", ['linha_digitavel' => '12345'])
+            ->assertStatus(422)
+            ->assertJsonPath('valido', false);
     }
 
     public function test_paga_boleto_e_debita_a_conta(): void
@@ -69,6 +84,22 @@ class PagamentoTest extends TestCase
 
         $transacao = Transacao::latest('id')->first();
         $this->assertSame(0, $transacao->somaDosLancamentos());
+    }
+
+    public function test_recebimento_pix_respeita_idempotencia(): void
+    {
+        $user = $this->usuarioComConta();
+        $headers = $this->autenticarSem2fa($user) + ['Idempotency-Key' => 'pix-rec-001'];
+
+        $this->withHeaders($headers)
+            ->postJson("{$this->api}/pix/recebimentos", ['valor_centavos' => 5000])
+            ->assertCreated();
+
+        $this->withHeaders($headers)
+            ->postJson("{$this->api}/pix/recebimentos", ['valor_centavos' => 5000])
+            ->assertCreated();
+
+        $this->assertSame(5000, $user->conta->refresh()->saldo());
     }
 
     public function test_comprovante_da_transacao(): void

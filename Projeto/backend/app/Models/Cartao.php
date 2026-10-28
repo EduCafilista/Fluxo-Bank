@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-/** Cartão lógico (RF07/RF12, RN38-RN40): modalidade DÉBITO ou CRÉDITO. */
 class Cartao extends Model
 {
     public const MODALIDADE_DEBITO = 'DEBITO';

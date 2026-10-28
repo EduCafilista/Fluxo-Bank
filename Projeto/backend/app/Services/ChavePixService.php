@@ -7,7 +7,6 @@ use App\Models\ChavePix;
 use App\Models\Conta;
 use Illuminate\Support\Str;
 
-/** Cadastro de chaves Pix com validação de duplicidade (RF04). */
 class ChavePixService
 {
     public function cadastrar(Conta $conta, string $tipo, string $valor): ChavePix
@@ -20,7 +19,7 @@ class ChavePixService
 
         $valor = $this->normalizar($tipo, $valor);
 
-        if ($this->normalizar($tipo, $valor) === '') {
+        if ($valor === '') {
             throw new RegraDeNegocioException('Valor da chave não pode ser vazio.');
         }
 

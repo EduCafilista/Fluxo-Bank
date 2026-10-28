@@ -48,12 +48,12 @@ responsabilidade principal de cada integrante.
 | Protótipos Administrativo Web | Marcus Vinicius | CP2 | Em Revisão |
 | Prototype navegável | Marcus Vinicius | CP2 | Em Revisão |
 | Modelo financeiro inicial no backend | Harttur Oliveira Pimenta / Eduardo Henrique | CP2 | Concluído |
-| API REST | Equipe | CP3 | A Fazer |
-| Estratégia de testes / TDD | Gabriel Henrique | CP3 | A Fazer |
-| Motor transacional | Harttur Oliveira Pimenta | CP3 | A Fazer |
-| Antifraude e regras de risco | Eduardo Henrique | CP3 | A Fazer |
-| Auditoria | Harttur Oliveira Pimenta | CP3 | A Fazer |
-| Deploy backend | Eduardo Henrique | CP3 | A Fazer |
+| API REST | Equipe | CP3 | Concluído |
+| Estratégia de testes / TDD | Gabriel Henrique | CP3 | Concluído |
+| Motor transacional | Harttur Oliveira Pimenta | CP3 | Concluído |
+| Antifraude e regras de risco | Eduardo Henrique | CP3 | Concluído |
+| Auditoria | Harttur Oliveira Pimenta | CP3 | Concluído |
+| Deploy backend | Eduardo Henrique | CP3 | Concluído |
 | Portal Web | Marcus Vinicius | CP4 | A Fazer |
 | Aplicativo Mobile | Eduardo Henrique / Marcus Vinicius | CP4 | A Fazer |
 | Integração ponta a ponta | Equipe | CP4 | A Fazer |

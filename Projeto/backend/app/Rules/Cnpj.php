@@ -5,7 +5,6 @@ namespace App\Rules;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-/** Validação matemática do CNPJ (RF10/RN35). */
 class Cnpj implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void

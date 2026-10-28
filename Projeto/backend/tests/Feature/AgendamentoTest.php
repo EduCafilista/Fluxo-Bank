@@ -6,7 +6,6 @@ use App\Models\Agendamento;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/** RF06/RF25 + RN45: agendamento, worker e máquina de estados. */
 class AgendamentoTest extends TestCase
 {
     use RefreshDatabase;
@@ -53,7 +52,6 @@ class AgendamentoTest extends TestCase
             'agendado_para' => now()->addHour()->toIso8601String(),
         ])->json('agendamento.id');
 
-        // "Adianta o relógio" do agendamento
         Agendamento::findOrFail($id)->update(['agendado_para' => now()->subMinute()]);
 
         $this->artisan('agendamentos:processar')->assertSuccessful();

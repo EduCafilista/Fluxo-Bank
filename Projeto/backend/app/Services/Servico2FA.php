@@ -7,10 +7,6 @@ use App\Models\CodigoVerificacao;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Gera e valida o código de 6 dígitos (RN19/RN20):
- * hash SHA-256, validade curta, uso único, limite de tentativas.
- */
 class Servico2FA
 {
     /**
@@ -21,7 +17,6 @@ class Servico2FA
         $canal = config('fluxo.dois_fatores.canal');
         $validade = (int) config('fluxo.dois_fatores.validade_minutos');
 
-        // Invalida desafios anteriores da mesma finalidade
         CodigoVerificacao::where('user_id', $user->id)
             ->where('finalidade', $finalidade)
             ->whereNull('utilizado_em')
@@ -38,7 +33,6 @@ class Servico2FA
             'max_tentativas' => (int) config('fluxo.dois_fatores.max_tentativas'),
         ]);
 
-        // Entrega simulada: em produção seria e-mail/SMS/push (MAIL_MAILER=log)
         Log::info('Codigo 2FA gerado', [
             'user_id' => $user->id,
             'canal' => $canal,
@@ -83,7 +77,6 @@ class Servico2FA
             );
         }
 
-        // Uso único (RN20)
         $registro->update(['utilizado_em' => now()]);
 
         return $registro;

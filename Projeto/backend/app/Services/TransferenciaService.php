@@ -9,10 +9,6 @@ use App\Models\Lancamento;
 use App\Models\Transacao;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Transferências internas e Pix (RF05 + RN27/RN28 + RNF15/RNF17).
- * A regra fica no Service; o controller só valida entrada e devolve JSON.
- */
 class TransferenciaService
 {
     public function __construct(
@@ -30,7 +26,6 @@ class TransferenciaService
         string $tipo = Transacao::TIPO_TED_INTERNA,
         ?string $chaveIdempotencia = null,
     ): Transacao {
-        // Reenvio do mesmo pedido? Devolve a transação original (RNF17)
         if ($chaveIdempotencia) {
             $existente = Transacao::where('chave_idempotencia', $chaveIdempotencia)->first();
 
@@ -41,7 +36,6 @@ class TransferenciaService
 
         $verificacao = $this->antifraude->analisar($origem, $destino, $valorCentavos, $tipo);
 
-        // Reserva o limite antes de tocar no saldo (RN43)
         $consumo = $this->limites->consumirReservado($verificacao['consumo'], $valorCentavos);
 
         try {
@@ -80,14 +74,12 @@ class TransferenciaService
                 return $transacao->load('lancamentos.conta:id,numero');
             });
         } catch (\Throwable $e) {
-            // Falhou: devolve a reserva do limite
             $this->limites->devolverReserva($consumo, $valorCentavos);
 
             throw $e;
         }
     }
 
-    /** Transferência por chave Pix (RF05). */
     public function transferirPorChavePix(
         Conta $origem,
         string $chaveValor,
@@ -111,7 +103,6 @@ class TransferenciaService
         );
     }
 
-    /** Estorno simples (2 lançamentos invertidos) — usado pelo backoffice. */
     public function estornar(Transacao $transacao, Conta $contaOrigem, Conta $contaDestino): Transacao
     {
         if ($transacao->status === Transacao::STATUS_ESTORNADA) {

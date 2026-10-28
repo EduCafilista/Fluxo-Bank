@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** Consumo (utilizado + reservado) por conta, data e janela (RN43). */
 class ConsumoLimitePix extends Model
 {
     public const JANELA_DIURNA = 'DIURNA';

@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/** RBAC mínimo para o backoffice (RF09). */
 class ApenasBackoffice
 {
     public function handle(Request $request, Closure $next, string $perfil = 'ATENDENTE'): Response

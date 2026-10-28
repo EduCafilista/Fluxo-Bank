@@ -7,11 +7,6 @@ use App\Support\Sanitizador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-/**
- * Registra eventos de aplicação na trilha (RF-SEG01/RF-SEG04).
- * O contexto de usuário/request é propagado ao PostgreSQL via SET LOCAL,
- * para que os triggers também gravem quem fez a alteração.
- */
 class AuditoriaService
 {
     public function registrar(
@@ -24,7 +19,6 @@ class AuditoriaService
         ?Request $request = null,
         ?int $statusHttp = null,
     ): LogAuditoria {
-        // Em CLI/seed/testes não existe requisição HTTP real
         $request ??= app()->runningInConsole() ? null : request();
 
         return LogAuditoria::create([
@@ -44,7 +38,6 @@ class AuditoriaService
         ]);
     }
 
-    /** Categoria a partir do método/rota (RF-SEG04). */
     public function categoriaDaRequisicao(Request $request): string
     {
         $rota = mb_strtolower($request->path());

@@ -8,7 +8,6 @@ use App\Services\AgendamentoService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-/** Agendamento de transferências (RF06/RF25). */
 class AgendamentoController extends Controller
 {
     public function __construct(private AgendamentoService $agendamentos) {}
@@ -22,7 +21,6 @@ class AgendamentoController extends Controller
         ]);
     }
 
-    /** POST /api/v1/agendamentos */
     public function store(Request $request): JsonResponse
     {
         $dados = $request->validate([
@@ -52,7 +50,6 @@ class AgendamentoController extends Controller
         ], 201);
     }
 
-    /** DELETE /api/v1/agendamentos/{agendamento} */
     public function cancelar(Request $request, Agendamento $agendamento): JsonResponse
     {
         $conta = $request->user()->conta()->firstOrFail();

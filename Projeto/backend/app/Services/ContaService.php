@@ -7,7 +7,6 @@ use App\Models\Conta;
 use App\Models\Lancamento;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-/** Operações de conta (RF03/RF13/RF18 + RNF05). */
 class ContaService
 {
     public function saldo(Conta $conta): int
@@ -15,7 +14,6 @@ class ContaService
         return $conta->saldo();
     }
 
-    /** Extrato paginado, no máximo 50 por página (RNF05). */
     public function extrato(Conta $conta, int $porPagina = 50): LengthAwarePaginator
     {
         $porPagina = min(max($porPagina, 1), 50);
@@ -26,7 +24,6 @@ class ContaService
             ->paginate($porPagina);
     }
 
-    /** Autobloqueio preventivo pelo próprio cliente (RF13/RN34). */
     public function bloquear(Conta $conta, string $motivo): Conta
     {
         if ($conta->estaEncerrada()) {
@@ -57,7 +54,6 @@ class ContaService
         return $conta->refresh();
     }
 
-    /** Encerramento exige saldo zerado (RF13 / escopo). */
     public function encerrar(Conta $conta): Conta
     {
         if ($conta->saldo() !== 0) {
@@ -81,7 +77,6 @@ class ContaService
         return $conta->refresh();
     }
 
-    /** Aprovação de KYC pelo backoffice (RF09/RN37). */
     public function aprovarAbertura(Conta $conta): Conta
     {
         $conta->update([
@@ -126,7 +121,6 @@ class ContaService
         return $conta->refresh();
     }
 
-    /** Bloqueio por fraude feito pelo backoffice (RF09). */
     public function bloquearPorFraude(Conta $conta, string $motivo): Conta
     {
         $conta->update(['bloqueada' => true, 'status' => Conta::STATUS_BLOQUEADA]);
@@ -143,7 +137,6 @@ class ContaService
         return $conta->refresh();
     }
 
-    /** Total já movimentado hoje (usado no resumo do extrato). */
     public function resumoDoDia(Conta $conta): array
     {
         $lancamentos = Lancamento::where('conta_id', $conta->id)

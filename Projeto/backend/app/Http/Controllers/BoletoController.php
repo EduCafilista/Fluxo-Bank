@@ -6,12 +6,10 @@ use App\Services\PagamentosService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-/** Pagamento de boleto por linha digitável (RF08). */
 class BoletoController extends Controller
 {
     public function __construct(private PagamentosService $pagamentos) {}
 
-    /** POST /api/v1/boletos/pagar */
     public function pagar(Request $request): JsonResponse
     {
         $dados = $request->validate([
@@ -39,7 +37,6 @@ class BoletoController extends Controller
         ], 201);
     }
 
-    /** POST /api/v1/boletos/validar — valida a linha sem pagar. */
     public function validar(Request $request): JsonResponse
     {
         $dados = $request->validate(['linha_digitavel' => 'required|string']);

@@ -7,13 +7,6 @@ use App\Models\ConsumoLimitePix;
 use App\Models\Conta;
 use Illuminate\Support\Carbon;
 
-/**
- * Limites Pix (RF14/RF23 + RN27-RN30, RN42, RN43).
- *  - por transação, diário (valor e quantidade);
- *  - janela noturna (20h-6h) com teto reduzido;
- *  - conta sem chave Pix ativa usa o menor teto (RN42);
- *  - consumo/reserva com lock transacional por conta+dia+janela.
- */
 class LimitePixService
 {
     public function politica(Conta $conta): array
@@ -41,7 +34,6 @@ class LimitePixService
         ];
     }
 
-    /** Janela vigente: NOTURNA entre 20h e 6h (RN30). */
     public function janela(array $politica, ?Carbon $momento = null): string
     {
         $momento = $momento ?? now();
@@ -50,15 +42,13 @@ class LimitePixService
         $fim = $politica['hora_fim_noturno'];
 
         $noturna = $inicio > $fim
-            ? ($hora >= $inicio || $hora < $fim)   // janela que cruza a meia-noite
+            ? ($hora >= $inicio || $hora < $fim)
             : ($hora >= $inicio && $hora < $fim);
 
         return $noturna ? ConsumoLimitePix::JANELA_NOTURNA : ConsumoLimitePix::JANELA_DIURNA;
     }
 
     /**
-     * Verifica se o valor cabe nos limites ANTES de movimentar (RN27).
-     *
      * @return array{politica:array, janela:string, consumo:ConsumoLimitePix}
      */
     public function verificar(Conta $conta, int $valorCentavos): array
@@ -71,7 +61,6 @@ class LimitePixService
         $janela = $this->janela($politica);
         $temChaveAtiva = $conta->chavesPix()->where('status', 'ATIVA')->exists();
 
-        // Teto por transação: noturno, e ainda o de "sem chave" se for o caso (RN42)
         $tetoTransacao = $janela === ConsumoLimitePix::JANELA_NOTURNA
             ? $politica['noturno_por_transacao']
             : $politica['por_transacao'];
@@ -118,7 +107,6 @@ class LimitePixService
         return ['politica' => $politica, 'janela' => $janela, 'consumo' => $consumo];
     }
 
-    /** Reserva o valor (RN43) — chamado antes de mover o dinheiro. */
     public function reservar(Conta $conta, int $valorCentavos): ConsumoLimitePix
     {
         $verificacao = $this->verificar($conta, $valorCentavos);
@@ -130,7 +118,6 @@ class LimitePixService
         return $consumo->refresh();
     }
 
-    /** Reserva (alias usado pelo TransferenciaService). */
     public function consumirReservado(ConsumoLimitePix $consumo, int $valorCentavos): ConsumoLimitePix
     {
         $consumo->increment('valor_reservado', $valorCentavos);
@@ -139,7 +126,6 @@ class LimitePixService
         return $consumo->refresh();
     }
 
-    /** Confirma a reserva como utilizada (transferência deu certo). */
     public function consumir(ConsumoLimitePix $consumo, int $valorCentavos): void
     {
         $consumo->decrement('valor_reservado', $valorCentavos);
@@ -148,7 +134,6 @@ class LimitePixService
         $consumo->increment('quantidade_utilizada');
     }
 
-    /** Devolve a reserva (operação falhou/cancelada). */
     public function devolverReserva(ConsumoLimitePix $consumo, int $valorCentavos): void
     {
         $consumo->decrement('valor_reservado', $valorCentavos);
@@ -156,7 +141,6 @@ class LimitePixService
         $consumo->refresh();
     }
 
-    /** Converte reserva em consumo efetivo (mesma coisa de consumir, nome do fluxo). */
     public function confirmar(ConsumoLimitePix $consumo, int $valorCentavos): void
     {
         $this->consumir($consumo, $valorCentavos);
@@ -174,7 +158,6 @@ class LimitePixService
         );
     }
 
-    /** Resumo para o app (quanto ainda pode transferir). */
     public function resumo(Conta $conta): array
     {
         $politica = $this->politica($conta);

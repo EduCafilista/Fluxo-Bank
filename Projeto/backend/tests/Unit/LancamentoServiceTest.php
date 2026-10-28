@@ -8,7 +8,6 @@ use App\Services\LancamentoService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/** RN02/RN03: nenhuma transação pode ser gravada sem fechar em zero. */
 class LancamentoServiceTest extends TestCase
 {
     use RefreshDatabase;
@@ -20,7 +19,6 @@ class LancamentoServiceTest extends TestCase
 
         $this->expectException(PartidaDobradaInvalidaException::class);
 
-        // Um único crédito: soma != 0 → exceção e nada gravado
         $servico->lancar('DEPOSITO', [
             ['conta_id' => $user->conta->id, 'tipo' => Lancamento::TIPO_CREDITO, 'valor_centavos' => 1000],
         ]);

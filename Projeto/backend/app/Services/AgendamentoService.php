@@ -10,11 +10,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-/**
- * Agendamento de transferências (RF06/RF25 + RN45).
- * Estados: AGENDADO → EXECUTADO | FALHOU | CANCELADO | EXPIRADO.
- * O worker (agendamentos:processar) só pega o que está AGENDADO.
- */
 class AgendamentoService
 {
     public function __construct(private TransferenciaService $transferencias) {}
@@ -88,16 +83,11 @@ class AgendamentoService
         return $agendamento->refresh();
     }
 
-    /**
-     * Executa um agendamento com lock e idempotência (RN45).
-     * Chamado pelo worker. Devolve o status final.
-     */
     public function executar(Agendamento $agendamento): string
     {
         return DB::transaction(function () use ($agendamento) {
             $travado = Agendamento::whereKey($agendamento->id)->lockForUpdate()->firstOrFail();
 
-            // Só AGENDADO pode ser capturado (proteção contra dois workers)
             if ($travado->status !== Agendamento::STATUS_AGENDADO) {
                 return $travado->status;
             }
@@ -156,7 +146,6 @@ class AgendamentoService
         });
     }
 
-    /** Marca como EXPIRADO o que passou muito da hora (NC: mais de 7 dias). */
     public function expirarAntigos(): int
     {
         return Agendamento::where('status', Agendamento::STATUS_AGENDADO)

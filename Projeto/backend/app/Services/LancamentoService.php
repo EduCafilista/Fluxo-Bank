@@ -10,13 +10,7 @@ use App\Support\ContaInterna;
 use Illuminate\Support\Facades\DB;
 
 /**
- * ÚNICO ponto de escrita do razão contábil (CLS-03 / RN02 / RN03).
- *
- * Regras garantidas aqui:
- *  - toda transação tem 2+ lançamentos;
- *  - a soma (crédito - débito) é sempre ZERO;
- *  - a conta de origem/destino é travada quando informada;
- *  - a chave de idempotência evita gravar duas vezes o mesmo pedido.
+ * Serviço central de escrituração contábil por partidas dobradas (RN02/RN03).
  */
 class LancamentoService
 {
@@ -37,7 +31,6 @@ class LancamentoService
                 $existente = Transacao::where('chave_idempotencia', $chaveIdempotencia)->first();
 
                 if ($existente) {
-                    // Reenvio do mesmo pedido: devolve a transação original
                     return $existente;
                 }
             }
@@ -51,7 +44,6 @@ class LancamentoService
 
             $ids = collect($linhas)->pluck('conta_id')->unique()->sort()->values();
 
-            // Trava as contas na mesma ordem em todos os fluxos (evita deadlock)
             $travadas = Conta::whereIn('id', $ids)->orderBy('id')->lockForUpdate()->pluck('id')->all();
 
             foreach ($linhas as $linha) {
@@ -71,7 +63,6 @@ class LancamentoService
             $soma = $transacao->somaDosLancamentos();
 
             if ($soma !== 0) {
-                // Rollback automático: nunca fica transação "torta" no banco
                 throw new PartidaDobradaInvalidaException(
                     "Lançamentos não fecham em zero (soma = {$soma}). Nada foi gravado.",
                 );
@@ -81,7 +72,6 @@ class LancamentoService
         });
     }
 
-    /** Transferência interna entre duas contas (2 lançamentos). */
     public function transferir(
         Conta $origem,
         Conta $destino,
@@ -96,20 +86,28 @@ class LancamentoService
         ], $descricao, $chaveIdempotencia);
     }
 
-    /** Dinheiro entrando no sistema (crédito na conta + débito na conta interna). */
-    public function creditar(Conta $conta, int $valorCentavos, string $tipo, ?string $descricao = null): Transacao
-    {
+    public function creditar(
+        Conta $conta,
+        int $valorCentavos,
+        string $tipo,
+        ?string $descricao = null,
+        ?string $chaveIdempotencia = null,
+    ): Transacao {
         $interna = ContaInterna::obter();
 
         return $this->lancar($tipo, [
             ['conta_id' => $interna->id, 'tipo' => Lancamento::TIPO_DEBITO, 'valor_centavos' => $valorCentavos],
             ['conta_id' => $conta->id, 'tipo' => Lancamento::TIPO_CREDITO, 'valor_centavos' => $valorCentavos],
-        ], $descricao);
+        ], $descricao, $chaveIdempotencia);
     }
 
-    /** Dinheiro saindo do sistema (débito na conta + crédito na conta interna). */
-    public function debitar(Conta $conta, int $valorCentavos, string $tipo, ?string $descricao = null, ?string $chaveIdempotencia = null): Transacao
-    {
+    public function debitar(
+        Conta $conta,
+        int $valorCentavos,
+        string $tipo,
+        ?string $descricao = null,
+        ?string $chaveIdempotencia = null,
+    ): Transacao {
         $interna = ContaInterna::obter();
 
         return $this->lancar($tipo, [

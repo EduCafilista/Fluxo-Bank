@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/** Catálogo de planos do Fluxo (RF - assinaturas). */
 class Plano extends Model
 {
     protected $table = 'planos';

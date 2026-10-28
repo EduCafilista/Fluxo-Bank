@@ -53,7 +53,6 @@ class Cliente extends Model
         return $this->tipo_cliente === self::TIPO_PF;
     }
 
-    // Mostra só os dois últimos dígitos (RNF08 / LGPD)
     public function cpfMascarado(): ?string
     {
         if (! $this->cpf) {

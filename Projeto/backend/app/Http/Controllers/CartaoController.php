@@ -7,7 +7,6 @@ use App\Services\CartoesService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-/** Ciclo de vida dos cartões (RF07/RF12). */
 class CartaoController extends Controller
 {
     public function __construct(private CartoesService $cartoes) {}
@@ -23,7 +22,6 @@ class CartaoController extends Controller
         ]);
     }
 
-    /** POST /api/v1/cartoes  { modalidade: DEBITO|CREDITO, endereco_entrega } */
     public function store(Request $request): JsonResponse
     {
         $dados = $request->validate([
@@ -41,7 +39,6 @@ class CartaoController extends Controller
         ], 201);
     }
 
-    /** POST /api/v1/cartoes/{cartao}/virtual (RN38) */
     public function gerarVirtual(Request $request, Cartao $cartao): JsonResponse
     {
         $this->garantirDono($request, $cartao);
@@ -54,7 +51,6 @@ class CartaoController extends Controller
         ], 201);
     }
 
-    /** PATCH /api/v1/cartoes/{cartao}/bloqueio  { bloquear: true|false } */
     public function bloqueio(Request $request, Cartao $cartao): JsonResponse
     {
         $this->garantirDono($request, $cartao);
@@ -69,7 +65,6 @@ class CartaoController extends Controller
         ]);
     }
 
-    /** PATCH /api/v1/cartoes/{cartao}/limite  { limite_centavos } */
     public function limite(Request $request, Cartao $cartao): JsonResponse
     {
         $this->garantirDono($request, $cartao);
@@ -84,7 +79,6 @@ class CartaoController extends Controller
         ]);
     }
 
-    /** PATCH /api/v1/cartoes/{cartao}/compras-online  { permitir: true|false } (RN39) */
     public function comprasOnline(Request $request, Cartao $cartao): JsonResponse
     {
         $this->garantirDono($request, $cartao);

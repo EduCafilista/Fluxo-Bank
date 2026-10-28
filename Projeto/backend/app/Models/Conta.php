@@ -102,10 +102,6 @@ class Conta extends Model
         return $this->hasOne(ChavePix::class)->where('status', ChavePix::STATUS_ATIVA)->latestOfMany();
     }
 
-    /**
-     * Saldo derivado dos lançamentos (RN02/RF03) em UMA query (RNF01).
-     * Nunca existe coluna de saldo na tabela contas.
-     */
     public function saldo(): int
     {
         $soma = $this->lancamentos()
@@ -115,7 +111,6 @@ class Conta extends Model
         return (int) $soma;
     }
 
-    /** Saldo de várias contas em uma única query (usado em listagens). */
     public static function saldosPorConta(array $ids): array
     {
         return Lancamento::query()

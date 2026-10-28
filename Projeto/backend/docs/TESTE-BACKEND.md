@@ -88,7 +88,7 @@ O que ele valida:
 
 ---
 
-## 5. Suíte automatizada (76 testes, 261 asserções)
+## 5. Suíte automatizada (83 testes em 13 arquivos)
 
 Roda no PostgreSQL (`fluxo_test`, definido no `phpunit.xml`):
 
@@ -108,8 +108,8 @@ Cobertura por arquivo:
 | `ContaTest` | RF03/RF13/RF18/RNF05: saldo, extrato paginado, autobloqueio, encerramento, KYC pendente |
 | `TransferenciaTest` | RF05/RNF15/16/17: saldo, partidas dobradas, mesma conta, idempotência, conta bloqueada |
 | `PixTest` | RF04/RF14/RF23/RN28-RN30/RN42: chaves, limites, transferência por chave, EMV |
-| `PagamentoTest` | RF08/RF15: boleto, recusa sem saldo, recebimento, comprovante e IDOR |
-| `CartaoTest` | RF07/RF12/RN38/RN39: emissão, virtual, bloqueio, limite, compras on-line |
+| `PagamentoTest` | RF08/RF15: validação e pagamento de boleto, recusa sem saldo, recebimento Pix com idempotência, comprovante e IDOR |
+| `CartaoTest` | RF07/RF12/RF21/RF24/RN38–RN40/RN44: emissão, virtual (unicidade 409), bloqueio, limite, compras on-line, aviso de viagem e assinaturas do cartão |
 | `AgendamentoTest` | RF06/RF25/RN45: agendamento, worker, execução única, cancelamento |
 | `AssinaturaTest` | RN22: fatura proporcional e retirada lógica de item |
 | `AuditoriaTest` | RF-SEG01–04/RF22: middleware por categoria, triggers OLD/NEW/DIFF, append-only, masking |

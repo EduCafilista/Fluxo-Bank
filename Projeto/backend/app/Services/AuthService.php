@@ -9,10 +9,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-/**
- * Login, 2FA e emissão de token (RF02/RF17 + RN19/RN20).
- * Token: Sanctum, TTL de 60 min (config/sanctum.php) com rota de refresh.
- */
 class AuthService
 {
     public function __construct(
@@ -43,7 +39,6 @@ class AuthService
 
         $user->forceFill(['tentativas_login' => 0, 'bloqueado_ate' => null])->save();
 
-        // 2FA condicional: só desafia se o usuário ativou (RF02)
         if ($user->dois_fatores_ativo) {
             $codigo = $this->doisFatores->gerar($user, CodigoVerificacao::FINALIDADE_LOGIN);
 
@@ -61,7 +56,6 @@ class AuthService
                 'token_temporario' => $temporario->plainTextToken,
                 'canal' => $codigo['canal'],
                 'expira_em' => $codigo['expira_em'],
-                // Código só é exposto fora de produção (login simulado, sem SMS/e-mail real)
                 'codigo_teste' => app()->environment(['local', 'testing']) ? $codigo['codigo'] : null,
             ];
         }
@@ -75,7 +69,6 @@ class AuthService
     {
         $this->doisFatores->validar($user, $codigo, CodigoVerificacao::FINALIDADE_LOGIN);
 
-        // Descarta o token temporário e emite o definitivo
         $user->currentAccessToken()?->delete();
 
         $this->auditoria->registrar(

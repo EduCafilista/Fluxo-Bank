@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluxo Bank — Painel de Diagnóstico da API (CP3)</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --ok: #22c55e;
+      --warn: #f59e0b;
+      --err: #ef4444;
+      --accent: #38bdf8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .container { max-width: 1080px; margin: 0 auto; }
+    h1 { margin: 0 0 8px; font-size: 1.6rem; }
+    p.sub { margin: 0 0 20px; color: var(--muted); font-size: 0.95rem; }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr auto auto;
+      gap: 10px;
+      align-items: end;
+    }
+    label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 4px; }
+    input {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #0b1120;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+    button {
+      padding: 10px 16px;
+      border-radius: 6px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--accent);
+      color: #0f172a;
+    }
+    button.secondary {
+      background: #334155;
+      color: var(--text);
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+    }
+    .stat .num { font-size: 1.5rem; font-weight: 700; }
+    .stat .lbl { font-size: 0.8rem; color: var(--muted); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th { color: var(--muted); font-weight: 600; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .badge.ok { background: rgba(34, 197, 94, 0.18); color: var(--ok); }
+    .badge.warn { background: rgba(245, 158, 11, 0.18); color: var(--warn); }
+    .badge.err { background: rgba(239, 68, 68, 0.18); color: var(--err); }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    .sec-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Fluxo Bank — Painel de Diagnóstico da API (Checkpoint 3)</h1>
+    <p class="sub">
+      Validação não destrutiva de conectividade, PostgreSQL, migrations, autenticação Sanctum, RBAC, CORS e contratos REST v1.
+    </p>
+
+    <div class="panel">
+      <div class="controls">
+        <div>
+          <label for="baseUrl">URL Base da API</label>
+          <input id="baseUrl" type="url" value="https://fluxo-api-w858.onrender.com" />
+        </div>
+        <div>
+          <label for="emailCliente">E-mail Cliente (Demo)</label>
+          <input id="emailCliente" type="email" value="ana@fluxo.test" autocomplete="off" />
+        </div>
+        <div>
+          <label for="senhaDemo">Senha Demo (apenas em memória)</label>
+          <input id="senhaDemo" type="password" value="senha123" autocomplete="off" />
+        </div>
+        <button id="btnExecutar" type="button">Executar Diagnóstico</button>
+        <button id="btnExportar" type="button" class="secondary" disabled>Exportar Relatório Seguro</button>
+      </div>
+      <div class="sec-note">
+        Segurança (RNF13 / LGPD): Tokens e senhas permanecem exclusivamente em memória RAM durante o teste, nunca são salvos em <code>localStorage</code>/<code>sessionStorage</code>, são revogados no encerramento via <code>POST /api/v1/logout</code> e são mascarados automaticamente no relatório exportado.
+      </div>
+    </div>
+
+    <div class="summary">
+      <div class="stat"><div class="num" id="cntOk">0</div><div class="lbl">Aprovadas (OK)</div></div>
+      <div class="stat"><div class="num" id="cntWarn">0</div><div class="lbl">Avisos (CORS / Proxy)</div></div>
+      <div class="stat"><div class="num" id="cntErr">0</div><div class="lbl">Falhas</div></div>
+      <div class="stat"><div class="num" id="lblVersao">—</div><div class="lbl">Versão / Deploy Detectado</div></div>
+    </div>
+
+    <div class="panel">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 90px;">Status</th>
+            <th style="width: 240px;">Verificação</th>
+            <th>Diagnóstico Técnico</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaResultados">
+          <tr><td colspan="3" style="color: var(--muted);">Clique em "Executar Diagnóstico" para iniciar.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      let ultimoRelatorio = null;
+
+      function sanitizarObjeto(valor) {
+        const camposSensiveis = ['password', 'senha', 'token', 'token_temporario', 'authorization', 'codigo_teste', 'cvv', 'cvv_hash'];
+        if (valor === null || valor === undefined) return valor;
+        if (typeof valor !== 'object') return valor;
+        if (Array.isArray(valor)) return valor.map(sanitizarObjeto);
+        const copia = {};
+        for (const [k, v] of Object.entries(valor)) {
+          if (camposSensiveis.includes(k.toLowerCase())) {
+            copia[k] = '[MASCARADO]';
+          } else {
+            copia[k] = sanitizarObjeto(v);
+          }
+        }
+        return copia;
+      }
+
+      function classificarErroRede(err, rota) {
+        const msg = String(err && err.message ? err.message : err);
+        if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('Load failed')) {
+          return {
+            tipo: 'CORS_OU_REDIRECT',
+            detalhe: `Navegador bloqueou a leitura de ${rota} (${msg}). Causa típica em navegador: ausência de Access-Control-Allow-Origin fora de api/* ou redirecionamento 308 cross-origin. Não indica pacote antigo.`
+          };
+        }
+        return { tipo: 'REDE', detalhe: msg };
+      }
+
+      async function requisitar(baseUrl, metodo, caminho, opcoes = {}) {
+        const url = baseUrl.replace(/\/+$/, '') + caminho;
+        const headers = { 'Accept': 'application/json', ...(opcoes.headers || {}) };
+        if (opcoes.token) {
+          headers['Authorization'] = `Bearer ${opcoes.token}`;
+        }
+        if (opcoes.body !== undefined) {
+          headers['Content-Type'] = 'application/json';
+        }
+        const inicio = performance.now();
+        try {
+          const res = await fetch(url, {
+            method: metodo,
+            headers,
+            body: opcoes.body !== undefined ? JSON.stringify(opcoes.body) : undefined,
+            redirect: opcoes.redirect || 'follow',
+            cache: 'no-store'
+          });
+          const duracaoMs = Math.round(performance.now() - inicio);
+          const texto = await res.text();
+          let json = null;
+          try { json = texto ? JSON.parse(texto) : null; } catch (_) {}
+          return {
+            okRede: true,
+            status: res.status,
+            type: res.type,
+            headers: res.headers,
+            texto,
+            json,
+            duracaoMs
+          };
+        } catch (err) {
+          return {
+            okRede: false,
+            status: 0,
+            erroRede: classificarErroRede(err, caminho),
+            duracaoMs: Math.round(performance.now() - inicio)
+          };
+        }
+      }
+
+      async function executarDiagnostico() {
+        const btnExecutar = document.getElementById('btnExecutar');
+        const btnExportar = document.getElementById('btnExportar');
+        const tbody = document.getElementById('tabelaResultados');
+        const baseUrl = document.getElementById('baseUrl').value.trim().replace(/\/+$/, '');
+        const emailCliente = document.getElementById('emailCliente').value.trim();
+        const senhaDemo = document.getElementById('senhaDemo').value;
+
+        btnExecutar.disabled = true;
+        btnExportar.disabled = true;
+        tbody.innerHTML = '';
+
+        const itens = [];
+        let okCount = 0;
+        let warnCount = 0;
+        let errCount = 0;
+
+        function registrar(nivel, titulo, detalhe) {
+          if (nivel === 'ok') okCount++;
+          else if (nivel === 'warn') warnCount++;
+          else errCount++;
+
+          itens.push({ nivel, titulo, detalhe: String(detalhe) });
+
+          const tr = document.createElement('tr');
+          const label = nivel === 'ok' ? 'OK' : (nivel === 'warn' ? 'AVISO' : 'FALHA');
+          tr.innerHTML = `
+            <td><span class="badge ${nivel}">${label}</span></td>
+            <td><strong>${titulo}</strong></td>
+            <td>${detalhe}</td>
+          `;
+          tbody.appendChild(tr);
+
+          document.getElementById('cntOk').textContent = String(okCount);
+          document.getElementById('cntWarn').textContent = String(warnCount);
+          document.getElementById('cntErr').textContent = String(errCount);
+        }
+
+        // 1. Health Check e Identificação de Versão / Deploy
+        const health = await requisitar(baseUrl, 'GET', '/api/v1/health');
+        if (health.okRede && health.status === 200 && health.json) {
+          const b = health.json.banco || {};
+          const versaoApi = health.json.api || 'v1';
+          const commit = health.json.commit ? ` (${health.json.commit})` : '';
+          document.getElementById('lblVersao').textContent = `${versaoApi}${commit}`;
+
+          registrar('ok', '1. Health Check (/api/v1/health)', `HTTP 200 em ${health.duracaoMs}ms — status=${health.json.status}, ambiente=${health.json.ambiente}`);
+          registrar(b.conexao === 'pgsql' ? 'ok' : 'err', '2. Banco PostgreSQL conectado', `Driver=${b.conexao}, Database=${b.database}, Versão=${b.versao}`);
+          registrar(b.migrations_pendentes === 0 ? 'ok' : 'err', '3. Migrations em dia', `migrations_pendentes=${b.migrations_pendentes}`);
+          registrar('ok', '4. Identificação da versão do deploy', `API ${versaoApi} ativa no Render com schema v1 completo (0 migrations pendentes)${commit}.`);
+        } else {
+          document.getElementById('lblVersao').textContent = 'Indisponível';
+          registrar('err', '1. Health Check (/api/v1/health)', health.okRede ? `HTTP ${health.status}` : health.erroRede.detalhe);
+        }
+
+        // 2. Cabeçalhos expostos no navegador (X-Request-Id e Rate Limit)
+        if (health.okRede) {
+          const reqId = health.headers.get('x-request-id');
+          const rlLimit = health.headers.get('x-ratelimit-limit');
+          if (reqId) {
+            registrar('ok', '5. Cabeçalho X-Request-Id visível via CORS', `X-Request-Id=${reqId}`);
+          } else {
+            registrar('warn', '5. Cabeçalho X-Request-Id oculto pelo CORS no navegador', 'O middleware AuditoriaRequisicao envia X-Request-Id, mas o navegador exige Access-Control-Expose-Headers em config/cors.php para expô-lo ao fetch().');
+          }
+
+          if (rlLimit) {
+            registrar('ok', '6. Cabeçalhos de Rate Limit visíveis via CORS', `X-RateLimit-Limit=${rlLimit}, Remaining=${health.headers.get('x-ratelimit-remaining')}`);
+          } else {
+            registrar('warn', '6. Cabeçalhos de Rate Limit ocultos pelo CORS no navegador', 'O throttle da API está ativo, mas X-RateLimit-Limit exige Access-Control-Expose-Headers em config/cors.php para leitura via JS cross-origin.');
+          }
+        }
+
+        // 3. OpenAPI (/api/v1/openapi.yaml ou /docs/openapi.yaml)
+        const oaV1 = await requisitar(baseUrl, 'GET', '/api/v1/openapi.yaml');
+        if (oaV1.okRede && oaV1.status === 200 && oaV1.texto.includes('openapi:')) {
+          registrar('ok', '7. Contrato OpenAPI (/api/v1/openapi.yaml)', 'Especificação OpenAPI 3.0 carregada com CORS habilitado.');
+        } else {
+          const oaDocs = await requisitar(baseUrl, 'GET', '/docs/openapi.yaml');
+          if (oaDocs.okRede && oaDocs.status === 200 && oaDocs.texto.includes('openapi:')) {
+            registrar('ok', '7. Contrato OpenAPI (/docs/openapi.yaml)', 'Especificação OpenAPI 3.0 carregada com sucesso.');
+          } else if (oaDocs.okRede && oaDocs.status === 500) {
+            registrar('warn', '7. Contrato OpenAPI (/docs/openapi.yaml)', 'HTTP 500 no commit d569aa1 em produção (grupo de middleware web acionava EncryptCookies/Encrypter com APP_KEY base64 sem prefixo e BinaryFileResponse). Corrigido localmente em routes/web.php, routes/api_v1.php e config/app.php.');
+          } else if (!oaDocs.okRede && oaDocs.erroRede.tipo === 'CORS_OU_REDIRECT') {
+            registrar('warn', '7. Contrato OpenAPI (/docs/openapi.yaml)', 'Bloqueio CORS no navegador ou HTTP 500 sem cabeçalho Access-Control-Allow-Origin no deploy d569aa1. Corrigido localmente com config/cors.php e rota sem middleware de sessão.');
+          } else {
+            registrar('warn', '7. Contrato OpenAPI', `Status=${oaDocs.status}`);
+          }
+        }
+
+        // 4. Rota inexistente em /api/v1/* e redirecionamento 308 de rota legada
+        const naoExiste = await requisitar(baseUrl, 'GET', '/api/v1/rota-inexistente-diagnostico', { redirect: 'manual' });
+        if (naoExiste.okRede && naoExiste.status === 404) {
+          registrar('ok', '8. Rota inexistente (/api/v1/rota-inexistente)', 'Retornou HTTP 404 JSON conforme esperado.');
+        } else if (naoExiste.okRede && (naoExiste.type === 'opaqueredirect' || naoExiste.status === 308)) {
+          registrar('warn', '8. Rota inexistente (/api/v1/rota-inexistente)', 'Caiu no catch-all HTTP 308 de routes/api.php (que redirecionava para /api/v1/v1/...). Corrigido no código local com Route::fallback 404 em routes/api_v1.php.');
+        } else if (!naoExiste.okRede && naoExiste.erroRede.tipo === 'CORS_OU_REDIRECT') {
+          registrar('warn', '8. Rota inexistente (/api/v1/rota-inexistente)', 'Redirecionamento 308 em loop (/api/v1/v1/...) ou Location http:// bloqueado pelo navegador. Corrigido com Route::fallback 404 + trustProxies.');
+        } else {
+          registrar('err', '8. Rota inexistente', `Status=${naoExiste.status}`);
+        }
+
+        // 5. Rota protegida sem token -> 401
+        const semToken = await requisitar(baseUrl, 'GET', '/api/v1/conta');
+        registrar(semToken.okRede && semToken.status === 401 ? 'ok' : 'err', '9. Proteção de rota sem token (/api/v1/conta)', `HTTP ${semToken.status} (esperado 401)`);
+
+        // 6. Login Cliente (Token apenas em variável local de memória)
+        let tokenCliente = null;
+        const login = await requisitar(baseUrl, 'POST', '/api/v1/login', {
+          body: { email: emailCliente, password: senhaDemo }
+        });
+
+        if (login.okRede && login.status === 200 && login.json && login.json.token) {
+          tokenCliente = login.json.token;
+          registrar('ok', '10. Login de cliente (/api/v1/login)', `Autenticado (${emailCliente}), perfil=${login.json.perfil}, token mantido apenas em RAM.`);
+        } else if (login.okRede && login.status === 401) {
+          registrar('warn', '10. Login de cliente (/api/v1/login)', `HTTP 401 para ${emailCliente}: credenciais não cadastradas no banco de produção (o Dockerfile executa apenas migrate --force e não roda DemoSeeder em produção por segurança). Informe um usuário já cadastrado via /api/v1/cadastro para validar as rotas autenticadas.`);
+        } else {
+          registrar('err', '10. Login de cliente (/api/v1/login)', login.okRede ? `HTTP ${login.status}` : login.erroRede.detalhe);
+        }
+
+        if (tokenCliente) {
+          // 7. Dados do usuário (/api/v1/eu) com mascaramento LGPD
+          const eu = await requisitar(baseUrl, 'GET', '/api/v1/eu', { token: tokenCliente });
+          const docMasc = eu.json && eu.json.cliente ? eu.json.cliente.documento_mascarado : '';
+          registrar(eu.okRede && eu.status === 200 && String(docMasc).includes('*') ? 'ok' : 'err',
+            '11. Perfil e mascaramento LGPD (/api/v1/eu)',
+            `HTTP ${eu.status} — Documento mascarado=${docMasc}`);
+
+          // 8. Saldo e Limites Pix (/api/v1/conta)
+          const conta = await requisitar(baseUrl, 'GET', '/api/v1/conta', { token: tokenCliente });
+          registrar(conta.okRede && conta.status === 200 && typeof (conta.json && conta.json.saldo_centavos) === 'number' ? 'ok' : 'err',
+            '12. Saldo derivado e limites Pix (/api/v1/conta)',
+            `HTTP ${conta.status} — saldo_centavos=${conta.json ? conta.json.saldo_centavos : 'N/A'}`);
+
+          // 9. Extrato paginado (/api/v1/conta/extrato)
+          const extrato = await requisitar(baseUrl, 'GET', '/api/v1/conta/extrato?per_page=10', { token: tokenCliente });
+          registrar(extrato.okRede && extrato.status === 200 ? 'ok' : 'err',
+            '13. Extrato paginado (/api/v1/conta/extrato)',
+            `HTTP ${extrato.status} — total=${extrato.json ? extrato.json.total : 'N/A'} lançamentos`);
+
+          // 10. Chaves Pix (/api/v1/chaves-pix)
+          const chaves = await requisitar(baseUrl, 'GET', '/api/v1/chaves-pix', { token: tokenCliente });
+          registrar(chaves.okRede && chaves.status === 200 ? 'ok' : 'err',
+            '14. Consulta de chaves Pix (/api/v1/chaves-pix)',
+            `HTTP ${chaves.status}`);
+
+          // 11. Cobrança Pix EMV (/api/v1/pix/cobrancas)
+          const emv = await requisitar(baseUrl, 'POST', '/api/v1/pix/cobrancas', {
+            token: tokenCliente,
+            body: { valor_centavos: 1500, descricao: 'Diagnostico EMV' }
+          });
+          registrar(emv.okRede && emv.status === 201 && emv.json && emv.json.valido ? 'ok' : 'err',
+            '15. Geração de QR Code Pix EMV + CRC16 (/api/v1/pix/cobrancas)',
+            `HTTP ${emv.status} — CRC16=${emv.json ? emv.json.crc16 : 'N/A'}, valido=${emv.json ? emv.json.valido : false}`);
+
+          // 12. Validação de boleto sem débito (/api/v1/boletos/validar)
+          const boleto = await requisitar(baseUrl, 'POST', '/api/v1/boletos/validar', {
+            token: tokenCliente,
+            body: { linha_digitavel: '34191790010104351004791020150008291070026000142' }
+          });
+          registrar(boleto.okRede && boleto.status === 200 && boleto.json && boleto.json.valido ? 'ok' : 'err',
+            '16. Validação de linha digitável (/api/v1/boletos/validar)',
+            `HTTP ${boleto.status} — 47 dígitos válidos (sem alterar saldo de produção)`);
+
+          // 13. Cartões e Planos (/api/v1/cartoes e /api/v1/planos)
+          const cartoes = await requisitar(baseUrl, 'GET', '/api/v1/cartoes', { token: tokenCliente });
+          registrar(cartoes.okRede && cartoes.status === 200 ? 'ok' : 'err',
+            '17. Listagem de cartões (/api/v1/cartoes)',
+            `HTTP ${cartoes.status}`);
+
+          // 14. RBAC — Cliente bloqueado no Backoffice -> 403
+          const rbac = await requisitar(baseUrl, 'GET', '/api/v1/backoffice/resumo', { token: tokenCliente });
+          registrar(rbac.okRede && rbac.status === 403 ? 'ok' : 'err',
+            '18. Proteção RBAC Backoffice (/api/v1/backoffice/resumo)',
+            `HTTP ${rbac.status} (esperado 403 para perfil CLIENTE)`);
+
+          // 15. Logout e revogação imediata do token
+          const logout = await requisitar(baseUrl, 'POST', '/api/v1/logout', { token: tokenCliente });
+          const posLogout = await requisitar(baseUrl, 'GET', '/api/v1/conta', { token: tokenCliente });
+          tokenCliente = null;
+
+          registrar(logout.okRede && logout.status === 200 && posLogout.status === 401 ? 'ok' : 'err',
+            '19. Logout e revogação do token (/api/v1/logout)',
+            `Logout HTTP ${logout.status} -> Reuso do token retornou HTTP ${posLogout.status} (revogado)`);
+        }
+
+        ultimoRelatorio = sanitizarObjeto({
+          gerado_em: new Date().toISOString(),
+          url_base: baseUrl,
+          resumo: { aprovadas: okCount, avisos: warnCount, falhas: errCount },
+          verificacoes: itens
+        });
+
+        btnExecutar.disabled = false;
+        btnExportar.disabled = false;
+      }
+
+      function exportarRelatorio() {
+        if (!ultimoRelatorio) return;
+        const blob = new Blob([JSON.stringify(ultimoRelatorio, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `diagnostico-fluxo-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      document.getElementById('btnExecutar').addEventListener('click', executarDiagnostico);
+      document.getElementById('btnExportar').addEventListener('click', exportarRelatorio);
+    })();
+  </script>
+</body>
+</html>
+

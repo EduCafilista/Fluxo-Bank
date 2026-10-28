@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** Ciclo de faturamento de uma assinatura de plano. */
 class Cobranca extends Model
 {
     protected $table = 'cobrancas';

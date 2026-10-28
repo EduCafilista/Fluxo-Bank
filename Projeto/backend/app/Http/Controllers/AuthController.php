@@ -7,7 +7,6 @@ use App\Services\Servico2FA;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-/** RF02/RF17 + RN19/RN20: login, 2FA, refresh e logout. */
 class AuthController extends Controller
 {
     public function __construct(
@@ -29,7 +28,6 @@ class AuthController extends Controller
         return response()->json($this->auth->login($dados['email'], $dados['password']));
     }
 
-    /** POST /api/v1/2fa/validar  (autenticado com token temporário) */
     public function validarDoisFatores(Request $request): JsonResponse
     {
         $dados = $request->validate([
@@ -44,7 +42,6 @@ class AuthController extends Controller
         ] + $this->auth->validarSegundoFator($request->user(), $dados['codigo']));
     }
 
-    /** POST /api/v1/2fa/desafio — gera novo código para quem já está logado. */
     public function novoDesafio(Request $request): JsonResponse
     {
         $codigo = $this->doisFatores->gerar($request->user(), 'LOGIN');
@@ -70,7 +67,6 @@ class AuthController extends Controller
         return response()->json(['mensagem' => 'Verificação em dois fatores desativada.']);
     }
 
-    /** POST /api/v1/refresh — troca o token antes de expirar (RNF10). */
     public function refresh(Request $request): JsonResponse
     {
         return response()->json($this->auth->refresh($request->user()));
@@ -83,7 +79,6 @@ class AuthController extends Controller
         return response()->json(['mensagem' => 'Sessão encerrada.']);
     }
 
-    /** POST /api/v1/logout-all — revoga todos os tokens do usuário. */
     public function logoutTodos(Request $request): JsonResponse
     {
         $request->user()->tokens()->delete();

@@ -7,12 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * RNF17: reenvio da mesma requisição (mesmo Idempotency-Key) devolve
- * exatamente a resposta anterior, sem executar a operação de novo.
- * A defesa final é a unique em transacoes.chave_idempotencia; este
- * middleware evita até a segunda execução da regra de negócio.
- */
 class Idempotencia
 {
     public function handle(Request $request, Closure $next): Response

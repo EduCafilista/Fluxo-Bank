@@ -5,10 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * Trilha de auditoria (RF-SEG01 a RF-SEG04, RF22).
- * Append-only: o banco bloqueia UPDATE e DELETE (ver migration de triggers).
- */
 class LogAuditoria extends Model
 {
     public const CATEGORIA_ACESSO = 'ACESSO';

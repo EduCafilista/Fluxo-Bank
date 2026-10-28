@@ -8,7 +8,6 @@ use App\Services\PagamentosService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-/** Cobranças Pix / QR Code (RF08/RF15 + RN36). */
 class PixController extends Controller
 {
     public function __construct(
@@ -17,7 +16,6 @@ class PixController extends Controller
         private ContaService $contas,
     ) {}
 
-    /** POST /api/v1/pix/cobrancas — gera o payload EMV (copia e cola). */
     public function cobranca(Request $request): JsonResponse
     {
         $dados = $request->validate([
@@ -33,7 +31,6 @@ class PixController extends Controller
         );
     }
 
-    /** POST /api/v1/pix/recebimentos — simula o pagamento de um QR Code. */
     public function receber(Request $request): JsonResponse
     {
         $dados = $request->validate([
@@ -57,7 +54,6 @@ class PixController extends Controller
         ], 201);
     }
 
-    /** GET /api/v1/pix/limites — quanto ainda pode transferir hoje. */
     public function limites(Request $request): JsonResponse
     {
         $conta = $request->user()->conta()->firstOrFail();

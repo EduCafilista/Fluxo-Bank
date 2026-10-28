@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** Associação assinatura↔item com exclusão lógica (RN22). */
 class ItemAssinatura extends Model
 {
     protected $table = 'itens_assinatura';

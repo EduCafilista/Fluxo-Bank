@@ -7,7 +7,6 @@ use App\Models\Lancamento;
 use App\Models\Transacao;
 use Illuminate\Support\Carbon;
 
-/** Comprovante e extrato categorizado (RF06 + RNF05). */
 class RelatorioService
 {
     public function comprovante(Transacao $transacao): array
@@ -32,7 +31,6 @@ class RelatorioService
         ];
     }
 
-    /** Totais por categoria (extrato categorizado por tipo de transação). */
     public function extratoCategorizado(Conta $conta, ?Carbon $de = null, ?Carbon $ate = null): array
     {
         $de ??= now()->startOfMonth();

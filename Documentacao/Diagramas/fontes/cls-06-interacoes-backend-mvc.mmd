@@ -1,0 +1,277 @@
+classDiagram
+    direction TB
+
+    class CadastroController {
+        -CadastroService cadastro
+        +store(Request request) JsonResponse
+    }
+    class AuthController {
+        -AuthService auth
+        -Servico2FA doisFatores
+        +login(Request request) JsonResponse
+        +validarDoisFatores(Request request) JsonResponse
+        +novoDesafio(Request request) JsonResponse
+        +ativarDoisFatores(Request request) JsonResponse
+        +desativarDoisFatores(Request request) JsonResponse
+        +refresh(Request request) JsonResponse
+        +logout(Request request) JsonResponse
+        +logoutTodos(Request request) JsonResponse
+        +eu(Request request) JsonResponse
+    }
+    class ContaController {
+        -ContaService contas
+        -RelatorioService relatorios
+        -LimitePixService limites
+        +show(Request request) JsonResponse
+        +extrato(Request request) JsonResponse
+        +extratoCategorizado(Request request) JsonResponse
+        +bloquear(Request request) JsonResponse
+        +desbloquear(Request request) JsonResponse
+        +encerrar(Request request) JsonResponse
+    }
+    class TransacaoController {
+        -TransferenciaService transferencias
+        +store(Request request) JsonResponse
+        +show(Request request, Transacao transacao) JsonResponse
+        +index(Request request) JsonResponse
+    }
+    class ChavePixController {
+        -ChavePixService chaves
+        +index(Request request) JsonResponse
+        +store(Request request) JsonResponse
+        +destroy(Request request, ChavePix chave) JsonResponse
+    }
+    class PixController {
+        -PagamentosService pagamentos
+        -LimitePixService limites
+        -ContaService contas
+        +cobranca(Request request) JsonResponse
+        +receber(Request request) JsonResponse
+        +limites(Request request) JsonResponse
+    }
+    class BoletoController {
+        -PagamentosService pagamentos
+        +pagar(Request request) JsonResponse
+        +validar(Request request) JsonResponse
+    }
+    class CartaoController {
+        -CartoesService cartoes
+        +index(Request request) JsonResponse
+        +store(Request request) JsonResponse
+        +gerarVirtual(Request request, Cartao cartao) JsonResponse
+        +bloqueio(Request request, Cartao cartao) JsonResponse
+        +limite(Request request, Cartao cartao) JsonResponse
+        +comprasOnline(Request request, Cartao cartao) JsonResponse
+    }
+    class AvisoViagemController {
+        -AvisoViagemService avisos
+        +index(Request request) JsonResponse
+        +store(Request request) JsonResponse
+        +cancelar(Request request, AvisoViagem aviso) JsonResponse
+    }
+    class AgendamentoController {
+        -AgendamentoService agendamentos
+        +index(Request request) JsonResponse
+        +store(Request request) JsonResponse
+        +cancelar(Request request, Agendamento agendamento) JsonResponse
+    }
+    class AssinaturaController {
+        -AssinaturaService assinaturas
+        +planos() JsonResponse
+        +index(Request request) JsonResponse
+        +store(Request request) JsonResponse
+        +adicionarItem(Request request, Assinatura assinatura) JsonResponse
+        +removerItem(Request request, Assinatura assinatura, Item item) JsonResponse
+        +cancelar(Request request, Assinatura assinatura) JsonResponse
+    }
+    class AssinaturaCartaoController {
+        +index(Request request) JsonResponse
+        +cancelar(Request request, AssinaturaCartao assinaturaCartao) JsonResponse
+    }
+    class ChamadoSuporteController {
+        +index(Request request) JsonResponse
+        +store(Request request) JsonResponse
+        +show(Request request, ChamadoSuporte chamado) JsonResponse
+    }
+    class BackofficeController {
+        -ContaService contas
+        +resumo() JsonResponse
+        +contas(Request request) JsonResponse
+        +aprovarKyc(Conta conta) JsonResponse
+        +recusarKyc(Request request, Conta conta) JsonResponse
+        +bloquearPorFraude(Request request, Conta conta) JsonResponse
+        +chamados() JsonResponse
+        +responderChamado(Request request, ChamadoSuporte chamado) JsonResponse
+    }
+    class AuditoriaController {
+        +index(Request request) JsonResponse
+        +show(LogAuditoria log) JsonResponse
+    }
+    class HealthController {
+        +__invoke() JsonResponse
+    }
+
+    class CadastroService {
+        +cadastrarPessoaFisica(array dados) Conta
+        +cadastrarPessoaJuridica(array dados) Conta
+        +abrirConta(User user, Cliente cliente, string tipoConta) Conta
+    }
+    class AuthService {
+        -AuditoriaService auditoria
+        -Servico2FA doisFatores
+        +login(string email, string senha) array
+        +validarSegundoFator(User user, string codigo) array
+        +refresh(User user) array
+        +logout(User user) void
+        +ativarDoisFatores(User user) void
+        +desativarDoisFatores(User user) void
+    }
+    class Servico2FA {
+        +gerar(User user, string finalidade) array
+        +validar(User user, string codigo, string finalidade) CodigoVerificacao
+    }
+    class ContaService {
+        +saldo(Conta conta) int
+        +extrato(Conta conta, int porPagina) LengthAwarePaginator
+        +bloquear(Conta conta, string motivo) Conta
+        +desbloquear(Conta conta) Conta
+        +encerrar(Conta conta) Conta
+        +aprovarAbertura(Conta conta) Conta
+        +recusarAbertura(Conta conta, string motivo) Conta
+        +bloquearPorFraude(Conta conta, string motivo) Conta
+        +resumoDoDia(Conta conta) array
+    }
+    class TransferenciaService {
+        -LancamentoService lancamentos
+        -MotorAntifraude antifraude
+        -LimitePixService limites
+        -ChavePixService chaves
+        +transferir(Conta origem, Conta destino, int valorCentavos, string descricao, string tipo, string chaveIdempotencia) Transacao
+        +transferirPorChavePix(Conta origem, string chaveValor, int valorCentavos, string descricao, string chaveIdempotencia) Transacao
+        +estornar(Transacao transacao, Conta contaOrigem, Conta contaDestino) Transacao
+    }
+    class LancamentoService {
+        +lancar(string tipo, array linhas, string descricao, string chaveIdempotencia, string status) Transacao
+        +transferir(Conta origem, Conta destino, int valorCentavos, string descricao, string tipo, string chaveIdempotencia) Transacao
+        +creditar(Conta conta, int valorCentavos, string tipo, string descricao, string chaveIdempotencia) Transacao
+        +debitar(Conta conta, int valorCentavos, string tipo, string descricao, string chaveIdempotencia) Transacao
+    }
+    class MotorAntifraude {
+        -LimitePixService limites
+        +analisar(Conta origem, Conta destino, int valorCentavos, string tipo) array
+    }
+    class LimitePixService {
+        +politica(Conta conta) array
+        +janela(array politica, Carbon momento) string
+        +verificar(Conta conta, int valorCentavos) array
+        +reservar(Conta conta, int valorCentavos) ConsumoLimitePix
+        +consumirReservado(ConsumoLimitePix consumo, int valorCentavos) ConsumoLimitePix
+        +consumir(ConsumoLimitePix consumo, int valorCentavos) void
+        +devolverReserva(ConsumoLimitePix consumo, int valorCentavos) void
+        +confirmar(ConsumoLimitePix consumo, int valorCentavos) void
+        +consumoDoDia(Conta conta, string janela) ConsumoLimitePix
+        +resumo(Conta conta) array
+    }
+    class ChavePixService {
+        +cadastrar(Conta conta, string tipo, string valor) ChavePix
+        +revogar(ChavePix chave) ChavePix
+        +resolver(string valor) ChavePix
+    }
+    class PagamentosService {
+        -LancamentoService lancamentos
+        -MotorAntifraude antifraude
+        -LimitePixService limites
+        +pagarBoleto(Conta conta, string linhaDigitavel, int valorCentavos, string chaveIdempotencia) Transacao
+        +gerarCobrancaPix(Conta conta, int valorCentavos, string descricao) array
+        +receberPix(Conta conta, int valorCentavos, string descricao, string chaveIdempotencia) Transacao
+        +depositar(Conta conta, int valorCentavos, string descricao) Transacao
+    }
+    class CartoesService {
+        +emitirFisico(Conta conta, string modalidade, string enderecoEntrega) Cartao
+        +gerarVirtual(Cartao cartaoFisico) Cartao
+        +bloqueio(Cartao cartao, bool bloquear) Cartao
+        +ajustarLimite(Cartao cartao, int novoLimiteCentavos) Cartao
+        +definirComprasOnline(Cartao cartao, bool permitir) CartaoFisico
+    }
+    class AvisoViagemService {
+        +criar(Conta conta, Cartao cartao, array localidades, string inicio, string fim) AvisoViagem
+        +cancelar(AvisoViagem aviso) AvisoViagem
+        +existeAvisoAtivo(Cartao cartao, string localidade) bool
+    }
+    class AgendamentoService {
+        -TransferenciaService transferencias
+        +agendar(Conta origem, Conta destino, int valorCentavos, Carbon quando, string descricao, string tipo, string chaveIdempotencia) Agendamento
+        +cancelar(Agendamento agendamento, Conta conta) Agendamento
+        +executar(Agendamento agendamento) string
+        +expirarAntigos() int
+    }
+    class AssinaturaService {
+        +contratar(Cliente cliente, Plano plano, int diaCobranca) Assinatura
+        +adicionarItem(Assinatura assinatura, Item item) ItemAssinatura
+        +removerItem(Assinatura assinatura, Item item, string motivo) void
+        +cancelar(Assinatura assinatura) Assinatura
+        +gerarCobrancaProporcional(Assinatura assinatura) Cobranca
+    }
+    class RelatorioService {
+        +comprovante(Transacao transacao) array
+        +extratoCategorizado(Conta conta, Carbon de, Carbon ate) array
+    }
+    class AuditoriaService {
+        +registrar(string categoria, string operacao, array payload, string tabela, string registroId, int usuarioId, Request request, int statusHttp) LogAuditoria
+        +categoriaDaRequisicao(Request request) string
+        +requestId(Request request) string
+    }
+
+    class ContaInterna {
+        +obter()$ Conta
+    }
+    class Emv {
+        +pixPayload(string chave, int valorCentavos, string txid, string nome, string cidade)$ string
+        +crc16(string payload)$ string
+    }
+    class Sanitizador {
+        +limpar(mixed dado)$ mixed
+        +cabecalhos(array headers)$ array
+    }
+
+    CadastroController --> CadastroService
+    AuthController --> AuthService
+    AuthController --> Servico2FA
+    ContaController --> ContaService
+    ContaController --> RelatorioService
+    ContaController --> LimitePixService
+    TransacaoController --> TransferenciaService
+    TransacaoController ..> RelatorioService
+    ChavePixController --> ChavePixService
+    PixController --> PagamentosService
+    PixController --> LimitePixService
+    PixController --> ContaService
+    BoletoController --> PagamentosService
+    CartaoController --> CartoesService
+    AvisoViagemController --> AvisoViagemService
+    AgendamentoController --> AgendamentoService
+    AssinaturaController --> AssinaturaService
+    BackofficeController --> ContaService
+
+    AuthService --> AuditoriaService
+    AuthService --> Servico2FA
+    TransferenciaService --> LancamentoService
+    TransferenciaService --> MotorAntifraude
+    TransferenciaService --> LimitePixService
+    TransferenciaService --> ChavePixService
+    TransferenciaService ..> AuditoriaService
+    MotorAntifraude --> LimitePixService
+    PagamentosService --> LancamentoService
+    PagamentosService --> MotorAntifraude
+    PagamentosService --> LimitePixService
+    PagamentosService ..> Emv
+    PagamentosService ..> AuditoriaService
+    LancamentoService ..> ContaInterna
+    AgendamentoService --> TransferenciaService
+    AgendamentoService ..> AuditoriaService
+    CartoesService ..> AuditoriaService
+    ChavePixService ..> AuditoriaService
+    ContaService ..> AuditoriaService
+    CadastroService ..> AuditoriaService
+    AuditoriaService ..> Sanitizador
+

@@ -7,7 +7,6 @@ use App\Services\ChavePixService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-/** CRUD de chaves Pix (RF04). */
 class ChavePixController extends Controller
 {
     public function __construct(private ChavePixService $chaves) {}

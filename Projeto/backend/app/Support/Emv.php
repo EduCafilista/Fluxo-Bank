@@ -3,11 +3,7 @@
 namespace App\Support;
 
 /**
- * Payload Pix no padrão EMV/BR Code (RF15, RN36).
- * Monta o "copia e cola" e o CRC16 (CCITT-FALSE, polinômio 0x1021) exigido
- * pelo Banco Central. A geração da IMAGEM do QR fica no cliente ou em
- * biblioteca externa (ex.: chillerlan/php-qrcode) — aqui devolvemos o payload,
- * que é a parte normativa.
+ * Gerador de payload Pix no padrão EMV/BR Code com cálculo de CRC16 (CCITT-FALSE, polinômio 0x1021).
  */
 class Emv
 {
@@ -18,20 +14,19 @@ class Emv
         $txid = preg_replace('/[^A-Za-z0-9*]/', '', $txid) ?: '***';
         $txid = substr($txid, 0, 25);
 
-        // Merchant Account Information (campo 26) com a chave Pix
         $mai = self::campo(0, 'BR.GOV.BCB.PIX')
             .self::campo(1, $chave);
 
-        $payload = self::campo(0, '01')                       // Payload Format Indicator
-            .self::campo(26, $mai)                            // Merchant Account Information
-            .self::campo(52, '0000')                          // Merchant Category Code
-            .self::campo(53, '986')                           // Moeda: BRL
-            .self::campo(54, self::valor($valorCentavos))     // Valor (opcional se zero)
-            .self::campo(58, 'BR')                            // País
-            .self::campo(59, substr($nome, 0, 25))            // Nome do recebedor
-            .self::campo(60, substr($cidade, 0, 15))          // Cidade
-            .self::campo(62, self::campo(5, $txid))           // Additional Data: txid
-            .'6304';                                          // Cabeçalho do CRC
+        $payload = self::campo(0, '01')
+            .self::campo(26, $mai)
+            .self::campo(52, '0000')
+            .self::campo(53, '986')
+            .self::campo(54, self::valor($valorCentavos))
+            .self::campo(58, 'BR')
+            .self::campo(59, substr($nome, 0, 25))
+            .self::campo(60, substr($cidade, 0, 15))
+            .self::campo(62, self::campo(5, $txid))
+            .'6304';
 
         return $payload.self::crc16($payload);
     }

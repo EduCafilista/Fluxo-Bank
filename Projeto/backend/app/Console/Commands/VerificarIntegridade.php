@@ -6,13 +6,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Diagnóstico do backend + banco. Rode isto quando "algo não funciona":
- *   php artisan fluxo:verificar
- *
- * Verifica: conexão, driver, versão do PostgreSQL, migrations pendentes,
- * triggers de auditoria ativos, registros append-only e partidas dobradas.
- */
 class VerificarIntegridade extends Command
 {
     protected $signature = 'fluxo:verificar';

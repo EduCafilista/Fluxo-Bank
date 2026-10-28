@@ -17,11 +17,12 @@ use Illuminate\Support\Str;
 Route::prefix('v1')->group(base_path('routes/api_v1.php'));
 
 Route::any('{caminho?}', function () {
-    $destino = '/api/v1/'.ltrim(request()->path() === 'api' ? '' : Str::after(request()->path(), 'api'), '/');
+    $caminho = ltrim(request()->path() === 'api' ? '' : Str::after(request()->path(), 'api'), '/');
+    $destino = '/api/v1/'.ltrim( (string) preg_replace('#^v1/?#', '', $caminho), '/');
 
     return response()->json([
         'erro' => 'Rota não versionada. Use a API v1.',
         'use' => url($destino),
         'versao' => 'v1',
     ], 308)->header('Location', url($destino));
-})->where('caminho', '.*')->name('compatibilidade.v1');
+})->where('caminho', '^(?!v1(?:/|$)).*')->name('compatibilidade.v1');

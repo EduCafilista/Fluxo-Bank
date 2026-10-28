@@ -6,7 +6,6 @@ use App\Models\AssinaturaCartao;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-/** Consulta das recorrências detectadas no cartão (RF21 / RN40). */
 class AssinaturaCartaoController extends Controller
 {
     public function index(Request $request): JsonResponse

@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
-/** RF01/RF10/RN35: cadastro PF e PJ + KYC simulado. */
 class CadastroTest extends TestCase
 {
     use RefreshDatabase;
@@ -138,8 +137,6 @@ class CadastroTest extends TestCase
         $this->assertCount(2, array_unique(Conta::pluck('numero')->all()));
         $this->assertCount(2, Cliente::all());
     }
-
-    // ------------------------------------------------------------ PJ (RF10)
 
     public function test_cadastro_pj_com_cnpj_valido(): void
     {

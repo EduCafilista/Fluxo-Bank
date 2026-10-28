@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/** Impede usar um token temporário (2FA pendente) nas rotas de negócio. */
 class ApenasDoisFatoresConcluido
 {
     public function handle(Request $request, Closure $next): Response

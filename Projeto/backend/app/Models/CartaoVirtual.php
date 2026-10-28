@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** Instância virtual: sempre originada de um cartão físico ativo (RN38). */
 class CartaoVirtual extends Model
 {
     protected $table = 'cartoes_virtuais';

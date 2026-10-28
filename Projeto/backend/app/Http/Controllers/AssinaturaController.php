@@ -9,7 +9,6 @@ use App\Services\AssinaturaService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-/** Planos, assinaturas e itens contratados (RF - assinaturas / RN22). */
 class AssinaturaController extends Controller
 {
     public function __construct(private AssinaturaService $assinaturas) {}
@@ -71,7 +70,6 @@ class AssinaturaController extends Controller
         ], 201);
     }
 
-    /** DELETE /api/v1/assinaturas/{assinatura}/itens/{item} — retirada LÓGICA (RN22). */
     public function removerItem(Request $request, Assinatura $assinatura, Item $item): JsonResponse
     {
         $dados = $request->validate(['motivo' => 'required|string|max:190']);

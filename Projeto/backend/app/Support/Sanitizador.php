@@ -3,12 +3,10 @@
 namespace App\Support;
 
 /**
- * Remove/mascara dados sensíveis antes de gravar em log (RF-SEG01, RNF13, LGPD).
- * Nunca gravar senha, token, CVV ou código de verificação — nem em auditoria.
+ * Sanitização de dados sensíveis para logs e trilhas de auditoria (RNF13/LGPD).
  */
 class Sanitizador
 {
-    /** Campos cujo valor é sempre descartado. */
     private const PROIBIDOS = [
         'password', 'password_confirmation', 'senha', 'current_password',
         'token', 'access_token', 'refresh_token', 'token_temporario',
@@ -16,7 +14,6 @@ class Sanitizador
         'secret', 'api_key',
     ];
 
-    /** Campos que são mascarados (mostram só o final). */
     private const MASCARADOS = ['cpf', 'cnpj', 'numero_cartao', 'cartao'];
 
     public static function limpar(mixed $dado): mixed
@@ -49,7 +46,6 @@ class Sanitizador
         return $saida;
     }
 
-    /** Cabeçalhos que podem ser registrados, também sanitizados. */
     public static function cabecalhos(array $headers): array
     {
         $permitidos = ['user-agent', 'accept', 'content-type', 'x-request-id', 'idempotency-key'];

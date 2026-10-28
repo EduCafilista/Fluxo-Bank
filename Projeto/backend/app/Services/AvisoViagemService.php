@@ -7,7 +7,6 @@ use App\Models\AvisoViagem;
 use App\Models\Cartao;
 use App\Models\Conta;
 
-/** Aviso de viagem por cartão (RF24 + RN44). */
 class AvisoViagemService
 {
     public function criar(Conta $conta, Cartao $cartao, array $localidades, string $inicio, string $fim): AvisoViagem
@@ -26,7 +25,7 @@ class AvisoViagemService
 
         return AvisoViagem::create([
             'conta_id' => $conta->id,
-            'cartao_id' => $cartao->id,   // RN44: obrigatório
+            'cartao_id' => $cartao->id,
             'data_inicio' => $inicio,
             'data_fim' => $fim,
             'localidades' => array_values(array_map('mb_strtoupper', $localidades)),
@@ -41,7 +40,6 @@ class AvisoViagemService
         return $aviso->refresh();
     }
 
-    /** Consulta usada pelo antifraude de localização (RN32/RN44). */
     public function existeAvisoAtivo(Cartao $cartao, string $localidade): bool
     {
         return $cartao->avisosViagem()

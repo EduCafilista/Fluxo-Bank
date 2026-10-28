@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** Agendamento com máquina de estados e idempotência (RF06/RF25, RN45). */
 class Agendamento extends Model
 {
     public const TIPO_TED_INTERNA = 'TED_INTERNA';

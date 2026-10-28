@@ -8,7 +8,6 @@ use App\Services\AvisoViagemService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-/** Aviso de viagem sempre por cartão (RF24 / RN44). */
 class AvisoViagemController extends Controller
 {
     public function __construct(private AvisoViagemService $avisos) {}

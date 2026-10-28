@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-/** Forma física do cartão (RN38/RN39). permite_compras_online começa false. */
 class CartaoFisico extends Model
 {
     protected $table = 'cartoes_fisicos';
@@ -26,5 +26,10 @@ class CartaoFisico extends Model
     public function cartao(): BelongsTo
     {
         return $this->belongsTo(Cartao::class);
+    }
+
+    public function cartaoVirtual(): HasOne
+    {
+        return $this->hasOne(CartaoVirtual::class, 'cartao_fisico_id');
     }
 }

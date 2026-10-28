@@ -13,7 +13,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /** Perfis do sistema (RF09 - RBAC) */
     public const PERFIL_CLIENTE = 'CLIENTE';
 
     public const PERFIL_ATENDENTE = 'ATENDENTE';
@@ -36,14 +35,11 @@ class User extends Authenticatable
         ];
     }
 
-    // Dados cadastrais (PF ou PJ)
     public function cliente(): HasOne
     {
         return $this->hasOne(Cliente::class);
     }
 
-    // Um cliente pode ter mais de uma conta (Conta Corrente, Poupança, ...),
-    // por isso a relação "principal" (conta) e a coleção completa (contas).
     public function contas(): HasMany
     {
         return $this->hasMany(Conta::class);

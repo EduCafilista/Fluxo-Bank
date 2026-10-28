@@ -1,0 +1,276 @@
+classDiagram
+    direction TB
+
+    class User {
+        +int id
+        +string name
+        +string email
+        +string password
+        +string perfil
+        +bool dois_fatores_ativo
+        +int tentativas_login
+        +Carbon bloqueado_ate
+        +ehBackoffice() bool
+        +bloqueadoParaLogin() bool
+    }
+    class Cliente {
+        +int id
+        +int user_id
+        +string tipo_cliente
+        +string nome
+        +string cpf
+        +string razao_social
+        +string cnpj
+        +Carbon data_nascimento
+        +string representante_legal
+        +string status
+        +ehPessoaFisica() bool
+        +cpfMascarado() string
+        +cnpjMascarado() string
+        +documentoMascarado() string
+        +nomeExibicao() string
+    }
+    class Conta {
+        +int id
+        +int user_id
+        +int cliente_id
+        +string numero
+        +string tipo_conta
+        +string agencia
+        +string status
+        +string status_abertura
+        +Carbon status_abertura_atualizado_em
+        +bool bloqueada
+        +bool restricao_saque
+        +Carbon aniversario_rendimento
+        +saldo() int
+        +saldosPorConta(array ids)$ array
+        +podeDebitar() bool
+        +estaEncerrada() bool
+    }
+    class Transacao {
+        +int id
+        +string tipo
+        +string status
+        +string descricao
+        +string chave_idempotencia
+        +somaDosLancamentos() int
+        +partidasDobradasFecham() bool
+    }
+    class Lancamento {
+        +int id
+        +int transacao_id
+        +int conta_id
+        +string tipo
+        +int valor_centavos
+        +string descricao
+    }
+    class ChavePix {
+        +int id
+        +int conta_id
+        +string tipo_chave
+        +string valor_chave
+        +string status
+        +Carbon registrado_em
+        +Carbon desativada_em
+    }
+    class LimitePix {
+        +int id
+        +int conta_id
+        +int limite_por_transacao
+        +int limite_diario
+        +int quantidade_diaria
+        +int limite_noturno_por_transacao
+        +int limite_noturno_diario
+        +int quantidade_noturna
+        +int limite_sem_chave_por_transacao
+        +int limite_sem_chave_diario
+        +string hora_inicio_noturno
+        +string hora_fim_noturno
+        +bool ativo
+    }
+    class ConsumoLimitePix {
+        +int id
+        +int conta_id
+        +int limite_pix_id
+        +Carbon data_referencia
+        +string janela
+        +int valor_utilizado
+        +int quantidade_utilizada
+        +int valor_reservado
+        +int quantidade_reservada
+    }
+    class Cartao {
+        +int id
+        +int conta_id
+        +string modalidade
+        +string numero_mascarado
+        +Carbon validade
+        +string cvv_hash
+        +string status
+        +int limite_aprovado_centavos
+        +int limite_atual_centavos
+        +int dia_fechamento_fatura
+        +ativo() bool
+    }
+    class CartaoFisico {
+        +int id
+        +int cartao_id
+        +Carbon data_emissao
+        +Carbon data_entrega
+        +string endereco_entrega
+        +bool permite_compras_online
+    }
+    class CartaoVirtual {
+        +int id
+        +int cartao_id
+        +int cartao_fisico_id
+        +Carbon gerado_em
+        +Carbon expira_em
+    }
+    class AvisoViagem {
+        +int id
+        +int conta_id
+        +int cartao_id
+        +Carbon data_inicio
+        +Carbon data_fim
+        +array localidades
+        +string status
+        +Carbon cancelado_em
+        +cobre(string localidade, string data) bool
+    }
+    class AssinaturaCartao {
+        +int id
+        +int cartao_id
+        +int conta_id
+        +int transacao_origem_id
+        +string identificador_estabelecimento
+        +string nome_estabelecimento
+        +string periodicidade
+        +int valor_estimado_centavos
+        +string status
+        +string origem
+        +float confianca
+    }
+    class Agendamento {
+        +int id
+        +int conta_id
+        +int transacao_id
+        +string tipo_operacao
+        +int valor_centavos
+        +Carbon agendado_para
+        +array payload_operacao
+        +string status
+        +int tentativas
+        +string chave_idempotencia
+        +podeExecutar() bool
+    }
+    class Plano {
+        +int id
+        +string nome
+        +int mensalidade_centavos
+        +int limite_retiradas
+        +bool ativo
+    }
+    class Assinatura {
+        +int id
+        +int cliente_id
+        +int plano_id
+        +Carbon data_inicio
+        +Carbon data_fim
+        +int dia_cobranca
+        +string status
+        +int valor_atual_centavos
+        +removerItem(Item item, string motivo) void
+    }
+    class Item {
+        +int id
+        +string nome
+        +int valor_unitario_centavos
+    }
+    class ItemAssinatura {
+        +int id
+        +int assinatura_id
+        +int item_id
+        +Carbon data_exclusao
+        +string motivo_exclusao
+    }
+    class Cobranca {
+        +int id
+        +int assinatura_id
+        +string competencia
+        +int valor_centavos
+        +Carbon vencimento
+        +string status
+    }
+    class CodigoVerificacao {
+        +int id
+        +int user_id
+        +string canal
+        +string finalidade
+        +string codigo_hash
+        +Carbon expira_em
+        +int tentativas
+        +int max_tentativas
+        +Carbon utilizado_em
+        +vigente() bool
+    }
+    class ChamadoSuporte {
+        +int id
+        +int user_id
+        +string assunto
+        +string mensagem
+        +string status
+        +string resposta
+        +int atendente_id
+        +Carbon respondido_em
+    }
+    class LogAuditoria {
+        +int id
+        +string tabela
+        +string registro_id
+        +string operacao
+        +string categoria
+        +int usuario_id
+        +string request_id
+        +string ip_address
+        +string rota
+        +string metodo
+        +int status_http
+        +array payload
+        +array antes
+        +array depois
+        +array diff
+        +string hash_anterior
+        +string hash_registro
+        +Carbon registrado_em
+    }
+
+    User "1" --> "0..1" Cliente
+    User "1" --> "0..*" Conta
+    User "1" --> "0..*" CodigoVerificacao
+    User "1" --> "0..*" ChamadoSuporte
+    User "1" --> "0..*" LogAuditoria
+    Cliente "1" --> "0..*" Conta
+    Cliente "1" --> "0..*" Assinatura
+    Plano "1" --> "0..*" Assinatura
+    Assinatura "1" *-- "0..*" ItemAssinatura
+    Item "1" --> "0..*" ItemAssinatura
+    Assinatura "1" --> "0..*" Cobranca
+    Conta "1" --> "0..*" Lancamento
+    Transacao "1" *-- "2..*" Lancamento
+    Conta "1" --> "0..*" ChavePix
+    Conta "1" --> "0..*" LimitePix
+    Conta "1" --> "0..*" ConsumoLimitePix
+    LimitePix "1" --> "0..*" ConsumoLimitePix
+    Conta "1" --> "0..*" Cartao
+    Cartao "1" --> "0..1" CartaoFisico
+    Cartao "1" --> "0..1" CartaoVirtual
+    CartaoFisico "1" --> "0..1" CartaoVirtual
+    Cartao "1" --> "0..*" AvisoViagem
+    Conta "1" --> "0..*" AvisoViagem
+    Cartao "1" --> "0..*" AssinaturaCartao
+    Conta "1" --> "0..*" AssinaturaCartao
+    Conta "1" --> "0..*" Agendamento
+    Transacao "0..1" <-- "0..*" Agendamento
+

@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/** Plano contratado pelo cliente (assíncrono ao read model assinaturas_cartao). */
 class Assinatura extends Model
 {
     public const STATUS_ATIVA = 'ATIVA';
@@ -52,7 +51,6 @@ class Assinatura extends Model
         return $this->hasMany(Cobranca::class);
     }
 
-    /** RN22: retirar item nunca faz DELETE, preenche data_exclusao/motivo. */
     public function removerItem(Item $item, string $motivo): void
     {
         $vinculo = $this->itens()->whereNull('data_exclusao')->where('item_id', $item->id)->firstOrFail();

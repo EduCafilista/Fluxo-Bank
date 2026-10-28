@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** Desafio de 2FA (RF02, RN19/RN20). Guarda apenas o hash do código. */
 class CodigoVerificacao extends Model
 {
     public const FINALIDADE_LOGIN = 'LOGIN';

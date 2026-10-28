@@ -6,7 +6,6 @@ use App\Models\Conta;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/** RF03/RF13/RF18 + RNF05: saldo, extrato paginado, bloqueio e encerramento. */
 class ContaTest extends TestCase
 {
     use RefreshDatabase;
@@ -87,5 +86,34 @@ class ContaTest extends TestCase
             ])
             ->assertStatus(403)
             ->assertJsonPath('erro', 'Conta com abertura não aprovada: não é possível debitar.');
+    }
+
+    public function test_rota_inexistente_em_v1_retorna_404_sem_redirecionar(): void
+    {
+        $this->getJson("{$this->api}/rota-inexistente")
+            ->assertNotFound()
+            ->assertJsonPath('erro', 'Rota não encontrada.')
+            ->assertJsonPath('versao', 'v1');
+
+        $this->getJson('/api/conta')
+            ->assertStatus(308)
+            ->assertJsonPath('versao', 'v1');
+    }
+
+    public function test_especificacao_openapi_disponivel_em_docs_e_api_v1(): void
+    {
+        $this->get('/docs/openapi.yaml')
+            ->assertOk()
+            ->assertHeader('Content-Type', 'application/yaml; charset=UTF-8')
+            ->assertSee('openapi: 3.0.3');
+
+        $this->get("{$this->api}/openapi.yaml")
+            ->assertOk()
+            ->assertHeader('Content-Type', 'application/yaml; charset=UTF-8')
+            ->assertSee('openapi: 3.0.3');
+
+        $this->getJson('/')
+            ->assertOk()
+            ->assertJsonPath('status', 'ok');
     }
 }

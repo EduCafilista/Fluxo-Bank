@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Transacao extends Model
 {
-    // Obrigatório: sem isso o Laravel procura a tabela "transacaos"
     protected $table = 'transacoes';
 
     public const TIPO_PIX = 'PIX';
@@ -44,7 +43,6 @@ class Transacao extends Model
         return $this->hasMany(Agendamento::class);
     }
 
-    /** RN02/RN03: soma dos lançamentos tem de ser zero (partidas dobradas). */
     public function somaDosLancamentos(): int
     {
         return (int) $this->lancamentos()

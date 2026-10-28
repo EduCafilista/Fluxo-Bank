@@ -6,11 +6,6 @@ use App\Models\Agendamento;
 use App\Services\AgendamentoService;
 use Illuminate\Console\Command;
 
-/**
- * Worker de agendamentos (RF06/RF25 + RN45).
- * Roda a cada minuto via scheduler (routes/console.php) ou manualmente:
- *   php artisan agendamentos:processar
- */
 class ProcessarAgendamentos extends Command
 {
     protected $signature = 'agendamentos:processar {--limite=50 : Quantos agendamentos processar por execução}';

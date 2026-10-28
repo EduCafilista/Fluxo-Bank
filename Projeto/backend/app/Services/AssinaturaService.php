@@ -10,7 +10,6 @@ use App\Models\Item;
 use App\Models\ItemAssinatura;
 use App\Models\Plano;
 
-/** Planos/assinaturas do Fluxo + faturamento proporcional (RF - assinaturas). */
 class AssinaturaService
 {
     public function contratar(Cliente $cliente, Plano $plano, ?int $diaCobranca = null): Assinatura
@@ -38,7 +37,6 @@ class AssinaturaService
             'valor_atual_centavos' => $plano->mensalidade_centavos,
         ]);
 
-        // Fatura proporcional ao dias restantes do mês (faturamento proporcional)
         $this->gerarCobrancaProporcional($assinatura);
 
         return $assinatura->refresh();
@@ -46,6 +44,10 @@ class AssinaturaService
 
     public function adicionarItem(Assinatura $assinatura, Item $item): ItemAssinatura
     {
+        if ($assinatura->status !== Assinatura::STATUS_ATIVA) {
+            throw new RegraDeNegocioException('Não é possível adicionar itens a uma assinatura inativa.');
+        }
+
         $existente = $assinatura->itens()->where('item_id', $item->id)->whereNull('data_exclusao')->first();
 
         if ($existente) {
@@ -62,9 +64,12 @@ class AssinaturaService
         return $vinculo;
     }
 
-    /** RN22: retirada é lógica, nunca DELETE do vínculo. */
     public function removerItem(Assinatura $assinatura, Item $item, string $motivo): void
     {
+        if ($assinatura->status !== Assinatura::STATUS_ATIVA) {
+            throw new RegraDeNegocioException('Não é possível remover itens de uma assinatura inativa.');
+        }
+
         $assinatura->removerItem($item, $motivo);
         $this->recalcularValor($assinatura);
     }

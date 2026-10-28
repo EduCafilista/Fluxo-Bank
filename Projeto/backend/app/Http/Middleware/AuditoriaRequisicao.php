@@ -11,17 +11,11 @@ use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * RF-SEG01 + RF-SEG04: registra 100% das requisições da API e da web.
- * Grava IP, user-agent, rota, método, payload sanitizado, status, usuário,
- * data/hora e request_id — e classifica em ACESSO, CONSULTA ou MOVIMENTACAO.
- *
- * Também propaga o contexto ao PostgreSQL (SET LOCAL), para que os triggers
- * consigam gravar quem fez cada alteração.
+ * Middleware de auditoria de requisições HTTP e propagação de contexto de sessão ao PostgreSQL.
  */
 class AuditoriaRequisicao
 {
-    /** Rotas que não geram registro (evita ruído de healthcheck). */
-    private array $ignorar = ['up', 'api/v1/health', 'storage/*'];
+    private array $ignorar = ['up', 'api/v1/health', 'api/v1/openapi.yaml', 'docs/*', 'storage/*'];
 
     public function __construct(private AuditoriaService $auditoria) {}
 
@@ -35,20 +29,14 @@ class AuditoriaRequisicao
 
         $request->attributes->set('request_id', $requestId);
 
-        if ($request->hasSession()) {
-            // nada: a sessão não é usada na API por token
-        }
-
-        // Contexto para os triggers de auditoria (vive só nesta requisição)
         try {
             DB::statement('SELECT set_config(?, ?, true)', ['fluxo.request_id', $requestId]);
-            // O set_config não aceita NULL: usa string vazia quando não autenticado
             DB::statement('SELECT set_config(?, ?, true)', [
                 'fluxo.usuario_id',
                 (string) ($request->user()?->id ?? ''),
             ]);
         } catch (\Throwable $e) {
-            // Banco indisponível no momento do log não deve derrubar a requisição
+            // Ignora falha de conexão ao propagar variáveis de sessão.
         }
 
         $response = $next($request);

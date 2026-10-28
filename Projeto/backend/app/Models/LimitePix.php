@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/** Política de limites Pix (RF14/RF23, RN27-RN30, RN42). conta_id null = política global. */
 class LimitePix extends Model
 {
     protected $table = 'limites_pix';

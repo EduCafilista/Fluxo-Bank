@@ -10,7 +10,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/** RF01/RF10/RN35: cadastro de Pessoa Física e Pessoa Jurídica. */
 class CadastroController extends Controller
 {
     public function __construct(private CadastroService $cadastro) {}

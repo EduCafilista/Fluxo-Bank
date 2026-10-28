@@ -11,12 +11,6 @@ use App\Support\Emv;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-/**
- * Pagamentos (RF08/RF15 + RN36).
- *  - boleto por linha digitável (simulado: 47/48 dígitos);
- *  - cobrança Pix com payload EMV (copia e cola) e CRC16 válido;
- *  - recebimento de QR Code creditando a conta.
- */
 class PagamentosService
 {
     public function __construct(
@@ -25,7 +19,6 @@ class PagamentosService
         private LimitePixService $limites,
     ) {}
 
-    /** Pagamento de boleto: valida linha digitável e debita a conta (RN15). */
     public function pagarBoleto(Conta $conta, string $linhaDigitavel, int $valorCentavos, ?string $chaveIdempotencia = null): Transacao
     {
         $digitos = preg_replace('/\D/', '', $linhaDigitavel);
@@ -69,13 +62,15 @@ class PagamentosService
         });
     }
 
-    /** Gera o payload EMV de cobrança Pix para a conta (RF15/RN36). */
     public function gerarCobrancaPix(Conta $conta, int $valorCentavos, ?string $descricao = null): array
     {
+        if ($valorCentavos <= 0) {
+            throw new RegraDeNegocioException('O valor da cobrança deve ser maior que zero.');
+        }
+
         $chave = $conta->chavesPix()->where('status', ChavePix::STATUS_ATIVA)->first();
 
         if (! $chave && $conta->cliente?->ehPessoaFisica() && $conta->cliente?->cpf) {
-            // Sem chave cadastrada: usa o CPF do titular, como o Pix permite
             $valor = $conta->cliente->cpf;
         } elseif ($chave) {
             $valor = $chave->valor_chave;
@@ -98,7 +93,6 @@ class PagamentosService
         ];
     }
 
-    /** Recebimento de cobrança Pix (entrada de dinheiro na conta). */
     public function receberPix(Conta $conta, int $valorCentavos, ?string $descricao = null, ?string $chaveIdempotencia = null): Transacao
     {
         if ($valorCentavos <= 0) {
@@ -114,6 +108,7 @@ class PagamentosService
             $valorCentavos,
             Transacao::TIPO_QR_CODE,
             $descricao ?? 'Recebimento Pix',
+            $chaveIdempotencia,
         );
 
         app(AuditoriaService::class)->registrar(
@@ -127,7 +122,6 @@ class PagamentosService
         return $transacao->load('lancamentos');
     }
 
-    /** Depósito manual (usado pelo seeder e pelos testes). */
     public function depositar(Conta $conta, int $valorCentavos, ?string $descricao = null): Transacao
     {
         return $this->lancamentos->creditar(

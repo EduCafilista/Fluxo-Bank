@@ -5,11 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Health check que testa o BANCO de verdade (e não só o processo PHP).
- * GET /up        → estado simples (Laravel)
- * GET /api/v1/health → JSON com driver, versão do PostgreSQL, migrations e fila
- */
 class HealthController extends Controller
 {
     public function __invoke(): JsonResponse
@@ -27,6 +22,7 @@ class HealthController extends Controller
                 'app' => config('app.name'),
                 'ambiente' => app()->environment(),
                 'api' => config('fluxo.api.versao'),
+                'commit' => substr((string) env('RENDER_GIT_COMMIT', ''), 0, 7) ?: null,
                 'banco' => [
                     'conexao' => config('database.default'),
                     'database' => DB::getDatabaseName(),

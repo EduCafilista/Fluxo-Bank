@@ -6,7 +6,6 @@ use App\Models\ChamadoSuporte;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-/** Chamado de suporte do próprio cliente (RF09). */
 class ChamadoSuporteController extends Controller
 {
     public function index(Request $request): JsonResponse

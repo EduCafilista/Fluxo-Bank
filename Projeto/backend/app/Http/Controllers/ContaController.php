@@ -11,7 +11,6 @@ use App\Services\RelatorioService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-/** Saldo, extrato, bloqueio e encerramento (RF03/RF13/RNF05). */
 class ContaController extends Controller
 {
     public function __construct(
@@ -20,7 +19,6 @@ class ContaController extends Controller
         private LimitePixService $limites,
     ) {}
 
-    /** GET /api/v1/conta — saldo + resumo do dia + limites. */
     public function show(Request $request): JsonResponse
     {
         $conta = $this->contaDoUsuario($request);
@@ -33,7 +31,6 @@ class ContaController extends Controller
         ]);
     }
 
-    /** GET /api/v1/conta/extrato?per_page=50&page=2 */
     public function extrato(Request $request): JsonResponse
     {
         $conta = $this->contaDoUsuario($request);
@@ -50,7 +47,6 @@ class ContaController extends Controller
         ]);
     }
 
-    /** GET /api/v1/conta/extrato/categorizado */
     public function extratoCategorizado(Request $request): JsonResponse
     {
         $conta = $this->contaDoUsuario($request);
@@ -60,7 +56,6 @@ class ContaController extends Controller
         );
     }
 
-    /** POST /api/v1/conta/bloqueio (RF13) */
     public function bloquear(Request $request): JsonResponse
     {
         $dados = $request->validate(['motivo' => 'required|string|max:190']);
@@ -73,7 +68,6 @@ class ContaController extends Controller
         ]);
     }
 
-    /** DELETE /api/v1/conta/bloqueio */
     public function desbloquear(Request $request): JsonResponse
     {
         $conta = $this->contas->desbloquear($this->contaDoUsuario($request));
@@ -84,7 +78,6 @@ class ContaController extends Controller
         ]);
     }
 
-    /** DELETE /api/v1/conta — encerramento (exige saldo zero) */
     public function encerrar(Request $request): JsonResponse
     {
         $conta = $this->contas->encerrar($this->contaDoUsuario($request));
@@ -97,8 +90,6 @@ class ContaController extends Controller
 
     private function contaDoUsuario(Request $request): Conta
     {
-        // Uma conta por requisição: a principal do usuário.
-        // (contas adicionais podem ser acessadas por /contas/{id} no futuro)
         return $request->user()->conta()->firstOrFail();
     }
 }

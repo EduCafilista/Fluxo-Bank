@@ -5,10 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * Read model de recorrências detectadas nas compras do cartão (RF21, RN40).
- * Não substitui as assinaturas de planos do Fluxo.
- */
 class AssinaturaCartao extends Model
 {
     protected $table = 'assinaturas_cartao';

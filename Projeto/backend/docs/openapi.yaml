@@ -16,6 +16,8 @@ info:
     Erros seguem o formato `{"erro": "mensagem em português"}` (RNF23);
     validação devolve também `{"errors": {"campo": [...]}}`.
 servers:
+  - url: https://fluxo-api-w858.onrender.com
+    description: Produção (Render Cloud)
   - url: http://localhost:8000
     description: Desenvolvimento local
 security:

@@ -10,12 +10,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-/** Painel administrativo mínimo (RF09): KYC, bloqueios, chamados e visão geral. */
 class BackofficeController extends Controller
 {
     public function __construct(private ContaService $contas) {}
 
-    /** GET /api/v1/backoffice/resumo */
     public function resumo(): JsonResponse
     {
         return response()->json([
@@ -28,7 +26,6 @@ class BackofficeController extends Controller
         ]);
     }
 
-    /** GET /api/v1/backoffice/contas?status=&status_abertura= */
     public function contas(Request $request): JsonResponse
     {
         $consulta = Conta::with(['cliente:id,tipo_cliente,nome,razao_social,cpf,cnpj,status', 'user:id,name,email']);
@@ -46,7 +43,6 @@ class BackofficeController extends Controller
         ]);
     }
 
-    /** POST /api/v1/backoffice/contas/{conta}/kyc/aprovar (RN37) */
     public function aprovarKyc(Conta $conta): JsonResponse
     {
         return response()->json([
@@ -55,7 +51,6 @@ class BackofficeController extends Controller
         ]);
     }
 
-    /** POST /api/v1/backoffice/contas/{conta}/kyc/recusar */
     public function recusarKyc(Request $request, Conta $conta): JsonResponse
     {
         $dados = $request->validate(['motivo' => 'required|string|max:190']);
@@ -66,7 +61,6 @@ class BackofficeController extends Controller
         ]);
     }
 
-    /** POST /api/v1/backoffice/contas/{conta}/bloquear-fraude */
     public function bloquearPorFraude(Request $request, Conta $conta): JsonResponse
     {
         $dados = $request->validate(['motivo' => 'required|string|max:190']);
@@ -77,7 +71,6 @@ class BackofficeController extends Controller
         ]);
     }
 
-    /** GET /api/v1/backoffice/chamados */
     public function chamados(): JsonResponse
     {
         return response()->json([
@@ -85,7 +78,6 @@ class BackofficeController extends Controller
         ]);
     }
 
-    /** PATCH /api/v1/backoffice/chamados/{chamado} */
     public function responderChamado(Request $request, ChamadoSuporte $chamado): JsonResponse
     {
         $dados = $request->validate([
