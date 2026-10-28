@@ -15,6 +15,7 @@ use App\Http\Controllers\ChavePixController;
 use App\Http\Controllers\ContaController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\PixController;
+use App\Http\Controllers\RecuperacaoSenhaController;
 use App\Http\Controllers\TransacaoController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,12 @@ Route::post('/cadastro', [CadastroController::class, 'store'])->name('cadastro')
 Route::post('/login', [AuthController::class, 'login'])
     ->middleware('throttle:10,1')
     ->name('login');
+
+Route::prefix('senha/recuperacao')->middleware('throttle:10,1')->group(function () {
+    Route::post('/solicitar', [RecuperacaoSenhaController::class, 'solicitar'])->name('senha.recuperacao.solicitar');
+    Route::post('/validar', [RecuperacaoSenhaController::class, 'validar'])->name('senha.recuperacao.validar');
+    Route::post('/redefinir', [RecuperacaoSenhaController::class, 'redefinir'])->name('senha.recuperacao.redefinir');
+});
 
 Route::post('/2fa/validar', [AuthController::class, 'validarDoisFatores'])
     ->middleware(['auth:sanctum', 'throttle:10,1'])
@@ -106,12 +113,26 @@ Route::middleware(['auth:sanctum', '2fa.concluido', 'idempotencia'])->group(func
         Route::post('/contas/{conta}/kyc/aprovar', [BackofficeController::class, 'aprovarKyc'])->name('backoffice.kyc.aprovar');
         Route::post('/contas/{conta}/kyc/recusar', [BackofficeController::class, 'recusarKyc'])->name('backoffice.kyc.recusar');
         Route::post('/contas/{conta}/bloquear-fraude', [BackofficeController::class, 'bloquearPorFraude'])->name('backoffice.fraude');
+        Route::post('/contas/{conta}/recuperacao-senha', [BackofficeController::class, 'gerarCodigoRecuperacaoSenha'])
+            ->middleware('backoffice:ADMIN')
+            ->name('backoffice.recuperacao-senha');
+        Route::post('/contas/{conta}/codigo-recuperacao', [BackofficeController::class, 'gerarCodigoRecuperacaoSenha'])
+            ->middleware('backoffice:ADMIN')
+            ->name('backoffice.codigo-recuperacao');
+        Route::post('/recuperacao-senha/emitir', [BackofficeController::class, 'gerarCodigoRecuperacaoSenha'])
+            ->middleware('backoffice:ADMIN')
+            ->name('backoffice.recuperacao-senha.emitir');
         Route::get('/chamados', [BackofficeController::class, 'chamados'])->name('backoffice.chamados');
         Route::patch('/chamados/{chamado}', [BackofficeController::class, 'responderChamado'])->name('backoffice.chamados.responder');
         Route::get('/auditoria', [AuditoriaController::class, 'index'])->name('backoffice.auditoria');
         Route::get('/auditoria/{log}', [AuditoriaController::class, 'show'])->name('backoffice.auditoria.show');
     });
 });
+
+Route::any('{caminho?}', fn () => response()->json([
+    'erro' => 'Rota não encontrada.',
+    'versao' => 'v1',
+], 404))->where('caminho', '.*')->name('api.v1.fallback');
 
 Route::fallback(fn () => response()->json([
     'erro' => 'Rota não encontrada.',

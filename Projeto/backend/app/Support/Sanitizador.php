@@ -8,9 +8,9 @@ namespace App\Support;
 class Sanitizador
 {
     private const PROIBIDOS = [
-        'password', 'password_confirmation', 'senha', 'current_password',
-        'token', 'access_token', 'refresh_token', 'token_temporario',
-        'authorization', 'cvv', 'cvv_hash', 'codigo', 'codigo_hash',
+        'password', 'password_confirmation', 'senha', 'nova_senha', 'nova_senha_confirmation',
+        'current_password', 'token', 'access_token', 'refresh_token', 'token_temporario',
+        'token_redefinicao', 'authorization', 'cvv', 'cvv_hash', 'codigo', 'codigo_hash',
         'secret', 'api_key',
     ];
 

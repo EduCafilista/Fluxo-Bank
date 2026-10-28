@@ -18,11 +18,15 @@ Route::prefix('v1')->group(base_path('routes/api_v1.php'));
 
 Route::any('{caminho?}', function () {
     $caminho = ltrim(request()->path() === 'api' ? '' : Str::after(request()->path(), 'api'), '/');
-    $destino = '/api/v1/'.ltrim( (string) preg_replace('#^v1/?#', '', $caminho), '/');
+    $destino = '/api/v1/'.ltrim((string) preg_replace('#^v1/?#', '', $caminho), '/');
+    $seguro = request()->isSecure()
+        || mb_strtolower((string) request()->header('X-Forwarded-Proto')) === 'https'
+        || app()->environment('production');
+    $urlDestino = url($destino, [], $seguro);
 
     return response()->json([
         'erro' => 'Rota não versionada. Use a API v1.',
-        'use' => url($destino),
+        'use' => $urlDestino,
         'versao' => 'v1',
-    ], 308)->header('Location', url($destino));
+    ], 308)->header('Location', $urlDestino);
 })->where('caminho', '^(?!v1(?:/|$)).*')->name('compatibilidade.v1');

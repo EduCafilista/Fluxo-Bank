@@ -1,458 +1,994 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fluxo Bank — Painel de Diagnóstico da API (CP3)</title>
-  <style>
-    :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --border: #334155;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --ok: #22c55e;
-      --warn: #f59e0b;
-      --err: #ef4444;
-      --accent: #38bdf8;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      padding: 24px;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-    }
-    .container { max-width: 1080px; margin: 0 auto; }
-    h1 { margin: 0 0 8px; font-size: 1.6rem; }
-    p.sub { margin: 0 0 20px; color: var(--muted); font-size: 0.95rem; }
-    .panel {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .controls {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr auto auto;
-      gap: 10px;
-      align-items: end;
-    }
-    label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 4px; }
-    input {
-      width: 100%;
-      padding: 9px 12px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: #0b1120;
-      color: var(--text);
-      font-size: 0.9rem;
-    }
-    button {
-      padding: 10px 16px;
-      border-radius: 6px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      background: var(--accent);
-      color: #0f172a;
-    }
-    button.secondary {
-      background: #334155;
-      color: var(--text);
-    }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .stat {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 16px;
-    }
-    .stat .num { font-size: 1.5rem; font-weight: 700; }
-    .stat .lbl { font-size: 0.8rem; color: var(--muted); }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.88rem;
-    }
-    th, td {
-      text-align: left;
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
-    }
-    th { color: var(--muted); font-weight: 600; }
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-    .badge.ok { background: rgba(34, 197, 94, 0.18); color: var(--ok); }
-    .badge.warn { background: rgba(245, 158, 11, 0.18); color: var(--warn); }
-    .badge.err { background: rgba(239, 68, 68, 0.18); color: var(--err); }
-    code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.82rem;
-      background: rgba(15, 23, 42, 0.7);
-      padding: 2px 5px;
-      border-radius: 4px;
-    }
-    .sec-note {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-top: 10px;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de Teste — Fluxo Backend</title>
+<style>
+  :root{
+    --bg:#0b1020; --bg2:#111834; --card:#151d3b; --card2:#1a2447; --line:#243059;
+    --txt:#e8ecf8; --dim:#98a3c7; --accent:#6c8cff; --accent2:#8f6cff;
+    --ok:#22c55e; --warn:#f59e0b; --err:#ef4444; --info:#38bdf8;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#1b2550 0%,var(--bg) 45%) no-repeat,var(--bg);
+       color:var(--txt);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:0 0 60px}
+  a{color:var(--accent)}
+  header{position:sticky;top:0;z-index:20;background:rgba(11,16,32,.92);backdrop-filter:blur(10px);
+         border-bottom:1px solid var(--line);padding:14px 20px}
+  .wrap{max-width:1180px;margin:0 auto}
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+        display:grid;place-items:center;font-weight:800;font-size:18px;color:#fff;box-shadow:0 6px 20px rgba(108,140,255,.35)}
+  h1{font-size:17px;margin:0;letter-spacing:.2px}
+  .sub{color:var(--dim);font-size:12.5px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  input,select,textarea{background:var(--bg2);border:1px solid var(--line);color:var(--txt);border-radius:10px;
+        padding:10px 12px;font-size:14px;font-family:inherit;outline:none;transition:.15s}
+  input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,140,255,.18)}
+  input::placeholder{color:#5f6b93}
+  #baseUrl{flex:1;min-width:280px;font-family:var(--mono);font-size:13px}
+  button{background:var(--card2);color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:10px 14px;
+         font-size:14px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit}
+  button:hover:not(:disabled){border-color:var(--accent);transform:translateY(-1px)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  button.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;
+         box-shadow:0 6px 18px rgba(108,140,255,.30)}
+  button.ghost{background:transparent}
+  button.small{padding:6px 10px;font-size:12.5px;font-weight:600}
+  .pill{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;font-size:12.5px;
+        font-weight:700;border:1px solid var(--line);background:var(--card)}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--dim)}
+  .pill.ok{color:#8ef0b0;border-color:#1e6b41;background:#0e2a1c}.pill.ok .dot{background:var(--ok);box-shadow:0 0 8px var(--ok)}
+  .pill.err{color:#ffb3b3;border-color:#7a2530;background:#2a1116}.pill.err .dot{background:var(--err);box-shadow:0 0 8px var(--err)}
+  .pill.wait{color:#ffe0a3;border-color:#7a5a17;background:#2a2210}.pill.wait .dot{background:var(--warn)}
+  nav.tabs{display:flex;gap:6px;margin-top:14px;border-bottom:1px solid var(--line)}
+  nav.tabs button{background:none;border:none;border-bottom:2px solid transparent;border-radius:0;padding:10px 14px;
+        color:var(--dim);font-weight:600}
+  nav.tabs button.ativo{color:var(--txt);border-bottom-color:var(--accent)}
+  main{max-width:1180px;margin:0 auto;padding:22px 20px}
+  .card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);
+        border-radius:16px;padding:18px;margin-bottom:16px}
+  .card h2{font-size:14.5px;margin:0 0 4px;letter-spacing:.3px;text-transform:uppercase;color:#aab6dd}
+  .card p.help{margin:2px 0 14px;color:var(--dim);font-size:13px}
+  .grid{display:grid;gap:14px}
+  @media(min-width:820px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}}
+  .verdict{display:flex;gap:14px;align-items:center;padding:16px;border-radius:14px;border:1px solid var(--line);
+        background:#101731}
+  .verdict .big{font-size:30px;line-height:1}
+  .verdict h3{margin:0;font-size:16px}
+  .verdict .msg{color:var(--dim);font-size:13.5px;margin-top:2px}
+  .score{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}
+  .chip{padding:6px 10px;border-radius:9px;font-size:12.5px;font-weight:700;border:1px solid var(--line)}
+  .chip.ok{color:#8ef0b0;background:#0e2a1c;border-color:#1e6b41}
+  .chip.err{color:#ffb3b3;background:#2a1116;border-color:#7a2530}
+  .chip.warn{color:#ffe0a3;background:#2a2210;border-color:#7a5a17}
+  ul.checks{list-style:none;margin:0;padding:0}
+  ul.checks li{display:flex;gap:11px;padding:9px 0;border-bottom:1px dashed #1e2749;align-items:flex-start}
+  ul.checks li:last-child{border-bottom:none}
+  .mark{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:13px;font-weight:800;flex:0 0 22px;margin-top:1px}
+  .mark.ok{background:#0e2a1c;color:#5ce08d;border:1px solid #1e6b41}
+  .mark.err{background:#2a1116;color:#ff8f8f;border:1px solid #7a2530}
+  .mark.warn{background:#2a2210;color:#f7c65a;border:1px solid #7a5a17}
+  .mark.info{background:#0c2735;color:#7dd3fc;border:1px solid #155e75}
+  .mark.run{background:#1a2447;color:#98a3c7;border:1px solid var(--line)}
+  .chk-t{font-weight:600;font-size:14px}
+  .chk-d{color:var(--dim);font-size:12.5px;font-family:var(--mono);word-break:break-word}
+  .grupo{font-size:11.5px;letter-spacing:.9px;text-transform:uppercase;color:#7e8bb5;margin:16px 0 4px;font-weight:800}
+  .grupo:first-child{margin-top:0}
+  .action{background:#101731;border:1px solid var(--line);border-radius:13px;padding:13px}
+  .action h4{margin:0 0 3px;font-size:13.5px}
+  .action .r{color:var(--dim);font-size:11.5px;font-family:var(--mono);margin-bottom:9px;word-break:break-all}
+  .action .ctrl{display:flex;gap:7px;flex-wrap:wrap}
+  .action input{flex:1;min-width:90px;padding:7px 9px;font-size:12.5px}
+  .log{font-family:var(--mono);font-size:12.4px;background:#080d1c;border:1px solid var(--line);border-radius:12px;
+       padding:12px;max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+  table.hist{width:100%;border-collapse:collapse;font-size:13px}
+  table.hist th{text-align:left;color:var(--dim);font-weight:600;font-size:11.5px;text-transform:uppercase;
+        letter-spacing:.6px;padding:6px 8px;border-bottom:1px solid var(--line)}
+  table.hist td{padding:7px 8px;border-bottom:1px solid #1a2342;font-family:var(--mono);font-size:12.3px;cursor:pointer}
+  table.hist tr:hover td{background:#141c38}
+  .st{font-weight:800}
+  .st.ok{color:var(--ok)}.st.warn{color:var(--warn)}.st.err{color:var(--err)}
+  .m{font-weight:800;color:#a5b4fc}
+  .banner{display:flex;gap:12px;align-items:flex-start;background:#12203f;border:1px solid #2a3d6e;border-radius:13px;
+        padding:13px 15px;margin-bottom:16px;font-size:13.2px;color:#c8d3f2}
+  .banner b{color:#fff}
+  .sessao{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--dim)}
+  .tag{font-family:var(--mono);background:#0b1226;border:1px solid var(--line);border-radius:8px;padding:4px 8px;font-size:12px}
+  .hide{display:none!important}
+  .spinner{width:15px;height:15px;border:2px solid #2b3866;border-top-color:var(--accent);border-radius:50%;
+        display:inline-block;animation:spin .7s linear infinite;vertical-align:-2px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  footer{max-width:1180px;margin:0 auto;padding:0 20px;color:#6b77a0;font-size:12.3px}
+  code{font-family:var(--mono);background:#0b1226;padding:1px 5px;border-radius:5px;font-size:12.5px}
+  .foot-tip{margin-top:8px}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Fluxo Bank — Painel de Diagnóstico da API (Checkpoint 3)</h1>
-    <p class="sub">
-      Validação não destrutiva de conectividade, PostgreSQL, migrations, autenticação Sanctum, RBAC, CORS e contratos REST v1.
-    </p>
 
-    <div class="panel">
-      <div class="controls">
-        <div>
-          <label for="baseUrl">URL Base da API</label>
-          <input id="baseUrl" type="url" value="https://fluxo-api-w858.onrender.com" />
-        </div>
-        <div>
-          <label for="emailCliente">E-mail Cliente (Demo)</label>
-          <input id="emailCliente" type="email" value="ana@fluxo.test" autocomplete="off" />
-        </div>
-        <div>
-          <label for="senhaDemo">Senha Demo (apenas em memória)</label>
-          <input id="senhaDemo" type="password" value="senha123" autocomplete="off" />
-        </div>
-        <button id="btnExecutar" type="button">Executar Diagnóstico</button>
-        <button id="btnExportar" type="button" class="secondary" disabled>Exportar Relatório Seguro</button>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">F</div>
+      <div>
+        <h1>Painel de Teste — Fluxo Backend</h1>
+        <div class="sub">Roda 100% no seu navegador · nada é enviado para terceiros, só para a sua API</div>
       </div>
-      <div class="sec-note">
-        Segurança (RNF13 / LGPD): Tokens e senhas permanecem exclusivamente em memória RAM durante o teste, nunca são salvos em <code>localStorage</code>/<code>sessionStorage</code>, são revogados no encerramento via <code>POST /api/v1/logout</code> e são mascarados automaticamente no relatório exportado.
+      <div style="margin-left:auto" class="row">
+        <span class="pill" id="pill"><span class="dot"></span><span id="pillTxt">sem conexão</span></span>
       </div>
     </div>
-
-    <div class="summary">
-      <div class="stat"><div class="num" id="cntOk">0</div><div class="lbl">Aprovadas (OK)</div></div>
-      <div class="stat"><div class="num" id="cntWarn">0</div><div class="lbl">Avisos (CORS / Proxy)</div></div>
-      <div class="stat"><div class="num" id="cntErr">0</div><div class="lbl">Falhas</div></div>
-      <div class="stat"><div class="num" id="lblVersao">—</div><div class="lbl">Versão / Deploy Detectado</div></div>
+    <div class="row">
+      <input id="baseUrl" value="https://fluxo-api-w858.onrender.com" placeholder="https://seu-servico.onrender.com" spellcheck="false">
+      <button class="primary" id="btnConectar">Testar conexão</button>
+      <button class="ghost small" id="btnLimpar">Limpar</button>
     </div>
-
-    <div class="panel">
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 90px;">Status</th>
-            <th style="width: 240px;">Verificação</th>
-            <th>Diagnóstico Técnico</th>
-          </tr>
-        </thead>
-        <tbody id="tabelaResultados">
-          <tr><td colspan="3" style="color: var(--muted);">Clique em "Executar Diagnóstico" para iniciar.</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <nav class="tabs">
+      <button data-tab="diag" class="ativo">1 · Diagnóstico</button>
+      <button data-tab="acoes">2 · Testar rotas</button>
+      <button data-tab="hist">3 · Histórico</button>
+      <button data-tab="ajuda">4 · Ajuda</button>
+    </nav>
   </div>
+</header>
 
-  <script>
-    (function () {
-      'use strict';
+<main>
+  <!-- ============================= DIAGNÓSTICO ============================= -->
+  <section id="tab-diag">
+    <div class="banner">
+      <span style="font-size:17px">💡</span>
+      <div><b>Primeiro passo:</b> cole a URL do seu serviço no Render acima e clique em
+      <b>Testar conexão</b>. Depois clique em <b>Rodar diagnóstico</b> — ele verifica o banco,
+      a versão do pacote e as barreiras de segurança. O <b>fluxo completo</b> cria uma conta de teste
+      de verdade (CPF aleatório, sem saldo) para exercitar cadastro → login → transferência → logout.</div>
+    </div>
 
-      let ultimoRelatorio = null;
+    <div class="card">
+      <div class="row" style="margin-bottom:14px">
+        <button class="primary" id="btnDiag">▶ Rodar diagnóstico (não cria dados)</button>
+        <button id="btnFluxo">▶ Rodar fluxo completo (cria 1 conta de teste)</button>
+        <button class="ghost small" id="btnRelatorio" disabled>⬇ Exportar relatório</button>
+        <button class="ghost small" id="btnRelatorioJson" disabled>⬇ Exportar JSON</button>
+        <label class="sessao" style="margin-left:auto">
+          <input type="checkbox" id="esperar" checked style="width:auto">
+          <span>esperar cold start (até 90s)</span>
+        </label>
+      </div>
+      <div id="veredito" class="verdict hide">
+        <div class="big" id="vIcon">✅</div>
+        <div>
+          <h3 id="vTitulo">—</h3>
+          <div class="msg" id="vMsg">—</div>
+        </div>
+        <div class="score">
+          <span class="chip ok" id="cOk">0 OK</span>
+          <span class="chip err" id="cErr">0 falha</span>
+          <span class="chip warn" id="cWarn">0 aviso</span>
+        </div>
+      </div>
+      <div id="checks" style="margin-top:14px"></div>
+    </div>
 
-      function sanitizarObjeto(valor) {
-        const camposSensiveis = ['password', 'senha', 'token', 'token_temporario', 'authorization', 'codigo_teste', 'cvv', 'cvv_hash'];
-        if (valor === null || valor === undefined) return valor;
-        if (typeof valor !== 'object') return valor;
-        if (Array.isArray(valor)) return valor.map(sanitizarObjeto);
-        const copia = {};
-        for (const [k, v] of Object.entries(valor)) {
-          if (camposSensiveis.includes(k.toLowerCase())) {
-            copia[k] = '[MASCARADO]';
-          } else {
-            copia[k] = sanitizarObjeto(v);
-          }
-        }
-        return copia;
+    <div class="card">
+      <h2>O que este diagnóstico responde</h2>
+      <div class="grid g2" style="margin-top:10px">
+        <div>
+          <p class="help" style="margin-bottom:6px"><b>O deploy está certo?</b></p>
+          <ul class="checks">
+            <li><span class="mark info">·</span><div><div class="chk-t">Versão do pacote</div>
+              <div class="chk-d">rota inexistente em /api/v1 → 404 = pacote novo; 308/cadeia = pacote antigo</div></div></li>
+            <li><span class="mark info">·</span><div><div class="chk-t">Banco conectado</div>
+              <div class="chk-d">/api/v1/health com driver pgsql e 0 migrations pendentes</div></div></li>
+          </ul>
+        </div>
+        <div>
+          <p class="help" style="margin-bottom:6px"><b>A API está segura?</b></p>
+          <ul class="checks">
+            <li><span class="mark info">·</span><div><div class="chk-t">Sem token → 401</div>
+              <div class="chk-d">endpoint protegido não vaza dado sem Bearer</div></div></li>
+            <li><span class="mark info">·</span><div><div class="chk-t">APP_DEBUG desligado</div>
+              <div class="chk-d">erro não devolve stack trace / caminho de arquivo</div></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= AÇÕES ============================= -->
+  <section id="tab-acoes" class="hide">
+    <div class="card">
+      <div class="row">
+        <div class="sessao" style="flex:1">
+          <span>sessão:</span>
+          <span class="tag" id="tagEmail">não autenticado</span>
+          <span class="tag" id="tagToken">sem token</span>
+          <span class="tag hide" id="tagRecToken">token redefinição ativo</span>
+        </div>
+        <button class="small ghost" id="btnCopiarToken">copiar token</button>
+        <button class="small ghost" id="btnSair">logout</button>
+      </div>
+    </div>
+
+    <div class="grid g3" id="acoesGrid"></div>
+
+    <div class="card">
+      <div class="row" style="margin-bottom:10px">
+        <h2 style="margin:0">Última resposta</h2>
+        <span class="tag" id="ultimaMeta">—</span>
+        <button class="small ghost" style="margin-left:auto" id="btnCopiarResp">copiar JSON</button>
+      </div>
+      <div class="log" id="respBox">Nenhuma requisição feita ainda.</div>
+    </div>
+  </section>
+
+  <!-- ============================= HISTÓRICO ============================= -->
+  <section id="tab-hist" class="hide">
+    <div class="card">
+      <div class="row" style="margin-bottom:10px">
+        <h2 style="margin:0">Histórico de requisições</h2>
+        <button class="small ghost" style="margin-left:auto" id="btnLimparHist">limpar</button>
+      </div>
+      <table class="hist">
+        <thead><tr><th>hora</th><th>método</th><th>rota</th><th>status</th><th>tempo</th></tr></thead>
+        <tbody id="histBody"><tr><td colspan="5" style="color:#6b77a0;font-family:inherit">sem requisições</td></tr></tbody>
+      </table>
+      <div class="log" id="histDetalhe" style="margin-top:12px;display:none"></div>
+    </div>
+  </section>
+
+  <!-- ============================= AJUDA ============================= -->
+  <section id="tab-ajuda" class="hide">
+    <div class="card">
+      <h2>Como usar este painel</h2>
+      <ol style="color:#c8d3f2;font-size:13.6px;line-height:1.85;padding-left:20px">
+        <li>Cole a URL do Render (ex.: <code>https://fluxo-api-w858.onrender.com</code>) — pode colar sem o <code>/api/v1</code>.</li>
+        <li>Clique em <b>Testar conexão</b>. Se aparecer verde, a API respondeu.</li>
+        <li>Clique em <b>Rodar diagnóstico</b>: não cria dados, serve para validar cada deploy.</li>
+        <li>Quer testar o fluxo real? <b>Rodar fluxo completo</b> cria 1 conta de teste e executa cadastro → login → saldo → transferência recusada → RBAC → logout.</li>
+        <li>Na aba <b>Testar rotas</b>, faça login com a conta criada e dispare qualquer endpoint (Pix, cartões, agendamentos, recuperação de senha...).</li>
+        <li>Para testar a <b>recuperação de senha</b>: (1) solicite a recuperação informando CPF, e-mail ou telefone, (2) emita o código de 6 dígitos como ADMIN no backoffice ou via <code>php artisan senha:gerar-codigo {identificador}</code>, (3) valide o código de 6 dígitos e (4) cadastre a nova senha.</li>
+        <li>Se algo der errado, clique em <b>Exportar relatório</b> e me envie o arquivo.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>Se a conexão falhar</h2>
+      <ul class="checks">
+        <li><span class="mark warn">!</span><div><div class="chk-t">Erro de rede / "Failed to fetch"</div>
+          <div class="chk-d">a) o serviço está dormindo (plano Free) → espere 30-60s e tente de novo;
+          b) URL errada; c) falta <code>config/cors.php</code> no deploy (o pacote novo já traz).</div></div></li>
+        <li><span class="mark warn">!</span><div><div class="chk-t">Responde 503 no /health</div>
+          <div class="chk-d">banco inacessível ou migration pendente — veja o JSON do health e os Logs do Render.</div></div></li>
+        <li><span class="mark warn">!</span><div><div class="chk-t">"rota inexistente → 308"</div>
+          <div class="chk-d">seu deploy está com o pacote ANTIGO. Faça o deploy da branch atualizada para corrigir.</div></div></li>
+        <li><span class="mark warn">!</span><div><div class="chk-t">429 Too Many Requests</div>
+          <div class="chk-d">limite de 60 req/min (login e recuperação: 10/min). Espere 1 minuto.</div></div></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Privacidade</h2>
+      <p class="help">Apenas a URL base fica salva no navegador; senhas, códigos e tokens ficam somente em memória durante a aba aberta e são omitidos dos relatórios exportados. Para apagar tudo, use <b>Limpar</b> no topo.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-tip">Fluxo · painel de teste do backend · arquivo único, sem dependências externas.
+  Dica: abra este arquivo direto no navegador (duplo clique) — dentro de pré-visualizações sem rede ele não consegue
+  alcançar a API.</div>
+</footer>
+
+<script>
+/* =====================================================================
+   Núcleo (independente de DOM) — reaproveitado pelos testes automatizados
+   ===================================================================== */
+const LS = (typeof localStorage !== 'undefined') ? localStorage : {getItem(){return null}, setItem(){}, removeItem(){}};
+const MEM = { email: null, token: null, senha: null, cartaoId: null, contaId: null, tokenRedefinicao: null };
+
+function normalizarBase(url) {
+  let u = (url || '').trim().replace(/\/+$/, '');
+  if (!u) return '';
+  if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+  // aceita colar a URL já com /api/v1 ou /api
+  u = u.replace(/\/api(\/v1)?$/i, '');
+  return u;
+}
+
+function gerarCpf() {
+  const n = [];
+  for (let i = 0; i < 9; i++) n.push(Math.floor(Math.random() * 10));
+  for (let t = 9; t < 11; t++) {
+    let s = 0;
+    for (let i = 0; i < t; i++) s += n[i] * ((t + 1) - i);
+    let d = (s * 10) % 11;
+    n.push(d === 10 ? 0 : d);
+  }
+  return n.join('');
+}
+
+function sanitizarDados(valor) {
+  if (valor == null) return valor;
+  if (typeof valor === 'string') {
+    return valor
+      .replace(/Bearer\s+[A-Za-z0-9._\-|]+/gi, 'Bearer [REDACTED]')
+      .replace(/(\d{3})\.?(\d{3})\.?(\d{3})-?(\d{2})/g, '$1.***.***-$4')
+      .replace(/\b\d{6}\b/g, '[CODIGO-REDACTED]');
+  }
+  if (Array.isArray(valor)) return valor.map(sanitizarDados);
+  if (typeof valor === 'object') {
+    const out = {};
+    for (const [k, v] of Object.entries(valor)) {
+      if (/^(password|password_confirmation|senha|nova_senha|token|access_token|token_temporario|token_redefinicao|authorization|cvv|codigo|codigo_teste|codigo_hash)$/i.test(k)) {
+        out[k] = '[REDACTED]';
+      } else {
+        out[k] = sanitizarDados(v);
       }
+    }
+    return out;
+  }
+  return valor;
+}
 
-      function classificarErroRede(err, rota) {
-        const msg = String(err && err.message ? err.message : err);
-        if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('Load failed')) {
-          return {
-            tipo: 'CORS_OU_REDIRECT',
-            detalhe: `Navegador bloqueou a leitura de ${rota} (${msg}). Causa típica em navegador: ausência de Access-Control-Allow-Origin fora de api/* ou redirecionamento 308 cross-origin. Não indica pacote antigo.`
-          };
+class Api {
+  constructor(base) { this.base = normalizarBase(base); this.historico = []; this.aoRegistrar = null; }
+  url(path) { return this.base + (path.startsWith('/') ? path : '/' + path); }
+
+  async req(path, opts = {}) {
+    const { method = 'GET', body, token, headers = {}, timeout = 120000 } = opts;
+    const h = { 'Accept': 'application/json', ...headers };
+    if (token) h['Authorization'] = 'Bearer ' + token;
+    if (body !== undefined) h['Content-Type'] = 'application/json';
+
+    const t0 = performance.now ? performance.now() : Date.now();
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeout);
+    let resp, texto = '', dados = null, erro = null, st = 0, hdrs = {}, redirected = false, finalUrl = '';
+    try {
+      resp = await fetch(this.url(path), {
+        method, headers: h,
+        body: body !== undefined ? JSON.stringify(body) : undefined,
+        signal: ctrl.signal, redirect: 'follow', mode: 'cors', cache: 'no-store',
+      });
+      st = resp.status;
+      redirected = !!resp.redirected;
+      finalUrl = resp.url || '';
+      resp.headers.forEach((v, k) => { hdrs[k.toLowerCase()] = v; });
+      texto = await resp.text();
+      try { dados = texto ? JSON.parse(texto) : null; } catch (e) { dados = null; }
+    } catch (e) {
+      erro = (e && e.name === 'AbortError')
+        ? 'timeout de ' + Math.round(timeout / 1000) + 's (cold start?)'
+        : (e && e.message) || 'falha de rede';
+    } finally { clearTimeout(timer); }
+
+    const ms = Math.round((performance.now ? performance.now() : Date.now()) - t0);
+    const item = { hora: new Date().toISOString(), metodo: method, path, status: st, ms, erro,
+                   headers: hdrs, resp: dados, texto, redirected, finalUrl };
+    this.historico.unshift(item);
+    if (this.aoRegistrar) this.aoRegistrar(item);
+    return item;
+  }
+}
+
+async function esperarServidor(api, segundosMax) {
+  const limite = Date.now() + (segundosMax || 0) * 1000;
+  let r = await api.req('/api/v1/health', { timeout: 30000 });
+  while ((r.erro || r.status >= 500) && Date.now() < limite) {
+    if (typeof api.aoStatus === 'function') api.aoStatus('acordando o serviço…');
+    await new Promise(s => setTimeout(s, 5000));
+    r = await api.req('/api/v1/health', { timeout: 30000 });
+  }
+  return r;
+}
+
+function temTrace(d) {
+  if (!d || typeof d !== 'object') return false;
+  const txt = JSON.stringify(d).toLowerCase();
+  return txt.includes('stack trace') || txt.includes('"trace"') || txt.includes('"file":"/')
+      || txt.includes('/vendor/laravel') || txt.includes('exception');
+}
+
+/* Roda o diagnóstico completo. Retorna { checks, resumo, versao, credenciais } */
+async function rodarDiagnostico(api, opts = {}) {
+  const { fluxoCompleto = false, esperarColdStart = 90, aoCheck = () => {} } = opts;
+  const checks = [];
+  const add = (grupo, titulo, status, detalhe) => { const c = { grupo, titulo, status, detalhe }; checks.push(c); aoCheck(c); return c; };
+  const cred = { email: null, senha: null, token: null, conta: null };
+
+  // 1) servidor -----------------------------------------------------------
+  const health = await esperarServidor(api, esperarColdStart);
+  if (health.erro || !health.status) {
+    add('Conexão', 'Servidor respondeu', 'falha', health.erro || 'sem status HTTP');
+    return { checks, resumo: resumir(checks), versao: 'desconhecida', credenciais: cred };
+  }
+  add('Conexão', 'Servidor respondeu em ' + health.ms + ' ms', 'ok', 'HTTP ' + health.status);
+  if (health.status === 503) add('Conexão', 'Health check', 'falha', 'HTTP 503 — banco inacessível ou migration pendente');
+
+  const hj = health.resp || {};
+  add('Banco', 'status do health', hj.status === 'ok' ? 'ok' : 'falha', 'status = ' + (hj.status || '?'));
+  add('Banco', 'conexão é PostgreSQL', (hj.banco && hj.banco.conexao === 'pgsql') ? 'ok' : 'falha',
+      'conexao = ' + ((hj.banco && hj.banco.conexao) || '?'));
+  add('Banco', 'migrations pendentes', (hj.banco && hj.banco.migrations_pendentes === 0) ? 'ok' : 'falha',
+      'pendentes = ' + ((hj.banco && hj.banco.migrations_pendentes) ?? '?'));
+  add('Banco', 'versão do PostgreSQL', hj.banco && hj.banco.versao ? 'info' : 'warn', (hj.banco && hj.banco.versao) || 'não informada');
+  add('Ambiente', 'APP_ENV', hj.ambiente === 'production' ? 'ok' : 'warn',
+      'ambiente = ' + (hj.ambiente || '?') + (hj.ambiente === 'production' ? '' : ' (esperado production no Render)'));
+  if (hj.commit) {
+    add('Ambiente', 'commit publicado', 'info', String(hj.commit).slice(0, 12));
+  }
+
+  // 2) contrato -----------------------------------------------------------
+  const doc = await api.req('/docs/openapi.yaml', { headers: { 'Accept': 'application/yaml, text/plain, */*' } });
+  if (doc.erro) {
+    const tipoErro = /timeout/i.test(doc.erro) ? 'timeout' : 'bloqueio CORS ou falha de rede';
+    add('Contrato', 'GET /docs/openapi.yaml', 'warn', tipoErro + ' (' + doc.erro + ')');
+  } else if (doc.status === 200 && /^openapi:/m.test(doc.texto)) {
+    add('Contrato', 'GET /docs/openapi.yaml', 'ok',
+      'HTTP ' + doc.status + ' · ' + (doc.texto || '').split('\n').filter(l => l.startsWith('openapi:') || l.startsWith('  version:')).join(' '));
+  } else if (doc.status >= 500) {
+    add('Contrato', 'GET /docs/openapi.yaml', 'falha', 'HTTP ' + doc.status + ' (erro interno no servidor ao servir OpenAPI)');
+  } else {
+    add('Contrato', 'GET /docs/openapi.yaml', 'falha', 'HTTP ' + doc.status);
+  }
+
+  const docV1 = await api.req('/api/v1/openapi.yaml', { headers: { 'Accept': 'application/yaml, text/plain, */*' } });
+  if (!docV1.erro && docV1.status === 200 && /^openapi:/m.test(docV1.texto)) {
+    add('Contrato', 'GET /api/v1/openapi.yaml', 'ok', 'HTTP 200');
+  }
+
+  // 3) segurança ----------------------------------------------------------
+  const semToken = await api.req('/api/v1/conta');
+  add('Segurança', 'rota protegida sem token', semToken.status === 401 ? 'ok' : 'falha', 'HTTP ' + (semToken.status || semToken.erro));
+
+  const respId = health.headers['x-request-id'];
+  add('Segurança', 'X-Request-Id na resposta', respId ? 'ok' : 'warn', respId || 'cabeçalho ausente (verifique exposed_headers no CORS)');
+  const limite = health.headers['x-ratelimit-limit'];
+  add('Segurança', 'rate limit ativo', limite ? 'ok' : 'warn', limite ? limite + ' req/janela' : 'sem cabeçalho X-RateLimit-Limit');
+
+  add('Segurança', 'APP_DEBUG desligado', temTrace(semToken.resp) ? 'falha' : 'ok',
+      temTrace(semToken.resp) ? 'a resposta vazou stack trace/arquivos' : 'erro sem stack trace');
+
+  // 4) versão do pacote ---------------------------------------------------
+  const inexistente = await api.req('/api/v1/rota-que-nao-existe');
+  let versao = 'desconhecida';
+  if (inexistente.erro) {
+    if (/timeout/i.test(inexistente.erro)) {
+      add('Versão do deploy', 'rota inexistente em /api/v1', 'warn', 'timeout (' + inexistente.erro + ')');
+    } else if (hj.commit || (!doc.erro && doc.status === 200)) {
+      versao = 'nova';
+      add('Versão do deploy', 'rota inexistente em /api/v1', 'warn',
+          'bloqueio CORS ou falha de rede (' + inexistente.erro + ')');
+    } else {
+      versao = 'antiga';
+      add('Versão do deploy', 'rota inexistente em /api/v1', 'falha',
+          'possível redirect HTTP 308 inseguro bloqueado pelo navegador (' + inexistente.erro + ') — atualize o deploy');
+    }
+  } else if (inexistente.status === 404 && !/\/v1\/v1\//.test(inexistente.finalUrl || '')) {
+    versao = 'nova';
+    add('Versão do deploy', 'rota inexistente → 404', 'ok',
+        ((inexistente.resp && inexistente.resp.erro) || 'sem chave erro') + ' (pacote novo)');
+  } else if (inexistente.status === 308 || inexistente.status === 301 || /\/v1\/v1\//.test(inexistente.finalUrl || '')) {
+    versao = 'antiga';
+    add('Versão do deploy', 'rota inexistente → ' + inexistente.status, 'falha',
+        'pacote ANTIGO: o fallback /api/* está engolindo /api/v1/* (redirect para /api/v1/v1/...)');
+  } else if (inexistente.status >= 500) {
+    add('Versão do deploy', 'rota inexistente → ' + inexistente.status, 'falha', 'erro interno HTTP ' + inexistente.status);
+  } else {
+    add('Versão do deploy', 'rota inexistente → ' + inexistente.status, 'warn', 'comportamento inesperado');
+  }
+
+  const legado = await api.req('/api/conta');
+  if (!legado.erro && (legado.status === 401 || legado.status === 308) && !/\/v1\/v1\//.test(legado.finalUrl || '')) {
+    add('Versão do deploy', 'redirect /api/* → /api/v1/*', 'ok', 'HTTP ' + legado.status + (legado.redirected ? ' (308 seguido)' : ''));
+  }
+
+  if (!fluxoCompleto) return { checks, resumo: resumir(checks), versao, credenciais: cred };
+
+  // 5) fluxo completo -----------------------------------------------------
+  const loginErrado = await api.req('/api/v1/login', { method: 'POST', body: { email: 'nao.existe@fluxo.teste', password: 'senhaerrada123' } });
+  if (loginErrado.erro) {
+    add('Segurança', 'credenciais inválidas', 'warn', loginErrado.erro);
+  } else if (loginErrado.status === 401 || loginErrado.status === 422) {
+    const msg = (loginErrado.resp && (loginErrado.resp.erro || loginErrado.resp.message)) || '';
+    add('Segurança', 'credenciais inválidas → ' + loginErrado.status, 'ok', msg.slice(0, 140));
+  } else if (loginErrado.status === 429) {
+    add('Segurança', 'credenciais inválidas', 'warn', 'HTTP 429 — rate limit; espere 1 minuto');
+  } else {
+    add('Segurança', 'credenciais inválidas', 'falha', 'HTTP ' + loginErrado.status + ' (esperado 401/422)');
+  }
+
+  const sufixo = Date.now().toString().slice(-9);
+  const cpf = gerarCpf();
+  const email = 'painel.' + sufixo + '@fluxo.teste';
+  const senha = 'PainelTeste123';
+  cred.email = email; cred.senha = senha;
+
+  const cad = await api.req('/api/v1/cadastro', { method: 'POST', body: {
+    nome: 'Conta de Teste Painel', cpf, data_nascimento: '1990-05-20', email, password: senha } });
+  if (cad.status === 201) {
+    cred.conta = cad.resp && cad.resp.conta;
+    add('Fluxo real', 'cadastro de conta de teste', 'ok',
+        'conta ' + (cred.conta || '?') + ' · KYC ' + ((cad.resp && cad.resp.status_abertura) || '?'));
+  } else {
+    add('Fluxo real', 'cadastro de conta de teste', 'falha', 'HTTP ' + cad.status + ' · ' + JSON.stringify(cad.resp || cad.erro).slice(0, 240));
+  }
+
+  const login = await api.req('/api/v1/login', { method: 'POST', body: { email, password: senha } });
+  if (login.status === 200 && login.resp && login.resp.token) {
+    cred.token = login.resp.token;
+    add('Fluxo real', 'login com a conta nova', 'ok', 'token recebido' + (login.resp.precisa_2fa ? ' (2FA pendente)' : ''));
+  } else if (login.status === 429) {
+    add('Fluxo real', 'login com a conta nova', 'warn', 'HTTP 429 — rate limit no login, espere 1 minuto e rode de novo');
+  } else {
+    add('Fluxo real', 'login com a conta nova', 'falha', 'HTTP ' + login.status + ' · ' + JSON.stringify(login.resp || login.erro).slice(0, 240));
+  }
+
+  if (cred.token) {
+    const eu = await api.req('/api/v1/eu', { token: cred.token });
+    add('Fluxo real', 'GET /eu confirma a identidade', (eu.resp && eu.resp.email === email) ? 'ok' : 'falha',
+        'HTTP ' + eu.status + ' · ' + ((eu.resp && eu.resp.email) || eu.erro || ''));
+
+    const conta = await api.req('/api/v1/conta', { token: cred.token });
+    const saldo = conta.resp && (conta.resp.saldo_centavos ?? (conta.resp.conta && conta.resp.conta.saldo_centavos) ?? (conta.resp.dados && conta.resp.dados.saldo_centavos));
+    const minhaConta = (conta.resp && (conta.resp.conta_id || (conta.resp.conta && conta.resp.conta.id) || conta.resp.id)) || null;
+    if (minhaConta) MEM.contaId = minhaConta;
+    add('Fluxo real', 'GET /conta devolve saldo em centavos', (conta.status === 200 && saldo !== undefined) ? 'ok' : 'falha',
+        'HTTP ' + conta.status + ' · saldo = ' + (saldo !== undefined ? saldo : '?') + ' centavos');
+
+    // ---------------------------------------------------------------
+    // Transferência acima do saldo tem de ser recusada pelo servidor.
+    // Precisa de uma conta de DESTINO diferente da nossa: num banco de
+    // produção vazio não existe nenhuma, então criamos uma se preciso.
+    // ---------------------------------------------------------------
+    const transferir = (destino, chave) => api.req('/api/v1/transferencias', { method: 'POST', token: cred.token,
+      body: { conta_destino_id: destino, valor_centavos: 1000, descricao: 'teste do painel' },
+      headers: { 'Idempotency-Key': 'painel-' + (chave || sufixo) } });
+
+    let transf = await transferir(1, sufixo);
+    let msg = (transf.resp && transf.resp.erro) || '';
+
+    if (transf.status === 422 && !/saldo/i.test(msg)) {
+      const cpfB = gerarCpf();
+      const emailB = 'painel.destino.' + sufixo + '@fluxo.teste';
+      const cadB = await api.req('/api/v1/cadastro', { method: 'POST', body: {
+        nome: 'Conta Destino Painel', cpf: cpfB, data_nascimento: '1990-01-01', email: emailB, password: senha } });
+      let contaB = null;
+      if (cadB.status === 201) {
+        const lgB = await api.req('/api/v1/login', { method: 'POST', body: { email: emailB, password: senha } });
+        if (lgB.resp && lgB.resp.token) {
+          const cB = await api.req('/api/v1/conta', { token: lgB.resp.token });
+          contaB = (cB.resp && cB.resp.conta && cB.resp.conta.id) || null;
+          await api.req('/api/v1/logout', { method: 'POST', token: lgB.resp.token });
         }
-        return { tipo: 'REDE', detalhe: msg };
       }
-
-      async function requisitar(baseUrl, metodo, caminho, opcoes = {}) {
-        const url = baseUrl.replace(/\/+$/, '') + caminho;
-        const headers = { 'Accept': 'application/json', ...(opcoes.headers || {}) };
-        if (opcoes.token) {
-          headers['Authorization'] = `Bearer ${opcoes.token}`;
-        }
-        if (opcoes.body !== undefined) {
-          headers['Content-Type'] = 'application/json';
-        }
-        const inicio = performance.now();
-        try {
-          const res = await fetch(url, {
-            method: metodo,
-            headers,
-            body: opcoes.body !== undefined ? JSON.stringify(opcoes.body) : undefined,
-            redirect: opcoes.redirect || 'follow',
-            cache: 'no-store'
-          });
-          const duracaoMs = Math.round(performance.now() - inicio);
-          const texto = await res.text();
-          let json = null;
-          try { json = texto ? JSON.parse(texto) : null; } catch (_) {}
-          return {
-            okRede: true,
-            status: res.status,
-            type: res.type,
-            headers: res.headers,
-            texto,
-            json,
-            duracaoMs
-          };
-        } catch (err) {
-          return {
-            okRede: false,
-            status: 0,
-            erroRede: classificarErroRede(err, caminho),
-            duracaoMs: Math.round(performance.now() - inicio)
-          };
-        }
+      if (contaB) {
+        add('Fluxo real', 'conta de destino criada para o teste', 'info', 'conta ' + contaB + ' (sem saldo, só para receber)');
+        transf = await transferir(contaB, sufixo + 'b');
+        msg = (transf.resp && transf.resp.erro) || '';
       }
+    }
 
-      async function executarDiagnostico() {
-        const btnExecutar = document.getElementById('btnExecutar');
-        const btnExportar = document.getElementById('btnExportar');
-        const tbody = document.getElementById('tabelaResultados');
-        const baseUrl = document.getElementById('baseUrl').value.trim().replace(/\/+$/, '');
-        const emailCliente = document.getElementById('emailCliente').value.trim();
-        const senhaDemo = document.getElementById('senhaDemo').value;
+    if (transf.status === 422 && /saldo/i.test(msg)) {
+      add('Fluxo real', 'transferência acima do saldo é recusada', 'ok', 'HTTP 422 · ' + msg);
+    } else if (transf.status === 201) {
+      add('Fluxo real', 'transferência acima do saldo é recusada', 'falha', 'aceitou transferência com saldo zero (HTTP 201) — revise o TransferenciaService');
+    } else if (transf.status === 403) {
+      add('Fluxo real', 'transferência acima do saldo é recusada', 'ok', 'HTTP 403 · ' + msg);
+    } else {
+      add('Fluxo real', 'transferência acima do saldo é recusada', 'warn',
+        'HTTP ' + transf.status + ' · ' + String(msg || JSON.stringify(transf.resp || transf.erro)).slice(0, 160) +
+        (minhaConta ? ' (sua conta: ' + minhaConta + ')' : ''));
+    }
 
-        btnExecutar.disabled = true;
-        btnExportar.disabled = true;
-        tbody.innerHTML = '';
+    const bo = await api.req('/api/v1/backoffice/auditoria', { token: cred.token });
+    add('Fluxo real', 'cliente bloqueado no backoffice (RBAC)', bo.status === 403 ? 'ok' : 'falha',
+        'HTTP ' + bo.status + ' · ' + ((bo.resp && bo.resp.erro) || ''));
 
-        const itens = [];
-        let okCount = 0;
-        let warnCount = 0;
-        let errCount = 0;
+    const out = await api.req('/api/v1/logout', { method: 'POST', token: cred.token });
+    add('Fluxo real', 'logout', out.status === 200 ? 'ok' : 'warn', 'HTTP ' + out.status);
 
-        function registrar(nivel, titulo, detalhe) {
-          if (nivel === 'ok') okCount++;
-          else if (nivel === 'warn') warnCount++;
-          else errCount++;
+    const depois = await api.req('/api/v1/eu', { token: cred.token });
+    add('Fluxo real', 'token revogado após o logout', depois.status === 401 ? 'ok' : 'falha', 'HTTP ' + depois.status);
+  }
 
-          itens.push({ nivel, titulo, detalhe: String(detalhe) });
+  return { checks, resumo: resumir(checks), versao, credenciais: cred };
+}
 
-          const tr = document.createElement('tr');
-          const label = nivel === 'ok' ? 'OK' : (nivel === 'warn' ? 'AVISO' : 'FALHA');
-          tr.innerHTML = `
-            <td><span class="badge ${nivel}">${label}</span></td>
-            <td><strong>${titulo}</strong></td>
-            <td>${detalhe}</td>
-          `;
-          tbody.appendChild(tr);
+function resumir(checks) {
+  return {
+    ok: checks.filter(c => c.status === 'ok').length,
+    falhas: checks.filter(c => c.status === 'falha').length,
+    avisos: checks.filter(c => c.status === 'warn').length,
+    infos: checks.filter(c => c.status === 'info').length,
+  };
+}
 
-          document.getElementById('cntOk').textContent = String(okCount);
-          document.getElementById('cntWarn').textContent = String(warnCount);
-          document.getElementById('cntErr').textContent = String(errCount);
-        }
 
-        // 1. Health Check e Identificação de Versão / Deploy
-        const health = await requisitar(baseUrl, 'GET', '/api/v1/health');
-        if (health.okRede && health.status === 200 && health.json) {
-          const b = health.json.banco || {};
-          const versaoApi = health.json.api || 'v1';
-          const commit = health.json.commit ? ` (${health.json.commit})` : '';
-          document.getElementById('lblVersao').textContent = `${versaoApi}${commit}`;
-
-          registrar('ok', '1. Health Check (/api/v1/health)', `HTTP 200 em ${health.duracaoMs}ms — status=${health.json.status}, ambiente=${health.json.ambiente}`);
-          registrar(b.conexao === 'pgsql' ? 'ok' : 'err', '2. Banco PostgreSQL conectado', `Driver=${b.conexao}, Database=${b.database}, Versão=${b.versao}`);
-          registrar(b.migrations_pendentes === 0 ? 'ok' : 'err', '3. Migrations em dia', `migrations_pendentes=${b.migrations_pendentes}`);
-          registrar('ok', '4. Identificação da versão do deploy', `API ${versaoApi} ativa no Render com schema v1 completo (0 migrations pendentes)${commit}.`);
-        } else {
-          document.getElementById('lblVersao').textContent = 'Indisponível';
-          registrar('err', '1. Health Check (/api/v1/health)', health.okRede ? `HTTP ${health.status}` : health.erroRede.detalhe);
-        }
-
-        // 2. Cabeçalhos expostos no navegador (X-Request-Id e Rate Limit)
-        if (health.okRede) {
-          const reqId = health.headers.get('x-request-id');
-          const rlLimit = health.headers.get('x-ratelimit-limit');
-          if (reqId) {
-            registrar('ok', '5. Cabeçalho X-Request-Id visível via CORS', `X-Request-Id=${reqId}`);
-          } else {
-            registrar('warn', '5. Cabeçalho X-Request-Id oculto pelo CORS no navegador', 'O middleware AuditoriaRequisicao envia X-Request-Id, mas o navegador exige Access-Control-Expose-Headers em config/cors.php para expô-lo ao fetch().');
-          }
-
-          if (rlLimit) {
-            registrar('ok', '6. Cabeçalhos de Rate Limit visíveis via CORS', `X-RateLimit-Limit=${rlLimit}, Remaining=${health.headers.get('x-ratelimit-remaining')}`);
-          } else {
-            registrar('warn', '6. Cabeçalhos de Rate Limit ocultos pelo CORS no navegador', 'O throttle da API está ativo, mas X-RateLimit-Limit exige Access-Control-Expose-Headers em config/cors.php para leitura via JS cross-origin.');
-          }
-        }
-
-        // 3. OpenAPI (/api/v1/openapi.yaml ou /docs/openapi.yaml)
-        const oaV1 = await requisitar(baseUrl, 'GET', '/api/v1/openapi.yaml');
-        if (oaV1.okRede && oaV1.status === 200 && oaV1.texto.includes('openapi:')) {
-          registrar('ok', '7. Contrato OpenAPI (/api/v1/openapi.yaml)', 'Especificação OpenAPI 3.0 carregada com CORS habilitado.');
-        } else {
-          const oaDocs = await requisitar(baseUrl, 'GET', '/docs/openapi.yaml');
-          if (oaDocs.okRede && oaDocs.status === 200 && oaDocs.texto.includes('openapi:')) {
-            registrar('ok', '7. Contrato OpenAPI (/docs/openapi.yaml)', 'Especificação OpenAPI 3.0 carregada com sucesso.');
-          } else if (oaDocs.okRede && oaDocs.status === 500) {
-            registrar('warn', '7. Contrato OpenAPI (/docs/openapi.yaml)', 'HTTP 500 no commit d569aa1 em produção (grupo de middleware web acionava EncryptCookies/Encrypter com APP_KEY base64 sem prefixo e BinaryFileResponse). Corrigido localmente em routes/web.php, routes/api_v1.php e config/app.php.');
-          } else if (!oaDocs.okRede && oaDocs.erroRede.tipo === 'CORS_OU_REDIRECT') {
-            registrar('warn', '7. Contrato OpenAPI (/docs/openapi.yaml)', 'Bloqueio CORS no navegador ou HTTP 500 sem cabeçalho Access-Control-Allow-Origin no deploy d569aa1. Corrigido localmente com config/cors.php e rota sem middleware de sessão.');
-          } else {
-            registrar('warn', '7. Contrato OpenAPI', `Status=${oaDocs.status}`);
-          }
-        }
-
-        // 4. Rota inexistente em /api/v1/* e redirecionamento 308 de rota legada
-        const naoExiste = await requisitar(baseUrl, 'GET', '/api/v1/rota-inexistente-diagnostico', { redirect: 'manual' });
-        if (naoExiste.okRede && naoExiste.status === 404) {
-          registrar('ok', '8. Rota inexistente (/api/v1/rota-inexistente)', 'Retornou HTTP 404 JSON conforme esperado.');
-        } else if (naoExiste.okRede && (naoExiste.type === 'opaqueredirect' || naoExiste.status === 308)) {
-          registrar('warn', '8. Rota inexistente (/api/v1/rota-inexistente)', 'Caiu no catch-all HTTP 308 de routes/api.php (que redirecionava para /api/v1/v1/...). Corrigido no código local com Route::fallback 404 em routes/api_v1.php.');
-        } else if (!naoExiste.okRede && naoExiste.erroRede.tipo === 'CORS_OU_REDIRECT') {
-          registrar('warn', '8. Rota inexistente (/api/v1/rota-inexistente)', 'Redirecionamento 308 em loop (/api/v1/v1/...) ou Location http:// bloqueado pelo navegador. Corrigido com Route::fallback 404 + trustProxies.');
-        } else {
-          registrar('err', '8. Rota inexistente', `Status=${naoExiste.status}`);
-        }
-
-        // 5. Rota protegida sem token -> 401
-        const semToken = await requisitar(baseUrl, 'GET', '/api/v1/conta');
-        registrar(semToken.okRede && semToken.status === 401 ? 'ok' : 'err', '9. Proteção de rota sem token (/api/v1/conta)', `HTTP ${semToken.status} (esperado 401)`);
-
-        // 6. Login Cliente (Token apenas em variável local de memória)
-        let tokenCliente = null;
-        const login = await requisitar(baseUrl, 'POST', '/api/v1/login', {
-          body: { email: emailCliente, password: senhaDemo }
-        });
-
-        if (login.okRede && login.status === 200 && login.json && login.json.token) {
-          tokenCliente = login.json.token;
-          registrar('ok', '10. Login de cliente (/api/v1/login)', `Autenticado (${emailCliente}), perfil=${login.json.perfil}, token mantido apenas em RAM.`);
-        } else if (login.okRede && login.status === 401) {
-          registrar('warn', '10. Login de cliente (/api/v1/login)', `HTTP 401 para ${emailCliente}: credenciais não cadastradas no banco de produção (o Dockerfile executa apenas migrate --force e não roda DemoSeeder em produção por segurança). Informe um usuário já cadastrado via /api/v1/cadastro para validar as rotas autenticadas.`);
-        } else {
-          registrar('err', '10. Login de cliente (/api/v1/login)', login.okRede ? `HTTP ${login.status}` : login.erroRede.detalhe);
-        }
-
-        if (tokenCliente) {
-          // 7. Dados do usuário (/api/v1/eu) com mascaramento LGPD
-          const eu = await requisitar(baseUrl, 'GET', '/api/v1/eu', { token: tokenCliente });
-          const docMasc = eu.json && eu.json.cliente ? eu.json.cliente.documento_mascarado : '';
-          registrar(eu.okRede && eu.status === 200 && String(docMasc).includes('*') ? 'ok' : 'err',
-            '11. Perfil e mascaramento LGPD (/api/v1/eu)',
-            `HTTP ${eu.status} — Documento mascarado=${docMasc}`);
-
-          // 8. Saldo e Limites Pix (/api/v1/conta)
-          const conta = await requisitar(baseUrl, 'GET', '/api/v1/conta', { token: tokenCliente });
-          registrar(conta.okRede && conta.status === 200 && typeof (conta.json && conta.json.saldo_centavos) === 'number' ? 'ok' : 'err',
-            '12. Saldo derivado e limites Pix (/api/v1/conta)',
-            `HTTP ${conta.status} — saldo_centavos=${conta.json ? conta.json.saldo_centavos : 'N/A'}`);
-
-          // 9. Extrato paginado (/api/v1/conta/extrato)
-          const extrato = await requisitar(baseUrl, 'GET', '/api/v1/conta/extrato?per_page=10', { token: tokenCliente });
-          registrar(extrato.okRede && extrato.status === 200 ? 'ok' : 'err',
-            '13. Extrato paginado (/api/v1/conta/extrato)',
-            `HTTP ${extrato.status} — total=${extrato.json ? extrato.json.total : 'N/A'} lançamentos`);
-
-          // 10. Chaves Pix (/api/v1/chaves-pix)
-          const chaves = await requisitar(baseUrl, 'GET', '/api/v1/chaves-pix', { token: tokenCliente });
-          registrar(chaves.okRede && chaves.status === 200 ? 'ok' : 'err',
-            '14. Consulta de chaves Pix (/api/v1/chaves-pix)',
-            `HTTP ${chaves.status}`);
-
-          // 11. Cobrança Pix EMV (/api/v1/pix/cobrancas)
-          const emv = await requisitar(baseUrl, 'POST', '/api/v1/pix/cobrancas', {
-            token: tokenCliente,
-            body: { valor_centavos: 1500, descricao: 'Diagnostico EMV' }
-          });
-          registrar(emv.okRede && emv.status === 201 && emv.json && emv.json.valido ? 'ok' : 'err',
-            '15. Geração de QR Code Pix EMV + CRC16 (/api/v1/pix/cobrancas)',
-            `HTTP ${emv.status} — CRC16=${emv.json ? emv.json.crc16 : 'N/A'}, valido=${emv.json ? emv.json.valido : false}`);
-
-          // 12. Validação de boleto sem débito (/api/v1/boletos/validar)
-          const boleto = await requisitar(baseUrl, 'POST', '/api/v1/boletos/validar', {
-            token: tokenCliente,
-            body: { linha_digitavel: '34191790010104351004791020150008291070026000142' }
-          });
-          registrar(boleto.okRede && boleto.status === 200 && boleto.json && boleto.json.valido ? 'ok' : 'err',
-            '16. Validação de linha digitável (/api/v1/boletos/validar)',
-            `HTTP ${boleto.status} — 47 dígitos válidos (sem alterar saldo de produção)`);
-
-          // 13. Cartões e Planos (/api/v1/cartoes e /api/v1/planos)
-          const cartoes = await requisitar(baseUrl, 'GET', '/api/v1/cartoes', { token: tokenCliente });
-          registrar(cartoes.okRede && cartoes.status === 200 ? 'ok' : 'err',
-            '17. Listagem de cartões (/api/v1/cartoes)',
-            `HTTP ${cartoes.status}`);
-
-          // 14. RBAC — Cliente bloqueado no Backoffice -> 403
-          const rbac = await requisitar(baseUrl, 'GET', '/api/v1/backoffice/resumo', { token: tokenCliente });
-          registrar(rbac.okRede && rbac.status === 403 ? 'ok' : 'err',
-            '18. Proteção RBAC Backoffice (/api/v1/backoffice/resumo)',
-            `HTTP ${rbac.status} (esperado 403 para perfil CLIENTE)`);
-
-          // 15. Logout e revogação imediata do token
-          const logout = await requisitar(baseUrl, 'POST', '/api/v1/logout', { token: tokenCliente });
-          const posLogout = await requisitar(baseUrl, 'GET', '/api/v1/conta', { token: tokenCliente });
-          tokenCliente = null;
-
-          registrar(logout.okRede && logout.status === 200 && posLogout.status === 401 ? 'ok' : 'err',
-            '19. Logout e revogação do token (/api/v1/logout)',
-            `Logout HTTP ${logout.status} -> Reuso do token retornou HTTP ${posLogout.status} (revogado)`);
-        }
-
-        ultimoRelatorio = sanitizarObjeto({
-          gerado_em: new Date().toISOString(),
-          url_base: baseUrl,
-          resumo: { aprovadas: okCount, avisos: warnCount, falhas: errCount },
-          verificacoes: itens
-        });
-
-        btnExecutar.disabled = false;
-        btnExportar.disabled = false;
+/* Ações manuais do painel (nomes de campo conferidos contra os controllers). */
+const ACOES = [
+  { t: 'Login', d: 'POST /api/v1/login', cam: ['email', 'senha'], async run(a, v) {
+      const r = await a.req('/api/v1/login', { method: 'POST', body: { email: v.email, password: v.senha } });
+      if (r.status === 200 && r.resp && (r.resp.token || r.resp.token_temporario)) {
+        MEM.token = r.resp.token || r.resp.token_temporario;
+        MEM.email = v.email;
+        MEM.senha = v.senha;
+        if (a.aoSessao) a.aoSessao();
       }
-
-      function exportarRelatorio() {
-        if (!ultimoRelatorio) return;
-        const blob = new Blob([JSON.stringify(ultimoRelatorio, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `diagnostico-fluxo-${new Date().toISOString().slice(0, 10)}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
+      return r; } },
+  { t: 'Validar 2FA', d: 'POST /api/v1/2fa/validar', cam: ['codigo'], ph: { codigo: '123456' }, async run(a, v, tk) {
+      const r = await a.req('/api/v1/2fa/validar', { method: 'POST', token: tk, body: { codigo: v.codigo } });
+      if (r.status === 200 && r.resp && r.resp.token) { MEM.token = r.resp.token; if (a.aoSessao) a.aoSessao(); }
+      return r; } },
+  { t: '1. Solicitar recuperação de senha', d: 'POST /api/v1/senha/recuperacao/solicitar', cam: ['identificador'], ph: { identificador: 'CPF, e-mail ou telefone' }, async run(a, v) {
+      const id = v.identificador || MEM.email || 'ana@fluxo.test';
+      MEM.identificadorRecuperacao = id;
+      return a.req('/api/v1/senha/recuperacao/solicitar', { method: 'POST', body: { identificador: id } }); } },
+  { t: '2. Validar código de recuperação (6 dígitos)', d: 'POST /api/v1/senha/recuperacao/validar', cam: ['identificador', 'codigo'], ph: { identificador: 'CPF, e-mail ou telefone', codigo: '048291' }, async run(a, v) {
+      const id = v.identificador || MEM.identificadorRecuperacao || MEM.email || 'ana@fluxo.test';
+      const r = await a.req('/api/v1/senha/recuperacao/validar', { method: 'POST', body: {
+        identificador: id,
+        codigo: v.codigo || '' } });
+      if (r.status === 200 && r.resp && r.resp.token_redefinicao) {
+        MEM.tokenRedefinicao = r.resp.token_redefinicao;
+        MEM.identificadorRecuperacao = id;
+        if (a.aoSessao) a.aoSessao();
       }
+      return r; } },
+  { t: '3. Redefinir senha (após validar código)', d: 'POST /api/v1/senha/recuperacao/redefinir', cam: ['nova_senha', 'confirmar_senha'], ph: { nova_senha: 'NovaSenha123', confirmar_senha: 'NovaSenha123' }, async run(a, v) {
+      const r = await a.req('/api/v1/senha/recuperacao/redefinir', { method: 'POST', body: {
+        token_redefinicao: MEM.tokenRedefinicao || '',
+        password: v.nova_senha || '',
+        password_confirmation: v.confirmar_senha || v.nova_senha || '' } });
+      if (r.status === 200) {
+        MEM.tokenRedefinicao = null;
+        MEM.token = null;
+        if (a.aoSessao) a.aoSessao();
+      }
+      return r; } },
+  { t: 'Meus dados', d: 'GET /api/v1/eu', run: (a, v, tk) => a.req('/api/v1/eu', { token: tk }) },
+  { t: 'Saldo da conta', d: 'GET /api/v1/conta', async run(a, v, tk) {
+      const r = await a.req('/api/v1/conta', { token: tk });
+      if (r.resp && r.resp.conta && r.resp.conta.id) MEM.contaId = r.resp.conta.id;
+      return r; } },
+  { t: 'Extrato', d: 'GET /api/v1/conta/extrato?per_page=10', run: (a, v, tk) => a.req('/api/v1/conta/extrato?per_page=10', { token: tk }) },
+  { t: 'Extrato por categoria', d: 'GET /api/v1/conta/extrato/categorizado', run: (a, v, tk) => a.req('/api/v1/conta/extrato/categorizado', { token: tk }) },
+  { t: 'Limites Pix', d: 'GET /api/v1/pix/limites', run: (a, v, tk) => a.req('/api/v1/pix/limites', { token: tk }) },
+  { t: 'Listar chaves Pix', d: 'GET /api/v1/chaves-pix', run: (a, v, tk) => a.req('/api/v1/chaves-pix', { token: tk }) },
+  { t: 'Criar chave Pix', d: 'POST /api/v1/chaves-pix', cam: ['tipo_chave'], ph: { tipo_chave: 'EMAIL' }, run: (a, v, tk) =>
+      a.req('/api/v1/chaves-pix', { method: 'POST', token: tk, body: {
+        tipo_chave: (v.tipo_chave || 'EMAIL').toUpperCase(),
+        valor_chave: (MEM.email || 'painel@fluxo.teste') } }) },
+  { t: 'Cobrança Pix (QR/EMV)', d: 'POST /api/v1/pix/cobrancas', cam: ['valor_centavos'], ph: { valor_centavos: '5000' }, run: (a, v, tk) =>
+      a.req('/api/v1/pix/cobrancas', { method: 'POST', token: tk, body: {
+        valor_centavos: parseInt(v.valor_centavos || '5000', 10), descricao: 'cobrança do painel' } }) },
+  { t: 'Receber Pix', d: 'POST /api/v1/pix/recebimentos', cam: ['valor_centavos'], ph: { valor_centavos: '2500' }, run: (a, v, tk) =>
+      a.req('/api/v1/pix/recebimentos', { method: 'POST', token: tk, body: {
+        valor_centavos: parseInt(v.valor_centavos || '2500', 10), descricao: 'recebimento do painel' } }) },
+  { t: 'Transferir', d: 'POST /api/v1/transferencias', cam: ['conta_destino_id', 'valor_centavos'], ph: { conta_destino_id: '2', valor_centavos: '1000' }, run: (a, v, tk) =>
+      a.req('/api/v1/transferencias', { method: 'POST', token: tk, body: {
+        conta_destino_id: parseInt(v.conta_destino_id || '2', 10),
+        valor_centavos: parseInt(v.valor_centavos || '1000', 10), descricao: 'transferência do painel' },
+        headers: { 'Idempotency-Key': 'painel-' + Date.now() } }) },
+  { t: 'Transferir por chave Pix', d: 'POST /api/v1/transferencias (chave_pix)', cam: ['chave_pix', 'valor_centavos'], ph: { chave_pix: 'bruno@fluxo.test', valor_centavos: '1000' }, run: (a, v, tk) =>
+      a.req('/api/v1/transferencias', { method: 'POST', token: tk, body: {
+        chave_pix: v.chave_pix || 'bruno@fluxo.test',
+        valor_centavos: parseInt(v.valor_centavos || '1000', 10), descricao: 'pix por chave' },
+        headers: { 'Idempotency-Key': 'painel-chave-' + Date.now() } }) },
+  { t: 'Transações', d: 'GET /api/v1/transacoes', run: (a, v, tk) => a.req('/api/v1/transacoes', { token: tk }) },
+  { t: 'Listar cartões', d: 'GET /api/v1/cartoes', async run(a, v, tk) {
+      const r = await a.req('/api/v1/cartoes', { token: tk });
+      const lista = (r.resp && (r.resp.cartoes || r.resp.data)) || [];
+      if (lista.length && lista[0].id) MEM.cartaoId = lista[0].id;
+      return r; } },
+  { t: 'Emitir cartão', d: 'POST /api/v1/cartoes', cam: ['modalidade'], ph: { modalidade: 'DEBITO' }, async run(a, v, tk) {
+      const r = await a.req('/api/v1/cartoes', { method: 'POST', token: tk, body: { modalidade: (v.modalidade || 'DEBITO').toUpperCase() } });
+      if (r.resp && r.resp.cartao && r.resp.cartao.id) MEM.cartaoId = r.resp.cartao.id;
+      return r; } },
+  { t: 'Cartão virtual', d: 'POST /api/v1/cartoes/{id}/virtual', cam: ['id'], ph: { id: 'emitido acima' }, run: (a, v, tk) =>
+      a.req('/api/v1/cartoes/' + (v.id || MEM.cartaoId || '1') + '/virtual', { method: 'POST', token: tk }) },
+  { t: 'Bloquear cartão', d: 'PATCH /api/v1/cartoes/{id}/bloqueio', cam: ['id'], ph: { id: 'emitido acima' }, run: (a, v, tk) =>
+      a.req('/api/v1/cartoes/' + (v.id || MEM.cartaoId || '1') + '/bloqueio', { method: 'PATCH', token: tk, body: { bloquear: true } }) },
+  { t: 'Agendamentos', d: 'GET /api/v1/agendamentos', run: (a, v, tk) => a.req('/api/v1/agendamentos', { token: tk }) },
+  { t: 'Novo agendamento', d: 'POST /api/v1/agendamentos', cam: ['agendado_para', 'valor_centavos'], ph: { agendado_para: '2026-12-01 10:00:00', valor_centavos: '1000' }, run: (a, v, tk) =>
+      a.req('/api/v1/agendamentos', { method: 'POST', token: tk, body: {
+        conta_destino_id: 2, valor_centavos: parseInt(v.valor_centavos || '1000', 10),
+        agendado_para: v.agendado_para || '2026-12-01 10:00:00', descricao: 'agendado pelo painel' } }) },
+  { t: 'Aviso de viagem', d: 'GET /api/v1/avisos-viagem', run: (a, v, tk) => a.req('/api/v1/avisos-viagem', { token: tk }) },
+  { t: 'Planos', d: 'GET /api/v1/planos', run: (a, v, tk) => a.req('/api/v1/planos', { token: tk }) },
+  { t: 'Minhas assinaturas', d: 'GET /api/v1/assinaturas', run: (a, v, tk) => a.req('/api/v1/assinaturas', { token: tk }) },
+  { t: 'Assinar plano', d: 'POST /api/v1/assinaturas', cam: ['plano_id'], ph: { plano_id: '1' }, run: (a, v, tk) =>
+      a.req('/api/v1/assinaturas', { method: 'POST', token: tk, body: { plano_id: parseInt(v.plano_id || '1', 10) } }) },
+  { t: 'Validar boleto', d: 'POST /api/v1/boletos/validar', cam: ['linha_digitavel'], ph: { linha_digitavel: '00190.00009 01234.567890 12345.678901 1 00000000010000' }, run: (a, v, tk) =>
+      a.req('/api/v1/boletos/validar', { method: 'POST', token: tk, body: { linha_digitavel: v.linha_digitavel || '00190000090123456789012345678901100000000010000' } }) },
+  { t: 'Chamados de suporte', d: 'GET /api/v1/chamados', run: (a, v, tk) => a.req('/api/v1/chamados', { token: tk }) },
+  { t: 'Abrir chamado', d: 'POST /api/v1/chamados', cam: ['assunto'], ph: { assunto: 'teste do painel' }, run: (a, v, tk) =>
+      a.req('/api/v1/chamados', { method: 'POST', token: tk, body: {
+        assunto: v.assunto || 'teste do painel', mensagem: 'aberto pelo painel de teste' } }) },
+  { t: 'Bloquear minha conta', d: 'POST /api/v1/conta/bloqueio', cam: ['motivo'], ph: { motivo: 'teste' }, run: (a, v, tk) =>
+      a.req('/api/v1/conta/bloqueio', { method: 'POST', token: tk, body: { motivo: v.motivo || 'teste do painel' } }) },
+  { t: 'Backoffice: emitir código recuperação (ADMIN)', d: 'POST /api/v1/backoffice/recuperacao-senha/emitir', cam: ['identificador'], ph: { identificador: 'CPF, e-mail ou telefone' }, run: (a, v, tk) =>
+      a.req('/api/v1/backoffice/recuperacao-senha/emitir', { method: 'POST', token: tk, body: { identificador: v.identificador || MEM.identificadorRecuperacao || MEM.email || 'ana@fluxo.test' } }) },
+  { t: 'Backoffice: resumo', d: 'GET /api/v1/backoffice/resumo (ADMIN)', run: (a, v, tk) => a.req('/api/v1/backoffice/resumo', { token: tk }) },
+  { t: 'Backoffice: auditoria', d: 'GET /api/v1/backoffice/auditoria (ADMIN)', run: (a, v, tk) => a.req('/api/v1/backoffice/auditoria', { token: tk }) },
+];
 
-      document.getElementById('btnExecutar').addEventListener('click', executarDiagnostico);
-      document.getElementById('btnExportar').addEventListener('click', exportarRelatorio);
-    })();
-  </script>
+/* =====================================================================
+   UI
+   ===================================================================== */
+function iniciarUI() {
+  const $ = s => document.querySelector(s);
+  const baseUrlEl = $('#baseUrl');
+  const pill = $('#pill'), pillTxt = $('#pillTxt');
+  let api = new Api(LS.getItem('fluxo.base') || baseUrlEl.value || '');
+  let ultimoResultado = null;
+
+  if (LS.getItem('fluxo.base')) baseUrlEl.value = LS.getItem('fluxo.base');
+
+  const setPill = (tipo, txt) => {
+    pill.className = 'pill ' + (tipo || '');
+    pillTxt.textContent = txt;
+  };
+  const atualizarSessao = () => {
+    $('#tagEmail').textContent = MEM.email || 'não autenticado';
+    $('#tagToken').textContent = MEM.token ? MEM.token.slice(0, 10) + '…' + MEM.token.slice(-4) : 'sem token';
+    $('#tagRecToken').classList.toggle('hide', !MEM.tokenRedefinicao);
+  };
+
+  function conectar() {
+    const base = normalizarBase(baseUrlEl.value);
+    if (!base) { setPill('err', 'informe a URL'); return null; }
+    baseUrlEl.value = base;
+    LS.setItem('fluxo.base', base);
+    api = new Api(base);
+    api.aoRegistrar = registrar;
+    api.aoSessao = atualizarSessao;
+    return api;
+  }
+
+  /* -------- abas -------- */
+  document.querySelectorAll('nav.tabs button').forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll('nav.tabs button').forEach(x => x.classList.remove('ativo'));
+      b.classList.add('ativo');
+      ['diag', 'acoes', 'hist', 'ajuda'].forEach(t => $('#tab-' + t).classList.toggle('hide', t !== b.dataset.tab));
+    };
+  });
+
+  /* -------- histórico -------- */
+  const histItens = [];
+  function registrar(item) {
+    histItens.unshift(item);
+    if (histItens.length > 60) histItens.pop();
+    const body = $('#histBody');
+    body.innerHTML = histItens.map((h, i) => {
+      const cls = h.erro ? 'err' : (h.status >= 500 ? 'err' : h.status >= 400 ? 'warn' : 'ok');
+      return '<tr data-i="' + i + '"><td>' + h.hora.slice(11, 19) + '</td>' +
+        '<td class="m">' + h.metodo + '</td><td>' + h.path + '</td>' +
+        '<td class="st ' + cls + '">' + (h.erro ? '—' : h.status) + '</td><td>' + h.ms + ' ms</td></tr>';
+    }).join('') || '<tr><td colspan="5">sem requisições</td></tr>';
+    body.querySelectorAll('tr[data-i]').forEach(tr => {
+      tr.onclick = () => mostrarDetalhe(histItens[+tr.dataset.i]);
+    });
+  }
+  function mostrarDetalhe(h) {
+    const box = $('#histDetalhe');
+    box.style.display = 'block';
+    box.textContent = h.metodo + ' ' + h.path + '  →  ' + (h.erro || ('HTTP ' + h.status)) + '  (' + h.ms + ' ms)\n\n' +
+      'Cabeçalhos de interesse:\n' + JSON.stringify(destacarHeaders(h.headers), null, 2) + '\n\n' +
+      'Resposta:\n' + (h.resp ? JSON.stringify(sanitizarDados(h.resp), null, 2) : (sanitizarDados(h.texto) || '(vazia)'));
+  }
+  const destacarHeaders = h => {
+    const out = {};
+    ['x-request-id', 'x-ratelimit-limit', 'x-ratelimit-remaining', 'x-saldo-centavos', 'retry-after',
+     'x-idempotent-replay', 'access-control-allow-origin', 'content-type'].forEach(k => { if (h[k]) out[k] = h[k]; });
+    return out;
+  };
+  $('#btnLimparHist').onclick = () => { histItens.length = 0; $('#histBody').innerHTML = '<tr><td colspan="5" style="color:#6b77a0;font-family:inherit">sem requisições</td></tr>'; $('#histDetalhe').style.display = 'none'; };
+
+  /* -------- última resposta -------- */
+  let ultimaResp = null;
+  function mostrarResposta(item, titulo) {
+    ultimaResp = item;
+    const st = item.erro ? 'erro de rede' : 'HTTP ' + item.status;
+    $('#ultimaMeta').textContent = (titulo || item.metodo + ' ' + item.path) + ' · ' + st + ' · ' + item.ms + ' ms';
+    $('#respBox').textContent = item.erro
+      ? '❌ ' + item.erro + '\n\nVerifique: URL correta? serviço acordado? CORS (config/cors.php) aplicado no deploy?'
+      : (item.resp ? JSON.stringify(item.resp, null, 2) : (item.texto || '(resposta vazia)'));
+  }
+  $('#btnCopiarResp').onclick = async () => {
+    if (!ultimaResp) return;
+    const txt = ultimaResp.resp ? JSON.stringify(ultimaResp.resp, null, 2) : ultimaResp.texto;
+    try { await navigator.clipboard.writeText(txt || ''); $('#btnCopiarResp').textContent = 'copiado!'; }
+    catch { $('#btnCopiarResp').textContent = 'não permitido'; }
+    setTimeout(() => $('#btnCopiarResp').textContent = 'copiar JSON', 1500);
+  };
+  $('#btnCopiarToken').onclick = async () => {
+    const t = MEM.token || '';
+    try { await navigator.clipboard.writeText(t); $('#btnCopiarToken').textContent = 'copiado!'; }
+    catch { $('#btnCopiarToken').textContent = 'não permitido'; }
+    setTimeout(() => $('#btnCopiarToken').textContent = 'copiar token', 1500);
+  };
+  $('#btnSair').onclick = async () => {
+    const a = conectar(); const t = MEM.token;
+    if (a && t) mostrarResposta(await a.req('/api/v1/logout', { method: 'POST', token: t }), 'logout');
+    MEM.token = null; MEM.tokenRedefinicao = null; atualizarSessao();
+  };
+  $('#btnLimpar').onclick = () => {
+    ['fluxo.base', 'fluxo.token', 'fluxo.email', 'fluxo.senha'].forEach(k => LS.removeItem(k));
+    MEM.email = null; MEM.token = null; MEM.senha = null; MEM.cartaoId = null; MEM.contaId = null; MEM.tokenRedefinicao = null;
+    baseUrlEl.value = ''; setPill('', 'sem conexão'); atualizarSessao();
+    $('#checks').innerHTML = ''; $('#veredito').classList.add('hide'); $('#respBox').textContent = 'Nenhuma requisição feita ainda.';
+    histItens.length = 0; $('#histBody').innerHTML = '<tr><td colspan="5" style="color:#6b77a0;font-family:inherit">sem requisições</td></tr>';
+    ultimoResultado = null; $('#btnRelatorio').disabled = true; $('#btnRelatorioJson').disabled = true;
+  };
+
+  /* -------- conexão -------- */
+  $('#btnConectar').onclick = async () => {
+    const a = conectar(); if (!a) return;
+    setPill('wait', 'conectando…');
+    const r = await a.req('/api/v1/health', { timeout: 60000 });
+    if (r.erro) { setPill('err', 'sem resposta'); mostrarResposta(r, 'health'); return; }
+    if (r.status === 200 && r.resp && r.resp.status === 'ok') {
+      setPill('ok', 'conectado · ' + (r.resp.ambiente || '?'));
+      $('#pillTxt').textContent += ' · ' + r.ms + 'ms';
+    } else {
+      setPill('err', 'HTTP ' + r.status);
+    }
+    mostrarResposta(r, 'health');
+  };
+
+  /* -------- diagnóstico -------- */
+  const renderChecks = (checks) => {
+    const grupoAtual = {};
+    let html = '';
+    checks.forEach(c => {
+      if (!grupoAtual[c.grupo]) { grupoAtual[c.grupo] = true; html += '<div class="grupo">' + c.grupo + '</div>'; }
+      const icone = c.status === 'ok' ? '✓' : c.status === 'falha' ? '✕' : c.status === 'warn' ? '!' : 'i';
+      html += '<ul class="checks"><li><span class="mark ' + c.status + '">' + icone + '</span>' +
+        '<div><div class="chk-t">' + esc(c.titulo) + '</div><div class="chk-d">' + esc(c.detalhe || '') + '</div></div></li></ul>';
+    });
+    $('#checks').innerHTML = html || '<div class="grupo">rodando…</div>';
+  };
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+
+  async function rodar(fluxo) {
+    const a = conectar(); if (!a) return;
+    if (fluxo && typeof window !== 'undefined' && typeof window.confirm === 'function') {
+      if (!window.confirm('Criar 1 conta de teste na API (' + a.base + ') para rodar o fluxo completo?')) return;
+    }
+    const bDiag = $('#btnDiag'), bFluxo = $('#btnFluxo');
+    bDiag.disabled = bFluxo.disabled = true;
+    $('#checks').innerHTML = ''; $('#veredito').classList.add('hide');
+    setPill('wait', 'testando…');
+    const checks = [];
+    try {
+      const res = await rodarDiagnostico(a, {
+        fluxoCompleto: fluxo,
+        esperarColdStart: $('#esperar').checked ? 90 : 0,
+        aoCheck: c => { checks.push(c); renderChecks(checks); },
+      });
+      ultimoResultado = res;
+      const v = $('#veredito');
+      v.classList.remove('hide');
+      const okTotal = res.resumo.falhas === 0;
+      $('#vIcon').textContent = okTotal ? '✅' : '❌';
+      $('#vTitulo').textContent = okTotal ? 'Tudo certo — backend funcionando' : 'Há ' + res.resumo.falhas + ' problema(s)';
+      $('#vMsg').textContent = 'pacote ' + (res.versao === 'nova' ? 'NOVO' : res.versao === 'antiga' ? 'ANTIGO (atualize o deploy)' : 'indeterminado') +
+        ' · ' + res.resumo.ok + ' verificações OK' + (res.resumo.avisos ? ' · ' + res.resumo.avisos + ' aviso(s)' : '') +
+        (res.credenciais && res.credenciais.email ? ' · conta de teste: ' + res.credenciais.email : '');
+      $('#cOk').textContent = res.resumo.ok + ' OK';
+      $('#cErr').textContent = res.resumo.falhas + ' falha';
+      $('#cWarn').textContent = res.resumo.avisos + ' aviso';
+      $('#btnRelatorio').disabled = false;
+      $('#btnRelatorioJson').disabled = false;
+      setPill(okTotal ? 'ok' : 'err', okTotal ? 'diagnóstico OK' : res.resumo.falhas + ' falha(s)');
+      if (res.credenciais && res.credenciais.email) {
+        MEM.email = res.credenciais.email;
+        MEM.senha = res.credenciais.senha || null;
+        const idx = ACOES.findIndex(x => x.cam && x.cam.includes('email'));
+        const inps = document.querySelectorAll('input[data-i="' + idx + '"]');
+        if (inps[0]) inps[0].value = res.credenciais.email;
+        if (inps[1]) inps[1].value = res.credenciais.senha || '';
+        atualizarSessao();
+      }
+    } catch (e) {
+      $('#veredito').classList.remove('hide');
+      $('#vIcon').textContent = '❌'; $('#vTitulo').textContent = 'Falha inesperada'; $('#vMsg').textContent = String(e);
+      setPill('err', 'erro');
+    } finally {
+      bDiag.disabled = bFluxo.disabled = false;
+    }
+  }
+  $('#btnDiag').onclick = () => rodar(false);
+  $('#btnFluxo').onclick = () => rodar(true);
+
+  /* -------- relatório -------- */
+  $('#btnRelatorio').onclick = () => {
+    if (!ultimoResultado) return;
+    const r = ultimoResultado;
+    const linhas = [
+      '# Relatório de teste — Fluxo backend',
+      '',
+      '- URL: ' + api.base,
+      '- Data: ' + new Date().toLocaleString('pt-BR'),
+      '- Pacote: **' + r.versao + '**',
+      '- Resultado: ' + r.resumo.ok + ' OK · ' + r.resumo.falhas + ' falha(s) · ' + r.resumo.avisos + ' aviso(s)',
+      r.credenciais && r.credenciais.email ? '- Conta de teste criada: ' + r.credenciais.email + ' (credenciais omitidas)' : '',
+      '', '| Status | Grupo | Verificação | Detalhe |', '|---|---|---|---|',
+    ];
+    r.checks.forEach(c => linhas.push('| ' + c.status + ' | ' + c.grupo + ' | ' + c.titulo + ' | ' + String(sanitizarDados(c.detalhe || '')).replace(/\|/g, '/') + ' |'));
+    linhas.push('', '## Requisições', '');
+    histItens.slice().reverse().forEach(h => linhas.push('- ' + h.metodo + ' `' + h.path + '` → ' + (h.erro || h.status) + ' (' + h.ms + 'ms)'));
+    const blob = new Blob([linhas.filter(Boolean).join('\n')], { type: 'text/markdown' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'relatorio-fluxo-' + new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-') + '.md';
+    a.click(); URL.revokeObjectURL(a.href);
+  };
+
+  $('#btnRelatorioJson').onclick = () => {
+    if (!ultimoResultado) return;
+    const r = ultimoResultado;
+    const payload = {
+      url: api.base,
+      data: new Date().toISOString(),
+      versao: r.versao,
+      resumo: r.resumo,
+      checks: sanitizarDados(r.checks),
+      historico: histItens.slice().reverse().map(h => ({
+        hora: h.hora,
+        metodo: h.metodo,
+        path: h.path,
+        status: h.status,
+        ms: h.ms,
+        erro: h.erro,
+        headers: destacarHeaders(h.headers),
+        resp: sanitizarDados(h.resp),
+      })),
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'relatorio-fluxo-' + new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-') + '.json';
+    a.click(); URL.revokeObjectURL(a.href);
+  };
+
+  /* -------- ações manuais -------- */
+  $('#acoesGrid').innerHTML = ACOES.map((a, i) =>
+    '<div class="action"><h4>' + esc(a.t) + '</h4><div class="r">' + esc(a.d) + '</div>' +
+    (a.cam || []).map(c => '<div class="ctrl" style="margin-bottom:7px"><input data-i="' + i + '" data-cam="' + c +
+      '" type="' + (/senha/i.test(c) ? 'password' : 'text') + '" placeholder="' + esc(c) + (a.ph && a.ph[c] ? ' (ex.: ' + a.ph[c] + ')' : '') + '"></div>').join('') +
+    '<div class="ctrl"><button class="small primary" data-run="' + i + '">executar</button></div></div>').join('');
+
+  atualizarSessao();
+  document.querySelectorAll('button[data-run]').forEach(b => {
+    b.onclick = async () => {
+      const a = conectar(); if (!a) return;
+      const i = +b.dataset.run, acao = ACOES[i];
+      const vals = {};
+      document.querySelectorAll('input[data-i="' + i + '"]').forEach(inp => vals[inp.dataset.cam] = inp.value.trim());
+      if (acao.cam && acao.cam.includes('email')) { vals.email = vals.email || MEM.email || 'ana@fluxo.test'; vals.senha = vals.senha || MEM.senha || 'senha123'; }
+      b.disabled = true; b.textContent = '…';
+      const r = await acao.run(a, vals, MEM.token);
+      b.disabled = false; b.textContent = 'executar';
+      mostrarResposta(r, acao.t);
+      atualizarSessao();
+    };
+  });
+}
+
+if (typeof document !== 'undefined' && document.querySelector('#baseUrl')) {
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciarUI);
+  else iniciarUI();
+}
+
+/* exporta para teste em Node */
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { Api, ACOES, rodarDiagnostico, gerarCpf, normalizarBase, resumir, temTrace };
+}
+</script>
 </body>
 </html>
-

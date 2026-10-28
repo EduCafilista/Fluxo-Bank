@@ -92,12 +92,25 @@ class ContaTest extends TestCase
     {
         $this->getJson("{$this->api}/rota-inexistente")
             ->assertNotFound()
+            ->assertHeaderMissing('Location')
             ->assertJsonPath('erro', 'Rota não encontrada.')
             ->assertJsonPath('versao', 'v1');
 
-        $this->getJson('/api/conta')
+        $this->postJson("{$this->api}/rota-inexistente")
+            ->assertNotFound()
+            ->assertHeaderMissing('Location')
+            ->assertJsonPath('erro', 'Rota não encontrada.')
+            ->assertJsonPath('versao', 'v1');
+
+        $redirect = $this->withHeaders(['X-Forwarded-Proto' => 'https'])
+            ->getJson('/api/conta')
             ->assertStatus(308)
             ->assertJsonPath('versao', 'v1');
+
+        $location = (string) $redirect->headers->get('Location');
+        $this->assertStringStartsWith('https://', $location);
+        $this->assertStringEndsWith('/api/v1/conta', $location);
+        $this->assertStringNotContainsString('/api/v1/v1', $location);
     }
 
     public function test_especificacao_openapi_disponivel_em_docs_e_api_v1(): void

@@ -37,6 +37,13 @@ return [
         'bloqueio_minutos' => (int) env('FLUXO_LOGIN_BLOQUEIO', 15),
     ],
 
+    // Recuperação manual de senha em duas etapas (código de 6 dígitos vinculado à conta)
+    'recuperacao_senha' => [
+        'validade_minutos' => (int) env('FLUXO_RECUPERACAO_VALIDADE', 10),
+        'max_tentativas' => (int) env('FLUXO_RECUPERACAO_TENTATIVAS', 5),
+        'validade_token_minutos' => (int) env('FLUXO_RECUPERACAO_TOKEN_VALIDADE', 10),
+    ],
+
     // ---------------------------------------------------------------------
     // KYC simulado (RF01). Com true, o cadastro é aprovado automaticamente
     // quando o CPF/Cnpj é válido e o cliente tem 18+; com false, a conta fica

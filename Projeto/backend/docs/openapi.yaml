@@ -124,6 +124,75 @@ paths:
         '200': {description: Token definitivo}
         '401': {description: Código inválido/expirado/reutilizado}
 
+  /api/v1/senha/recuperacao/solicitar:
+    post:
+      tags: [Acesso]
+      security: []
+      summary: Solicita recuperação manual de senha informando CPF, e-mail ou telefone
+      description: Normaliza o identificador e vincula internamente ao ID da conta sem expor o ID nem revelar a existência do cadastro.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [identificador]
+              properties:
+                identificador: {type: string, example: ana@fluxo.test, description: 'CPF, e-mail ou telefone cadastrado'}
+                motivo: {type: string, nullable: true, example: Esqueci a senha de acesso}
+      responses:
+        '200': {description: Solicitação registrada}
+
+  /api/v1/senha/recuperacao/validar:
+    post:
+      tags: [Acesso]
+      security: []
+      summary: Valida o código numérico de 6 dígitos emitido pelo operador para a conta
+      description: Localiza a conta pelo CPF, e-mail ou telefone informado e valida o código vinculado internamente ao ID da conta (uso único, 10 minutos, máximo de 5 tentativas).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [identificador, codigo]
+              properties:
+                identificador: {type: string, example: ana@fluxo.test}
+                codigo: {type: string, example: '048291'}
+      responses:
+        '200':
+          description: Código validado e autorização temporária emitida
+          content:
+            application/json:
+              example:
+                mensagem: Código validado. Utilize a autorização temporária para cadastrar a nova senha.
+                token_redefinicao: '3|temp...'
+                expira_em: '2026-10-28T20:40:00Z'
+        '401': {description: Código inválido, expirado ou já utilizado}
+        '429': {description: Limite de 5 tentativas excedido}
+
+  /api/v1/senha/recuperacao/redefinir:
+    post:
+      tags: [Acesso]
+      security: []
+      summary: Cadastra a nova senha usando a autorização temporária de uso único
+      description: Invalida o código e o token temporário e revoga todas as sessões e tokens de autenticação anteriores.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [password]
+              properties:
+                token_redefinicao: {type: string, example: '3|temp...'}
+                password: {type: string, minLength: 8, maxLength: 72, example: NovaSenhaForte123}
+                password_confirmation: {type: string, example: NovaSenhaForte123}
+      responses:
+        '200': {description: Senha redefinida e sessões/tokens anteriores revogados}
+        '401': {description: Autorização inválida, expirada ou de outra conta}
+        '422': {description: Senha fora dos requisitos}
+
   /api/v1/logout:
     post:
       tags: [Acesso]
@@ -599,6 +668,34 @@ paths:
             schema: {type: object, required: [motivo], properties: {motivo: {type: string}}}
       responses:
         '200': {description: Conta bloqueada}
+
+  /api/v1/backoffice/contas/{id}/recuperacao-senha:
+    post:
+      tags: [Backoffice]
+      summary: Gera código manual de 6 dígitos para recuperação de senha da conta (somente ADMIN + 2FA concluído)
+      parameters:
+        - {in: path, name: id, required: true, schema: {type: integer}}
+      responses:
+        '201': {description: Código de 6 dígitos emitido (validade de 10 min, uso único)}
+        '403': {description: Restrito ao perfil ADMIN com 2FA concluído}
+
+  /api/v1/backoffice/recuperacao-senha/emitir:
+    post:
+      tags: [Backoffice]
+      summary: Localiza a conta por CPF, e-mail, telefone ou ID e gera o código manual de 6 dígitos (somente ADMIN + 2FA concluído)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [identificador]
+              properties:
+                identificador: {type: string, example: ana@fluxo.test, description: 'CPF, e-mail ou telefone do titular'}
+      responses:
+        '201': {description: Código de 6 dígitos emitido (validade de 10 min, uso único)}
+        '403': {description: Restrito ao perfil ADMIN com 2FA concluído}
+        '404': {description: Conta não localizada}
 
   /api/v1/backoffice/auditoria:
     get:

@@ -11,6 +11,12 @@ class TransferenciaTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->travelTo(now()->setTime(14, 0, 0));
+    }
+
     public function test_transferencia_movimenta_o_saldo_e_fecha_em_zero(): void
     {
         $ana = $this->usuarioComConta(['email' => 'ana@fluxo.test'], 100000);

@@ -13,7 +13,16 @@ class CodigoVerificacao extends Model
 
     public const FINALIDADE_ALTERACAO_SENSIVEL = 'ALTERACAO_SENSIVEL';
 
-    public const CANAIS = ['EMAIL', 'SMS', 'PUSH', 'TOTP'];
+    public const FINALIDADE_RECUPERACAO_PREFIXO = 'RECUPERACAO:';
+
+    public const CANAL_MANUAL_ADMIN = 'MANUAL_ADMIN';
+
+    public const CANAIS = ['EMAIL', 'SMS', 'PUSH', 'TOTP', 'MANUAL_ADMIN'];
+
+    public static function finalidadeRecuperacao(int $contaId): string
+    {
+        return self::FINALIDADE_RECUPERACAO_PREFIXO.$contaId;
+    }
 
     protected $table = 'codigos_verificacao';
 

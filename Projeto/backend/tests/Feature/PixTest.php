@@ -11,6 +11,12 @@ class PixTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->travelTo(now()->setTime(14, 0, 0));
+    }
+
     public function test_cadastra_chave_pix_e_recusa_duplicada(): void
     {
         $user = $this->usuarioComConta();

@@ -6,13 +6,17 @@ use App\Models\ChamadoSuporte;
 use App\Models\Cliente;
 use App\Models\Conta;
 use App\Services\ContaService;
+use App\Services\RecuperacaoSenhaService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class BackofficeController extends Controller
 {
-    public function __construct(private ContaService $contas) {}
+    public function __construct(
+        private ContaService $contas,
+        private RecuperacaoSenhaService $recuperacaoSenha,
+    ) {}
 
     public function resumo(): JsonResponse
     {
@@ -93,5 +97,32 @@ class BackofficeController extends Controller
         ]);
 
         return response()->json(['mensagem' => 'Chamado respondido.', 'chamado' => $chamado->refresh()]);
+    }
+
+    public function gerarCodigoRecuperacaoSenha(Request $request, ?Conta $conta = null): JsonResponse
+    {
+        if (! $conta || ! $conta->exists) {
+            $identificador = (string) ($request->input('identificador')
+                ?? $request->input('cpf')
+                ?? $request->input('email')
+                ?? $request->input('telefone')
+                ?? '');
+
+            if ($identificador !== '') {
+                $conta = $this->recuperacaoSenha->localizarContaPorIdentificador($identificador);
+            } elseif ($request->filled('conta_id')) {
+                $conta = Conta::find((int) $request->input('conta_id'));
+            }
+
+            if (! $conta) {
+                return response()->json(['erro' => 'Conta não encontrada para o identificador informado.'], 404);
+            }
+        }
+
+        $dados = $this->recuperacaoSenha->gerarCodigoParaConta($conta, $request->user());
+
+        return response()->json([
+            'mensagem' => 'Código de recuperação gerado para entrega manual ao titular.',
+        ] + $dados, 201);
     }
 }

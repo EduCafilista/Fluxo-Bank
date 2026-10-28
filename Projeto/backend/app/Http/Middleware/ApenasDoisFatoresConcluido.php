@@ -19,6 +19,12 @@ class ApenasDoisFatoresConcluido
             ], 403);
         }
 
+        if ($token && in_array('senha:redefinir', (array) $token->abilities, true)) {
+            return response()->json([
+                'erro' => 'Token exclusivo para redefinição de senha.',
+            ], 403);
+        }
+
         return $next($request);
     }
 }

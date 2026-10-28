@@ -41,7 +41,8 @@ O sistema **Fluxo Bank** adota uma arquitetura **API-First em camadas (MVC esten
 O backend encontra-se **completo, funcional e aderente aos requisitos funcionais, não funcionais e regras de negócio**, incluindo o módulo de assinaturas com retirada lógica de itens (`RN21–RN25`), console commands de processamento de agendamentos (`agendamentos:processar`) e verificação de integridade (`fluxo:verificar`). Todos os 133 arquivos PHP do backend foram validados estaticamente sem nenhum erro de sintaxe, importação ausente ou rota quebrada.
 
 ### 4. Situação dos Testes Automatizados
-- A suíte de testes automatizados em `Projeto/backend/tests/` foi auditada e expandida de **76 para 81 testes automatizados** distribuídos em **13 arquivos** (2 arquivos em `tests/Unit` e 11 arquivos em `tests/Feature`), além da classe base `tests/TestCase.php`.
+- A suíte de testes automatizados em `Projeto/backend/tests/` foi auditada e expandida para **96 testes automatizados (390 assertions)** distribuídos em **14 arquivos** (2 arquivos em `tests/Unit` e 12 arquivos em `tests/Feature`), além da classe base `tests/TestCase.php`.
+- Inclui a suíte completa de **Recuperação Manual de Senha em Duas Etapas (`RecuperacaoSenhaTest.php`, 13 testes)** cobrindo localização e normalização segura por CPF, e-mail e telefone cadastrado (chave Pix ativa) sem expor ou exigir o ID interno da conta ao cliente; geração CSPRNG de código de 6 dígitos vinculado internamente à conta via backoffice (`ADMIN` + 2FA concluído) e comando Artisan (`senha:gerar-codigo`); HMAC-SHA256; expiração em 10 minutos; uso único; bloqueio após 5 tentativas inválidas (`HTTP 429`); emissão de autorização temporária de uso único (`token_redefinicao`); revogação de todas as sessões e tokens anteriores; e compatibilidade com o 2FA.
 - Todos os cenários críticos possuem cobertura automatizada, configurada em `phpunit.xml` para rodar sobre **PostgreSQL 16 (`fluxo_test`)**, exercitando inclusive as funções PL/pgSQL, triggers e `RULE`s de banco de dados.
 - **Observação sobre TDD histórico:** O histórico do Git comprova que os testes foram escritos e entregues junto com a implementação nos commits de evolução do backend (`f74290f`, `2e40b05`, `4239406`, `d569aa1`), mas **não há evidência histórica de commits granulares no ciclo estrito Red-Green-Refactor** (commits de teste falhando antes do código de produção).
 
@@ -57,9 +58,9 @@ O backend encontra-se **completo, funcional e aderente aos requisitos funcionais
 
 | Item | Requisito do Checkpoint 3 | Classificação | Resumo da Justificativa |
 |---|---|---|---|
-| **4.8** | Implementação dos serviços de backend (REST), TDD e Implantação na nuvem | **ATENDIDO (com ressalva histórica no TDD)** | Serviços REST (56 rotas v1, 16 Controllers, 16 Services, 22 Models, 20 migrations), 82 testes automatizados e deploy ativo no Render (`https://fluxo-api-w858.onrender.com`); ressalva apenas quanto aos commits em lote no Git sem ciclo Red-Green-Refactor granular. |
+| **4.8** | Implementação dos serviços de backend (REST), TDD e Implantação na nuvem | **ATENDIDO (com ressalva histórica no TDD)** | Serviços REST (59 rotas sob api_v1, 17 Controllers, 17 Services, 22 Models, 20 migrations), 96 testes automatizados e deploy ativo no Render (`https://fluxo-api-w858.onrender.com`); ressalva apenas quanto aos commits em lote no Git sem ciclo Red-Green-Refactor granular. |
 | **4.8.1** | Definir tecnologia de backend e implementar serviços REST | **ATENDIDO** | Laravel 13 + PHP 8.3/8.4 + PostgreSQL 16 + Sanctum. Todos os verbos HTTP (`GET`, `POST`, `PATCH`, `DELETE`), validações, códigos HTTP, transações ACID e segurança implementados. |
-| **4.8.2** | Utilizar TDD (Testes automatizados unitários e de integração) | **PARCIALMENTE ATENDIDO** | Suíte robusta com **82 testes** (Unit + Feature) cobrindo regras de negócio e triggers PostgreSQL; contudo, o histórico Git mostra commits em lote (código + testes juntos), sem histórico explícito de TDD *test-first*. |
+| **4.8.2** | Utilizar TDD (Testes automatizados unitários e de integração) | **PARCIALMENTE ATENDIDO** | Suíte robusta com **96 testes e 390 assertions** (Unit + Feature) cobrindo regras de negócio e triggers PostgreSQL; contudo, o histórico Git mostra commits em lote (código + testes juntos), sem histórico explícito de TDD *test-first*. |
 | **4.8.3** | Implantação na nuvem | **ATENDIDO** | Backend implantado e operacional no Render em `https://fluxo-api-w858.onrender.com` com PostgreSQL 16 conectado, `0` migrations pendentes e healthcheck `HTTP 200`. |
 | **4.9** | Diagramas de classes | **ATENDIDO** | Diagramas UML em `Documentacao/Diagramas/DiagramaClasses.md` (`CLS-01` a `CLS-07`), incluindo os novos diagramas Mermaid `CLS-06` (interações reais `Controllers` ↔ `Services` ↔ `Support`) e `CLS-07` (22 `Models` Eloquent implementados). |
 | **4.9.2** | Atualização semanal no LibreProject | **NÃO ATENDIDO** | Arquivos `Fluxo-ProjectLibre.xml` e `cronograma-fluxo.csv` existem, mas a última atualização registrada é de `01/10/2026` e todas as tarefas dos Checkpoints 2 e 3 (IDs 42 a 73) constam com `0%` de conclusão. |
@@ -182,17 +183,18 @@ PHPUnit 12.5.40 by Sebastian Bergmann and contributors.
 Runtime:       PHP 8.4.27
 Configuration: /app/phpunit.docker.xml
 
-................................................................. 65 / 83 ( 78%)
-..................                                                83 / 83 (100%)
+................................................................. 65 / 96 ( 67%)
+...............................                                   96 / 96 (100%)
 
-Time: 00:11.885, Memory: 62.50 MB
+Time: 00:14.745, Memory: 64.50 MB
 
-OK (83 tests, 297 assertions)
+OK (96 tests, 390 assertions)
 ```
-- **Testes executados:** `83` (11 arquivos de testes Feature + 2 arquivos de testes Unit)
-- **Aprovados:** `83` (`100%`)
+- **Testes executados:** `96` (12 arquivos de testes Feature + 2 arquivos de testes Unit, incluindo 13 testes em `RecuperacaoSenhaTest`)
+- **Aprovados:** `96` (`100%`)
 - **Falhas / Erros:** `0`
-- **Assertions verificadas:** `297`
+- **Assertions verificadas:** `390`
+- **Novas migrations necessárias:** `0` (a recuperação manual de senha reutiliza integralmente `codigos_verificacao`, `personal_access_tokens` e `logs_auditoria` já existentes em produção).
 
 ### 2. Validação Estática e Estrutural Realizada (100% Aprovada)
 Foram executadas verificações estáticas automatizadas sobre todos os **133 arquivos PHP** do backend e **20 migrations**:
@@ -200,3 +202,20 @@ Foram executadas verificações estáticas automatizadas sobre todos os **133 ar
 - **Resolução de Imports (`use App\...`):** `0` classes ausentes em 133 arquivos PHP.
 - **Integridade de Rotas (`routes/api_v1.php` → Controllers):** Todas as `59` referências a métodos de controllers nas rotas existem como métodos `public function` com assinaturas compatíveis.
 - **Validação de Sintaxe Mermaid (`CLS-06` e `CLS-07`):** Diagramas validados sem caracteres especiais inválidos, com tipos e assinaturas idênticos às classes PHP reais.
+
+---
+
+## F. EVIDÊNCIAS DE PRÉ-DEPLOY E STATUS DO BACKUP DE PRODUÇÃO
+
+### 1. Verificação HTTP em Ambiente Local Isolado
+Testes HTTP executados diretamente contra o servidor local (`fluxo-api`):
+- `GET /api/v1/rota-que-nao-existe` → `HTTP 404 Not Found` (JSON sem redirect para `/api/v1/v1/...`).
+- `GET /docs/openapi.yaml` → `HTTP 200 OK` (YAML OpenAPI 3.0.3, sem dependência de sessão/CSRF).
+- `GET /api/v1/openapi.yaml` → `HTTP 200 OK` (YAML OpenAPI 3.0.3 servido sob `/api/v1`).
+- `GET /api/v1/health` → `HTTP 200 OK` (conectividade PostgreSQL ativa, 0 migrations pendentes).
+- `GET /api/conta` → `HTTP 308 Permanent Redirect` para `/api/v1/conta` (compatibilidade RNF30 mantida).
+
+### 2. Status do Backup do PostgreSQL de Produção (Render)
+- **Status:** **BLOQUEADO (Não confirmado em disco)**.
+- **Inspeção no Host:** A verificação no sistema de arquivos local (`Test-Path C:\Users\g.souza\Backups`) retornou `False`. Nenhum arquivo `.dump` ou `.backup` recente foi localizado no perfil do usuário.
+- **Política de Segurança:** Conforme a diretriz de pré-deploy, o deploy automático em produção permanece bloqueado até a confirmação e validação do backup físico com `pg_restore --list`.

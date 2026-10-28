@@ -88,13 +88,14 @@ O que ele valida:
 
 ---
 
-## 5. Suíte automatizada (83 testes em 13 arquivos)
+## 5. Suíte automatizada (96 testes em 14 arquivos — 390 assertions)
 
 Roda no PostgreSQL (`fluxo_test`, definido no `phpunit.xml`):
 
 ```bash
 php artisan test                 # Feature + Unit
 php artisan test --filter=AuditoriaTest
+php artisan test --filter=RecuperacaoSenhaTest
 composer test                    # limpa config e roda tudo
 composer lint                    # Laravel Pint (PSR-12)
 ```
@@ -105,7 +106,8 @@ Cobertura por arquivo:
 |---|---|
 | `CadastroTest` | RF01/RF10/RN35: PF, PJ, CPF/CNPJ, KYC (aprovação e recusa de menor) |
 | `DoisFatoresTest` | RF02/RN19/RN20: desafio, token temporário, uso único, bloqueio após 5 falhas |
-| `ContaTest` | RF03/RF13/RF18/RNF05: saldo, extrato paginado, autobloqueio, encerramento, KYC pendente |
+| `RecuperacaoSenhaTest` | 13 testes: Recuperação manual em 2 etapas por CPF, e-mail ou telefone cadastrado (chave Pix ativa) sem expor nem exigir ID da conta ao cliente; código CSPRNG de 6 dígitos gerado pelo backoffice (`ADMIN` + 2FA concluído) ou Artisan (`senha:gerar-codigo`), expiração (10 min), uso único, limite de 5 tentativas (HTTP 429), autorização temporária de uso único, revogação de tokens e sessões anteriores |
+| `ContaTest` | RF03/RF13/RF18/RNF05: saldo, extrato paginado, autobloqueio, encerramento, KYC pendente, fallback HTTP 404 e redirect HTTP 308 HTTPS |
 | `TransferenciaTest` | RF05/RNF15/16/17: saldo, partidas dobradas, mesma conta, idempotência, conta bloqueada |
 | `PixTest` | RF04/RF14/RF23/RN28-RN30/RN42: chaves, limites, transferência por chave, EMV |
 | `PagamentoTest` | RF08/RF15: validação e pagamento de boleto, recusa sem saldo, recebimento Pix com idempotência, comprovante e IDOR |
@@ -149,3 +151,21 @@ curl -s -X POST $API/pix/cobrancas -H "Authorization: Bearer $TOKEN" \
   -H 'Content-Type: application/json' -d '{"valor_centavos":5000}'         # QR Code EMV
 php artisan agendamentos:processar                                        # worker de agendamentos
 ```
+
+---
+
+## 8. Painel Visual no Navegador (`docs/PAINEL-TESTE.html`)
+
+Arquivo HTML único e sem dependências externas para validar a API local (`http://localhost:8000`) ou publicada no Render (`https://fluxo-api-w858.onrender.com`):
+
+- **4 abas integradas:**
+  1. **Diagnóstico:** Veredito visual, agrupamento de verificações e suporte a cold start (até 90s).
+  2. **Testar rotas:** 29 cards interativos cobrindo cadastro, login, perfil LGPD, saldo, extrato paginado/categorizado, chaves Pix, cobrança EMV, recebimento Pix, transferências, boletos, cartões (físico, virtual, bloqueio, assinaturas), agendamentos, avisos de viagem, planos/assinaturas, chamados e RBAC do backoffice.
+  3. **Histórico:** Tabela clicável com método, rota, status HTTP, tempo em `ms`, cabeçalhos expostos (`X-Request-Id`, `X-RateLimit-*`) e corpo JSON sanitizado.
+  4. **Ajuda:** Guia passo a passo e diagnóstico de erros comuns (CORS, HTTP 308, HTTP 404, HTTP 500 e 401 sem `DemoSeeder`).
+- **Dois modos de segurança separados:**
+  - **Modo Diagnóstico Seguro (padrão):** Executa exclusivamente requisições `GET` de leitura (`/api/v1/health`, `/docs/openapi.yaml`, `/api/v1/openapi.yaml`, `/api/v1/rota-que-nao-existe` → 404, `/api/conta` → 308, `/api/v1/conta` e `/api/v1/backoffice/resumo` sem token → 401). Não cria contas, não altera sessões e não modifica dados em produção.
+  - **Modo Testes Funcionais:** Exige ação e confirmação explícita do usuário para operações que criam ou alteram registros (recomendado em ambiente local/homologação).
+- **Proteção de credenciais e relatórios (RNF13 / LGPD):**
+  - Senhas e tokens ficam exclusivamente em memória RAM (nunca em `localStorage` ou `sessionStorage`) e são revogados via `POST /api/v1/logout`.
+  - Exportação de relatórios sanitizados em **Markdown (`.md`)** e **JSON (`.json`)**.
