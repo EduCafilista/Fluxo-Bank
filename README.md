@@ -9,7 +9,7 @@ O **Fluxo Bank** é um projeto acadêmico de plataforma bancária digital, com A
 ```text
 Fluxo-Bank/
 ├── Documentacao/
-│   ├── Diagramas/                 # Diagramas UML, DER e fontes
+│   ├── Diagramas/                 
 │   ├── CasosDeUso.md
 │   ├── Escopo-Projeto.md
 │   ├── Levantamento-Requisitos-Final.md
