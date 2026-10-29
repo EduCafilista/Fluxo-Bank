@@ -117,25 +117,7 @@ Após publicar mudanças no backend, verifique:
 
 **Agendamentos:** a existência de tarefas no `routes/console.php` não garante sua execução automática no Render. É necessário configurar um processo ou serviço que execute o scheduler Laravel periodicamente.
 
-## 7. Testes e segurança
-
-```bash
-cd Projeto/backend
-php artisan route:list
-php artisan test
-```
-
-Para executar `php artisan test` fora do Docker, instale previamente as dependências Composer e configure o ambiente de testes. A quantidade de testes e assertions pode variar entre versões; consulte o resultado da suíte, em vez de depender de uma contagem fixa no README.
-
-Cuidados importantes:
-
-- Não publique senhas, URLs de banco com credenciais, tokens ou códigos 2FA.
-- Use `Idempotency-Key` nas operações que exigem proteção contra repetição e valide concorrência no backend.
-- Preserve transações atômicas e lançamentos contábeis consistentes.
-- Restrinja funções de backoffice e simulação a usuários autorizados.
-- Não confunda uma demonstração funcional com integração bancária real ou conformidade de produção certificada.
-
-## 8. Documentação complementar
+## 7. Documentação complementar
 
 - [Diagramas UML e DER](Documentacao/Diagramas)
 - [Escopo do projeto](Documentacao/Escopo-Projeto.md)
@@ -144,6 +126,3 @@ Cuidados importantes:
 - [Documentação técnica do backend](Projeto/backend/docs)
 - [Especificação OpenAPI](Projeto/backend/docs/openapi.yaml)
 
----
-
-**Estado da documentação:** este README foi revisado para refletir a estrutura do repositório analisado e as alterações propostas para a demonstração no Render. As funcionalidades condicionadas à aplicação dos pacotes de correção devem ser confirmadas na branch e no deploy efetivamente utilizados.
