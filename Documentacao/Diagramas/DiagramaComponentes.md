@@ -147,3 +147,10 @@ Fluxo/
 | 2.0 | 10/09/2026 | Texto condensado; `AssinaturaService` adicionado ao domínio |
 | 3.0 | 10/09/2026 | Explicitado o padrão MVC; adicionados `emitirToken()`/`revogarToken()`, `gerarQrCodePix()` e as interfaces expandidas do `MotorAntifraude` |
 | 4.0 | 08/10/2026 | Serviços de limites Pix, agendamento, auditoria de banco e consulta de assinaturas de cartão; status da conta e flag de compras on-line incorporados ao contrato de persistência. |
+
+
+## Atualização de implantação e componentes — simulações financeiras (29/10/2026)
+
+Na implementação de demonstração, `POST /api/v1/depositos` e `POST /api/v1/pix/recebimentos` são entradas distintas, protegidas pelo middleware `SimulacaoFinanceira`. O middleware verifica `config('services.fluxo.simulacoes_financeiras')`, `perfil=ADMIN` e `ehBackoffice()`. Ambos os controllers utilizam `PagamentosService`, que centraliza a regra de crédito em `LancamentoService`, persistindo `Transacao` e `Lancamento` no PostgreSQL. A autorização depende de configuração e identidade, não apenas do ambiente `APP_ENV`.
+
+O diagrama de classes **CLS-08** representa essas dependências. O diagrama CMP-01 anterior é uma visão arquitetural geral, com integrações externas simuladas; não deve ser interpretado como prova de integração real com SPI/Pix.
