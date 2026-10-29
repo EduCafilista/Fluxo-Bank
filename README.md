@@ -1,98 +1,149 @@
 # Fluxo Bank — Plataforma Bancária Digital
 
-Repositório oficial do projeto **Fluxo Bank**, uma plataforma bancária digital com arquitetura em camadas, contabilidade por partidas dobradas, antifraude síncrono, autenticação em dois fatores (2FA), controle de acesso baseado em papéis (RBAC) e trilha de auditoria imutável (*append-only*) no PostgreSQL 16.
+O **Fluxo Bank** é um projeto acadêmico de plataforma bancária digital, com API REST em Laravel, persistência PostgreSQL e implantação de demonstração no Render. O backend contempla cadastro e autenticação, gestão de contas, transferências, funcionalidades Pix, cartões, agendamentos, assinaturas e auditoria.
 
----
+> **Importante:** operações financeiras simuladas não representam integração bancária real, liquidação no Sistema de Pagamentos Instantâneos (SPI) nem movimentação de dinheiro verdadeiro. A instância do Render descrita aqui é destinada a testes.
 
-## 1. Estrutura do Repositório
+## 1. Organização do repositório
 
 ```text
 Fluxo-Bank/
-├── Documentacao/                    # Artefatos acadêmicos (CP1, CP2 e CP3)
-│   ├── Diagramas/                   # Casos de Uso, Sequência, Atividades, Classes (CLS-01 a CLS-07) e DER
-│   ├── libreproject/                # Cronograma ProjectLibre (.xml e .csv)
-│   ├── Escopo.md                    # Escopo do sistema e módulo de assinaturas
-│   ├── Requisitos.md                # Requisitos Funcionais (RF), Não Funcionais (RNF) e Regras de Negócio (RN)
-│   ├── CasosDeUso.md                # Especificação detalhada dos casos de uso
-│   ├── Prototipacao.md              # Guia de estilo e protótipos Figma (Mobile e Web Backoffice)
-│   └── QuadroDeGestao.md            # Quadro Kanban de acompanhamento dos Checkpoints
+├── Documentacao/
+│   ├── Diagramas/                 # Diagramas UML, DER e fontes
+│   ├── CasosDeUso.md
+│   ├── Escopo-Projeto.md
+│   ├── Levantamento-Requisitos-Final.md
+│   ├── PrototipacaoFigma.md
+│   └── QuadroDeGestao.md
 ├── Projeto/
-│   ├── backend/                     # API RESTful em Laravel 13 (PHP 8.3/8.4 + Sanctum + PostgreSQL 16)
+│   ├── backend/
 │   │   ├── app/
-│   │   │   ├── Console/Commands/    # ProcessarAgendamentos, VerificarIntegridade e GerarCodigoRecuperacaoSenha (senha:gerar-codigo)
-│   │   │   ├── Exceptions/          # Exceções de domínio financeiro e HTTP (409, 422, 423)
-│   │   │   ├── Http/
-│   │   │   │   ├── Controllers/     # 17 Controllers REST (/api/v1/*)
-│   │   │   │   ├── Middleware/      # AuditoriaRequisicao, ApenasDoisFatoresConcluido, ApenasBackoffice, Idempotencia
-│   │   │   │   └── Resources/       # Serialização JSON com mascaramento LGPD (ContaResource, LancamentoResource, TransacaoResource)
-│   │   │   ├── Models/              # 22 Models Eloquent (User, Cliente, Conta, Transacao, Lancamento, etc.)
-│   │   │   ├── Rules/               # Validação matemática de dígitos verificadores (Cpf, Cnpj)
-│   │   │   ├── Services/            # 17 Services de domínio (partidas dobradas, Pix, antifraude, 2FA, recuperação de senha, etc.)
-│   │   │   └── Support/             # ContaInterna, gerador EMV/BR Code (CRC16-CCITT) e Sanitizador LGPD
-│   │   ├── database/
-│   │   │   ├── migrations/          # 20 migrations (incluindo pgcrypto, funções PL/pgSQL, rules e triggers append-only)
-│   │   │   └── seeders/             # DatabaseSeeder e DemoSeeder
-│   │   ├── docs/                    # Guias técnicos de arquitetura, testes e operação do backend
-│   │   ├── routes/                  # api.php, api_v1.php e web.php
-│   │   ├── tests/                   # 96 testes automatizados (Unit e Feature) em 14 arquivos
-│   │   ├── Dockerfile               # Imagem PHP 8.3-cli para execução e deploy no Render
-│   │   └── docker-compose.yml       # Orquestração local (api + PostgreSQL 16)
-│   └── render.yaml                  # Blueprint de infraestrutura como código para nuvem (Render)
-└── RELATORIO_CHECKPOINT_3.md        # Relatório completo de auditoria e conformidade do Checkpoint 3
+│   │   │   ├── Http/Controllers/
+│   │   │   ├── Http/Middleware/
+│   │   │   ├── Models/
+│   │   │   └── Services/
+│   │   ├── bootstrap/
+│   │   ├── config/
+│   │   ├── database/migrations/
+│   │   ├── docs/
+│   │   ├── routes/api.php
+│   │   ├── routes/web.php
+│   │   ├── tests/
+│   │   ├── Dockerfile
+│   │   └── docker-compose.yml
+│   └── render.yaml
+└── README.md
 ```
 
----
+A documentação dos diagramas está em [`Documentacao/Diagramas`](Documentacao/Diagramas). Os diagramas de classes incluem os modelos de domínio, as interações do backend e os modelos Eloquent. As atualizações relativas a depósito e Pix simulados são descritas na documentação de diagramas atualizada, quando incorporada à branch.
 
-## 2. Tecnologias Utilizadas (Backend — Checkpoint 3)
+## 2. Tecnologias
 
-- **Linguagem:** PHP 8.3 / 8.4 (`declare(strict_types=1)`)
-- **Framework:** Laravel 13 (`laravel/framework: ^13.17`)
-- **Autenticação e Segurança:** Laravel Sanctum (`^4.0`), bcrypt (cost 12), 2FA via código de 6 dígitos com hash (`Servico2FA`), RBAC (`CLIENTE`, `ATENDENTE`, `ADMIN`) e bloqueio temporário por tentativas (`HTTP 423`).
-- **Banco de Dados:** PostgreSQL 16 (`postgres:16-alpine`) com extensão `pgcrypto`, funções PL/pgSQL (`fn_auditoria`, `fn_jsonb_diff`, `fn_auditoria_sanitizar`), `RULE`s *append-only* e triggers em 20 tabelas de domínio (`logs_auditoria`).
-- **Testes Automatizados:** PHPUnit 12 (`phpunit/phpunit: ^12.5`) — **96 testes distribuídos em 14 arquivos (390 assertions)** (`tests/Unit` e `tests/Feature`), executados sobre PostgreSQL (`fluxo_test`).
-- **Infraestrutura e Deploy:** Docker (`Dockerfile` + `docker-compose.yml`) e Render Cloud Blueprint (`Projeto/render.yaml`).
+- **Backend:** PHP 8.3+ e Laravel 13.
+- **Autenticação:** Laravel Sanctum; autenticação em dois fatores (2FA) em fluxos previstos pela aplicação.
+- **Banco de dados:** PostgreSQL, com migrations Laravel e modelos Eloquent.
+- **Infraestrutura:** Docker, Docker Compose e Render.
+- **Testes:** PHPUnit / testes Laravel nas pastas `tests/Unit` e `tests/Feature`.
 
----
+O Dockerfile do backend utiliza a imagem **PHP 8.4 CLI**. Não confunda a versão mínima declarada no `composer.json` com a versão efetivamente utilizada pela imagem de implantação.
 
-## 3. Principais Módulos da API REST (`/api/v1`)
+## 3. Funcionalidades principais
 
-| Módulo | Endpoints Principais (`routes/api_v1.php`) | Regras de Negócio Atendidas |
-|---|---|---|
-| **Saúde / Status** | `GET /`, `GET /api/v1/health` | Verificação de conectividade real com PostgreSQL (`200` / `503`) |
-| **Cadastro & KYC** | `POST /api/v1/cadastro` (`tipo_cliente: PF \| PJ`) | RF01, RF10, RF11, RN01, RN05, RN35 (validação matemática de CPF/CNPJ) |
-| **Autenticação, 2FA & Recuperação de Senha** | `POST /api/v1/login`, `/2fa/validar`, `/2fa/desafio`, `/2fa/ativar`, `/2fa/desativar`, `/senha/recuperacao/solicitar`, `/senha/recuperacao/validar`, `/senha/recuperacao/redefinir`, `/refresh`, `/logout`, `/logout-all`, `GET /eu` | RF02, RF17, RN16, RN18–RN20, recuperação manual de senha em 2 etapas com código CSPRNG de 6 dígitos vinculado à conta |
-| **Contas & Extratos** | `GET /api/v1/conta`, `/conta/extrato`, `/conta/extrato/categorizado`, `POST /conta/bloqueio`, `DELETE /conta/bloqueio`, `DELETE /conta` | RF03, RF04, RF13, RF18, RN02, RN06, RN34, RNF05 |
-| **Transferências & Pix** | `GET /api/v1/transacoes`, `GET /transacoes/{id}`, `POST /api/v1/transferencias`, `GET/POST/DELETE /api/v1/chaves-pix`, `POST /api/v1/pix/cobrancas`, `/pix/recebimentos`, `GET /pix/limites` | RF04, RF05, RF14, RF23, RN02–RN04, RN27–RN30, RN36, RN42 |
-| **Boletos** | `POST /api/v1/boletos/validar`, `POST /api/v1/boletos/pagar` | RF08, RF15, RN02, RN03 |
-| **Cartões & Viagem** | `GET/POST /api/v1/cartoes`, `POST /cartoes/{id}/virtual`, `PATCH /bloqueio`, `/limite`, `/compras-online`, `GET/POST/DELETE /api/v1/avisos-viagem`, `GET/DELETE /api/v1/assinaturas-cartao` | RF07, RF12, RF19–RF21, RF24, RN33, RN38–RN40, RN44 |
-| **Agendamentos** | `GET/POST /api/v1/agendamentos`, `DELETE /api/v1/agendamentos/{id}` | RF06, RF25, RN45 |
-| **Assinaturas** | `GET /api/v1/planos`, `GET/POST /api/v1/assinaturas`, `POST/DELETE /assinaturas/{id}/itens`, `DELETE /assinaturas/{id}` | Escopo 4.1, RN21–RN25 (exclusão lógica com motivo em `itens_assinatura`) |
-| **Suporte & Backoffice** | `GET/POST /api/v1/chamados`, `GET /api/v1/backoffice/resumo`, `/contas`, `POST /contas/{id}/kyc/aprovar`, `/kyc/recusar`, `/bloquear-fraude`, `GET/PATCH /backoffice/chamados`, `GET /backoffice/auditoria` | RF09, RF22, RN37, RF-SEG01–04 |
+| Módulo | Exemplos de rotas da API |
+| --- | --- |
+| Saúde | `GET /api/v1/health` |
+| Cadastro e acesso | `POST /api/v1/cadastro`, `POST /api/v1/login`, `GET /api/v1/eu` |
+| Conta e extrato | `GET /api/v1/conta`, `GET /api/v1/conta/extrato` |
+| Transações | `GET /api/v1/transacoes`, `POST /api/v1/transferencias` |
+| Pix | Chaves, cobranças, recebimentos simulados e consulta de limites |
+| Demais módulos | Cartões, boletos, agendamentos, assinaturas, suporte e backoffice |
 
----
+### Prefixo `/api/v1`
 
-## 4. Como Executar o Projeto
+O prefixo público depende da configuração de rotas em `Projeto/backend/bootstrap/app.php`. Se o arquivo `routes/api.php` for registrado pelo Laravel com o prefixo padrão `api`, as rotas serão expostas em `/api/...`, e **não** em `/api/v1/...`. Para adotar `/api/v1`, configure `apiPrefix: 'api/v1'` em `withRouting(...)` e confirme com:
 
-### 4.1 Via Docker Compose (Recomendado)
+```bash
+php artisan route:list --path=api/v1
+```
+
+A documentação e o painel de testes pressupõem o prefixo `/api/v1`. Confira o prefixo efetivo antes de publicar a aplicação.
+
+## 4. Depósitos e Pix simulados
+
+Depósito e recebimento Pix são **operações diferentes** e devem permanecer identificáveis separadamente no histórico financeiro, mesmo quando utilizam serviços contábeis compartilhados.
+
+Na implementação de demonstração preparada para o Render, o endpoint `POST /api/v1/depositos` é destinado a **depósitos simulados**, e `POST /api/v1/pix/recebimentos` a **recebimentos Pix simulados**. Esses endpoints só estarão disponíveis se os respectivos arquivos de controller, middleware e rotas da atualização de simulação tiverem sido incorporados ao backend implantado.
+
+Para habilitar a simulação **apenas em um ambiente de demonstração isolado**, configure no serviço do Render:
+
+```env
+FLUXO_SIMULACOES_FINANCEIRAS=true
+```
+
+A configuração não substitui a autorização: as operações simuladas devem exigir credenciais administrativas de backoffice. Usuários comuns não devem poder creditar arbitrariamente as próprias contas. Na futura produção real, mantenha a simulação desativada e credite valores somente após confirmação confiável da operação externa.
+
+Se a API retornar `403` com `Simulações financeiras desativadas.`, a rota foi alcançada, mas a configuração de simulação está bloqueando a operação. Se retornar `404`, confirme primeiro se o endpoint foi implantado e se o prefixo da API está correto.
+
+## 5. Executar localmente com Docker (opcional)
+
+A implantação principal de demonstração utiliza o Render, mas o repositório também contém configuração Docker Compose para execução local:
 
 ```bash
 cd Projeto/backend
 docker compose up --build -d
-docker compose exec api php artisan fluxo:verificar
 ```
 
-A API estará disponível em `http://localhost:8000`.
-
-### 4.2 Executar os Testes Automatizados (96 testes)
+Confira as portas e serviços declarados no `docker-compose.yml` da sua versão. Para inspecionar rotas e executar testes dentro do contêiner da API:
 
 ```bash
-cd Projeto/backend
-docker compose exec db createdb -U fluxouser fluxo_test
+docker compose exec api php artisan route:list
 docker compose exec api php artisan test
 ```
 
-Para mais detalhes sobre a arquitetura interna, credenciais de demonstração e exemplos de requisições `curl`, consulte:
-- [`Projeto/backend/README.md`](Projeto/backend/README.md)
-- [`Projeto/backend/docs/BACKEND-COMPLETO.md`](Projeto/backend/docs/BACKEND-COMPLETO.md)
-- [`Projeto/backend/docs/TESTE-BACKEND.md`](Projeto/backend/docs/TESTE-BACKEND.md)
-- [`RELATORIO_CHECKPOINT_3.md`](RELATORIO_CHECKPOINT_3.md)
+Esses comandos exigem que o serviço Compose se chame `api`, como na configuração analisada. Para testes com PostgreSQL, configure previamente um banco de testes isolado.
+
+## 6. Implantação no Render
+
+O arquivo [`Projeto/render.yaml`](Projeto/render.yaml) define a infraestrutura do projeto. O serviço web utiliza o Dockerfile do backend e uma conexão PostgreSQL configurada por variáveis de ambiente.
+
+Após publicar mudanças no backend, verifique:
+
+1. Se o deploy foi concluído e a aplicação iniciou sem erro.
+2. Se `GET /up` responde ao health check da aplicação.
+3. Se `GET /api/v1/health` está registrado e acessível no prefixo esperado.
+4. Se as migrations foram aplicadas no banco correto.
+5. Se login, conta, extrato, transferência e idempotência funcionam com dados fictícios.
+6. Se as simulações financeiras estão habilitadas **somente** no ambiente de demonstração e restritas a usuários autorizados.
+
+**Agendamentos:** a existência de tarefas no `routes/console.php` não garante sua execução automática no Render. É necessário configurar um processo ou serviço que execute o scheduler Laravel periodicamente.
+
+## 7. Testes e segurança
+
+```bash
+cd Projeto/backend
+php artisan route:list
+php artisan test
+```
+
+Para executar `php artisan test` fora do Docker, instale previamente as dependências Composer e configure o ambiente de testes. A quantidade de testes e assertions pode variar entre versões; consulte o resultado da suíte, em vez de depender de uma contagem fixa no README.
+
+Cuidados importantes:
+
+- Não publique senhas, URLs de banco com credenciais, tokens ou códigos 2FA.
+- Use `Idempotency-Key` nas operações que exigem proteção contra repetição e valide concorrência no backend.
+- Preserve transações atômicas e lançamentos contábeis consistentes.
+- Restrinja funções de backoffice e simulação a usuários autorizados.
+- Não confunda uma demonstração funcional com integração bancária real ou conformidade de produção certificada.
+
+## 8. Documentação complementar
+
+- [Diagramas UML e DER](Documentacao/Diagramas)
+- [Escopo do projeto](Documentacao/Escopo-Projeto.md)
+- [Requisitos](Documentacao/Levantamento-Requisitos-Final.md)
+- [Casos de uso](Documentacao/CasosDeUso.md)
+- [Documentação técnica do backend](Projeto/backend/docs)
+- [Especificação OpenAPI](Projeto/backend/docs/openapi.yaml)
+
+---
+
+**Estado da documentação:** este README foi revisado para refletir a estrutura do repositório analisado e as alterações propostas para a demonstração no Render. As funcionalidades condicionadas à aplicação dos pacotes de correção devem ser confirmadas na branch e no deploy efetivamente utilizados.
