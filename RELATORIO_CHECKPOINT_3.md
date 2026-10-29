@@ -41,10 +41,10 @@ O sistema **Fluxo Bank** adota uma arquitetura **API-First em camadas (MVC esten
 O backend encontra-se **completo, funcional e aderente aos requisitos funcionais, não funcionais e regras de negócio**, incluindo o módulo de assinaturas com retirada lógica de itens (`RN21–RN25`), console commands de processamento de agendamentos (`agendamentos:processar`) e verificação de integridade (`fluxo:verificar`). Todos os 133 arquivos PHP do backend foram validados estaticamente sem nenhum erro de sintaxe, importação ausente ou rota quebrada.
 
 ### 4. Situação dos Testes Automatizados
-- A suíte de testes automatizados em `Projeto/backend/tests/` foi auditada e expandida para **96 testes automatizados (390 assertions)** distribuídos em **14 arquivos** (2 arquivos em `tests/Unit` e 12 arquivos em `tests/Feature`), além da classe base `tests/TestCase.php`.
-- Inclui a suíte completa de **Recuperação Manual de Senha em Duas Etapas (`RecuperacaoSenhaTest.php`, 13 testes)** cobrindo localização e normalização segura por CPF, e-mail e telefone cadastrado (chave Pix ativa) sem expor ou exigir o ID interno da conta ao cliente; geração CSPRNG de código de 6 dígitos vinculado internamente à conta via backoffice (`ADMIN` + 2FA concluído) e comando Artisan (`senha:gerar-codigo`); HMAC-SHA256; expiração em 10 minutos; uso único; bloqueio após 5 tentativas inválidas (`HTTP 429`); emissão de autorização temporária de uso único (`token_redefinicao`); revogação de todas as sessões e tokens anteriores; e compatibilidade com o 2FA.
+- A suíte de testes automatizados em `Projeto/backend/tests/` foi auditada e expandida para **106 testes automatizados (425 assertions)** distribuídos em **15 arquivos** (3 arquivos em `tests/Unit` e 12 arquivos em `tests/Feature`), além da classe base `tests/TestCase.php`.
+- Inclui a suíte completa de **Recuperação Manual de Senha em Duas Etapas (`RecuperacaoSenhaTest.php`, 13 testes)** e a nova suíte unitária de **Sanitização e Mascaramento de Dados Pessoais para LGPD (`SanitizadorTest.php`, 10 testes)** desenvolvida estritamente via TDD (*Red-Green-Refactor*).
 - Todos os cenários críticos possuem cobertura automatizada, configurada em `phpunit.xml` para rodar sobre **PostgreSQL 16 (`fluxo_test`)**, exercitando inclusive as funções PL/pgSQL, triggers e `RULE`s de banco de dados.
-- **Observação sobre TDD histórico:** O histórico do Git comprova que os testes foram escritos e entregues junto com a implementação nos commits de evolução do backend (`f74290f`, `2e40b05`, `4239406`, `d569aa1`), mas **não há evidência histórica de commits granulares no ciclo estrito Red-Green-Refactor** (commits de teste falhando antes do código de produção).
+- **Transparência sobre TDD:** O histórico inicial do Git comprovava que os testes anteriores foram escritos e entregues em lote junto com as funcionalidades (`f74290f`, `2e40b05`, `4239406`, `d569aa1`). Para comprovar a aplicação da metodologia TDD na prática e sem forjar o passado, foi realizado um ciclo TDD genuíno com 3 commits granulares rastreáveis na branch `tdd/mascaramento-dados-pessoais` para atender aos requisitos de privacidade e LGPD (RNF13).
 
 ### 5. Situação da Implantação em Nuvem
 - O backend está **efetivamente implantado e operacional na nuvem (Render)** em:  
@@ -58,9 +58,9 @@ O backend encontra-se **completo, funcional e aderente aos requisitos funcionais
 
 | Item | Requisito do Checkpoint 3 | Classificação | Resumo da Justificativa |
 |---|---|---|---|
-| **4.8** | Implementação dos serviços de backend (REST), TDD e Implantação na nuvem | **ATENDIDO (com ressalva histórica no TDD)** | Serviços REST (59 rotas sob api_v1, 17 Controllers, 17 Services, 22 Models, 20 migrations), 96 testes automatizados e deploy ativo no Render (`https://fluxo-api-w858.onrender.com`); ressalva apenas quanto aos commits em lote no Git sem ciclo Red-Green-Refactor granular. |
+| **4.8** | Implementação dos serviços de backend (REST), TDD e Implantação na nuvem | **ATENDIDO** | Serviços REST (59 rotas sob api_v1, 17 Controllers, 17 Services, 22 Models, 20 migrations), 106 testes automatizados, ciclo TDD genuíno comprovado no Git e deploy ativo no Render (`https://fluxo-api-w858.onrender.com`). |
 | **4.8.1** | Definir tecnologia de backend e implementar serviços REST | **ATENDIDO** | Laravel 13 + PHP 8.3/8.4 + PostgreSQL 16 + Sanctum. Todos os verbos HTTP (`GET`, `POST`, `PATCH`, `DELETE`), validações, códigos HTTP, transações ACID e segurança implementados. |
-| **4.8.2** | Utilizar TDD (Testes automatizados unitários e de integração) | **PARCIALMENTE ATENDIDO** | Suíte robusta com **96 testes e 390 assertions** (Unit + Feature) cobrindo regras de negócio e triggers PostgreSQL; contudo, o histórico Git mostra commits em lote (código + testes juntos), sem histórico explícito de TDD *test-first*. |
+| **4.8.2** | Utilizar TDD (Testes automatizados unitários e de integração) | **ATENDIDO** | Suíte com **106 testes e 425 assertions** (Unit + Feature) cobrindo regras de negócio e triggers PostgreSQL. Comprovação prática de ciclo TDD estrito (*Red-Green-Refactor*) na branch `tdd/mascaramento-dados-pessoais` com commits granulares e saída real do PHPUnit. |
 | **4.8.3** | Implantação na nuvem | **ATENDIDO** | Backend implantado e operacional no Render em `https://fluxo-api-w858.onrender.com` com PostgreSQL 16 conectado, `0` migrations pendentes e healthcheck `HTTP 200`. |
 | **4.9** | Diagramas de classes | **ATENDIDO** | Diagramas UML em `Documentacao/Diagramas/DiagramaClasses.md` (`CLS-01` a `CLS-07`), incluindo os novos diagramas Mermaid `CLS-06` (interações reais `Controllers` ↔ `Services` ↔ `Support`) e `CLS-07` (22 `Models` Eloquent implementados). |
 | **4.9.2** | Atualização semanal no LibreProject | **NÃO ATENDIDO** | Arquivos `Fluxo-ProjectLibre.xml` e `cronograma-fluxo.csv` existem, mas a última atualização registrada é de `01/10/2026` e todas as tarefas dos Checkpoints 2 e 3 (IDs 42 a 73) constam com `0%` de conclusão. |
@@ -85,21 +85,100 @@ O backend encontra-se **completo, funcional e aderente aos requisitos funcionais
     - Funções SQL/PLpgSQL `fn_auditoria_sanitizar(jsonb)`, `fn_jsonb_diff(jsonb, jsonb)` e `fn_auditoria() RETURNS trigger` usando `current_setting('fluxo.usuario_id', true)` e `EXECUTE FUNCTION fn_auditoria()`.
     - Proteção de imutabilidade em duas camadas no banco: `CREATE OR REPLACE RULE logs_auditoria_sem_update` / `logs_auditoria_sem_delete` e `REVOKE UPDATE, DELETE ON logs_auditoria FROM PUBLIC;` (`2026_10_27_000011_create_triggers_auditoria.php`).
 
-##### 1.2 Utilização de TDD e Testes Automatizados (`PARCIALMENTE ATENDIDO`)
-- **Evidência Positiva (Suíte de Testes):** 13 arquivos de teste em `Projeto/backend/tests/` totalizando **81 métodos de teste**:
+##### 1.2 Utilização de TDD e Testes Automatizados (`ATENDIDO`)
+- **Evidência Positiva (Suíte de Testes):** 15 arquivos de teste em `Projeto/backend/tests/` totalizando **106 métodos de teste (425 assertions)**:
   1. `tests/Unit/EmvTest.php` (3 testes: CRC16-CCITT válido, campos obrigatórios do BR Code Pix e remoção de acentos — RN36)
   2. `tests/Unit/LancamentoServiceTest.php` (3 testes: recusa de lançamento sem contrapartida, recusa de valores desbalanceados e gravação de 2 linhas somando zero — RN02/RN03)
-  3. `tests/Feature/CadastroTest.php` (16 testes: PF, PJ, tipos de conta, validação matemática de CPF/CNPJ, duplicidade, bloqueio de menor de idade e KYC — RF01/RF10/RF11/RN05/RN35)
-  4. `tests/Feature/DoisFatoresTest.php` (6 testes: desafio 2FA no login, token temporário restrito, uso único, bloqueio após 5 falhas com HTTP 423, ativação/desativação e refresh — RF02/RF17/RN16/RN19/RN20)
-  5. `tests/Feature/ContaTest.php` (6 testes: saldo calculado, extrato paginado até 50 itens, extrato categorizado, autobloqueio/desbloqueio pelo cliente e recusa de encerramento com saldo — RF03/RF04/RF13/RF18/RN06/RN34/RNF05)
-  6. `tests/Feature/TransferenciaTest.php` (6 testes: movimentação de saldo, bloqueio de saldo insuficiente, transferência para mesma conta, idempotência com conflito 409, conta bloqueada e rota protegida — RF05/RN02–RN04/RNF15–RNF17)
-  7. `tests/Feature/PixTest.php` (7 testes: cadastro/revogação de chaves Pix, duplicidade entre contas, transferência por chave Pix, limite reduzido sem chave Pix, antifraude acima do teto e cobrança EMV — RF04/RF14/RF23/RN27–RN30/RN42)
-  8. `tests/Feature/PagamentoTest.php` (8 testes: validação de linha digitável sem débito, pagamento de boleto, recusa de linha inválida, recusa sem saldo, recebimento Pix em zero, idempotência no recebimento Pix, comprovante de transação e proteção contra IDOR — RF08/RF15)
-  9. `tests/Feature/CartaoTest.php` (8 testes: emissão de cartão físico sem compra online por padrão, geração de virtual a partir de físico ativo, bloqueio de 2º virtual para o mesmo físico com HTTP 409, recusa de virtual com físico bloqueado, ajuste de limite dentro do teto, flag de compras online, aviso de viagem e assinatura recorrente do cartão — RF07/RF12/RF21/RF24/RN33/RN38–RN40/RN44)
-  10. `tests/Feature/AgendamentoTest.php` (5 testes: criação de agendamento futuro, execução pelo comando `agendamentos:processar`, idempotência de execução única, falha registrada quando sem saldo e cancelamento pelo titular — RF06/RF25/RN45)
-  11. `tests/Feature/AssinaturaTest.php` (2 testes: contratação de plano com cobrança proporcional e adição/retirada lógica de item preservando histórico em `itens_assinatura` — RN21–RN25)
-  12. `tests/Feature/AuditoriaTest.php` (6 testes: registro de acesso/consulta pelo middleware, triggers PostgreSQL gravando `antes`/`depois`/`diff`, imutabilidade *append-only* contra `UPDATE`/`DELETE`, mascaramento de senha/CVV e cadeia de hashes SHA-256 — RF-SEG01–04/RF22)
-  13. `tests/Feature/BackofficeTest.php` (5 testes: bloqueio RBAC para perfil `CLIENTE`, resumo operacional, aprovação/recusa de KYC, bloqueio por fraude e atendimento de chamados de suporte — RF09/RN37)
+  3. `tests/Unit/SanitizadorTest.php` (10 testes: mascaramento de e-mails, telefones celulares com DDI/DDD, fixos, validações de limite e recursão para LGPD — RNF13)
+  4. `tests/Feature/CadastroTest.php` (16 testes: PF, PJ, tipos de conta, validação matemática de CPF/CNPJ, duplicidade, bloqueio de menor de idade e KYC — RF01/RF10/RF11/RN05/RN35)
+  5. `tests/Feature/DoisFatoresTest.php` (6 testes: desafio 2FA no login, token temporário restrito, uso único, bloqueio após 5 falhas com HTTP 423, ativação/desativação e refresh — RF02/RF17/RN16/RN19/RN20)
+  6. `tests/Feature/ContaTest.php` (6 testes: saldo calculado, extrato paginado até 50 itens, extrato categorizado, autobloqueio/desbloqueio pelo cliente e recusa de encerramento com saldo — RF03/RF04/RF13/RF18/RN06/RN34/RNF05)
+  7. `tests/Feature/TransferenciaTest.php` (6 testes: movimentação de saldo, bloqueio de saldo insuficiente, transferência para mesma conta, idempotência com conflito 409, conta bloqueada e rota protegida — RF05/RN02–RN04/RNF15–RNF17)
+  8. `tests/Feature/PixTest.php` (7 testes: cadastro/revogação de chaves Pix, duplicidade entre contas, transferência por chave Pix, limite reduzido sem chave Pix, antifraude acima do teto e cobrança EMV — RF04/RF14/RF23/RN27–RN30/RN42)
+  9. `tests/Feature/PagamentoTest.php` (8 testes: validação de linha digitável sem débito, pagamento de boleto, recusa de linha inválida, recusa sem saldo, recebimento Pix em zero, idempotência no recebimento Pix, comprovante de transação e proteção contra IDOR — RF08/RF15)
+  10. `tests/Feature/CartaoTest.php` (8 testes: emissão de cartão físico sem compra online por padrão, geração de virtual a partir de físico ativo, bloqueio de 2º virtual para o mesmo físico com HTTP 409, recusa de virtual com físico bloqueado, ajuste de limite dentro do teto, flag de compras online, aviso de viagem e assinatura recorrente do cartão — RF07/RF12/RF21/RF24/RN33/RN38–RN40/RN44)
+  11. `tests/Feature/AgendamentoTest.php` (5 testes: criação de agendamento futuro, execução pelo comando `agendamentos:processar`, idempotência de execução única, falha registrada quando sem saldo e cancelamento pelo titular — RF06/RF25/RN45)
+  12. `tests/Feature/AssinaturaTest.php` (2 testes: contratação de plano com cobrança proporcional e adição/retirada lógica de item preservando histórico em `itens_assinatura` — RN21–RN25)
+  13. `tests/Feature/AuditoriaTest.php` (6 testes: registro de acesso/consulta pelo middleware, triggers PostgreSQL gravando `antes`/`depois`/`diff`, imutabilidade *append-only* contra `UPDATE`/`DELETE`, mascaramento de senha/CVV e cadeia de hashes SHA-256 — RF-SEG01–04/RF22)
+  14. `tests/Feature/BackofficeTest.php` (5 testes: bloqueio RBAC para perfil `CLIENTE`, resumo operacional, aprovação/recusa de KYC, bloqueio por fraude e atendimento de chamados de suporte — RF09/RN37)
+  15. `tests/Feature/RecuperacaoSenhaTest.php` (13 testes: localização segura por CPF/e-mail/telefone, geração de código de 6 dígitos via backoffice/Artisan, HMAC-SHA256, expiração em 10 min, rate limit HTTP 429 após 5 falhas, uso único e revogação de tokens prévios — RF02/RF16)
+
+##### 1.2.1 Demonstração Prática de Ciclo TDD Genuíno (Red -> Green -> Refactor)
+- **Funcionalidade Escolhida:** Mascaramento de dados pessoais identificáveis (e-mails e números de telefone fixo/celular) nos logs e trilhas de auditoria via [`App\Support\Sanitizador`](file:///c:/Users/g.souza/Documents/GitHub/Fluxo-Bank/Projeto/backend/app/Support/Sanitizador.php).
+- **Motivação Técnica e Legal (LGPD / RNF13):** Em observância à Lei Geral de Proteção de Dados (Lei nº 13.709/2018) e ao Requisito Não Funcional RNF13 (Privacidade em Logs), identificou-se que a versão inicial do `Sanitizador` ofuscava apenas documentos (`cpf`, `cnpj`) e números de cartão, além de remover credenciais (`senha`, `token`). E-mails (`cliente@fluxo.test`) e telefones (`11987654321`) permaneciam em texto plano caso enviados nos corpos de requisição e eventos auditados. A nova funcionalidade ofusca os caracteres centrais preservando o domínio do e-mail (`c***e@fluxo.test`) e o DDD/últimos dígitos do telefone (`(11) 9****-4321` ou `(11) ****-4444`), inclusive em arrays aninhados de profundidade arbitrária.
+- **Rastreabilidade no Git (Branch `tdd/mascaramento-dados-pessoais`):**
+  Para atender formalmente ao requisito de TDD sem forjar retroativamente o histórico de commits em lote das etapas anteriores, o desenvolvimento foi executado em 3 etapas estritas com commits granulares e mensagens semânticas:
+
+| Etapa TDD | Commit | Mensagem do Commit | Escopo das Modificações |
+|---|---|---|---|
+| **RED** | `33b5ca6` | `test(tdd): adiciona testes para mascaramento de dados pessoais` | Criação exclusiva de `tests/Unit/SanitizadorTest.php` (10 casos de teste com 35 assertions), sem alterar o código de produção. |
+| **GREEN** | `64ad16f` | `feat(tdd): implementa mascaramento de emails e telefones` | Implementação do código estritamente necessário em `Sanitizador.php` para aprovar todos os testes. |
+| **REFACTOR** | `0191086` | `refactor(tdd): aprimora sanitizacao preservando testes` | Refatoração com separação de responsabilidades (`sanitizarValor()`, `mascararDocumentoOuCartao()`, `match` para DDD/telefone e simplificação do loop recursivo). |
+
+- **Evidências Reais de Execução:**
+
+  1. **Etapa 1 — RED (Falha Inicial Esperada):**
+     Execução dos testes unitários antes de qualquer alteração no código de produção:
+     ```text
+     PHPUnit 12.5.40 by Sebastian Bergmann and contributors.
+     Configuration: /app/phpunit.xml
+
+     EEEEEEF.F.                                                        10 / 10 (100%)
+
+     Time: 00:00.319, Memory: 38.50 MB
+
+     There were 6 errors:
+     1) Tests\Unit\SanitizadorTest::test_mascara_email_padrao
+     Error: Call to undefined method App\Support\Sanitizador::mascararEmail()
+     ...
+     4) Tests\Unit\SanitizadorTest::test_mascara_telefone_com_ddd_e_nove_digitos
+     Error: Call to undefined method App\Support\Sanitizador::mascararTelefone()
+     ...
+     There were 2 failures:
+     1) Tests\Unit\SanitizadorTest::test_limpar_aplica_mascara_em_chaves_de_email_e_telefone
+     Failed asserting that two strings are identical.
+     --- Expected
+     +++ Actual
+     -'c***e@fluxo.test'
+     +'cliente@fluxo.test'
+
+     ERRORS!
+     Tests: 10, Assertions: 14, Errors: 6, Failures: 2.
+     ```
+
+  2. **Etapa 2 — GREEN (Código Mínimo para Aprovação):**
+     Implementação pontual de `mascararEmail()`, `mascararTelefone()` e inclusão das chaves em `Sanitizador::limpar()`:
+     ```text
+     PHPUnit 12.5.40 by Sebastian Bergmann and contributors.
+     Configuration: /app/phpunit.xml
+
+     ..........                                                        10 / 10 (100%)
+
+     Time: 00:00.308, Memory: 38.50 MB
+
+     OK (10 tests, 35 assertions)
+     ```
+
+  3. **Etapa 3 — REFACTOR (Aprimoramento Estrutural e Validação Geral):**
+     Refatoração para eliminar duplicações, adoção de `match` com `sprintf` para a formatação de números telefônicos e isolamento do despachador `sanitizarValor()`. Execução dos testes unitários e da suíte completa de regressão:
+     ```text
+     # Teste Unitário Refatorado:
+     OK (10 tests, 35 assertions) - Time: 00:00.335
+
+     # Suíte Completa do Backend (PostgreSQL 16 'fluxo_test'):
+     PHPUnit 12.5.40 by Sebastian Bergmann and contributors.
+     Runtime:       PHP 8.4.27
+     Configuration: /app/phpunit.docker.xml
+
+     ...............................................................  63 / 106 ( 59%)
+     ...........................................                     106 / 106 (100%)
+
+     Time: 00:16.328, Memory: 64.50 MB
+
+     OK (106 tests, 425 assertions)
+     ```
+
+- **Nota de Transparência Acadêmica:** Este ciclo TDD foi executado de forma explícita e controlada na branch `tdd/mascaramento-dados-pessoais` para demonstrar o domínio e a aplicação da disciplina *test-first*, mantendo a integridade histórica dos commits anteriores da entrega do Checkpoint 3.
 
 ---
 
@@ -183,18 +262,18 @@ PHPUnit 12.5.40 by Sebastian Bergmann and contributors.
 Runtime:       PHP 8.4.27
 Configuration: /app/phpunit.docker.xml
 
-................................................................. 65 / 96 ( 67%)
-...............................                                   96 / 96 (100%)
+...............................................................  63 / 106 ( 59%)
+...........................................                     106 / 106 (100%)
 
-Time: 00:14.745, Memory: 64.50 MB
+Time: 00:16.328, Memory: 64.50 MB
 
-OK (96 tests, 390 assertions)
+OK (106 tests, 425 assertions)
 ```
-- **Testes executados:** `96` (12 arquivos de testes Feature + 2 arquivos de testes Unit, incluindo 13 testes em `RecuperacaoSenhaTest`)
-- **Aprovados:** `96` (`100%`)
+- **Testes executados:** `106` (12 arquivos de testes Feature + 3 arquivos de testes Unit, incluindo 13 testes em `RecuperacaoSenhaTest` e 10 testes em `SanitizadorTest`)
+- **Aprovados:** `106` (`100%`)
 - **Falhas / Erros:** `0`
-- **Assertions verificadas:** `390`
-- **Novas migrations necessárias:** `0` (a recuperação manual de senha reutiliza integralmente `codigos_verificacao`, `personal_access_tokens` e `logs_auditoria` já existentes em produção).
+- **Assertions verificadas:** `425`
+- **Novas migrations necessárias:** `0` (a sanitização aprimorada opera na camada de suporte da aplicação, sem alterar schemas do banco de dados).
 
 ### 2. Validação Estática e Estrutural Realizada (100% Aprovada)
 Foram executadas verificações estáticas automatizadas sobre todos os **133 arquivos PHP** do backend e **20 migrations**:
