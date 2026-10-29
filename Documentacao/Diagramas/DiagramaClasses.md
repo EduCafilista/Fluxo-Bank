@@ -274,6 +274,12 @@ classDiagram
         +store(Request request) JsonResponse
         +destroy(Request request, ChavePix chave) JsonResponse
     }
+    class DepositoSimuladoController {
+        +__invoke(Request request, PagamentosService pagamentos, ContaService contas, AuditoriaService auditoria) JsonResponse
+    }
+    class SimulacaoFinanceira {
+        +handle(Request request, Closure next) Response
+    }
     class PixController {
         -PagamentosService pagamentos
         -LimitePixService limites
@@ -417,7 +423,7 @@ classDiagram
         +pagarBoleto(Conta conta, string linhaDigitavel, int valorCentavos, string chaveIdempotencia) Transacao
         +gerarCobrancaPix(Conta conta, int valorCentavos, string descricao) array
         +receberPix(Conta conta, int valorCentavos, string descricao, string chaveIdempotencia) Transacao
-        +depositar(Conta conta, int valorCentavos, string descricao) Transacao
+        +depositar(Conta conta, int valorCentavos, string descricao, string chaveIdempotencia) Transacao
     }
     class CartoesService {
         +emitirFisico(Conta conta, string modalidade, string enderecoEntrega) Cartao
@@ -476,6 +482,11 @@ classDiagram
     TransacaoController --> TransferenciaService
     TransacaoController ..> RelatorioService
     ChavePixController --> ChavePixService
+    DepositoSimuladoController --> PagamentosService
+    DepositoSimuladoController --> ContaService
+    DepositoSimuladoController --> AuditoriaService
+    DepositoSimuladoController ..> SimulacaoFinanceira : protegido por rota
+    PixController ..> SimulacaoFinanceira : recebimento simulado
     PixController --> PagamentosService
     PixController --> LimitePixService
     PixController --> ContaService
@@ -795,7 +806,31 @@ classDiagram
 
 ---
 
-## 9. Mapeamento classes → tabelas (Implementação Real)
+## 9. CLS-08 — Depósito simulado e recebimento Pix: classes e controle de acesso (revisão 6.0)
+
+![CLS-08 — Depósito e Pix simulados](diagramas/cls-08-deposito-pix-simulados.svg)
+
+**Código-fonte do diagrama:** [`fontes/cls-08-deposito-pix-simulados.mmd`](fontes/cls-08-deposito-pix-simulados.mmd).
+
+O diagrama retrata a **implementação de demonstração hospedada no Render** após o pacote de alterações de depósito. A rota `POST /api/v1/depositos` utiliza `DepositoSimuladoController::__invoke()`; `POST /api/v1/pix/recebimentos` utiliza `PixController::receber()`. As duas passam pelo middleware `SimulacaoFinanceira`, que exige `services.fluxo.simulacoes_financeiras` habilitado e usuário autenticado com `perfil=ADMIN` e `ehBackoffice()` verdadeiro. A autenticação e os demais middlewares das rotas continuam necessários.
+
+| Classe real | Responsabilidade |
+|---|---|
+| `SimulacaoFinanceira` | Impedir simulação desativada ou solicitada por usuário sem autorização administrativa (`403`). |
+| `DepositoSimuladoController` | Validar conta destino e valor; chamar `PagamentosService::depositar()`; auditar e devolver saldo. |
+| `PixController` | Atender cobrança Pix e recebimento Pix simulado; a proteção de simulação se aplica especificamente à rota de recebimento. |
+| `PagamentosService` | Distinguir `depositar()` (`TIPO_DEPOSITO`) e `receberPix()` (`TIPO_QR_CODE`), reutilizando `LancamentoService::creditar()`. |
+| `LancamentoService` | Registrar a transação e os lançamentos que fundamentam o saldo. |
+| `Conta`, `Transacao`, `Lancamento` | Modelos persistidos no PostgreSQL; o saldo não é alterado diretamente pelo controller. |
+| `AuditoriaService` | Registrar eventos de movimentação e rastreabilidade. |
+
+**Sequência resumida:** administrador autenticado → rota protegida → `SimulacaoFinanceira` → controller específico → `PagamentosService` → `LancamentoService` → `Transacao`/`Lancamento` → saldo e extrato. O cabeçalho `Idempotency-Key` é aceito no depósito; a proteção contra concorrência exige validação integrada e não deve ser considerada comprovada apenas pelo diagrama.
+
+**Escopo:** as operações acima são **simuladas**, não equivalem a liquidação Pix ou depósito bancário real. O Render é a plataforma de hospedagem, não uma prova de integração financeira externa. Em produção com fundos reais, o crédito precisa depender de confirmação confiável de um provedor ou operador autorizado.
+
+---
+
+## 10. Mapeamento classes → tabelas (Implementação Real)
 
 | Classe Conceitual (UML) | Classe Eloquent (`app/Models`) | Tabela (`PostgreSQL`) | Observação |
 |---|---|---|---|
@@ -840,4 +875,7 @@ classDiagram
 | 2.0 | 10/09/2026 | Texto condensado; CLS-03 — Núcleo Contábil adicionado |
 | 3.0 | 10/09/2026 | **CLS-04 — Especialização de Clientes, Contas e Cartões** adicionado; CLS-01/02 ajustados para apontar à nova especialização; `Conta.bloqueada` e `Usuario.tokenAcesso` adicionados |
 | 4.0 | 08/10/2026 | **CLS-05 — Controles operacionais** adicionado: status da conta, flag on-line, limites Pix, aviso por cartão, consulta de assinaturas do cartão, auditoria e agendamento |
+| 6.0 | 29/10/2026 | Adicionados depósito simulado, middleware de autorização, separação do recebimento Pix e diagrama CLS-08; atualizado CLS-06. |
 | 5.0 | 28/10/2026 | **CLS-06 — Interações entre Controllers, Services e Support** e **CLS-07 — Modelos Eloquent Implementados** adicionados em Mermaid, alinhando a documentação 100% ao código-fonte do Checkpoint 3 |
+
+> **Nota de conformidade (revisão 6.0):** CLS-01 a CLS-05 incluem abstrações conceituais e regras do domínio, não necessariamente subclasses PHP ou métodos com assinatura idêntica no código. Para apresentar classes efetivamente implementadas, priorize CLS-06, CLS-07 e CLS-08. As mudanças de simulação financeira foram conferidas no pacote `Fluxo-Correcoes-Deposito-Render.zip`; a publicação efetiva no Render deve ser confirmada por `php artisan route:list` e testes de API.

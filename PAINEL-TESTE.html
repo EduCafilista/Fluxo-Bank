@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fluxo — Painel de testes</title>
+<style>
+:root{color-scheme:dark;--bg:#101522;--card:#1a2233;--line:#303b52;--text:#edf2ff;--muted:#aab5cc;--blue:#7195ff;--green:#55d6a0;--red:#ff7777}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,Arial,sans-serif}
+main{max-width:900px;margin:32px auto;padding:0 16px}h1{font-size:25px;margin:0 0 4px}h2{font-size:17px;margin:0 0 14px}p{color:var(--muted);margin:5px 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:190px;margin-bottom:10px}
+label{font-size:13px;color:var(--muted)}input{width:100%;padding:11px 12px;border-radius:8px;border:1px solid var(--line);background:#101827;color:var(--text);font:inherit}
+button{border:0;border-radius:8px;padding:10px 14px;background:var(--blue);color:#0b1020;font-weight:700;cursor:pointer}
+button.secondary{background:#303b52;color:var(--text)}button.danger{background:#7e3038;color:white}button:disabled{opacity:.5;cursor:wait}
+.status{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border-radius:99px;background:#303b52;color:var(--muted);font-size:13px}
+.status.ok{color:var(--green)}.status.err{color:var(--red)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0b111d;border:1px solid var(--line);border-radius:8px;padding:14px;min-height:100px;max-height:420px;overflow:auto;margin:0;font-size:12px}
+.small{font-size:12px;color:var(--muted)}.hidden{display:none!important}
+@media(max-width:650px){.grid{grid-template-columns:1fr}main{margin-top:20px}.card{padding:14px}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Fluxo · Painel de testes</h1>
+  <p>Teste a API do Laravel e confirme se ela consegue consultar o PostgreSQL.</p>
+
+  <section class="card">
+    <h2>1. Conectar à API</h2>
+    <div class="row">
+      <div class="field" style="margin:0;min-width:250px">
+        <label for="baseUrl">URL do serviço (Render)</label>
+        <input id="baseUrl" placeholder="https://seu-servico.onrender.com" autocomplete="url">
+      </div>
+      <button id="connectBtn">Testar conexão e banco</button>
+      <span id="status" class="status">Desconectado</span>
+    </div>
+    <p class="small">Cole a URL base do serviço, sem precisar adicionar /api/v1. O teste chama /api/v1/health; o HTML não acessa o PostgreSQL diretamente.</p>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>2. Criar usuário</h2>
+      <form id="registerForm">
+        <div class="field"><label for="nome">Nome</label><input id="nome" required value="Usuário de Teste"></div>
+        <div class="field"><label for="cpf">CPF (somente números)</label><input id="cpf" required inputmode="numeric" maxlength="11" placeholder="11 dígitos"></div>
+        <div class="field"><label for="nascimento">Data de nascimento</label><input id="nascimento" type="date" required value="1995-05-20"></div>
+        <div class="field"><label for="emailCadastro">E-mail</label><input id="emailCadastro" type="email" required placeholder="voce@exemplo.com"></div>
+        <div class="field"><label for="senhaCadastro">Senha</label><input id="senhaCadastro" type="password" required minlength="8" autocomplete="new-password"></div>
+        <button type="submit">Criar usuário</button>
+      </form>
+      <p class="small">Use dados de teste. O cadastro pode criar registros permanentes no banco conectado.</p>
+    </section>
+
+    <section class="card">
+      <h2>3. Login</h2>
+      <form id="loginForm">
+        <div class="field"><label for="emailLogin">E-mail</label><input id="emailLogin" type="email" required autocomplete="username"></div>
+        <div class="field"><label for="senhaLogin">Senha</label><input id="senhaLogin" type="password" required autocomplete="current-password"></div>
+        <button type="submit">Entrar</button>
+        <button type="button" class="secondary" id="logoutBtn">Sair / revogar token</button>
+      </form>
+      <p class="small">O token fica somente na sessão atual do navegador e é apagado ao sair ou fechar a sessão.</p>
+      <div id="sessionInfo" class="small">Não autenticado.</div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>4. Transferência entre contas</h2>
+    <p>Entre com o usuário que será a conta de origem. Para descobrir o ID da conta de destino, entre com o outro usuário e clique em “Saldo / conta”; copie <code>conta.id</code> da resposta e depois volte a entrar com o usuário de origem.</p>
+    <form id="transferForm">
+      <div class="grid">
+        <div class="field">
+          <label for="destinoId">ID da conta de destino</label>
+          <input id="destinoId" type="number" min="1" step="1" required placeholder="Ex.: 2">
+        </div>
+        <div class="field">
+          <label for="valorReais">Valor da transferência (R$)</label>
+          <input id="valorReais" type="number" min="0.01" step="0.01" required value="1.00">
+        </div>
+      </div>
+      <div class="field">
+        <label for="descricaoTransferencia">Descrição (opcional)</label>
+        <input id="descricaoTransferencia" maxlength="120" placeholder="Transferência de teste">
+      </div>
+      <div class="field">
+        <label for="chaveIdempotencia">Chave de idempotência</label>
+        <input id="chaveIdempotencia" maxlength="120" required>
+      </div>
+      <div class="row">
+        <button type="submit">Transferir uma vez</button>
+        <button type="button" class="secondary" id="idempotencyBtn">Testar idempotência (enviar duas vezes)</button>
+      </div>
+    </form>
+    <p class="small">A API espera <code>valor_centavos</code> (inteiro). O painel converte R$ 1,00 em 100 centavos. O teste de idempotência envia duas vezes o mesmo corpo com a mesma chave e compara o ID da transação e o saldo. Use contas de teste.</p>
+  </section>
+
+  <section class="card">
+    <h2>5. Simular depósito na conta</h2>
+    <p>Envie um depósito de teste para a conta do usuário autenticado. <strong>Atenção:</strong> esta função exige que o Laravel disponibilize uma rota de depósito; o painel não altera o saldo diretamente no PostgreSQL.</p>
+    <form id="depositForm">
+      <div class="grid">
+        <div class="field"><label for="depositAmount">Valor do depósito (R$)</label><input id="depositAmount" type="number" min="0.01" step="0.01" value="100.00" required></div>
+        <div class="field"><label for="depositEndpoint">Rota POST no Laravel</label><input id="depositEndpoint" value="/api/v1/depositos" required></div>
+      </div>
+      <div class="field"><label for="depositDescription">Descrição</label><input id="depositDescription" maxlength="120" value="Depósito de teste"></div>
+      <button type="submit">Simular depósito</button>
+    </form>
+    <p class="small">O painel envia <code>{valor_centavos, descricao}</code> e uma chave <code>Idempotency-Key</code>. A rota sugerida é apenas um exemplo: ajuste para a rota real do seu backend. Se retornar 404 ou 405, a rota não está disponível.</p>
+  </section>
+
+  <section class="card">
+    <h2>6. Testar funções principais</h2>
+    <div class="row">
+      <button data-action="me">Meus dados</button>
+      <button data-action="conta">Saldo / conta</button>
+      <button data-action="extrato">Extrato</button>
+      <button data-action="transacoes">Transações</button>
+      <button data-action="health" class="secondary">Testar banco novamente</button>
+    </div>
+    <p class="small">As funções autenticadas precisam de login. As respostas da API aparecem abaixo.</p>
+  </section>
+
+  <section class="card">
+    <div class="row" style="justify-content:space-between;margin-bottom:12px">
+      <h2 style="margin:0">Resposta</h2>
+      <div class="row"><button id="copyBtn" class="secondary">Copiar JSON</button><button id="clearBtn" class="secondary">Limpar</button></div>
+    </div>
+    <pre id="output">Pronto. Informe a URL e teste a conexão.</pre>
+  </section>
+  <p class="small">Aviso: este painel é para testes. Não use credenciais reais, não publique tokens e não execute operações financeiras em uma base de produção sem entender seus efeitos.</p>
+</main>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const baseInput = $('baseUrl'), status = $('status'), output = $('output');
+  let token = sessionStorage.getItem('fluxo_test_token') || '';
+  let currentEmail = sessionStorage.getItem('fluxo_test_email') || '';
+  baseInput.value = localStorage.getItem('fluxo_test_base') || '';
+  $('emailLogin').value = currentEmail;
+  updateSession();
+
+  function baseUrl() {
+    let value = baseInput.value.trim().replace(/\/+$/, '');
+    if (!value) throw new Error('Cole a URL base do serviço Render.');
+    if (!/^https?:\/\//i.test(value)) value = 'https://' + value;
+    value = value.replace(/\/api(\/v1)?$/i, '');
+    return value;
+  }
+  function showStatus(type, text) { status.className = 'status ' + type; status.textContent = text; }
+  function updateSession() {
+    $('sessionInfo').textContent = token ? `Autenticado como ${currentEmail || 'usuário'} · token ativo nesta sessão.` : 'Não autenticado.';
+  }
+  function show(data) { output.textContent = JSON.stringify(data, null, 2); }
+  async function request(path, options = {}) {
+    let url;
+    try { url = baseUrl() + path; } catch (e) { show({ erro: e.message }); throw e; }
+    const headers = {Accept:'application/json', ...(options.headers || {})};
+    if (token && options.auth !== false) headers.Authorization = 'Bearer ' + token;
+    if (options.body !== undefined) headers['Content-Type'] = 'application/json';
+    let response;
+    try {
+      response = await fetch(url, {method:options.method || 'GET', headers, body:options.body === undefined ? undefined : JSON.stringify(options.body)});
+    } catch (e) {
+      const detail = 'Falha de rede/CORS. Confirme URL, serviço ativo e CORS configurado no Laravel. Detalhe: ' + e.message;
+      show({erro:detail}); throw new Error(detail);
+    }
+    const text = await response.text();
+    let data; try { data = text ? JSON.parse(text) : {}; } catch { data = {resposta:text}; }
+    const result = {http_status:response.status, ok:response.ok, rota:path, resposta:data};
+    show(result);
+    return {response, data, result};
+  }
+  async function runButton(button, callback) {
+    button.disabled = true;
+    try { await callback(); } catch (e) { show({erro:e.message}); }
+    finally { button.disabled = false; }
+  }
+
+  $('connectBtn').addEventListener('click', e => runButton(e.currentTarget, async () => {
+    localStorage.setItem('fluxo_test_base', baseUrl());
+    const r = await request('/api/v1/health', {auth:false});
+    if (r.response.ok && r.data.status === 'ok') showStatus('ok', 'API e banco OK');
+    else showStatus('err', 'Resposta com problema');
+  }));
+
+  $('registerForm').addEventListener('submit', e => runButton(e.submitter, async () => {
+    e.preventDefault();
+    const cpf = $('cpf').value.replace(/\D/g, '');
+    if (cpf.length !== 11) throw new Error('O CPF deve ter 11 números.');
+    const payload = {
+      nome:$('nome').value.trim(), cpf,
+      data_nascimento:$('nascimento').value,
+      email:$('emailCadastro').value.trim(),
+      password:$('senhaCadastro').value
+    };
+    const r = await request('/api/v1/cadastro', {method:'POST', body:payload, auth:false});
+    if (r.response.status === 201 || r.response.ok) {
+      $('emailLogin').value = payload.email;
+      $('senhaLogin').value = payload.password;
+      show({...r.result, dica:'Cadastro enviado. Tente fazer login com os dados informados.'});
+    }
+  }));
+
+  $('loginForm').addEventListener('submit', e => runButton(e.submitter, async () => {
+    e.preventDefault();
+    const email = $('emailLogin').value.trim(), password = $('senhaLogin').value;
+    const r = await request('/api/v1/login', {method:'POST', auth:false, body:{email,password}});
+    if (r.response.ok && r.data.token) {
+      token = r.data.token; currentEmail = email;
+      sessionStorage.setItem('fluxo_test_token', token);
+      sessionStorage.setItem('fluxo_test_email', currentEmail);
+      updateSession();
+      show({...r.result, dica:r.data.precisa_2fa ? 'Login respondeu que pode exigir conclusão do 2FA.' : 'Login realizado.'});
+    } else if (r.response.ok && !r.data.token) {
+      show({...r.result, aviso:'Resposta sem token. Verifique se a API exige concluir o 2FA.'});
+    }
+  }));
+
+  $('logoutBtn').addEventListener('click', e => runButton(e.currentTarget, async () => {
+    if (token) {
+      try { await request('/api/v1/logout', {method:'POST'}); } catch {}
+    }
+    token = ''; currentEmail = '';
+    sessionStorage.removeItem('fluxo_test_token'); sessionStorage.removeItem('fluxo_test_email');
+    updateSession();
+  }));
+
+  document.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', () => runButton(button, async () => {
+    const actions = {
+      health: () => request('/api/v1/health', {auth:false}),
+      me: () => request('/api/v1/eu'),
+      conta: () => request('/api/v1/conta'),
+      extrato: () => request('/api/v1/conta/extrato?per_page=10'),
+      transacoes: () => request('/api/v1/transacoes')
+    };
+    if (button.dataset.action !== 'health' && !token) {
+      show({erro:'Faça login antes de testar esta função.'}); return;
+    }
+    await actions[button.dataset.action]();
+  })));
+
+
+  function gerarChaveIdempotencia() {
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+      return 'painel-' + window.crypto.randomUUID();
+    }
+    return 'painel-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+  }
+  $('chaveIdempotencia').value = gerarChaveIdempotencia();
+
+  function dadosTransferencia() {
+    if (!token) throw new Error('Faça login com a conta de origem antes de transferir.');
+    const destino = Number($('destinoId').value);
+    const reais = Number($('valorReais').value);
+    if (!Number.isInteger(destino) || destino < 1) throw new Error('Informe um ID de conta de destino válido.');
+    if (!Number.isFinite(reais) || reais <= 0) throw new Error('Informe um valor maior que zero.');
+    const centavos = Math.round((reais + Number.EPSILON) * 100);
+    if (!Number.isSafeInteger(centavos) || centavos < 1) throw new Error('Valor inválido.');
+    const chave = $('chaveIdempotencia').value.trim();
+    if (!chave) throw new Error('Informe uma chave de idempotência.');
+    return {
+      payload: {
+        conta_destino_id: destino,
+        valor_centavos: centavos,
+        descricao: $('descricaoTransferencia').value.trim() || 'Transferência de teste do painel'
+      },
+      chave
+    };
+  }
+
+  async function enviarTransferencia(payload, chave) {
+    return request('/api/v1/transferencias', {
+      method:'POST',
+      headers:{'Idempotency-Key':chave},
+      body:payload
+    });
+  }
+
+  $('transferForm').addEventListener('submit', e => runButton(e.submitter, async () => {
+    e.preventDefault();
+    const {payload, chave} = dadosTransferencia();
+    const r = await enviarTransferencia(payload, chave);
+    if (r.response.ok) {
+      const contaDepois = await request('/api/v1/conta');
+      const extratoDepois = await request('/api/v1/conta/extrato?per_page=10');
+      show({
+        transferencia: r.result,
+        chave_idempotencia: chave,
+        saldo_centavos_header: r.response.headers.get('X-Saldo-Centavos'),
+        saldo_atual: contaDepois.data,
+        extrato_atual: extratoDepois.data,
+        dica: 'Confira o saldo e o lançamento mais recente no extrato. O ID da conta de destino deve ser de outra conta.'
+      });
+      // Uma nova transferência deve usar uma chave nova.
+      $('chaveIdempotencia').value = gerarChaveIdempotencia();
+    } else {
+      // O middleware pode memorizar respostas 4xx por 24h; não reutilize a chave para outra tentativa.
+      $('chaveIdempotencia').value = gerarChaveIdempotencia();
+    }
+  }));
+
+  $('idempotencyBtn').addEventListener('click', e => runButton(e.currentTarget, async () => {
+    const {payload, chave} = dadosTransferencia();
+    const antes = await request('/api/v1/conta');
+    if (!antes.response.ok) throw new Error('Não foi possível consultar o saldo antes do teste.');
+    const saldoAntes = Number(antes.data.saldo_centavos);
+    const primeira = await enviarTransferencia(payload, chave);
+    if (!primeira.response.ok) {
+      show({
+        teste: 'Idempotência não concluída',
+        etapa: 'primeira requisição falhou',
+        http_status: primeira.response.status,
+        resposta: primeira.data,
+        observacao: 'Corrija o erro antes de repetir o teste. Uma nova tentativa precisa de uma nova chave.'
+      });
+      $('chaveIdempotencia').value = gerarChaveIdempotencia();
+      return;
+    }
+    const segunda = await enviarTransferencia(payload, chave);
+    const depois = await request('/api/v1/conta');
+    const extratoDepois = await request('/api/v1/conta/extrato?per_page=10');
+    const id1 = primeira.data.id;
+    const id2 = segunda.data.id;
+    const saldoDepois = Number(depois.data.saldo_centavos);
+    const valor = payload.valor_centavos;
+    const resultado = {
+      teste: 'Idempotência',
+      chave_idempotencia: chave,
+      primeira_resposta: {http_status: primeira.response.status, transacao_id: id1},
+      segunda_resposta: {
+        http_status: segunda.response.status,
+        transacao_id: id2,
+        replay_header: segunda.response.headers.get('X-Idempotent-Replay')
+      },
+      saldo_antes_centavos: saldoAntes,
+      saldo_depois_centavos: saldoDepois,
+      valor_centavos: valor,
+      mesmo_id_de_transacao: id1 != null && id1 === id2,
+      debito_aplicado_uma_vez: saldoDepois === saldoAntes - valor,
+      saldo_inalterado_apos_reenvio: saldoDepois === saldoAntes - valor,
+      resultado: (id1 != null && id1 === id2 && saldoDepois === saldoAntes - valor)
+        ? 'PASSOU: a repetição não fez um segundo débito.'
+        : 'VERIFICAR: a resposta ou o saldo não correspondeu ao esperado.',
+      extrato_atual: extratoDepois.data
+    };
+    show(resultado);
+    // O teste já reenviou a mesma chave internamente; gere uma nova para o próximo teste.
+    $('chaveIdempotencia').value = gerarChaveIdempotencia();
+  }));
+
+  $('depositForm').addEventListener('submit', e => {
+    e.preventDefault();
+    runButton(e.submitter, async () => {
+      if (!token) throw new Error('Faça login antes de simular um depósito.');
+      const reais = Number($('depositAmount').value);
+      const centavos = Math.round((reais + Number.EPSILON) * 100);
+      if (!Number.isFinite(reais) || reais <= 0 || !Number.isSafeInteger(centavos) || centavos < 1) throw new Error('Informe um valor válido maior que zero.');
+      const endpoint = $('depositEndpoint').value.trim();
+      if (!/^\/api\/v1\/[a-zA-Z0-9_\/-]+$/.test(endpoint)) throw new Error('Informe uma rota da API no formato /api/v1/depositos.');
+      const antes = await request('/api/v1/conta');
+      if (!antes.response.ok) throw new Error('Não foi possível consultar a conta antes do depósito.');
+      const chave = gerarChaveIdempotencia();
+      const deposito = await request(endpoint, {
+        method:'POST', headers:{'Idempotency-Key':chave},
+        body:{valor_centavos:centavos, descricao:$('depositDescription').value.trim() || 'Depósito de teste'}
+      });
+      if (!deposito.response.ok) {
+        show({deposito:deposito.result, saldo_antes:antes.data, dica: deposito.response.status === 404 || deposito.response.status === 405 ? 'A rota de depósito não existe ou não aceita POST. É necessário implementá-la no Laravel.' : 'Verifique a validação e o formato exigido pela rota Laravel.'});
+        return;
+      }
+      const depois = await request('/api/v1/conta');
+      const extrato = await request('/api/v1/conta/extrato?per_page=10');
+      show({deposito:deposito.result, chave_idempotencia:chave, saldo_antes:antes.data, saldo_depois:depois.data, extrato:extrato.data, aviso:'Confira se o backend creditou exatamente uma vez e registrou o lançamento.'});
+    });
+  });
+
+  $('copyBtn').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(output.textContent); $('copyBtn').textContent='Copiado!'; }
+    catch { $('copyBtn').textContent='Falha ao copiar'; }
+    setTimeout(() => $('copyBtn').textContent='Copiar JSON', 1200);
+  });
+  $('clearBtn').addEventListener('click', () => { output.textContent=''; showStatus('', 'Pronto'); });
+})();
+</script>
+</body>
+</html>

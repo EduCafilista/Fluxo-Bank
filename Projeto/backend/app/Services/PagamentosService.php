@@ -122,13 +122,18 @@ class PagamentosService
         return $transacao->load('lancamentos');
     }
 
-    public function depositar(Conta $conta, int $valorCentavos, ?string $descricao = null): Transacao
+    public function depositar(Conta $conta, int $valorCentavos, ?string $descricao = null, ?string $chaveIdempotencia = null): Transacao
     {
+        if ($valorCentavos <= 0 || $conta->estaEncerrada()) {
+            throw new RegraDeNegocioException('Depósito inválido ou conta encerrada.');
+        }
+
         return $this->lancamentos->creditar(
             $conta,
             $valorCentavos,
             Transacao::TIPO_DEPOSITO,
             $descricao ?? 'Depósito',
+            $chaveIdempotencia,
         );
     }
 }

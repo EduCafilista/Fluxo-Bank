@@ -361,7 +361,7 @@ paths:
   /api/v1/pix/recebimentos:
     post:
       tags: [Pix]
-      summary: Registra recebimento (crédito com contra-partida na conta interna)
+      summary: Simula recebimento Pix (somente ambientes local e testing; não liquida Pix real)
       requestBody:
         required: true
         content:
@@ -373,7 +373,8 @@ paths:
                 valor_centavos: {type: integer}
                 descricao: {type: string, nullable: true}
       responses:
-        '201': {description: Recebimento registrado}
+        '201': {description: Recebimento simulado registrado}
+        '403': {description: Simulação indisponível neste ambiente}
 
   /api/v1/pix/limites:
     get:

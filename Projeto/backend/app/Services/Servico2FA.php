@@ -37,7 +37,6 @@ class Servico2FA
             'user_id' => $user->id,
             'canal' => $canal,
             'finalidade' => $finalidade,
-            'codigo' => $codigo,
             'expira_em' => $registro->expira_em->toIso8601String(),
         ]);
 

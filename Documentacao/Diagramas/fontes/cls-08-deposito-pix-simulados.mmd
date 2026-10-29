@@ -1,0 +1,33 @@
+classDiagram
+    direction LR
+    class SimulacaoFinanceira {
+        +handle(Request request, Closure next) Response
+    }
+    class DepositoSimuladoController {
+        +__invoke(Request request, PagamentosService pagamentos, ContaService contas, AuditoriaService auditoria) JsonResponse
+    }
+    class PixController {
+        +receber(Request request) JsonResponse
+    }
+    class PagamentosService {
+        +depositar(Conta conta, int valorCentavos, string descricao, string chaveIdempotencia) Transacao
+        +receberPix(Conta conta, int valorCentavos, string descricao, string chaveIdempotencia) Transacao
+    }
+    class LancamentoService {
+        +creditar(Conta conta, int valorCentavos, string tipo, string descricao, string chaveIdempotencia) Transacao
+    }
+    class Conta
+    class Transacao
+    class Lancamento
+    class AuditoriaService
+    SimulacaoFinanceira ..> DepositoSimuladoController : autoriza rota
+    SimulacaoFinanceira ..> PixController : autoriza recebimento
+    DepositoSimuladoController --> PagamentosService
+    DepositoSimuladoController --> AuditoriaService
+    PixController --> PagamentosService
+    PagamentosService --> LancamentoService
+    PagamentosService ..> AuditoriaService
+    LancamentoService --> Conta
+    LancamentoService --> Transacao
+    Transacao "1" *-- "2..*" Lancamento
+    Conta "1" --> "0..*" Lancamento

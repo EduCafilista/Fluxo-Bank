@@ -41,6 +41,12 @@ classDiagram
         +store(Request request) JsonResponse
         +destroy(Request request, ChavePix chave) JsonResponse
     }
+    class DepositoSimuladoController {
+        +__invoke(Request request, PagamentosService pagamentos, ContaService contas, AuditoriaService auditoria) JsonResponse
+    }
+    class SimulacaoFinanceira {
+        +handle(Request request, Closure next) Response
+    }
     class PixController {
         -PagamentosService pagamentos
         -LimitePixService limites
@@ -184,7 +190,7 @@ classDiagram
         +pagarBoleto(Conta conta, string linhaDigitavel, int valorCentavos, string chaveIdempotencia) Transacao
         +gerarCobrancaPix(Conta conta, int valorCentavos, string descricao) array
         +receberPix(Conta conta, int valorCentavos, string descricao, string chaveIdempotencia) Transacao
-        +depositar(Conta conta, int valorCentavos, string descricao) Transacao
+        +depositar(Conta conta, int valorCentavos, string descricao, string chaveIdempotencia) Transacao
     }
     class CartoesService {
         +emitirFisico(Conta conta, string modalidade, string enderecoEntrega) Cartao
@@ -243,6 +249,11 @@ classDiagram
     TransacaoController --> TransferenciaService
     TransacaoController ..> RelatorioService
     ChavePixController --> ChavePixService
+    DepositoSimuladoController --> PagamentosService
+    DepositoSimuladoController --> ContaService
+    DepositoSimuladoController --> AuditoriaService
+    DepositoSimuladoController ..> SimulacaoFinanceira : rota protegida
+    PixController ..> SimulacaoFinanceira : receber
     PixController --> PagamentosService
     PixController --> LimitePixService
     PixController --> ContaService
