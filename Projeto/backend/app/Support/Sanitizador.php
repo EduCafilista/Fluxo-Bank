@@ -16,6 +16,10 @@ class Sanitizador
 
     private const MASCARADOS = ['cpf', 'cnpj', 'numero_cartao', 'cartao'];
 
+    private const EMAILS = ['email', 'e_mail', 'chave_email'];
+
+    private const TELEFONES = ['telefone', 'celular', 'phone', 'telefone_contato', 'chave_telefone'];
+
     public static function limpar(mixed $dado): mixed
     {
         if (! is_array($dado)) {
@@ -40,10 +44,84 @@ class Sanitizador
                 continue;
             }
 
+            if (in_array($nome, self::EMAILS, true) && is_scalar($valor)) {
+                $saida[$chave] = is_string($valor) ? self::mascararEmail($valor) : $valor;
+
+                continue;
+            }
+
+            if (in_array($nome, self::TELEFONES, true) && is_scalar($valor)) {
+                $saida[$chave] = is_string($valor) ? self::mascararTelefone($valor) : $valor;
+
+                continue;
+            }
+
             $saida[$chave] = is_array($valor) ? self::limpar($valor) : $valor;
         }
 
         return $saida;
+    }
+
+    public static function mascararEmail(string $email): string
+    {
+        $email = trim($email);
+
+        if ($email === '') {
+            return '';
+        }
+
+        if (! str_contains($email, '@')) {
+            return '***';
+        }
+
+        [$usuario, $dominio] = explode('@', $email, 2);
+        $tamanho = mb_strlen($usuario);
+
+        if ($tamanho <= 1) {
+            $mascarado = '*';
+        } else {
+            $mascarado = mb_substr($usuario, 0, 1).'***'.mb_substr($usuario, -1);
+        }
+
+        return $mascarado.'@'.$dominio;
+    }
+
+    public static function mascararTelefone(string $telefone): string
+    {
+        $telefone = trim($telefone);
+
+        if ($telefone === '') {
+            return '';
+        }
+
+        $digitos = preg_replace('/\D/', '', $telefone);
+
+        if ($digitos === '') {
+            return '';
+        }
+
+        if (str_starts_with($digitos, '55') && (strlen($digitos) === 12 || strlen($digitos) === 13)) {
+            $digitos = substr($digitos, 2);
+        }
+
+        $tamanho = strlen($digitos);
+
+        if ($tamanho === 11) {
+            $ddd = substr($digitos, 0, 2);
+            $primeiro = substr($digitos, 2, 1);
+            $fim = substr($digitos, -4);
+
+            return "({$ddd}) {$primeiro}****-{$fim}";
+        }
+
+        if ($tamanho === 10) {
+            $ddd = substr($digitos, 0, 2);
+            $fim = substr($digitos, -4);
+
+            return "({$ddd}) ****-{$fim}";
+        }
+
+        return '***';
     }
 
     public static function cabecalhos(array $headers): array
