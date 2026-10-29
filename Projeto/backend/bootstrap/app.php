@@ -5,6 +5,7 @@ use App\Http\Middleware\ApenasBackoffice;
 use App\Http\Middleware\ApenasDoisFatoresConcluido;
 use App\Http\Middleware\AuditoriaRequisicao;
 use App\Http\Middleware\Idempotencia;
+use App\Http\Middleware\SimulacaoFinanceira;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -37,6 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'backoffice' => ApenasBackoffice::class,
             '2fa.concluido' => ApenasDoisFatoresConcluido::class,
             'idempotencia' => Idempotencia::class,
+            'simulacao.financeira' => SimulacaoFinanceira::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

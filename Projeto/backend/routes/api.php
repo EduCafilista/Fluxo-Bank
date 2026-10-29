@@ -13,6 +13,7 @@ use App\Http\Controllers\CartaoController;
 use App\Http\Controllers\ChamadoSuporteController;
 use App\Http\Controllers\ChavePixController;
 use App\Http\Controllers\ContaController;
+use App\Http\Controllers\DepositoSimuladoController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\PixController;
 use App\Http\Controllers\RecuperacaoSenhaController;
@@ -73,7 +74,8 @@ Route::middleware(['auth:sanctum', '2fa.concluido', 'idempotencia'])->group(func
     Route::delete('/chaves-pix/{chave}', [ChavePixController::class, 'destroy'])->name('chaves.destroy');
 
     Route::post('/pix/cobrancas', [PixController::class, 'cobranca'])->name('pix.cobrancas');
-    Route::post('/pix/recebimentos', [PixController::class, 'receber'])->name('pix.recebimentos');
+    Route::post('/pix/recebimentos', [PixController::class, 'receber'])->middleware('simulacao.financeira')->name('pix.recebimentos');
+    Route::post('/depositos', DepositoSimuladoController::class)->middleware('simulacao.financeira')->name('depositos.simulados');
     Route::get('/pix/limites', [PixController::class, 'limites'])->name('pix.limites');
 
     Route::post('/boletos/validar', [BoletoController::class, 'validar'])->name('boletos.validar');

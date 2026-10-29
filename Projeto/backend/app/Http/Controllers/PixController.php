@@ -33,9 +33,7 @@ class PixController extends Controller
 
     public function receber(Request $request): JsonResponse
     {
-        // Crédito de demonstração: não representa liquidação Pix externa.
-        abort_unless(app()->environment(['local', 'testing']), 403, 'Recebimento simulado indisponível neste ambiente.');
-
+        // Autorização e habilitação são verificadas pelo middleware da rota.
         $dados = $request->validate([
             'valor_centavos' => 'required|integer|min:1',
             'descricao' => 'nullable|string|max:120',
