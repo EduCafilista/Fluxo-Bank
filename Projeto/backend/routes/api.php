@@ -134,7 +134,3 @@ Route::any('{caminho?}', fn () => response()->json([
     'versao' => 'v1',
 ], 404))->where('caminho', '.*')->name('api.v1.fallback');
 
-Route::fallback(fn () => response()->json([
-    'erro' => 'Rota não encontrada.',
-    'versao' => 'v1',
-], 404));
