@@ -10,6 +10,7 @@ use App\Http\Controllers\BackofficeController;
 use App\Http\Controllers\BoletoController;
 use App\Http\Controllers\CadastroController;
 use App\Http\Controllers\CartaoController;
+use App\Http\Controllers\CompraDebitoSimuladaController;
 use App\Http\Controllers\ChamadoSuporteController;
 use App\Http\Controllers\ChavePixController;
 use App\Http\Controllers\ContaController;
@@ -81,6 +82,7 @@ Route::middleware(['auth:sanctum', '2fa.concluido', 'idempotencia'])->group(func
     Route::post('/boletos/validar', [BoletoController::class, 'validar'])->name('boletos.validar');
     Route::post('/boletos/pagar', [BoletoController::class, 'pagar'])->name('boletos.pagar');
 
+    Route::post('/cartoes/{cartao}/compras-simuladas', CompraDebitoSimuladaController::class)->name('cartoes.compras-simuladas');
     Route::get('/cartoes', [CartaoController::class, 'index'])->name('cartoes.index');
     Route::post('/cartoes', [CartaoController::class, 'store'])->name('cartoes.store');
     Route::post('/cartoes/{cartao}/virtual', [CartaoController::class, 'gerarVirtual'])->name('cartoes.virtual');
