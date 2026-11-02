@@ -3,10 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Services\AuditoriaService;
-use App\Support\Sanitizador;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,15 +27,8 @@ class AuditoriaRequisicao
 
         $request->attributes->set('request_id', $requestId);
 
-        try {
-            DB::statement('SELECT set_config(?, ?, true)', ['fluxo.request_id', $requestId]);
-            DB::statement('SELECT set_config(?, ?, true)', [
-                'fluxo.usuario_id',
-                (string) ($request->user()?->id ?? ''),
-            ]);
-        } catch (\Throwable $e) {
-            // Ignora falha de conexão ao propagar variáveis de sessão.
-        }
+        // Contexto PostgreSQL deve ser configurado na mesma transação da escrita.
+        // Não definir set_config(..., true) aqui: fora de transação não persiste.
 
         $response = $next($request);
 
@@ -52,9 +43,9 @@ class AuditoriaRequisicao
                 $this->auditoria->categoriaDaRequisicao($request),
                 'HTTP_'.$request->method(),
                 [
-                    'query' => Sanitizador::limpar($request->query()),
-                    'body' => Sanitizador::limpar($request->all()),
-                    'cabecalhos' => Sanitizador::cabecalhos($request->headers->all()),
+                    'rota' => $request->path(),
+                    'metodo' => $request->method(),
+                    'status_http' => $response->getStatusCode(),
                 ],
                 'http',
                 null,
