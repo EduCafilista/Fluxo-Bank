@@ -1,0 +1,1 @@
+<div class="empty-state"><span class="empty-icon">@include('web.components.icon',['name'=>$icon ?? 'history'])</span><strong>{{ $heading ?? 'Nenhum registro por enquanto' }}</strong><p>{{ $description ?? 'Quando houver movimentações, você poderá acompanhá-las aqui.' }}</p></div>

@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 Request::HEADER_X_FORWARDED_AWS_ELB
         );
         $middleware->redirectGuestsTo(fn () => null);
+        $middleware->redirectUsersTo(fn () => route('web.home'));
         $middleware->throttleApi('api');
         $middleware->append(AuditoriaRequisicao::class);
 
@@ -49,6 +50,14 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (RegraDeNegocioException $e, Request $request) {
             if ($request->is('api/*') || $request->expectsJson()) {
                 return response()->json(['erro' => $e->getMessage()], $e->statusHttp());
+            }
+            if ($request->is('acesso/*') || $request->is('dashboard') || $request->is('pix*')
+                || $request->is('cartoes*') || $request->is('pagamentos*')
+                || $request->is('assinaturas*') || $request->is('agendamentos*')
+                || $request->is('viagens*') || $request->is('perfil*')
+                || $request->is('administracao*') || $request->is('suporte*')) {
+                return redirect()->back()->withInput($request->except('password', 'password_confirmation', 'codigo'))
+                    ->with('erro', $e->getMessage());
             }
         });
 

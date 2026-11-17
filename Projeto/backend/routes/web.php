@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\Web\AdminWebController;
+use App\Http\Controllers\Web\AuthWebController;
+use App\Http\Controllers\Web\BankActionController;
+use App\Http\Controllers\Web\BankWebController;
+use App\Http\Middleware\WebAuthenticated;
+use App\Http\Middleware\WebBackoffice;
+use App\Http\Middleware\WebCliente;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -8,33 +15,99 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-$middlewaresWebDesnecessarios = [
-    EncryptCookies::class,
-    AddQueuedCookiesToResponse::class,
-    StartSession::class,
-    ShareErrorsFromSession::class,
-    PreventRequestForgery::class,
-    ValidateCsrfToken::class,
-];
+$semSessao = [EncryptCookies::class, AddQueuedCookiesToResponse::class, StartSession::class,
+    ShareErrorsFromSession::class, PreventRequestForgery::class, ValidateCsrfToken::class];
 
-// Documentação da API (RNF30)
 Route::get('/docs/openapi.yaml', function () {
     $caminho = base_path('docs/openapi.yaml');
+    abort_unless(is_file($caminho), 404);
+    return response(file_get_contents($caminho), 200, ['Content-Type' => 'application/yaml; charset=UTF-8']);
+})->withoutMiddleware($semSessao)->name('openapi');
 
-    if (! is_file($caminho) || ! is_readable($caminho)) {
-        return response()->json(['erro' => 'Especificação OpenAPI não encontrada.'], 404);
-    }
+Route::get('/', fn () => redirect()->route('web.login'))
+    ->name('web.root');
 
-    return response((string) file_get_contents($caminho), 200, [
-        'Content-Type' => 'application/yaml; charset=UTF-8',
-    ]);
-})->withoutMiddleware($middlewaresWebDesnecessarios)->name('openapi');
+Route::prefix('acesso')->name('web.')->middleware('guest:web')->group(function () {
+    Route::get('/entrar', [AuthWebController::class, 'loginPage'])->name('login');
+    Route::post('/entrar', [AuthWebController::class, 'login'])->middleware('throttle:10,1')->name('login.store');
+    Route::get('/verificar', [AuthWebController::class, 'twoFactorPage'])->name('2fa');
+    Route::post('/verificar', [AuthWebController::class, 'twoFactorVerify'])->middleware('throttle:10,1')->name('2fa.verify');
+    Route::get('/cadastro', [AuthWebController::class, 'registrationPage'])->name('register');
+    Route::post('/cadastro', [AuthWebController::class, 'register'])->middleware('throttle:10,1')->name('register.store');
+    Route::get('/recuperar', [AuthWebController::class, 'recoveryPage'])->name('recovery');
+    Route::post('/recuperar/solicitar', [AuthWebController::class, 'recoveryRequest'])->middleware('throttle:10,1')->name('recovery.request');
+    Route::post('/recuperar/validar', [AuthWebController::class, 'recoveryValidate'])->middleware('throttle:10,1')->name('recovery.validate');
+    Route::post('/recuperar/redefinir', [AuthWebController::class, 'recoveryReset'])->middleware('throttle:10,1')->name('recovery.reset');
+});
 
-Route::get('/', fn () => response()->json([
-    'app' => config('app.name'),
-    'status' => 'ok',
-    'versao' => config('fluxo.api.versao'),
-    'commit' => substr((string) env('RENDER_GIT_COMMIT', ''), 0, 7) ?: null,
-    'health' => url('/api/v1/health'),
-    'openapi' => url('/docs/openapi.yaml'),
-]))->withoutMiddleware($middlewaresWebDesnecessarios);
+Route::middleware([WebAuthenticated::class])->name('web.')->group(function () {
+    Route::get('/inicio', function () {
+        return auth('web')->user()->ehBackoffice()
+            ? redirect()->route('web.admin.dashboard')
+            : redirect()->route('web.dashboard');
+    })->name('home');
+    Route::post('/sair', [AuthWebController::class, 'logout'])->name('logout');
+
+    Route::middleware([WebCliente::class])->group(function () {
+        Route::get('/dashboard', [BankWebController::class, 'dashboard'])->name('dashboard');
+        Route::get('/extrato', [BankWebController::class, 'extrato'])->name('extrato');
+        Route::get('/pix', [BankWebController::class, 'pix'])->name('pix');
+        Route::get('/pix/limites', [BankWebController::class, 'limitesPix'])->name('pix.limits');
+        Route::post('/pix/limites', [BankActionController::class, 'ajustarLimitesPix'])->name('pix.limits.save');
+        Route::get('/pix/transferir', [BankWebController::class, 'transferencia'])->name('transferencia');
+        Route::post('/pix/revisar', [BankActionController::class, 'revisarTransferencia'])->name('transfer.review');
+        Route::get('/pix/confirmar', [BankWebController::class, 'confirmarTransferencia'])->name('transfer.confirm');
+        Route::post('/pix/confirmar', [BankActionController::class, 'confirmarTransferencia'])->name('transfer.execute');
+        Route::get('/pix/receber', [BankWebController::class, 'receberPix'])->name('pix.receive');
+        Route::post('/pix/receber', [BankActionController::class, 'gerarCobrancaPix'])->name('pix.charge');
+        Route::get('/pix/chaves', [BankWebController::class, 'chaves'])->name('pix.keys');
+        Route::post('/pix/chaves', [BankActionController::class, 'criarChave'])->name('pix.keys.store');
+        Route::delete('/pix/chaves/{chave}', [BankActionController::class, 'excluirChave'])->name('pix.keys.delete');
+        Route::get('/comprovantes/{transacao}', [BankWebController::class, 'comprovante'])->name('receipt');
+        Route::get('/cartoes', [BankWebController::class, 'cartoes'])->name('cards');
+        Route::post('/cartoes', [BankActionController::class, 'emitirCartao'])->name('cards.store');
+        Route::post('/cartoes/{cartao}/virtual', [BankActionController::class, 'gerarVirtual'])->name('cards.virtual');
+        Route::patch('/cartoes/{cartao}/bloqueio', [BankActionController::class, 'bloquearCartao'])->name('cards.block');
+        Route::patch('/cartoes/{cartao}/online', [BankActionController::class, 'comprasOnline'])->name('cards.online');
+        Route::patch('/cartoes/{cartao}/limite', [BankActionController::class, 'limiteCartao'])->name('cards.limit');
+        Route::post('/cartoes/{cartao}/compra', [BankActionController::class, 'compraDebito'])->name('cards.purchase');
+        Route::get('/agendamentos', [BankWebController::class, 'agendamentos'])->name('schedules');
+        Route::post('/agendamentos', [BankActionController::class, 'agendar'])->name('schedules.store');
+        Route::delete('/agendamentos/{agendamento}', [BankActionController::class, 'cancelarAgendamento'])->name('schedules.delete');
+        Route::get('/pagamentos', [BankWebController::class, 'pagamentos'])->name('payments');
+        Route::post('/pagamentos/revisar', [BankActionController::class, 'revisarBoleto'])->name('payments.review');
+        Route::get('/pagamentos/confirmar', [BankWebController::class, 'confirmarBoleto'])->name('payments.confirm');
+        Route::post('/pagamentos/confirmar', [BankActionController::class, 'pagarBoleto'])->name('payments.pay');
+        Route::get('/assinaturas', [BankWebController::class, 'assinaturas'])->name('subscriptions');
+        Route::post('/assinaturas', [BankActionController::class, 'contratarPlano'])->name('subscriptions.store');
+        Route::delete('/assinaturas/{assinatura}', [BankActionController::class, 'cancelarPlano'])->name('subscriptions.delete');
+        Route::post('/assinaturas/{assinatura}/itens', [BankActionController::class, 'adicionarItem'])->name('subscriptions.items.store');
+        Route::delete('/assinaturas/{assinatura}/itens/{item}', [BankActionController::class, 'removerItem'])->name('subscriptions.items.delete');
+        Route::delete('/recorrencias/{recorrencia}', [BankActionController::class, 'cancelarRecorrencia'])->name('recurring.delete');
+        Route::get('/viagens', [BankWebController::class, 'viagens'])->name('travel');
+        Route::post('/viagens', [BankActionController::class, 'criarAviso'])->name('travel.store');
+        Route::delete('/viagens/{aviso}', [BankActionController::class, 'cancelarAviso'])->name('travel.delete');
+        Route::get('/suporte', [BankWebController::class, 'suporte'])->name('support');
+        Route::post('/suporte', [BankActionController::class, 'criarChamado'])->name('support.store');
+        Route::get('/perfil', [BankWebController::class, 'perfil'])->name('profile');
+        Route::post('/perfil/bloquear', [BankActionController::class, 'bloquearConta'])->name('profile.block');
+        Route::delete('/perfil/bloquear', [BankActionController::class, 'desbloquearConta'])->name('profile.unblock');
+        Route::delete('/perfil/encerrar', [BankActionController::class, 'encerrarConta'])->name('profile.close');
+        Route::post('/perfil/2fa', [BankActionController::class, 'configurarDoisFatores'])->name('profile.2fa');
+    });
+
+    Route::prefix('administracao')->name('admin.')->middleware(WebBackoffice::class)->group(function () {
+        Route::get('/', [AdminWebController::class, 'dashboard'])->name('dashboard');
+        Route::get('/contas', [AdminWebController::class, 'contas'])->name('accounts');
+        Route::post('/contas/{conta}/aprovar', [AdminWebController::class, 'aprovar'])->name('accounts.approve');
+        Route::post('/contas/{conta}/recusar', [AdminWebController::class, 'recusar'])->name('accounts.reject');
+        Route::post('/contas/{conta}/bloquear', [AdminWebController::class, 'bloquear'])->name('accounts.block');
+        Route::get('/chamados', [AdminWebController::class, 'chamados'])->name('tickets');
+        Route::patch('/chamados/{chamado}', [AdminWebController::class, 'responder'])->name('tickets.reply');
+        Route::get('/auditoria', [AdminWebController::class, 'auditoria'])->name('audit');
+        Route::get('/perfis', [AdminWebController::class, 'perfis'])->name('roles');
+        Route::patch('/perfis/{user}', [AdminWebController::class, 'atualizarPerfil'])->name('roles.update');
+        Route::post('/recuperacao/codigo', [AdminWebController::class, 'codigoRecuperacao'])->name('recovery.code');
+        Route::get('/auditoria/{log}', [AdminWebController::class, 'detalheLog'])->name('audit.show');
+    });
+});

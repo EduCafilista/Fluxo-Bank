@@ -29,6 +29,7 @@ return [
         'validade_minutos' => (int) env('FLUXO_2FA_VALIDADE', 3),
         'max_tentativas' => (int) env('FLUXO_2FA_TENTATIVAS', 3),
         'canal' => env('FLUXO_2FA_CANAL', 'EMAIL'),
+        'entrega_email_ativa' => (bool) env('FLUXO_2FA_EMAIL_ENTREGA', false),
     ],
 
     // Bloqueio temporário após falhas de login (RN19: 5 falhas / 15 min)

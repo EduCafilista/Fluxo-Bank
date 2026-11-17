@@ -6,6 +6,7 @@ use App\Exceptions\RegraDeNegocioException;
 use App\Models\CodigoVerificacao;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class Servico2FA
 {
@@ -32,6 +33,12 @@ class Servico2FA
             'expira_em' => now()->addMinutes($validade),
             'max_tentativas' => (int) config('fluxo.dois_fatores.max_tentativas'),
         ]);
+
+        if ($canal === 'EMAIL' && config('fluxo.dois_fatores.entrega_email_ativa', false)
+            && ! in_array(config('mail.default'), ['log', 'array'], true)) {
+            Mail::raw('Seu código de acesso ao Fluxo é '.$codigo.'. Ele expira em '.$validade.' minutos. Nunca compartilhe este código.',
+                fn ($email) => $email->to($user->email)->subject('Fluxo Bank — código de segurança'));
+        }
 
         Log::info('Codigo 2FA gerado', [
             'user_id' => $user->id,

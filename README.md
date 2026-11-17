@@ -126,3 +126,11 @@ Após publicar mudanças no backend, verifique:
 - [Documentação técnica do backend](Projeto/backend/docs)
 - [Especificação OpenAPI](Projeto/backend/docs/openapi.yaml)
 
+
+## Frontend Web — Blade + Tailwind (17/11/2026)
+
+A aplicação web responsiva foi integrada ao Laravel existente em `Projeto/backend`, com login, cadastro, área do cliente e backoffice ADMIN/ATENDENTE. A API `/api/v1` permanece disponível para os clientes HTTP e o futuro aplicativo mobile. O frontend inicia em `/acesso/entrar` e a área autenticada em `/inicio`.
+
+**Instalação, requisitos e limitações:** [Documentacao/Frontend-Web-Implementacao.md](Documentacao/Frontend-Web-Implementacao.md). As seis telas da prototipação mobile estão em `Documentacao/Prototipos-Mobile-Referencia` como referência visual.
+
+**Atenção:** antes do deploy, valide SMTP/2FA, worker de agendamentos, permissões e os testes de integração no PostgreSQL. Os arquivos são uma implementação de código, não uma certificação de testes em produção.

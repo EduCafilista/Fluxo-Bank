@@ -1,0 +1,6 @@
+@extends('web.layouts.app',['title'=>'Revisar boleto'])
+@section('content')
+@include('web.components.heading',['heading'=>'Confirme seu pagamento','subtitle'=>'Revise os dados antes da execução da operação simulada.'])
+<div class="steps"><span class="step"><strong>1</strong> Dados</span><span class="step-line"></span><span class="step active"><strong>2</strong> Revisão</span><span class="step-line"></span><span class="step"><strong>3</strong> Conclusão</span></div>
+<div class="panel" style="max-width:660px"><p class="eyebrow">TOTAL DO PAGAMENTO</p><div class="money-display">R$ {{ number_format($pendente['valor_centavos']/100,2,',','.') }}</div><div class="divider"></div><div class="detail-list"><div class="detail-item"><span class="key">Linha digitável</span><span class="value" style="overflow-wrap:anywhere">{{ $pendente['linha'] }}</span></div><div class="detail-item"><span class="key">Tipo</span><strong>Boleto (simulação)</strong></div><div class="detail-item"><span class="key">Tarifa</span><strong>R$ 0,00</strong></div></div><div class="form-actions"><form method="post" action="{{ route('web.payments.pay') }}" data-confirm="Autorizar o pagamento deste boleto?">@csrf<button class="btn btn-primary">Confirmar pagamento</button></form><a href="{{ route('web.payments') }}" class="btn btn-outline">Voltar</a></div></div>
+@endsection

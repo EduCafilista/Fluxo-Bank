@@ -14,6 +14,12 @@ services:
         value: production
       - key: APP_DEBUG
         value: false
+      - key: SESSION_LIFETIME
+        value: 15
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_SECURE_COOKIE
+        value: true
       - key: APP_URL
         sync: false
       - key: LOG_CHANNEL
