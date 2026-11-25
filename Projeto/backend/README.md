@@ -38,6 +38,8 @@ php artisan serve
 
 Execute `php artisan schedule:work` em outro terminal para processar os agendamentos. Em servidor com cron, use `php artisan schedule:run` a cada minuto. Use `php artisan db:seed --class=DemoSeeder` em uma instalação de demonstração com KYC automático. Preserve a `APP_KEY` ao atualizar uma instalação já existente. Para 2FA por e-mail, configure o transporte SMTP e `FLUXO_2FA_EMAIL_ENTREGA=true`.
 
+Para atualizar uma instalação existente, preserve o banco e o `.env`. Execute `php artisan migrate` e `npm run build`. A migration do catálogo preenche os planos e itens padrão que estiverem ausentes. O painel de compras simuladas aparece quando `FLUXO_SIMULACOES_FINANCEIRAS=true`, já habilitado no Docker Compose local.
+
 ## Administração e API
 
 - **ADMIN** cria, edita, remove e altera perfis. ADMIN também pode desbloquear contas, ajustar limites Pix e encerrar contas com saldo zero e sem agendamentos pendentes. Um administrador pode editar seus dados, com o próprio perfil protegido.

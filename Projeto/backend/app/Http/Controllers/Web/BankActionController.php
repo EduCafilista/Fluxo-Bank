@@ -195,18 +195,38 @@ class BankActionController extends Controller
         return back()->with('sucesso', 'Limite atualizado.');
     }
 
+    public function simularCompra(Request $request, CompraDebitoSimuladaService $servico): RedirectResponse
+    {
+        abort_unless(config('services.fluxo.simulacoes_financeiras', false), 403, 'Simulações financeiras desativadas.');
+        $dados = $request->validate(['cartao_id' => 'required|integer']);
+        $cartao = $this->conta($request)->cartoes()->findOrFail($dados['cartao_id']);
+
+        return $this->registrarCompraSimulada($request, $cartao, $servico, 'valor_simulacao');
+    }
+
     public function compraDebito(Request $request, Cartao $cartao, CompraDebitoSimuladaService $servico): RedirectResponse
     {
         abort_unless(config('services.fluxo.simulacoes_financeiras', false), 403, 'Simulações financeiras desativadas.');
+
+        return $this->registrarCompraSimulada($request, $this->cartaoDoCliente($request, $cartao), $servico, 'valor');
+    }
+
+    private function registrarCompraSimulada(Request $request, Cartao $cartao, CompraDebitoSimuladaService $servico, string $campoValor): RedirectResponse
+    {
         $dados = $request->validate([
-            'valor' => 'required|string',
+            $campoValor => 'required|string|max:24',
             'estabelecimento' => 'required|string|min:2|max:120',
             'online' => 'nullable|boolean',
             'localidade' => 'nullable|string|max:120',
+            'idempotencia' => 'nullable|uuid',
         ]);
         $resultado = $servico->comprar(
-            $this->cartaoDoCliente($request, $cartao), $this->centavos($dados['valor']),
-            $dados['estabelecimento'], (string) Str::uuid(), (bool) ($dados['online'] ?? false), $dados['localidade'] ?? null,
+            $cartao,
+            $this->centavos($dados[$campoValor]),
+            $dados['estabelecimento'],
+            $dados['idempotencia'] ?? (string) Str::uuid(),
+            (bool) ($dados['online'] ?? false),
+            $dados['localidade'] ?? null,
         );
 
         return redirect()->route('web.receipt', $resultado['transacao'])->with('sucesso', 'Compra simulada registrada.');

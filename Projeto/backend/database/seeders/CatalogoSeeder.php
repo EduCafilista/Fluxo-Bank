@@ -18,7 +18,7 @@ class CatalogoSeeder extends Seeder
         ];
 
         foreach ($planos as $plano) {
-            Plano::updateOrCreate(['nome' => $plano['nome']], $plano);
+            Plano::firstOrCreate(['nome' => $plano['nome']], $plano);
         }
 
         $itens = [
@@ -28,7 +28,7 @@ class CatalogoSeeder extends Seeder
         ];
 
         foreach ($itens as $item) {
-            Item::updateOrCreate(['nome' => $item['nome']], $item);
+            Item::firstOrCreate(['nome' => $item['nome']], $item);
         }
 
         $this->command?->info('Catálogo: '.count($planos).' planos e '.count($itens).' itens garantidos.');

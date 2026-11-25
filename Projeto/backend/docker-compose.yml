@@ -55,6 +55,7 @@ services:
       MAIL_MAILER: log
       SANCTUM_EXPIRATION: "60"
       FLUXO_KYC_AUTOMATICO: "true"
+      FLUXO_SIMULACOES_FINANCEIRAS: "true"
     ports:
       - "8000:8000"
     # migrations → catálogo → demo (idempotente) → worker em background → servidor

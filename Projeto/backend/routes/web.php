@@ -79,6 +79,7 @@ Route::middleware([WebAuthenticated::class, ContextoAuditoria::class, 'throttle:
         Route::patch('/cartoes/{cartao}/bloqueio', [BankActionController::class, 'bloquearCartao'])->name('cards.block');
         Route::patch('/cartoes/{cartao}/online', [BankActionController::class, 'comprasOnline'])->name('cards.online');
         Route::patch('/cartoes/{cartao}/limite', [BankActionController::class, 'limiteCartao'])->name('cards.limit');
+        Route::post('/cartoes/simulacoes', [BankActionController::class, 'simularCompra'])->name('cards.simulation');
         Route::post('/cartoes/{cartao}/compra', [BankActionController::class, 'compraDebito'])->name('cards.purchase');
         Route::get('/agendamentos', [BankWebController::class, 'agendamentos'])->name('schedules');
         Route::post('/agendamentos/boleto', [BankActionController::class, 'agendarBoleto'])->name('schedules.boleto');

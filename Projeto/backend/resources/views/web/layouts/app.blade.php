@@ -7,12 +7,12 @@
     <meta name="description" content="Fluxo — seu dinheiro, no seu ritmo.">
     <title>{{ $title ?? 'Minha conta' }} · Fluxo Bank</title>
     <link rel="icon" href="{{ asset('assets/fluxo-mark.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('assets/fluxo.css') }}">
     @if(file_exists(public_path('build/manifest.json')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @else
         <script defer src="{{ asset('assets/fluxo.js') }}"></script>
     @endif
+    <link rel="stylesheet" href="{{ asset('assets/fluxo.css') }}">
     @stack('head')
 </head>
 <body class="app-body">
@@ -59,7 +59,6 @@
         @endforeach
         </nav>
         <div class="sidebar-bottom">
-            <div class="sidebar-help"><span class="sidebar-help-icon">✦</span><strong>Sua segurança importa.</strong><small>Operações protegidas e auditadas.</small></div>
             <form method="post" action="{{ route('web.logout') }}">@csrf
                 <button class="nav-item nav-logout" type="submit">@include('web.components.icon',['name'=>'logout'])<span>Sair da conta</span></button>
             </form>
@@ -85,7 +84,7 @@
                 <div class="alert alert-error" role="alert">@include('web.components.icon',['name'=>'info'])<div><strong>Confira os dados informados.</strong><ul>@foreach($errors->all() as $erro)<li>{{ $erro }}</li>@endforeach</ul></div></div>
             @endif
             @yield('content')
-            <footer class="page-footer">© {{ now()->year }} Fluxo Bank <span>•</span> Ambiente de simulação acadêmica <span>•</span> Operações financeiras não reais</footer>
+            <footer class="page-footer">© {{ now()->year }} Fluxo Bank</footer>
         </main>
     </div>
 </div>

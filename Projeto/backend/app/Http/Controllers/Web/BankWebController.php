@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\AssinaturaCartao;
+use App\Models\Cartao;
 use App\Models\Conta;
 use App\Models\Item;
 use App\Models\Plano;
@@ -106,10 +107,14 @@ class BankWebController extends Controller
     {
         $conta = $this->conta($request);
 
-        return view('web.customer.cards', [
-            'conta' => $conta,
-            'cartoes' => $conta->cartoes()->with(['fisico', 'virtual'])->latest('id')->get(),
-        ]);
+        $cartoes = $conta->cartoes()->with(['fisico', 'virtual'])->latest('id')->get();
+        $cartoesSimulacao = $conta->podeDebitar()
+            ? $cartoes->filter(fn (Cartao $cartao) => $cartao->modalidade === Cartao::MODALIDADE_DEBITO
+                && $cartao->ativo()
+                && ! $cartao->validade?->copy()->endOfMonth()->isPast())
+            : collect();
+
+        return view('web.customer.cards', compact('cartoes', 'cartoesSimulacao'));
     }
 
     public function agendamentos(Request $request)
@@ -163,10 +168,10 @@ class BankWebController extends Controller
         $cliente = $request->user('web')->cliente;
 
         return view('web.customer.subscriptions', [
-            'assinaturas' => $cliente ? $cliente->assinaturas()->with(['plano', 'itens.item', 'cobrancas'])->get() : collect(),
-            'planos' => Plano::where('ativo', true)->get(),
-            'itensCatalogo' => Item::all(),
-            'recorrencias' => AssinaturaCartao::where('conta_id', $this->conta($request)->id)->latest('id')->get(),
+            'assinaturas' => $cliente ? $cliente->assinaturas()->with(['plano', 'itens.item', 'cobrancas' => fn ($consulta) => $consulta->latest('competencia')->limit(3)])->latest('id')->get() : collect(),
+            'planos' => Plano::where('ativo', true)->orderBy('mensalidade_centavos')->orderBy('id')->get(),
+            'itensCatalogo' => Item::orderBy('nome')->get(),
+            'recorrencias' => AssinaturaCartao::where('conta_id', $this->conta($request)->id)->with('cartao')->latest('id')->get(),
         ]);
     }
 
