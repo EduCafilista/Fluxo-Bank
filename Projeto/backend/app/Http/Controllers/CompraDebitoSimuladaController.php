@@ -22,6 +22,7 @@ class CompraDebitoSimuladaController extends Controller
             'valor_centavos' => 'required|integer|min:1|max:100000000',
             'estabelecimento' => 'required|string|min:2|max:120',
             'online' => 'sometimes|boolean',
+            'localidade' => 'nullable|string|max:120',
         ]);
         $chave = $request->header('Idempotency-Key');
         if (! is_string($chave) || strlen($chave) < 8 || strlen($chave) > 200) {
@@ -30,8 +31,9 @@ class CompraDebitoSimuladaController extends Controller
 
         $resultado = $service->comprar(
             $cartao, (int) $dados['valor_centavos'], trim($dados['estabelecimento']),
-            $chave, (bool) ($dados['online'] ?? false)
+            $chave, (bool) ($dados['online'] ?? false), $dados['localidade'] ?? null,
         );
+
         return response()->json([
             'mensagem' => 'Compra de débito simulada aprovada.',
             'transacao_id' => $resultado['transacao']->id,

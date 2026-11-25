@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\RegraDeNegocioException;
 use App\Services\PagamentosService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -41,15 +42,18 @@ class BoletoController extends Controller
     {
         $dados = $request->validate(['linha_digitavel' => 'required|string']);
 
-        $digitos = preg_replace('/\D/', '', $dados['linha_digitavel']);
-        $valido = in_array(strlen($digitos), [47, 48], true);
+        try {
+            $digitos = $this->pagamentos->validarCodigoBoleto($dados['linha_digitavel']);
+        } catch (RegraDeNegocioException $e) {
+            return response()->json([
+                'valido' => false,
+                'digitos' => strlen(preg_replace('/\D/', '', $dados['linha_digitavel'])),
+                'mensagem' => $e->getMessage(),
+            ], 422);
+        }
 
         return response()->json([
-            'valido' => $valido,
-            'digitos' => strlen($digitos),
-            'mensagem' => $valido
-                ? 'Linha digitável válida.'
-                : 'Linha digitável inválida: são esperados 47 (arrecadação) ou 48 (cobrança) dígitos.',
-        ], $valido ? 200 : 422);
+            'valido' => true, 'digitos' => strlen($digitos), 'mensagem' => 'Código válido.',
+        ]);
     }
 }

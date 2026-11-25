@@ -50,6 +50,10 @@ return [
     // quando o CPF/Cnpj é válido e o cliente tem 18+; com false, a conta fica
     // PENDENTE e depende do backoffice (RF09).
     // ---------------------------------------------------------------------
+    'compras' => [
+        'localidade_referencia' => env('FLUXO_LOCALIDADE_REFERENCIA', 'São Paulo'),
+    ],
+
     'kyc' => [
         'automatico' => (bool) env('FLUXO_KYC_AUTOMATICO', true),
         'idade_minima' => (int) env('FLUXO_KYC_IDADE_MINIMA', 18),

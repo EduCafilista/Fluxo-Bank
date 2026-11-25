@@ -1,9 +1,13 @@
 <?php
 
+use App\Http\Controllers\HealthController;
+use App\Http\Controllers\Web\AdminUsuarioController;
 use App\Http\Controllers\Web\AdminWebController;
 use App\Http\Controllers\Web\AuthWebController;
 use App\Http\Controllers\Web\BankActionController;
 use App\Http\Controllers\Web\BankWebController;
+use App\Http\Middleware\ContextoAuditoria;
+use App\Http\Middleware\WebAdmin;
 use App\Http\Middleware\WebAuthenticated;
 use App\Http\Middleware\WebBackoffice;
 use App\Http\Middleware\WebCliente;
@@ -11,6 +15,7 @@ use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
+use Illuminate\Http\Request;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -21,10 +26,13 @@ $semSessao = [EncryptCookies::class, AddQueuedCookiesToResponse::class, StartSes
 Route::get('/docs/openapi.yaml', function () {
     $caminho = base_path('docs/openapi.yaml');
     abort_unless(is_file($caminho), 404);
+
     return response(file_get_contents($caminho), 200, ['Content-Type' => 'application/yaml; charset=UTF-8']);
 })->withoutMiddleware($semSessao)->name('openapi');
 
-Route::get('/', fn () => redirect()->route('web.login'))
+Route::get('/', fn (Request $request) => $request->expectsJson()
+    ? app(HealthController::class)()
+    : redirect()->route('web.login'))
     ->name('web.root');
 
 Route::prefix('acesso')->name('web.')->middleware('guest:web')->group(function () {
@@ -40,7 +48,7 @@ Route::prefix('acesso')->name('web.')->middleware('guest:web')->group(function (
     Route::post('/recuperar/redefinir', [AuthWebController::class, 'recoveryReset'])->middleware('throttle:10,1')->name('recovery.reset');
 });
 
-Route::middleware([WebAuthenticated::class])->name('web.')->group(function () {
+Route::middleware([WebAuthenticated::class, ContextoAuditoria::class, 'throttle:api'])->name('web.')->group(function () {
     Route::get('/inicio', function () {
         return auth('web')->user()->ehBackoffice()
             ? redirect()->route('web.admin.dashboard')
@@ -63,6 +71,7 @@ Route::middleware([WebAuthenticated::class])->name('web.')->group(function () {
         Route::get('/pix/chaves', [BankWebController::class, 'chaves'])->name('pix.keys');
         Route::post('/pix/chaves', [BankActionController::class, 'criarChave'])->name('pix.keys.store');
         Route::delete('/pix/chaves/{chave}', [BankActionController::class, 'excluirChave'])->name('pix.keys.delete');
+        Route::get('/comprovantes/{transacao}/pdf', [BankWebController::class, 'baixarComprovante'])->name('receipt.pdf');
         Route::get('/comprovantes/{transacao}', [BankWebController::class, 'comprovante'])->name('receipt');
         Route::get('/cartoes', [BankWebController::class, 'cartoes'])->name('cards');
         Route::post('/cartoes', [BankActionController::class, 'emitirCartao'])->name('cards.store');
@@ -72,9 +81,13 @@ Route::middleware([WebAuthenticated::class])->name('web.')->group(function () {
         Route::patch('/cartoes/{cartao}/limite', [BankActionController::class, 'limiteCartao'])->name('cards.limit');
         Route::post('/cartoes/{cartao}/compra', [BankActionController::class, 'compraDebito'])->name('cards.purchase');
         Route::get('/agendamentos', [BankWebController::class, 'agendamentos'])->name('schedules');
+        Route::post('/agendamentos/boleto', [BankActionController::class, 'agendarBoleto'])->name('schedules.boleto');
         Route::post('/agendamentos', [BankActionController::class, 'agendar'])->name('schedules.store');
         Route::delete('/agendamentos/{agendamento}', [BankActionController::class, 'cancelarAgendamento'])->name('schedules.delete');
         Route::get('/pagamentos', [BankWebController::class, 'pagamentos'])->name('payments');
+        Route::post('/pagamentos/pix/revisar', [BankActionController::class, 'revisarPagamentoPix'])->name('payments.pix.review');
+        Route::get('/pagamentos/pix/confirmar', [BankWebController::class, 'confirmarPagamentoPix'])->name('payments.pix.confirm');
+        Route::post('/pagamentos/pix/confirmar', [BankActionController::class, 'pagarPix'])->name('payments.pix.pay');
         Route::post('/pagamentos/revisar', [BankActionController::class, 'revisarBoleto'])->name('payments.review');
         Route::get('/pagamentos/confirmar', [BankWebController::class, 'confirmarBoleto'])->name('payments.confirm');
         Route::post('/pagamentos/confirmar', [BankActionController::class, 'pagarBoleto'])->name('payments.pay');
@@ -90,6 +103,7 @@ Route::middleware([WebAuthenticated::class])->name('web.')->group(function () {
         Route::get('/suporte', [BankWebController::class, 'suporte'])->name('support');
         Route::post('/suporte', [BankActionController::class, 'criarChamado'])->name('support.store');
         Route::get('/perfil', [BankWebController::class, 'perfil'])->name('profile');
+        Route::patch('/perfil', [BankActionController::class, 'atualizarCadastro'])->name('profile.update');
         Route::post('/perfil/bloquear', [BankActionController::class, 'bloquearConta'])->name('profile.block');
         Route::delete('/perfil/bloquear', [BankActionController::class, 'desbloquearConta'])->name('profile.unblock');
         Route::delete('/perfil/encerrar', [BankActionController::class, 'encerrarConta'])->name('profile.close');
@@ -99,15 +113,37 @@ Route::middleware([WebAuthenticated::class])->name('web.')->group(function () {
     Route::prefix('administracao')->name('admin.')->middleware(WebBackoffice::class)->group(function () {
         Route::get('/', [AdminWebController::class, 'dashboard'])->name('dashboard');
         Route::get('/contas', [AdminWebController::class, 'contas'])->name('accounts');
+        Route::get('/contas/{conta}', [AdminWebController::class, 'conta'])->name('accounts.show');
         Route::post('/contas/{conta}/aprovar', [AdminWebController::class, 'aprovar'])->name('accounts.approve');
         Route::post('/contas/{conta}/recusar', [AdminWebController::class, 'recusar'])->name('accounts.reject');
         Route::post('/contas/{conta}/bloquear', [AdminWebController::class, 'bloquear'])->name('accounts.block');
         Route::get('/chamados', [AdminWebController::class, 'chamados'])->name('tickets');
         Route::patch('/chamados/{chamado}', [AdminWebController::class, 'responder'])->name('tickets.reply');
         Route::get('/auditoria', [AdminWebController::class, 'auditoria'])->name('audit');
-        Route::get('/perfis', [AdminWebController::class, 'perfis'])->name('roles');
-        Route::patch('/perfis/{user}', [AdminWebController::class, 'atualizarPerfil'])->name('roles.update');
-        Route::post('/recuperacao/codigo', [AdminWebController::class, 'codigoRecuperacao'])->name('recovery.code');
+        Route::middleware(WebAdmin::class)->group(function () {
+            Route::post('/contas/{conta}/desbloquear', [AdminWebController::class, 'desbloquear'])->name('accounts.unblock');
+            Route::patch('/contas/{conta}/limites', [AdminWebController::class, 'ajustarLimites'])->name('accounts.limits');
+            Route::delete('/contas/{conta}', [AdminWebController::class, 'encerrar'])->name('accounts.close');
+            Route::get('/perfis', fn () => redirect()->route('web.admin.users.index', request()->query()))->name('roles');
+            Route::patch('/perfis/{user}', [AdminUsuarioController::class, 'updateRole'])->name('roles.update');
+            Route::get('/usuarios', [AdminUsuarioController::class, 'index'])->name('users.index');
+            Route::get('/usuarios/novo', [AdminUsuarioController::class, 'create'])->name('users.create');
+            Route::post('/usuarios', [AdminUsuarioController::class, 'store'])->name('users.store');
+            Route::get('/usuarios/{user}/editar', [AdminUsuarioController::class, 'edit'])->name('users.edit');
+            Route::patch('/usuarios/{user}', [AdminUsuarioController::class, 'update'])->name('users.update');
+            Route::delete('/usuarios/{user}', [AdminUsuarioController::class, 'destroy'])->name('users.destroy');
+            Route::post('/recuperacao/codigo', [AdminWebController::class, 'codigoRecuperacao'])->name('recovery.code');
+        });
         Route::get('/auditoria/{log}', [AdminWebController::class, 'detalheLog'])->name('audit.show');
     });
 });
+
+// Compatibilidade com clientes da API que utilizavam o prefixo sem versão.
+Route::any('/api/{caminho}', function (Request $request, string $caminho) {
+    $destino = url('/api/v1/'.$caminho);
+    if ($query = $request->getQueryString()) {
+        $destino .= '?'.$query;
+    }
+
+    return response()->json(['versao' => 'v1'], 308, ['Location' => $destino]);
+})->where('caminho', '(?!v1(?:/|$)).+')->withoutMiddleware($semSessao);

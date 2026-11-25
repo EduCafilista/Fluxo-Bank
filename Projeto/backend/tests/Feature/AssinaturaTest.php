@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Item;
 use App\Models\Plano;
+use App\Services\AssinaturaService;
 use Database\Seeders\CatalogoSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -60,5 +61,29 @@ class AssinaturaTest extends TestCase
             'item_id' => $item->id,
             'motivo_exclusao' => 'Cliente pediu',
         ]);
+    }
+
+    public function test_nova_competencia_cobra_mes_integral_e_item_recontratado_preserva_historico(): void
+    {
+        $this->travelTo(now()->startOfMonth()->addDays(14));
+        $usuario = $this->usuarioComConta();
+        $plano = $this->plano();
+        $item = Item::where('nome', 'Cartão adicional')->firstOrFail();
+        $servico = app(AssinaturaService::class);
+        $assinatura = $servico->contratar($usuario->cliente, $plano);
+        $valorInicial = $assinatura->cobrancas()->firstOrFail()->valor_centavos;
+        $this->assertLessThan($plano->mensalidade_centavos, $valorInicial);
+
+        $servico->adicionarItem($assinatura, $item);
+        $servico->removerItem($assinatura, $item, 'Mudança no plano');
+        $servico->adicionarItem($assinatura, $item);
+        $this->assertSame(2, $assinatura->itens()->count());
+
+        $this->travelTo(now()->addMonth()->startOfMonth());
+        $this->artisan('assinaturas:cobrar')->assertSuccessful();
+        $this->artisan('assinaturas:cobrar')->assertSuccessful();
+        $this->assertSame(2, $assinatura->cobrancas()->count());
+        $valor = $assinatura->cobrancas()->where('competencia', now()->format('Y-m'))->firstOrFail()->valor_centavos;
+        $this->assertSame($plano->mensalidade_centavos + $item->valor_unitario_centavos, $valor);
     }
 }

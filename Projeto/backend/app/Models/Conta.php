@@ -34,13 +34,14 @@ class Conta extends Model
     protected $fillable = [
         'user_id', 'cliente_id', 'numero', 'tipo_conta', 'agencia',
         'status', 'status_abertura', 'status_abertura_atualizado_em',
-        'bloqueada', 'restricao_saque', 'aniversario_rendimento',
+        'bloqueada', 'bloqueio_backoffice', 'restricao_saque', 'aniversario_rendimento',
     ];
 
     protected function casts(): array
     {
         return [
             'bloqueada' => 'boolean',
+            'bloqueio_backoffice' => 'boolean',
             'restricao_saque' => 'boolean',
             'status_abertura_atualizado_em' => 'datetime',
             'aniversario_rendimento' => 'date',

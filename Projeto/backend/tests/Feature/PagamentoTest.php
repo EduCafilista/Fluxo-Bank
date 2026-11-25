@@ -55,7 +55,7 @@ class PagamentoTest extends TestCase
                 'valor_centavos' => 5000,
             ])
             ->assertStatus(422)
-            ->assertJsonPath('erro', 'Linha digitável inválida: são esperados 47 ou 48 dígitos.');
+            ->assertJsonPath('erro', 'Informe um código de barras de 44 dígitos ou uma linha de 47 ou 48 dígitos.');
     }
 
     public function test_boleto_sem_saldo_e_recusado_sem_gravar(): void
@@ -75,7 +75,8 @@ class PagamentoTest extends TestCase
 
     public function test_recebimento_pix_credita_e_fecha_em_zero(): void
     {
-        $user = $this->usuarioComConta();
+        config(['services.fluxo.simulacoes_financeiras' => true]);
+        $user = $this->usuarioComConta(['perfil' => 'ADMIN']);
 
         $this->withHeaders($this->autenticarSem2fa($user))
             ->postJson("{$this->api}/pix/recebimentos", ['valor_centavos' => 7500])
@@ -88,7 +89,8 @@ class PagamentoTest extends TestCase
 
     public function test_recebimento_pix_respeita_idempotencia(): void
     {
-        $user = $this->usuarioComConta();
+        config(['services.fluxo.simulacoes_financeiras' => true]);
+        $user = $this->usuarioComConta(['perfil' => 'ADMIN']);
         $headers = $this->autenticarSem2fa($user) + ['Idempotency-Key' => 'pix-rec-001'];
 
         $this->withHeaders($headers)
@@ -136,5 +138,33 @@ class PagamentoTest extends TestCase
         $this->withHeaders($this->autenticarSem2fa($intruso))
             ->getJson("{$this->api}/transacoes/{$transacaoId}")
             ->assertNotFound();
+    }
+
+    public function test_qr_pix_confirma_valor_paga_uma_vez_e_gera_pdf(): void
+    {
+        $pagador = $this->usuarioComConta([], 20000);
+        $recebedor = $this->usuarioComConta();
+
+        $cobranca = $this->withHeaders($this->autenticarSem2fa($recebedor))
+            ->postJson("{$this->api}/pix/cobrancas", ['valor_centavos' => 5100])
+            ->assertCreated()->json('payload_emv');
+        $dados = ['payload_emv' => $cobranca];
+
+        $this->withHeaders($this->autenticarSem2fa($pagador))
+            ->postJson("{$this->api}/pix/pagamentos/revisar", $dados)
+            ->assertOk()->assertJsonPath('valor_centavos', 5100);
+        $this->assertSame(20000, $pagador->conta->saldo());
+
+        $id = $this->postJson("{$this->api}/pix/pagamentos", $dados)->assertCreated()->json('transacao_id');
+        $this->postJson("{$this->api}/pix/pagamentos", $dados)->assertCreated()->assertJsonPath('transacao_id', $id);
+        $this->assertSame(14900, $pagador->conta->saldo());
+        $this->assertSame(5100, $recebedor->conta->saldo());
+        $pdf = $this->get("{$this->api}/transacoes/{$id}/comprovante.pdf")->assertOk()->assertHeader('Content-Type', 'application/pdf');
+        $this->assertStringStartsWith('%PDF-', $pdf->getContent());
+
+        $terceiro = $this->usuarioComConta([], 20000);
+        $this->withHeaders($this->autenticarSem2fa($terceiro))
+            ->postJson("{$this->api}/pix/pagamentos", $dados)->assertConflict();
+        $this->get("{$this->api}/transacoes/{$id}/comprovante.pdf")->assertNotFound();
     }
 }

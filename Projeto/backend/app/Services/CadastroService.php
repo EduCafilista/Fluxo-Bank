@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\DB;
 
 class CadastroService
 {
+    public function cadastrarCliente(array $dados): Conta
+    {
+        if ($dados['tipo_cliente'] === Cliente::TIPO_PJ) {
+            return $this->cadastrarPessoaJuridica($dados + ['nome' => $dados['razao_social']]);
+        }
+
+        return $this->cadastrarPessoaFisica($dados);
+    }
+
     public function cadastrarPessoaFisica(array $dados): Conta
     {
         return $this->cadastrar($dados, Cliente::TIPO_PF);

@@ -100,4 +100,22 @@ class AgendamentoTest extends TestCase
         $this->assertSame(Agendamento::STATUS_CANCELADO, Agendamento::findOrFail($id)->status);
         $this->assertSame(100000, $ana->conta->refresh()->saldo());
     }
+
+    public function test_worker_paga_boleto_agendado_e_grava_notificacao(): void
+    {
+        $cliente = $this->usuarioComConta([], 10000);
+        $agora = now();
+        $id = $this->withHeaders($this->autenticarSem2fa($cliente))->postJson("{$this->api}/agendamentos", [
+            'tipo_operacao' => 'BOLETO',
+            'linha_digitavel' => str_repeat('1', 44),
+            'valor_centavos' => 5000,
+            'agendado_para' => $agora->copy()->addHour()->toIso8601String(),
+        ])->assertCreated()->json('agendamento.id');
+
+        $this->travelTo($agora->addHours(2));
+        $this->artisan('agendamentos:processar')->assertSuccessful();
+        $this->assertSame(Agendamento::STATUS_EXECUTADO, Agendamento::findOrFail($id)->status);
+        $this->assertSame(5000, $cliente->conta->saldo());
+        $this->assertSame($id, $cliente->notifications()->firstOrFail()->data['agendamento_id']);
+    }
 }

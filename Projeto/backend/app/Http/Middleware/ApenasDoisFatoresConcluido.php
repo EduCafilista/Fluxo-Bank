@@ -25,6 +25,10 @@ class ApenasDoisFatoresConcluido
             ], 403);
         }
 
+        if ($token && in_array('sessao:renovar', (array) $token->abilities, true)) {
+            return response()->json(['erro' => 'Use um token de acesso para esta operação.'], 403);
+        }
+
         return $next($request);
     }
 }

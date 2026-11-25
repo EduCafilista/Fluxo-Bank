@@ -16,6 +16,7 @@
     @stack('head')
 </head>
 <body class="app-body">
+<a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 @php
     $usuario = auth('web')->user();
     $administrador = $usuario->ehBackoffice();
@@ -24,7 +25,7 @@
         ['title'=>'Contas e KYC','route'=>'web.admin.accounts','icon'=>'wallet'],
         ['title'=>'Chamados','route'=>'web.admin.tickets','icon'=>'headphones'],
         ['title'=>'Auditoria','route'=>'web.admin.audit','icon'=>'shield'],
-        ['title'=>'Perfis e acessos','route'=>'web.admin.roles','icon'=>'users'],
+        ['title'=>'Usuários','route'=>'web.admin.users.index','pattern'=>'web.admin.users.*','icon'=>'users'],
     ] : [
         ['title'=>'Início','route'=>'web.dashboard','icon'=>'home'],
         ['title'=>'Extrato','route'=>'web.extrato','icon'=>'history'],
@@ -49,11 +50,11 @@
         <div class="nav-eyebrow">MENU PRINCIPAL</div>
         <nav class="side-nav" aria-label="Navegação principal">
         @foreach($nav as $item)
-            @if($item['route'] === 'web.admin.roles' && $usuario->perfil !== 'ADMIN') @continue @endif
-            <a class="nav-item {{ request()->routeIs($item['route']) || request()->routeIs($item['route'].'.*') ? 'active' : '' }}" href="{{ route($item['route']) }}">
+            @if($item['route'] === 'web.admin.users.index' && $usuario->perfil !== 'ADMIN') @continue @endif
+            <a class="nav-item {{ request()->routeIs($item['pattern'] ?? $item['route'], $item['route'].'.*') ? 'active' : '' }}" href="{{ route($item['route']) }}">
                 @include('web.components.icon',['name'=>$item['icon']])
                 <span>{{ $item['title'] }}</span>
-                @if(request()->routeIs($item['route']) || request()->routeIs($item['route'].'.*'))<i class="active-dot"></i>@endif
+                @if(request()->routeIs($item['pattern'] ?? $item['route'], $item['route'].'.*'))<i class="active-dot"></i>@endif
             </a>
         @endforeach
         </nav>
@@ -67,8 +68,8 @@
     <div class="shell-main">
         <header class="topbar">
             <div class="topbar-left">
-                <button class="icon-button mobile-menu-toggle" type="button" data-toggle-sidebar aria-label="Abrir menu">@include('web.components.icon',['name'=>'menu'])</button>
-                <div class="topbar-breadcrumb"><span>{{ $administrador ? 'Backoffice' : 'Minha conta' }}</span>@include('web.components.icon',['name'=>'chevron-right'])<strong>{{ $tituloAtual }}</strong></div>
+                <button class="icon-button mobile-menu-toggle" type="button" data-toggle-sidebar aria-label="Menu" aria-controls="sidebar" aria-expanded="false">@include('web.components.icon',['name'=>'menu'])</button>
+                <div class="topbar-breadcrumb"><span>{{ $administrador ? 'Administração' : 'Minha conta' }}</span>@include('web.components.icon',['name'=>'chevron-right'])<strong>{{ $tituloAtual }}</strong></div>
             </div>
             <div class="topbar-right">
                 <span class="topbar-date">{{ now()->locale('pt_BR')->translatedFormat('d \d\e F \d\e Y') }}</span>
@@ -90,7 +91,7 @@
 </div>
 <nav class="mobile-bottom-nav" aria-label="Navegação rápida">
     @foreach($mobileNav as $item)
-        <a href="{{ route($item['route']) }}" class="{{ request()->routeIs($item['route']) || request()->routeIs($item['route'].'.*') ? 'active' : '' }}">@include('web.components.icon',['name'=>$item['icon']])<span>{{ $item['title'] }}</span></a>
+        <a href="{{ route($item['route']) }}" class="{{ request()->routeIs($item['pattern'] ?? $item['route'], $item['route'].'.*') ? 'active' : '' }}">@include('web.components.icon',['name'=>$item['icon']])<span>{{ $item['title'] }}</span></a>
     @endforeach
 </nav>
 <div class="sidebar-overlay" data-sidebar-overlay></div>

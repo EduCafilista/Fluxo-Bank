@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\PartidaDobradaInvalidaException;
+use App\Exceptions\RegraDeNegocioException;
 use App\Models\Conta;
 use App\Models\Lancamento;
 use App\Models\Transacao;
@@ -27,12 +28,31 @@ class LancamentoService
         $this->validarPartidas($linhas);
 
         return DB::transaction(function () use ($tipo, $linhas, $descricao, $chaveIdempotencia, $status) {
+            $ids = collect($linhas)->pluck('conta_id')->unique()->sort()->values();
+            $contas = Conta::whereIn('id', $ids)->orderBy('id')->lockForUpdate()->get()->keyBy('id');
+
+            if ($contas->count() !== $ids->count()) {
+                throw new PartidaDobradaInvalidaException('Conta inexistente no lançamento.');
+            }
+
             if ($chaveIdempotencia !== null) {
                 $existente = Transacao::where('chave_idempotencia', $chaveIdempotencia)->first();
 
                 if ($existente) {
+                    $chaveLinha = static fn ($linha) => $linha['conta_id'].'|'.$linha['tipo'].'|'.$linha['valor_centavos'];
+                    $esperadas = collect($linhas)->map($chaveLinha)->sort()->values()->all();
+                    $gravadas = $existente->lancamentos->map($chaveLinha)->sort()->values()->all();
+
+                    if ($existente->tipo !== $tipo || $existente->descricao !== $descricao || $gravadas !== $esperadas) {
+                        throw new RegraDeNegocioException('A chave foi usada por outra operação.', 409);
+                    }
+
                     return $existente;
                 }
+            }
+
+            if ($contas->contains(fn (Conta $conta) => $conta->estaEncerrada())) {
+                throw new RegraDeNegocioException('Uma conta envolvida na operação está encerrada.');
             }
 
             $transacao = Transacao::create([
@@ -42,15 +62,7 @@ class LancamentoService
                 'chave_idempotencia' => $chaveIdempotencia,
             ]);
 
-            $ids = collect($linhas)->pluck('conta_id')->unique()->sort()->values();
-
-            $travadas = Conta::whereIn('id', $ids)->orderBy('id')->lockForUpdate()->pluck('id')->all();
-
             foreach ($linhas as $linha) {
-                if (! in_array($linha['conta_id'], $travadas, true)) {
-                    throw new PartidaDobradaInvalidaException('Conta inexistente no lançamento.');
-                }
-
                 Lancamento::create([
                     'transacao_id' => $transacao->id,
                     'conta_id' => $linha['conta_id'],

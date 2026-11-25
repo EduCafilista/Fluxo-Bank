@@ -11,7 +11,7 @@ class Sanitizador
         'password', 'password_confirmation', 'senha', 'nova_senha', 'nova_senha_confirmation',
         'current_password', 'token', 'access_token', 'refresh_token', 'token_temporario',
         'token_redefinicao', 'authorization', 'cvv', 'cvv_hash', 'codigo', 'codigo_hash',
-        'secret', 'api_key',
+        'secret', 'api_key', '_token', 'payload_emv', 'linha_digitavel', 'valor_chave',
     ];
 
     private const MASCARADOS = ['cpf', 'cnpj', 'numero_cartao', 'cartao'];
@@ -19,6 +19,30 @@ class Sanitizador
     private const EMAILS = ['email', 'e_mail', 'chave_email'];
 
     private const TELEFONES = ['telefone', 'celular', 'phone', 'telefone_contato', 'chave_telefone'];
+
+    public static function dadosDaRequisicao(array $dados): array
+    {
+        $camposGerais = [
+            'perfil', 'tipo_cliente', 'tipo_conta', 'status', 'status_abertura',
+            'valor_centavos', 'conta_id', 'conta_destino_id', 'cartao_id', 'agendamento_id',
+            'recorrente', 'tipo_operacao', 'tipo_chave', 'modalidade', 'page',
+        ];
+        $personalizados = array_merge(self::PROIBIDOS, self::MASCARADOS, self::EMAILS, self::TELEFONES);
+        $resultado = [];
+
+        foreach (array_slice($dados, 0, 40, true) as $campo => $valor) {
+            if (in_array($campo, $personalizados, true) && is_scalar($valor)) {
+                $resultado[$campo] = self::sanitizarValor($campo, $valor);
+            } elseif (in_array($campo, $camposGerais, true) && is_scalar($valor)
+                && preg_match('/^[A-Z_0-9]{1,24}$/D', (string) $valor)) {
+                $resultado[$campo] = $valor;
+            } else {
+                $resultado['outros_campos'] = '[MASCARADO]';
+            }
+        }
+
+        return $resultado;
+    }
 
     public static function limpar(mixed $dado): mixed
     {

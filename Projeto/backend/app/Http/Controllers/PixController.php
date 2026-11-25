@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ConfiguracaoLimitePixService;
 use App\Services\ContaService;
 use App\Services\LimitePixService;
 use App\Services\PagamentosService;
@@ -31,6 +32,23 @@ class PixController extends Controller
         );
     }
 
+    public function revisarPagamento(Request $request): JsonResponse
+    {
+        $dados = $request->validate(['payload_emv' => 'required|string|max:512']);
+        $conta = $request->user()->conta()->firstOrFail();
+
+        return response()->json($this->pagamentos->revisarCobrancaPix($conta, $dados['payload_emv']));
+    }
+
+    public function pagarCobranca(Request $request): JsonResponse
+    {
+        $dados = $request->validate(['payload_emv' => 'required|string|max:512']);
+        $conta = $request->user()->conta()->firstOrFail();
+        $transacao = $this->pagamentos->pagarCobrancaPix($conta, $dados['payload_emv']);
+
+        return response()->json(['mensagem' => 'Cobrança Pix paga.', 'transacao_id' => $transacao->id], 201);
+    }
+
     public function receber(Request $request): JsonResponse
     {
         // Autorização e habilitação são verificadas pelo middleware da rota.
@@ -58,6 +76,19 @@ class PixController extends Controller
     public function limites(Request $request): JsonResponse
     {
         $conta = $request->user()->conta()->firstOrFail();
+
+        return response()->json($this->limites->resumo($conta));
+    }
+
+    public function ajustarLimites(Request $request, ConfiguracaoLimitePixService $servico): JsonResponse
+    {
+        $dados = $request->validate([
+            'por_transacao' => 'required|integer|min:1',
+            'diario' => 'required|integer|min:1',
+            'noturno' => 'required|integer|min:1',
+        ]);
+        $conta = $request->user()->conta()->firstOrFail();
+        $servico->ajustar($conta, (int) $dados['por_transacao'], (int) $dados['diario'], (int) $dados['noturno']);
 
         return response()->json($this->limites->resumo($conta));
     }

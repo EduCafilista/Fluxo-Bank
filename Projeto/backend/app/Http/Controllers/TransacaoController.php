@@ -67,6 +67,15 @@ class TransacaoController extends Controller
         return response()->json(app(RelatorioService::class)->comprovante($transacao));
     }
 
+    public function comprovantePdf(Request $request, Transacao $transacao, RelatorioService $relatorios)
+    {
+        $usuario = $request->user();
+        $conta = $usuario->conta;
+        abort_unless($usuario->ehBackoffice() || ($conta && $transacao->lancamentos()->where('conta_id', $conta->id)->exists()), 404);
+
+        return $relatorios->comprovantePdf($transacao);
+    }
+
     public function index(Request $request): JsonResponse
     {
         $conta = $request->user()->conta()->firstOrFail();

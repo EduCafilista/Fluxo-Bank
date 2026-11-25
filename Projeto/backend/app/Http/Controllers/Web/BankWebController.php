@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Agendamento;
 use App\Models\AssinaturaCartao;
-use App\Models\Cartao;
 use App\Models\Conta;
 use App\Models\Item;
 use App\Models\Plano;
 use App\Models\Transacao;
+use App\Notifications\AgendamentoExecutado;
 use App\Services\ContaService;
 use App\Services\LimitePixService;
 use App\Services\RelatorioService;
@@ -26,6 +25,7 @@ class BankWebController extends Controller
     {
         $conta = $this->conta($request);
         $lancamentos = $conta->lancamentos()->with('transacao')->latest('id')->limit(7)->get();
+
         return view('web.customer.dashboard', [
             'conta' => $conta, 'saldo' => $servico->saldo($conta),
             'resumo' => $servico->resumoDoDia($conta), 'lancamentos' => $lancamentos,
@@ -37,6 +37,7 @@ class BankWebController extends Controller
     {
         $conta = $this->conta($request);
         $extrato = $servico->extrato($conta, 20)->withQueryString();
+
         return view('web.customer.extrato', compact('conta', 'extrato'));
     }
 
@@ -44,6 +45,7 @@ class BankWebController extends Controller
     {
         $conta = $this->conta($request);
         $recentes = $conta->lancamentos()->with('transacao')->whereHas('transacao', fn ($q) => $q->where('tipo', 'PIX'))->latest('id')->limit(5)->get();
+
         return view('web.customer.pix', [
             'conta' => $conta, 'recentes' => $recentes, 'limites' => $limites->resumo($conta),
             'totalChaves' => $conta->chavesPix()->where('status', 'ATIVA')->count(),
@@ -68,7 +70,10 @@ class BankWebController extends Controller
     public function confirmarTransferencia(Request $request)
     {
         $pendente = $request->session()->get('fluxo_transferencia');
-        if (! is_array($pendente)) return redirect()->route('web.transferencia');
+        if (! is_array($pendente)) {
+            return redirect()->route('web.transferencia');
+        }
+
         return view('web.customer.transfer-confirm', ['pendente' => $pendente]);
     }
 
@@ -82,6 +87,7 @@ class BankWebController extends Controller
     public function chaves(Request $request)
     {
         $conta = $this->conta($request);
+
         return view('web.customer.keys', [
             'conta' => $conta,
             'chaves' => $conta->chavesPix()->latest('id')->get(),
@@ -92,12 +98,14 @@ class BankWebController extends Controller
     {
         $conta = $this->conta($request);
         abort_unless($transacao->lancamentos()->where('conta_id', $conta->id)->exists(), 404);
+
         return view('web.customer.receipt', ['comprovante' => $relatorios->comprovante($transacao)]);
     }
 
     public function cartoes(Request $request)
     {
         $conta = $this->conta($request);
+
         return view('web.customer.cards', [
             'conta' => $conta,
             'cartoes' => $conta->cartoes()->with(['fisico', 'virtual'])->latest('id')->get(),
@@ -107,10 +115,22 @@ class BankWebController extends Controller
     public function agendamentos(Request $request)
     {
         $conta = $this->conta($request);
+        $notificacoes = $request->user('web')->notifications()
+            ->where('type', AgendamentoExecutado::class)->limit(5)->get();
+
         return view('web.customer.schedules', [
             'conta' => $conta,
-            'agendamentos' => $conta->agendamentos()->latest('id')->get(),
+            'agendamentos' => $conta->agendamentos()->latest('id')->paginate(20),
+            'notificacoes' => $notificacoes,
         ]);
+    }
+
+    public function baixarComprovante(Request $request, Transacao $transacao, RelatorioService $relatorios)
+    {
+        $conta = $this->conta($request);
+        abort_unless($transacao->lancamentos()->where('conta_id', $conta->id)->exists(), 404);
+
+        return $relatorios->comprovantePdf($transacao);
     }
 
     public function pagamentos(Request $request)
@@ -118,16 +138,30 @@ class BankWebController extends Controller
         return view('web.customer.payments', ['conta' => $this->conta($request)]);
     }
 
+    public function confirmarPagamentoPix(Request $request)
+    {
+        $pagamento = $request->session()->get('fluxo_pagamento_pix');
+        if (! is_array($pagamento)) {
+            return redirect()->route('web.payments');
+        }
+
+        return view('web.customer.pix-payment-confirm', compact('pagamento'));
+    }
+
     public function confirmarBoleto(Request $request)
     {
         $pendente = $request->session()->get('fluxo_boleto');
-        if (! is_array($pendente)) return redirect()->route('web.payments');
+        if (! is_array($pendente)) {
+            return redirect()->route('web.payments');
+        }
+
         return view('web.customer.payments-confirm', compact('pendente'));
     }
 
     public function assinaturas(Request $request)
     {
         $cliente = $request->user('web')->cliente;
+
         return view('web.customer.subscriptions', [
             'assinaturas' => $cliente ? $cliente->assinaturas()->with(['plano', 'itens.item', 'cobrancas'])->get() : collect(),
             'planos' => Plano::where('ativo', true)->get(),
@@ -139,6 +173,7 @@ class BankWebController extends Controller
     public function viagens(Request $request)
     {
         $conta = $this->conta($request);
+
         return view('web.customer.travel', [
             'avisos' => $conta->avisosViagem()->with('cartao')->latest('id')->get(),
             'cartoes' => $conta->cartoes()->with('fisico')->get(),

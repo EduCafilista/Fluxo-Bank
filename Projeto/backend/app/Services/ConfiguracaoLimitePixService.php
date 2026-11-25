@@ -17,14 +17,16 @@ class ConfiguracaoLimitePixService
             || $porTransacao > (int) $tetos['por_transacao']
             || $diario > (int) $tetos['diario']
             || $noturno > (int) $tetos['noturno_por_transacao']
-            || $porTransacao > $diario || $noturno > $diario) {
-            throw new RegraDeNegocioException('Os limites não podem exceder o teto pré-aprovado; limite por transação e noturno devem ser menores que o limite diário.');
-        }
-        if ($conta->estaEncerrada()) {
-            throw new RegraDeNegocioException('Conta encerrada não permite alterações.');
+            || $porTransacao > $diario || $noturno > $porTransacao) {
+            throw new RegraDeNegocioException('Respeite os tetos aprovados. O limite noturno pode ser de até o limite por transação diurno, que deve caber no limite diário.');
         }
 
         return DB::transaction(function () use ($conta, $porTransacao, $diario, $noturno, $tetos) {
+            $conta = Conta::query()->lockForUpdate()->findOrFail($conta->id);
+            if ($conta->estaEncerrada() || $conta->tipo_conta === 'INSTITUCIONAL') {
+                throw new RegraDeNegocioException('A conta atual não permite alteração de limites.');
+            }
+
             LimitePix::where('conta_id', $conta->id)->where('ativo', true)
                 ->update(['ativo' => false, 'vigente_ate' => now()]);
             $limite = LimitePix::create([
@@ -48,6 +50,7 @@ class ConfiguracaoLimitePixService
                     'limite_diario' => $diario, 'limite_noturno_por_transacao' => $noturno,
                 ], 'limites_pix', (string) $limite->id,
             );
+
             return $limite;
         });
     }

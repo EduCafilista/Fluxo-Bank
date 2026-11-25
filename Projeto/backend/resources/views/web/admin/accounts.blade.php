@@ -1,10 +1,50 @@
-@extends('web.layouts.app',['title'=>'Contas e KYC'])
+@extends('web.layouts.app', ['title' => 'Contas e KYC'])
 @section('content')
-@include('web.components.heading',['heading'=>'Contas e aprovações','subtitle'=>'Acompanhe o KYC simulado, os bloqueios e o ciclo de vida das contas.','eyebrow'=>'BACKOFFICE · CONTAS'])
-<section class="panel"><form method="get" class="form-grid"><div class="field"><label>Buscar por titular, e-mail ou número da conta</label><input name="busca" value="{{ request('busca') }}" placeholder="Pesquise no sistema..."></div><div class="field"><label>Status operacional</label><select name="status"><option value="">Todos</option>@foreach(['PENDENTE','ATIVA','BLOQUEADA','ENCERRADA'] as $status)<option value="{{ $status }}" {{ request('status')===$status?'selected':'' }}>{{ $status }}</option>@endforeach</select></div><div class="field"><label>Status de KYC</label><select name="status_abertura"><option value="">Todos</option>@foreach(['PENDENTE','EM_ANALISE','APROVADA','RECUSADA'] as $status)<option value="{{ $status }}" {{ request('status_abertura')===$status?'selected':'' }}>{{ $status }}</option>@endforeach</select></div><div class="form-actions"><button class="btn btn-primary">Filtrar contas</button><a class="btn btn-muted" href="{{ route('web.admin.accounts') }}">Limpar filtros</a></div></form></section>
-<section class="panel" style="margin-top:22px"><div class="panel-header"><h2>Contas encontradas</h2><span class="pill blue">{{ $contas->total() }} registros</span></div>
-<div class="table-scroll"><table class="data-table" style="min-width:990px"><thead><tr><th>Conta / ID</th><th>Titular</th><th>Tipo</th><th>Status</th><th>KYC</th><th>Ações do backoffice</th></tr></thead><tbody>@forelse($contas as $conta)<tr><td><strong>{{ $conta->numero }}</strong><div class="cell-secondary">#{{ $conta->id }} · Ag {{ $conta->agencia }}</div></td><td><strong>{{ $conta->cliente?->nomeExibicao() ?? $conta->user?->name ?? '—' }}</strong><div class="cell-secondary">{{ $conta->user?->email }}</div><div class="cell-secondary">{{ $conta->cliente?->documentoMascarado() }}</div></td><td>{{ $conta->tipo_conta }}</td><td><span class="pill {{ $conta->status==='ATIVA'?'green':'orange' }}">{{ $conta->status }}</span></td><td><span class="pill {{ $conta->status_abertura==='APROVADA'?'green':'orange' }}">{{ $conta->status_abertura }}</span></td>
-<td><div class="table-actions">@if($conta->status_abertura!=='APROVADA' && $conta->status_abertura!=='RECUSADA')<form method="post" action="{{ route('web.admin.accounts.approve',$conta) }}" data-confirm="Aprovar a abertura da conta #{{ $conta->id }}?">@csrf<button class="btn btn-primary btn-sm">Aprovar</button></form><form method="post" action="{{ route('web.admin.accounts.reject',$conta) }}" data-confirm="Recusar a abertura desta conta?">@csrf<input name="motivo" type="hidden" value="Documentação pendente de regularização manual"><button class="btn btn-danger btn-sm">Recusar</button></form>@endif
-@if($conta->status!=='ENCERRADA' && $conta->status!=='BLOQUEADA')<form method="post" action="{{ route('web.admin.accounts.block',$conta) }}" data-confirm="Bloquear por suspeita de fraude a conta #{{ $conta->id }}?">@csrf<input name="motivo" type="hidden" value="Bloqueio preventivo realizado pelo backoffice"><button class="btn btn-outline btn-sm">Bloquear</button></form>@endif</div></td></tr>@empty<tr><td colspan="6">Nenhuma conta encontrada.</td></tr>@endforelse</tbody></table></div>@include('web.components.pagination',['paginator'=>$contas])</section>
-@if(auth('web')->user()->perfil==='ADMIN')<section class="panel" style="margin-top:22px"><h2>Recuperação assistida</h2><p class="muted sm">Um administrador pode emitir um código temporário para entrega manual ao titular da conta, seguindo o protocolo de validação de identidade.</p><form method="post" action="{{ route('web.admin.recovery.code') }}" class="form-actions" data-confirm="Gerar um código sensível para entrega manual ao titular?">@csrf<div class="field" style="min-width:220px"><label>ID da conta</label><input name="conta_id" type="number" min="1" required></div><button class="btn btn-outline">Emitir código temporário</button></form>@if(session('codigo_recuperacao'))<div class="info-box danger-box" style="margin-top:15px"><strong>Código temporário: {{ session('codigo_recuperacao') }}</strong><span>Disponível apenas nesta resposta. Entregue após verificar a identidade do titular.</span></div>@endif</section>@endif
+@include('web.components.heading', ['heading' => 'Contas e KYC', 'subtitle' => 'Analise aberturas e acompanhe a situação das contas.'])
+<section class="panel filter-panel" aria-label="Filtros de contas">
+    <form method="get" class="filter-row">
+        <div class="field filter-search"><label for="busca">Buscar conta</label><input id="busca" name="busca" type="search" maxlength="100" value="{{ request('busca') }}" placeholder="Titular, e-mail ou número da conta"></div>
+        <div class="field"><label for="status">Status operacional</label><select id="status" name="status">
+            <option value="">Todos</option>
+            @foreach(['PENDENTE', 'ATIVA', 'BLOQUEADA', 'ENCERRADA'] as $status)
+                <option value="{{ $status }}" @selected(request('status') === $status)>{{ ucfirst(strtolower($status)) }}</option>
+            @endforeach
+        </select></div>
+        <div class="field"><label for="status_abertura">Status de KYC</label><select id="status_abertura" name="status_abertura">
+            <option value="">Todos</option>
+            @foreach(['PENDENTE', 'EM_ANALISE', 'APROVADA', 'RECUSADA'] as $status)
+                <option value="{{ $status }}" @selected(request('status_abertura') === $status)>{{ str_replace('_', ' ', ucfirst(strtolower($status))) }}</option>
+            @endforeach
+        </select></div>
+        <button class="btn btn-outline">Filtrar</button>
+        @if(request()->anyFilled(['busca', 'status', 'status_abertura']))
+            <a class="btn btn-muted" href="{{ route('web.admin.accounts') }}">Limpar</a>
+        @endif
+    </form>
+</section>
+
+<section class="panel management-table">
+    <div class="panel-header"><h2>Lista de contas</h2><span class="pill blue">{{ $contas->total() }} {{ $contas->total() === 1 ? 'conta' : 'contas' }}</span></div>
+    @if($contas->isEmpty())
+        @include('web.components.empty', ['icon' => 'wallet', 'heading' => 'Nenhuma conta encontrada'])
+    @else
+        <div class="table-scroll" role="region" aria-label="Lista de contas" tabindex="0">
+            <table class="data-table responsive-table">
+                <thead><tr><th scope="col">Conta</th><th scope="col">Titular</th><th scope="col">Status</th><th scope="col">KYC</th><th scope="col">Ações</th></tr></thead>
+                <tbody>
+                @foreach($contas as $conta)
+                    <tr>
+                        <td data-label="Conta"><strong>{{ $conta->numero }}</strong><div class="cell-secondary">{{ ucfirst(strtolower($conta->tipo_conta)) }} · Ag. {{ $conta->agencia }}</div></td>
+                        <td data-label="Titular"><strong>{{ $conta->cliente?->nomeExibicao() ?? $conta->user?->name ?? '—' }}</strong><div class="cell-secondary">{{ $conta->cliente?->documentoMascarado() }}</div></td>
+                        <td data-label="Status"><span class="pill {{ $conta->status === 'ATIVA' ? 'green' : ($conta->status === 'BLOQUEADA' ? 'red' : '') }}">{{ ucfirst(strtolower($conta->status)) }}</span></td>
+                        <td data-label="KYC"><span class="pill {{ $conta->status_abertura === 'APROVADA' ? 'green' : ($conta->status_abertura === 'RECUSADA' ? 'red' : 'orange') }}">{{ str_replace('_', ' ', ucfirst(strtolower($conta->status_abertura))) }}</span></td>
+                        <td data-label="Ações"><a class="btn btn-outline btn-sm" href="{{ route('web.admin.accounts.show', $conta) }}" aria-label="Gerenciar conta {{ $conta->numero }}">Gerenciar</a></td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+        @include('web.components.pagination', ['paginator' => $contas])
+    @endif
+</section>
 @endsection

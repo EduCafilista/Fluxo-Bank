@@ -44,7 +44,7 @@ class ChavePixService
         app(AuditoriaService::class)->registrar(
             'MOVIMENTACAO',
             'CHAVE_PIX_CRIADA',
-            ['tipo' => $tipo, 'valor' => $valor],
+            ['tipo' => $tipo],
             'chaves_pix',
             (string) $chave->id,
         );

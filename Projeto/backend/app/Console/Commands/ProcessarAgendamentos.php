@@ -22,6 +22,7 @@ class ProcessarAgendamentos extends Command
 
         $pendentes = Agendamento::where('status', Agendamento::STATUS_AGENDADO)
             ->where('agendado_para', '<=', now())
+            ->where(fn ($q) => $q->where('tentativas', 0)->orWhereNull('proxima_execucao')->orWhere('proxima_execucao', '<=', now()))
             ->orderBy('agendado_para')
             ->limit((int) $this->option('limite'))
             ->get();

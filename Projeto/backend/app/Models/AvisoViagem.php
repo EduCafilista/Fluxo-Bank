@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class AvisoViagem extends Model
 {
@@ -41,9 +42,11 @@ class AvisoViagem extends Model
     {
         $data = $data ?? now()->toDateString();
 
+        $normalizar = fn (string $valor) => Str::upper(Str::ascii(trim($valor)));
+
         return $this->status === self::STATUS_ATIVO
             && $data >= $this->data_inicio->toDateString()
             && $data <= $this->data_fim->toDateString()
-            && in_array(mb_strtoupper($localidade), array_map('mb_strtoupper', $this->localidades ?? []), true);
+            && in_array($normalizar($localidade), array_map($normalizar, $this->localidades ?? []), true);
     }
 }

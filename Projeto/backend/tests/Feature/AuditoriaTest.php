@@ -15,7 +15,7 @@ class AuditoriaTest extends TestCase
     public function test_requisicao_http_gera_registro_com_categoria(): void
     {
         $this->getJson("{$this->api}/health")->assertOk();
-        $this->assertSame(0, LogAuditoria::count());
+        $this->assertDatabaseHas('logs_auditoria', ['rota' => 'api/v1/health', 'status_http' => 200]);
 
         $user = $this->usuarioComConta();
         $this->withHeaders($this->autenticarSem2fa($user))->getJson("{$this->api}/conta")->assertOk();

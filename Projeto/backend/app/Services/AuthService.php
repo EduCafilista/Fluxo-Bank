@@ -6,8 +6,10 @@ use App\Exceptions\RegraDeNegocioException;
 use App\Models\CodigoVerificacao;
 use App\Models\LogAuditoria;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthService
 {
@@ -19,7 +21,7 @@ class AuthService
     /**
      * @return array{precisa_2fa:bool, token?:string, expira_em?:string, token_temporario?:string, codigo_teste?:string}
      */
-    public function login(string $email, string $senha): array
+    public function login(string $email, string $senha, bool $comRenovacao = false): array
     {
         $user = User::where('email', $email)->first();
 
@@ -62,10 +64,10 @@ class AuthService
 
         $this->auditoria->registrar(LogAuditoria::CATEGORIA_ACESSO, 'LOGIN', ['email' => $email], usuarioId: $user->id);
 
-        return ['precisa_2fa' => false] + $this->emitirToken($user);
+        return ['precisa_2fa' => false] + $this->emitirToken($user, $comRenovacao);
     }
 
-    public function validarSegundoFator(User $user, string $codigo): array
+    public function validarSegundoFator(User $user, string $codigo, bool $comRenovacao = false): array
     {
         $this->doisFatores->validar($user, $codigo, CodigoVerificacao::FINALIDADE_LOGIN);
 
@@ -78,19 +80,53 @@ class AuthService
             usuarioId: $user->id,
         );
 
-        return $this->emitirToken($user);
+        return $this->emitirToken($user, $comRenovacao);
     }
 
     public function refresh(User $user): array
     {
-        $user->currentAccessToken()?->delete();
+        return DB::transaction(function () use ($user) {
+            $sessao = $user->currentAccessToken();
+            $travado = User::query()->lockForUpdate()->findOrFail($user->id);
+            if (! $sessao instanceof PersonalAccessToken || ! $travado->tokens()->whereKey($sessao->id)->exists()) {
+                throw new RegraDeNegocioException('A sessão já expirou ou foi renovada.', 401);
+            }
 
-        return $this->emitirToken($user);
+            $this->revogarSessao($user);
+
+            return $this->emitirToken($travado, true);
+        });
+    }
+
+    public function renovarComRefreshToken(string $segredo): array
+    {
+        $token = PersonalAccessToken::findToken($segredo);
+        if (! $token || $token->tokenable_type !== (new User)->getMorphClass()
+            || ! in_array('sessao:renovar', $token->abilities ?? [], true)) {
+            throw new RegraDeNegocioException('Token de renovação inválido ou expirado.', 401);
+        }
+
+        return DB::transaction(function () use ($token) {
+            $user = User::query()->lockForUpdate()->find($token->tokenable_id);
+            $vigente = $user?->tokens()->lockForUpdate()->find($token->id);
+            if (! $vigente || ! $vigente->expires_at || $vigente->expires_at->isPast()) {
+                throw new RegraDeNegocioException('Token de renovação inválido ou expirado.', 401);
+            }
+
+            $idAcesso = (int) substr($vigente->name, strlen('refresh:'));
+            $user->tokens()->whereKey($idAcesso)->delete();
+            $vigente->delete();
+
+            return $this->emitirToken($user, true);
+        });
     }
 
     public function logout(User $user): void
     {
-        $user->currentAccessToken()?->delete();
+        DB::transaction(function () use ($user) {
+            User::query()->lockForUpdate()->findOrFail($user->id);
+            $this->revogarSessao($user);
+        });
 
         $this->auditoria->registrar(LogAuditoria::CATEGORIA_ACESSO, 'LOGOUT', [], usuarioId: $user->id);
     }
@@ -105,18 +141,35 @@ class AuthService
         $user->forceFill(['dois_fatores_ativo' => false])->save();
     }
 
-    private function emitirToken(User $user): array
+    private function emitirToken(User $user, bool $comRenovacao = false): array
     {
         $nome = 'app-'.Str::lower((string) Str::random(4));
         $token = $user->createToken($nome);
-
-        return [
+        $resultado = [
             'token' => $token->plainTextToken,
             'expira_em' => config('sanctum.expiration')
                 ? now()->addMinutes((int) config('sanctum.expiration'))->toIso8601String()
                 : null,
             'perfil' => $user->perfil,
         ];
+
+        if ($comRenovacao) {
+            $expiracao = now()->addDays(7);
+            $renovacao = $user->createToken('refresh:'.$token->accessToken->id, ['sessao:renovar'], $expiracao);
+            $resultado['refresh_token'] = $renovacao->plainTextToken;
+            $resultado['refresh_expira_em'] = $expiracao->toIso8601String();
+        }
+
+        return $resultado;
+    }
+
+    private function revogarSessao(User $user): void
+    {
+        $sessao = $user->currentAccessToken();
+        if ($sessao instanceof PersonalAccessToken) {
+            $user->tokens()->where('name', 'refresh:'.$sessao->id)->delete();
+            $sessao->delete();
+        }
     }
 
     private function contarFalha(?User $user): void

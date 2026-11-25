@@ -56,7 +56,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 || $request->is('assinaturas*') || $request->is('agendamentos*')
                 || $request->is('viagens*') || $request->is('perfil*')
                 || $request->is('administracao*') || $request->is('suporte*')) {
-                return redirect()->back()->withInput($request->except('password', 'password_confirmation', 'codigo'))
+                return redirect()->back()->withInput($request->except('password', 'password_confirmation', 'current_password', 'codigo'))
                     ->with('erro', $e->getMessage());
             }
         });

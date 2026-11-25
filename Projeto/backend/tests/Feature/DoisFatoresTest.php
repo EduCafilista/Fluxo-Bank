@@ -112,4 +112,27 @@ class DoisFatoresTest extends TestCase
         $this->postJson("{$this->api}/login", ['email' => $user->email, 'password' => 'senha123'])
             ->assertStatus(423);
     }
+
+    public function test_refresh_token_roda_depois_do_token_de_acesso_expirar(): void
+    {
+        $user = $this->usuarioComConta();
+        $tokens = $this->postJson("{$this->api}/login", ['email' => $user->email, 'password' => 'senha123'])
+            ->assertOk()->json();
+
+        $this->withHeader('Authorization', 'Bearer '.$tokens['refresh_token'])
+            ->getJson("{$this->api}/eu")->assertForbidden();
+        $this->app['auth']->forgetGuards();
+        $this->travel(61)->minutes();
+        $this->withHeader('Authorization', 'Bearer '.$tokens['token'])
+            ->getJson("{$this->api}/eu")->assertUnauthorized();
+
+        $novo = $this->postJson("{$this->api}/token/renovar", ['refresh_token' => $tokens['refresh_token']])
+            ->assertOk()->json();
+        $this->assertNotSame($tokens['refresh_token'], $novo['refresh_token']);
+        $this->postJson("{$this->api}/token/renovar", ['refresh_token' => $tokens['refresh_token']])
+            ->assertUnauthorized();
+        $this->app['auth']->forgetGuards();
+        $this->withHeader('Authorization', 'Bearer '.$novo['token'])
+            ->getJson("{$this->api}/eu")->assertOk();
+    }
 }

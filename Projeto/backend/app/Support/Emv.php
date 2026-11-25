@@ -40,7 +40,7 @@ class Emv
 
     private static function valor(int $centavos): string
     {
-        return $centavos > 0 ? number_format($centavos / 100, 2, '.', '') : '';
+        return $centavos > 0 ? sprintf('%d.%02d', intdiv($centavos, 100), $centavos % 100) : '';
     }
 
     private static function normalizar(?string $texto): string
@@ -55,6 +55,14 @@ class Emv
         ]);
 
         return strtoupper(trim(preg_replace('/[^A-Za-z0-9 ]/', ' ', $texto)));
+    }
+
+    public static function checksumValido(string $payload): bool
+    {
+        return strlen($payload) >= 12
+            && str_starts_with($payload, '000201')
+            && substr($payload, -8, 4) === '6304'
+            && hash_equals(self::crc16(substr($payload, 0, -4)), strtoupper(substr($payload, -4)));
     }
 
     public static function crc16(string $payload): string

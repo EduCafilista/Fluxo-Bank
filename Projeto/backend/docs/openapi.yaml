@@ -207,6 +207,26 @@ paths:
       responses:
         '200': {description: Novo token}
 
+  /api/v1/token/renovar:
+    post:
+      tags: [Acesso]
+      security: []
+      summary: Renova uma sessão com refresh token de uso único
+      description: Aceita o refresh token por até sete dias, inclusive após o vencimento do token de acesso.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refresh_token]
+              properties:
+                refresh_token: {type: string}
+      responses:
+        '200': {description: Novo token de acesso e novo refresh token}
+        '401': {description: Token inválido, expirado ou já utilizado}
+        '422': {description: Campo de renovação inválido}
+
   /api/v1/eu:
     get:
       tags: [Acesso]
@@ -309,6 +329,20 @@ paths:
         '200': {description: Comprovante com autenticação}
         '404': {description: Transação de outra conta}
 
+  /api/v1/transacoes/{id}/comprovante.pdf:
+    get:
+      tags: [Transações]
+      summary: Baixa o comprovante do titular em PDF
+      parameters:
+        - {in: path, name: id, required: true, schema: {type: integer}}
+      responses:
+        '200':
+          description: Comprovante da operação
+          content:
+            application/pdf:
+              schema: {type: string, format: binary}
+        '404': {description: Transação inexistente ou sem acesso}
+
   /api/v1/chaves-pix:
     get:
       tags: [Pix]
@@ -358,10 +392,46 @@ paths:
       responses:
         '201': {description: "Payload gerado (payload_emv, crc16, valido)"}
 
+  /api/v1/pix/pagamentos/revisar:
+    post:
+      tags: [Pix]
+      summary: Consulta favorecido, valor e vencimento de uma cobrança Fluxo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [payload_emv]
+              properties:
+                payload_emv: {type: string, maxLength: 512}
+      responses:
+        '200': {description: Dados para confirmar a cobrança sem movimentar a conta}
+        '409': {description: Cobrança já paga}
+        '422': {description: Código inválido, expirado ou emitido fora do Fluxo}
+
+  /api/v1/pix/pagamentos:
+    post:
+      tags: [Pix]
+      summary: Efetiva o pagamento de uma cobrança Fluxo por QR Pix
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [payload_emv]
+              properties:
+                payload_emv: {type: string, maxLength: 512}
+      responses:
+        '201': {description: Pagamento registrado com transacao_id}
+        '409': {description: Cobrança já paga por outra conta ou conflito financeiro}
+        '422': {description: Código ou operação inválida}
+
   /api/v1/pix/recebimentos:
     post:
       tags: [Pix]
-      summary: Simula recebimento Pix (somente ambientes local e testing; não liquida Pix real)
+      summary: Registra recebimento de teste com a simulação habilitada e perfil ADMIN
       requestBody:
         required: true
         content:
@@ -383,10 +453,28 @@ paths:
       responses:
         '200': {description: OK}
 
+    patch:
+      tags: [Pix]
+      summary: Ajusta os limites Pix em centavos dentro dos tetos aprovados
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [por_transacao, diario, noturno]
+              properties:
+                por_transacao: {type: integer, minimum: 1}
+                diario: {type: integer, minimum: 1}
+                noturno: {type: integer, minimum: 1}
+      responses:
+        '200': {description: Limites e disponibilidade atualizados}
+        '422': {description: Valor fora dos tetos aprovados}
+
   /api/v1/boletos/validar:
     post:
       tags: [Pagamentos]
-      summary: Valida a linha digitável (47 ou 48 dígitos) sem pagar
+      summary: Valida o formato do código de barras (44 dígitos) ou da linha (47 ou 48)
       requestBody:
         required: true
         content:
@@ -528,16 +616,19 @@ paths:
         '200': {description: OK}
     post:
       tags: [Agendamentos]
-      summary: Agenda transferência futura (executada pelo worker)
+      summary: Agenda uma transferência ou o pagamento de boleto
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [conta_destino_id, valor_centavos, agendado_para]
+              required: [valor_centavos, agendado_para]
               properties:
-                conta_destino_id: {type: integer}
+                tipo_operacao: {type: string, enum: [TED_INTERNA, BOLETO], default: TED_INTERNA}
+                conta_destino_id: {type: integer, description: Obrigatório para transferência}
+                linha_digitavel: {type: string, description: Obrigatória para boleto}
+                recorrente: {type: boolean, description: Repetição mensal de transferência}
                 valor_centavos: {type: integer}
                 agendado_para: {type: string, format: date-time}
                 descricao: {type: string, nullable: true}

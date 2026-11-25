@@ -62,7 +62,7 @@ class LimitePixService
         $temChaveAtiva = $conta->chavesPix()->where('status', 'ATIVA')->exists();
 
         $tetoTransacao = $janela === ConsumoLimitePix::JANELA_NOTURNA
-            ? $politica['noturno_por_transacao']
+            ? min($politica['noturno_por_transacao'], $politica['por_transacao'])
             : $politica['por_transacao'];
 
         if (! $temChaveAtiva) {
@@ -86,7 +86,16 @@ class LimitePixService
             $tetoDiario = min($tetoDiario, $politica['sem_chave_diario']);
         }
 
+        $totais = $this->totaisDoDia($conta);
         $jaUsado = $consumo->valor_utilizado + $consumo->valor_reservado;
+        $tetoGeral = $temChaveAtiva ? $politica['diario'] : min($politica['diario'], $politica['sem_chave_diario']);
+
+        if ($totais->valor + $valorCentavos > $tetoGeral) {
+            throw new LimiteExcedidoException(sprintf(
+                'Limite diário excedido (%s por dia). Já utilizado: %s.',
+                $this->fmt($tetoGeral), $this->fmt((int) $totais->valor),
+            ));
+        }
 
         if ($jaUsado + $valorCentavos > $tetoDiario) {
             throw new LimiteExcedidoException(sprintf(
@@ -99,6 +108,10 @@ class LimitePixService
         $qtdMax = $janela === ConsumoLimitePix::JANELA_NOTURNA
             ? $politica['quantidade_noturna']
             : $politica['quantidade_diaria'];
+
+        if ($totais->quantidade + 1 > $politica['quantidade_diaria']) {
+            throw new LimiteExcedidoException("Quantidade de transferências do dia excedida (máx. {$politica['quantidade_diaria']}).");
+        }
 
         if ($consumo->quantidade_utilizada + $consumo->quantidade_reservada + 1 > $qtdMax) {
             throw new LimiteExcedidoException("Quantidade de transferências do dia excedida (máx. {$qtdMax}).");
@@ -162,28 +175,41 @@ class LimitePixService
     {
         $politica = $this->politica($conta);
         $janela = $this->janela($politica);
-        $consumo = $this->consumoDoDia($conta, $janela);
+        $consumo = $conta->consumosLimitePix()->whereDate('data_referencia', now()->toDateString())
+            ->where('janela', $janela)->first();
+        $totais = $this->totaisDoDia($conta);
         $temChave = $conta->chavesPix()->where('status', 'ATIVA')->exists();
-
-        $tetoDiario = $janela === ConsumoLimitePix::JANELA_NOTURNA
-            ? $politica['noturno_diario']
-            : $politica['diario'];
+        $noturna = $janela === ConsumoLimitePix::JANELA_NOTURNA;
+        $tetoGeral = $politica['diario'];
+        $tetoJanela = $noturna ? $politica['noturno_diario'] : $tetoGeral;
+        $tetoTransacao = $noturna ? min($politica['por_transacao'], $politica['noturno_por_transacao']) : $politica['por_transacao'];
 
         if (! $temChave) {
-            $tetoDiario = min($tetoDiario, $politica['sem_chave_diario']);
+            $tetoGeral = min($tetoGeral, $politica['sem_chave_diario']);
+            $tetoJanela = min($tetoJanela, $tetoGeral);
+            $tetoTransacao = min($tetoTransacao, $politica['sem_chave_por_transacao']);
         }
+
+        $utilizado = $consumo?->valor_utilizado ?? 0;
+        $reservado = $consumo?->valor_reservado ?? 0;
 
         return [
             'janela' => $janela,
             'tem_chave_pix_ativa' => $temChave,
-            'limite_por_transacao_centavos' => $janela === ConsumoLimitePix::JANELA_NOTURNA
-                ? $politica['noturno_por_transacao']
-                : $politica['por_transacao'],
-            'limite_diario_centavos' => $tetoDiario,
-            'utilizado_centavos' => $consumo->valor_utilizado,
-            'reservado_centavos' => $consumo->valor_reservado,
-            'disponivel_centavos' => max(0, $tetoDiario - $consumo->valor_utilizado - $consumo->valor_reservado),
+            'limite_por_transacao_centavos' => $tetoTransacao,
+            'limite_diario_centavos' => $tetoJanela,
+            'utilizado_centavos' => $utilizado,
+            'reservado_centavos' => $reservado,
+            'disponivel_centavos' => max(0, min($tetoGeral - $totais->valor, $tetoJanela - $utilizado - $reservado)),
         ];
+    }
+
+    private function totaisDoDia(Conta $conta): object
+    {
+        return $conta->consumosLimitePix()->whereDate('data_referencia', now()->toDateString())
+            ->selectRaw('COALESCE(SUM(valor_utilizado + valor_reservado), 0) AS valor')
+            ->selectRaw('COALESCE(SUM(quantidade_utilizada + quantidade_reservada), 0) AS quantidade')
+            ->toBase()->first();
     }
 
     private function fmt(int $centavos): string

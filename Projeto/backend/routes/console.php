@@ -10,3 +10,5 @@ Artisan::command('inspire', function () {
 
 // Worker de agendamentos (RF06/RF25/RN45): roda a cada minuto.
 Schedule::command('agendamentos:processar')->everyMinute()->withoutOverlapping();
+
+Schedule::command('assinaturas:cobrar')->dailyAt('01:10')->withoutOverlapping();

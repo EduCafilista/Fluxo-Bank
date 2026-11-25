@@ -3,19 +3,14 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cliente;
-use App\Models\CodigoVerificacao;
+use App\Http\Requests\CadastroWebRequest;
 use App\Models\User;
-use App\Rules\Cnpj;
-use App\Rules\Cpf;
 use App\Services\AuthService;
 use App\Services\CadastroService;
 use App\Services\RecuperacaoSenhaService;
-use App\Services\Servico2FA;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthWebController extends Controller
@@ -38,6 +33,7 @@ class AuthWebController extends Controller
                 'token' => $resultado['token_temporario'],
                 'expira_em' => $resultado['expira_em'] ?? null,
             ]);
+
             return redirect()->route('web.2fa');
         }
 
@@ -51,6 +47,7 @@ class AuthWebController extends Controller
         if (! $request->session()->has('fluxo_2fa')) {
             return redirect()->route('web.login');
         }
+
         return view('web.auth.2fa');
     }
 
@@ -64,10 +61,16 @@ class AuthWebController extends Controller
         $token = PersonalAccessToken::findToken($pendente['token']);
         if (! $token || ! $token->can('2fa:pendente') || $token->expires_at?->isPast()) {
             $request->session()->forget('fluxo_2fa');
+
             return redirect()->route('web.login')->with('erro', 'Código expirado. Faça login novamente.');
         }
         /** @var User $user */
         $user = $token->tokenable;
+        if (! $user instanceof User) {
+            $request->session()->forget('fluxo_2fa');
+
+            return redirect()->route('web.login');
+        }
         $user->withAccessToken($token);
         $resultado = $servico->validarSegundoFator($user, $dados['codigo']);
         $request->session()->forget('fluxo_2fa');
@@ -81,32 +84,10 @@ class AuthWebController extends Controller
         return view('web.auth.register');
     }
 
-    public function register(Request $request, CadastroService $servico): RedirectResponse
+    public function register(CadastroWebRequest $request, CadastroService $servico): RedirectResponse
     {
-        $tipo = strtoupper((string) $request->input('tipo_cliente', 'PF'));
-        $request->merge([
-            'tipo_cliente' => $tipo,
-            'cpf' => preg_replace('/\D/', '', (string) $request->input('cpf')),
-            'cnpj' => preg_replace('/\D/', '', (string) $request->input('cnpj')),
-        ]);
-        $request->validate(['tipo_cliente' => 'required|in:PF,PJ']);
-        $comuns = ['email' => 'required|email|unique:users,email', 'password' => 'required|string|min:8|max:72|confirmed'];
-        if ($tipo === Cliente::TIPO_PJ) {
-            $dados = $request->validate($comuns + [
-                'razao_social' => 'required|string|max:150',
-                'cnpj' => ['required', 'size:14', 'unique:clientes,cnpj', new Cnpj],
-                'representante_legal' => 'required|string|max:150',
-            ]);
-            $servico->cadastrarPessoaJuridica($dados + ['nome' => $dados['razao_social']]);
-        } else {
-            $dados = $request->validate($comuns + [
-                'nome' => 'required|string|max:120',
-                'cpf' => ['required', 'size:11', 'unique:clientes,cpf', new Cpf],
-                'data_nascimento' => 'required|date|before:today',
-                'tipo_conta' => 'nullable|in:CORRENTE,POUPANCA,SALARIO',
-            ]);
-            $servico->cadastrarPessoaFisica($dados);
-        }
+        $servico->cadastrarCliente($request->validated());
+
         return redirect()->route('web.login')->with('sucesso', 'Cadastro recebido. Faça login para acompanhar a abertura da conta.');
     }
 
@@ -119,6 +100,7 @@ class AuthWebController extends Controller
     {
         $dados = $request->validate(['identificador' => 'required|string|max:255']);
         $servico->solicitarPorIdentificador($dados['identificador']);
+
         return back()->with('sucesso', 'Caso o cadastro exista, a solicitação foi enviada para análise manual pelo suporte.');
     }
 
@@ -130,6 +112,7 @@ class AuthWebController extends Controller
             'identificador' => $dados['identificador'],
             'token' => $resultado['token_redefinicao'] ?? $resultado['token'] ?? null,
         ]);
+
         return back()->with('sucesso', 'Código validado. Cadastre uma nova senha.');
     }
 
@@ -142,6 +125,7 @@ class AuthWebController extends Controller
         }
         $servico->redefinirSenha($recuperacao['token'], $dados['password'], $recuperacao['identificador']);
         $request->session()->forget('fluxo_recuperacao');
+
         return redirect()->route('web.login')->with('sucesso', 'Senha alterada. Entre com suas novas credenciais.');
     }
 
@@ -156,6 +140,7 @@ class AuthWebController extends Controller
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('web.login')->with('sucesso', 'Sessão encerrada com segurança.');
     }
 

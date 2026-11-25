@@ -24,28 +24,30 @@ class AgendamentoController extends Controller
     public function store(Request $request): JsonResponse
     {
         $dados = $request->validate([
-            'conta_destino_id' => 'required|integer|exists:contas,id',
+            'tipo_operacao' => 'nullable|in:TED_INTERNA,BOLETO',
+            'conta_destino_id' => 'required_unless:tipo_operacao,BOLETO|nullable|integer|exists:contas,id',
+            'linha_digitavel' => 'required_if:tipo_operacao,BOLETO|nullable|string|max:70',
             'valor_centavos' => 'required|integer|min:1',
             'agendado_para' => 'required|date|after:now',
             'descricao' => 'nullable|string|max:120',
-        ], [
-            'agendado_para.after' => 'A data do agendamento precisa estar no futuro.',
-        ]);
+            'recorrente' => 'nullable|boolean',
+        ], ['agendado_para.after' => 'A data do agendamento precisa estar no futuro.']);
 
         $conta = $request->user()->conta()->firstOrFail();
+        $chave = (string) $request->header('Idempotency-Key', '');
+        $valor = (int) $dados['valor_centavos'];
+        $quando = $dados['agendado_para'];
+        $boleto = ($dados['tipo_operacao'] ?? null) === Agendamento::TIPO_BOLETO;
 
-        $agendamento = $this->agendamentos->agendar(
-            $conta,
-            Conta::findOrFail($dados['conta_destino_id']),
-            (int) $dados['valor_centavos'],
-            $dados['agendado_para'],
-            $dados['descricao'] ?? null,
-            Agendamento::TIPO_TED_INTERNA,
-            (string) ($request->header('Idempotency-Key') ?? ''),
-        );
+        $agendamento = $boleto
+            ? $this->agendamentos->agendarBoleto($conta, $dados['linha_digitavel'], $valor, $quando, $chave)
+            : $this->agendamentos->agendar(
+                $conta, Conta::findOrFail($dados['conta_destino_id']), $valor, $quando,
+                $dados['descricao'] ?? null, chaveIdempotencia: $chave, recorrente: (bool) ($dados['recorrente'] ?? false),
+            );
 
         return response()->json([
-            'mensagem' => 'Transferência agendada.',
+            'mensagem' => $boleto ? 'Pagamento agendado.' : 'Transferência agendada.',
             'agendamento' => $this->formatar($agendamento),
         ], 201);
     }
@@ -71,6 +73,8 @@ class AgendamentoController extends Controller
             'agendado_para' => $a->agendado_para?->toIso8601String(),
             'status' => $a->status,
             'tentativas' => $a->tentativas,
+            'recorrente' => $a->recorrente,
+            'proxima_execucao' => $a->proxima_execucao?->toIso8601String(),
             'transacao_id' => $a->transacao_id,
             'erro' => $a->erro,
         ];

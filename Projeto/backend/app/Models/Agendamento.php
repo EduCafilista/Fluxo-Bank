@@ -42,6 +42,7 @@ class Agendamento extends Model
             'valor_centavos' => 'integer',
             'tentativas' => 'integer',
             'recorrente' => 'boolean',
+            'recorrente' => 'boolean',
         ];
     }
 

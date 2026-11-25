@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Services\AuditoriaService;
+use App\Support\Sanitizador;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -13,8 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AuditoriaRequisicao
 {
-    private array $ignorar = ['up', 'api/v1/health', 'api/v1/openapi.yaml', 'docs/*', 'storage/*'];
-
     public function __construct(private AuditoriaService $auditoria) {}
 
     public function handle(Request $request, Closure $next): Response
@@ -27,16 +26,9 @@ class AuditoriaRequisicao
 
         $request->attributes->set('request_id', $requestId);
 
-        // Contexto PostgreSQL deve ser configurado na mesma transação da escrita.
-        // Não definir set_config(..., true) aqui: fora de transação não persiste.
-
         $response = $next($request);
 
         $response->headers->set('X-Request-Id', $requestId);
-
-        if (! $this->deveRegistrar($request)) {
-            return $response;
-        }
 
         try {
             $this->auditoria->registrar(
@@ -46,6 +38,7 @@ class AuditoriaRequisicao
                     'rota' => $request->path(),
                     'metodo' => $request->method(),
                     'status_http' => $response->getStatusCode(),
+                    'dados' => Sanitizador::dadosDaRequisicao($request->input()),
                 ],
                 'http',
                 null,
@@ -58,20 +51,5 @@ class AuditoriaRequisicao
         }
 
         return $response;
-    }
-
-    private function deveRegistrar(Request $request): bool
-    {
-        if ($request->isMethod('OPTIONS')) {
-            return false;
-        }
-
-        foreach ($this->ignorar as $padrao) {
-            if ($request->is($padrao)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

@@ -42,9 +42,9 @@ class AuditoriaService
     {
         $rota = mb_strtolower($request->path());
 
-        if (str_contains($rota, 'login') || str_contains($rota, 'logout')
+        if (str_starts_with($rota, 'acesso/') || str_contains($rota, 'login') || str_contains($rota, 'logout')
             || str_contains($rota, '2fa') || str_contains($rota, 'cadastro')
-            || str_contains($rota, 'senha')) {
+            || str_contains($rota, 'senha') || str_contains($rota, 'sair')) {
             return LogAuditoria::CATEGORIA_ACESSO;
         }
 

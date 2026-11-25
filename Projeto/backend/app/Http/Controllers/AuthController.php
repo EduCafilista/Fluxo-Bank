@@ -25,7 +25,7 @@ class AuthController extends Controller
             'password.required' => 'Informe a senha.',
         ]);
 
-        return response()->json($this->auth->login($dados['email'], $dados['password']));
+        return response()->json($this->auth->login($dados['email'], $dados['password'], comRenovacao: true));
     }
 
     public function validarDoisFatores(Request $request): JsonResponse
@@ -37,9 +37,12 @@ class AuthController extends Controller
             'codigo.digits' => 'O código tem 6 dígitos.',
         ]);
 
+        $user = $request->user();
+        abort_unless(in_array('2fa:pendente', $user->currentAccessToken()?->abilities ?? [], true), 403);
+
         return response()->json([
             'mensagem' => 'Verificação concluída.',
-        ] + $this->auth->validarSegundoFator($request->user(), $dados['codigo']));
+        ] + $this->auth->validarSegundoFator($user, $dados['codigo'], comRenovacao: true));
     }
 
     public function novoDesafio(Request $request): JsonResponse
@@ -70,6 +73,13 @@ class AuthController extends Controller
     public function refresh(Request $request): JsonResponse
     {
         return response()->json($this->auth->refresh($request->user()));
+    }
+
+    public function renovarSessao(Request $request): JsonResponse
+    {
+        $dados = $request->validate(['refresh_token' => 'required|string|max:255']);
+
+        return response()->json($this->auth->renovarComRefreshToken($dados['refresh_token']));
     }
 
     public function logout(Request $request): JsonResponse

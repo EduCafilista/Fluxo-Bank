@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Conta;
 use App\Models\Lancamento;
 use App\Models\Transacao;
+use Dompdf\Dompdf;
+use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 
 class RelatorioService
@@ -29,6 +31,21 @@ class RelatorioService
             ])->all(),
             'autenticacao' => strtoupper(substr(hash('sha256', $transacao->id.$transacao->created_at), 0, 16)),
         ];
+    }
+
+    public function comprovantePdf(Transacao $transacao): Response
+    {
+        $dados = $this->comprovante($transacao);
+        $pdf = new Dompdf;
+        $pdf->loadHtml(view('web.customer.receipt-pdf', ['comprovante' => $dados])->render(), 'UTF-8');
+        $pdf->setPaper('A4');
+        $pdf->render();
+
+        return response($pdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="comprovante-fluxo-'.$transacao->id.'.pdf"',
+            'Cache-Control' => 'private, no-store',
+        ]);
     }
 
     public function extratoCategorizado(Conta $conta, ?Carbon $de = null, ?Carbon $ate = null): array

@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\AssinaturaCartao;
 use App\Models\Cartao;
+use App\Services\AvisoViagemService;
+use App\Services\CartoesService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -152,5 +154,24 @@ class CartaoTest extends TestCase
             'id' => $recorrencia->id,
             'status' => 'CANCELADA',
         ]);
+    }
+
+    public function test_aviso_de_viagem_so_autoriza_compra_no_cartao_associado(): void
+    {
+        config(['services.fluxo.simulacoes_financeiras' => true]);
+        $usuario = $this->usuarioComConta([], 20000);
+        $conta = $usuario->conta;
+        $cartoes = app(CartoesService::class);
+        $fisico = $cartoes->emitirFisico($conta, 'DEBITO');
+        $virtual = $cartoes->gerarVirtual($fisico);
+        $h = $this->autenticarSem2fa($usuario);
+        $dados = ['valor_centavos' => 1000, 'estabelecimento' => 'Mercado', 'localidade' => 'Curitiba'];
+
+        app(AvisoViagemService::class)
+            ->criar($conta, $fisico, ['Curitiba'], now()->toDateString(), now()->addDay()->toDateString());
+        $this->withHeaders($h + ['Idempotency-Key' => 'viagem-virtual'])
+            ->postJson("{$this->api}/cartoes/{$virtual->id}/compras-simuladas", $dados)->assertForbidden();
+        $this->withHeaders($h + ['Idempotency-Key' => 'viagem-fisico'])
+            ->postJson("{$this->api}/cartoes/{$fisico->id}/compras-simuladas", $dados)->assertCreated();
     }
 }

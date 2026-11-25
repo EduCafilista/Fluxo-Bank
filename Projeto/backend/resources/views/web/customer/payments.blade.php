@@ -1,6 +1,28 @@
-@extends('web.layouts.app',['title'=>'Pagamentos'])
+@extends('web.layouts.app', ['title' => 'Pagamentos'])
 @section('content')
-@include('web.components.heading',['heading'=>'Pagar boleto','subtitle'=>'Digite a linha digitável para revisar antes da autorização.'])
-<div class="steps"><span class="step active"><strong>1</strong> Dados</span><span class="step-line"></span><span class="step"><strong>2</strong> Revisão</span><span class="step-line"></span><span class="step"><strong>3</strong> Conclusão</span></div>
-<div class="grid grid-main"><section class="panel"><h2>Dados do boleto</h2><p class="panel-subtitle">Operação bancária simulada dentro do Fluxo.</p><form method="post" action="{{ route('web.payments.review') }}">@csrf<div class="field"><label for="linha_digitavel">Linha digitável</label><input id="linha_digitavel" name="linha_digitavel" inputmode="numeric" value="{{ old('linha_digitavel') }}" placeholder="47 ou 48 dígitos" required></div><div class="field" style="margin-top:18px"><label for="valor">Valor do boleto (R$)</label><input id="valor" name="valor" placeholder="149,90" inputmode="decimal" value="{{ old('valor') }}" required></div><div class="form-actions"><button class="btn btn-primary">Continuar para revisão @include('web.components.icon',['name'=>'arrow-up-right'])</button></div></form></section><div class="panel" style="height:fit-content"><div class="info-box">@include('web.components.icon',['name'=>'shield'])<span>O código será validado e a operação só ocorrerá após sua confirmação. Boletos não são liquidados em redes bancárias externas.</span></div></div></div>
+@include('web.components.heading', ['heading' => 'Pagamentos', 'subtitle' => 'Revise o valor e os dados antes de confirmar.'])
+<div class="grid grid-2">
+    <section class="panel">
+        <div class="panel-header"><h2>Pagar com Pix</h2>@include('web.components.icon', ['name' => 'pix'])</div>
+        <form method="post" action="{{ route('web.payments.pix.review') }}" class="stack">
+            @csrf
+            <div class="field"><label for="payload_emv">Pix Copia e Cola</label><textarea id="payload_emv" name="payload_emv" rows="3" placeholder="Cole o código da cobrança" maxlength="512" required>{{ old('payload_emv') }}</textarea></div>
+            <div class="field" data-pix-image-control hidden>
+                <label for="pix_image">Ler imagem de um QR Code</label>
+                <input type="file" id="pix_image" accept="image/*" data-pix-image aria-describedby="pix-image-status">
+                <small id="pix-image-status" role="status"></small>
+            </div>
+            <div><button class="btn btn-primary" type="submit">Revisar Pix</button></div>
+        </form>
+    </section>
+    <section class="panel">
+        <div class="panel-header"><h2>Pagar boleto</h2>@include('web.components.icon', ['name' => 'receipt'])</div>
+        <form method="post" action="{{ route('web.payments.review') }}" class="stack">
+            @csrf
+            <div class="field"><label for="linha_digitavel">Linha digitável ou código de barras</label><input id="linha_digitavel" name="linha_digitavel" inputmode="numeric" value="{{ old('linha_digitavel') }}" placeholder="44, 47 ou 48 dígitos" maxlength="70" required></div>
+            <div class="field"><label for="valor">Valor do boleto (R$)</label><input id="valor" name="valor" placeholder="149,90" inputmode="decimal" value="{{ old('valor') }}" required></div>
+            <div><button class="btn btn-outline" type="submit">Revisar boleto</button></div>
+        </form>
+    </section>
+</div>
 @endsection

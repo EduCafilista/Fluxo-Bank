@@ -26,58 +26,49 @@ class TransferenciaService
         string $tipo = Transacao::TIPO_TED_INTERNA,
         ?string $chaveIdempotencia = null,
     ): Transacao {
-        if ($chaveIdempotencia) {
-            $existente = Transacao::where('chave_idempotencia', $chaveIdempotencia)->first();
+        return DB::transaction(function () use ($origem, $destino, $valorCentavos, $descricao, $tipo, $chaveIdempotencia) {
+            $travadas = Conta::whereIn('id', [$origem->id, $destino->id])
+                ->orderBy('id')->lockForUpdate()->get()->keyBy('id');
+            $origem = $travadas[$origem->id];
+            $destino = $travadas[$destino->id];
 
-            if ($existente) {
-                return $existente;
-            }
-        }
+            if ($chaveIdempotencia) {
+                $existente = Transacao::where('chave_idempotencia', $chaveIdempotencia)->first();
+                if ($existente) {
+                    $debitado = $existente->lancamentos()->where('conta_id', $origem->id)
+                        ->where('tipo', Lancamento::TIPO_DEBITO)->where('valor_centavos', $valorCentavos)->exists();
+                    $creditado = $existente->lancamentos()->where('conta_id', $destino->id)->where('tipo', Lancamento::TIPO_CREDITO)->exists();
 
-        $verificacao = $this->antifraude->analisar($origem, $destino, $valorCentavos, $tipo);
+                    if (! $debitado || ! $creditado || $existente->tipo !== $tipo || $existente->descricao !== $descricao) {
+                        throw new RegraDeNegocioException('A chave foi usada por outra operação.', 409);
+                    }
 
-        $consumo = $this->limites->consumirReservado($verificacao['consumo'], $valorCentavos);
-
-        try {
-            return DB::transaction(function () use ($origem, $destino, $valorCentavos, $descricao, $tipo, $chaveIdempotencia, $consumo) {
-                $origemTravada = Conta::whereKey($origem->id)->lockForUpdate()->firstOrFail();
-
-                if ($origemTravada->saldo() < $valorCentavos) {
-                    throw new SaldoInsuficienteException;
+                    return $existente->load('lancamentos.conta:id,numero');
                 }
+            }
 
-                $transacao = $this->lancamentos->transferir(
-                    $origemTravada,
-                    $destino,
-                    $valorCentavos,
-                    $descricao,
-                    $tipo,
-                    $chaveIdempotencia,
-                );
+            $reservado = (int) $origem->consumosLimitePix()->whereDate('data_referencia', '>=', now()->toDateString())->sum('valor_reservado');
+            if ($origem->podeDebitar() && $origem->saldo() - $reservado < $valorCentavos) {
+                throw new SaldoInsuficienteException;
+            }
 
-                $this->limites->confirmar($consumo, $valorCentavos);
+            $verificacao = $this->antifraude->analisar($origem, $destino, $valorCentavos, $tipo);
+            $consumo = $this->limites->consumirReservado($verificacao['consumo'], $valorCentavos);
+            $transacao = $this->lancamentos->transferir($origem, $destino, $valorCentavos, $descricao, $tipo, $chaveIdempotencia);
+            $this->limites->confirmar($consumo, $valorCentavos);
 
-                app(AuditoriaService::class)->registrar(
-                    'MOVIMENTACAO',
-                    'TRANSFERENCIA_EFETIVADA',
-                    [
-                        'transacao_id' => $transacao->id,
-                        'origem' => $origem->numero,
-                        'destino' => $destino->numero,
-                        'valor_centavos' => $valorCentavos,
-                        'tipo' => $tipo,
-                    ],
-                    'transacoes',
-                    (string) $transacao->id,
-                );
+            app(AuditoriaService::class)->registrar(
+                'MOVIMENTACAO', 'TRANSFERENCIA_EFETIVADA', [
+                    'transacao_id' => $transacao->id,
+                    'origem' => $origem->numero,
+                    'destino' => $destino->numero,
+                    'valor_centavos' => $valorCentavos,
+                    'tipo' => $tipo,
+                ], 'transacoes', (string) $transacao->id,
+            );
 
-                return $transacao->load('lancamentos.conta:id,numero');
-            });
-        } catch (\Throwable $e) {
-            $this->limites->devolverReserva($consumo, $valorCentavos);
-
-            throw $e;
-        }
+            return $transacao->load('lancamentos.conta:id,numero');
+        }, 3);
     }
 
     public function transferirPorChavePix(

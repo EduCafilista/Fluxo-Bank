@@ -10,15 +10,16 @@ use App\Http\Controllers\BackofficeController;
 use App\Http\Controllers\BoletoController;
 use App\Http\Controllers\CadastroController;
 use App\Http\Controllers\CartaoController;
-use App\Http\Controllers\CompraDebitoSimuladaController;
 use App\Http\Controllers\ChamadoSuporteController;
 use App\Http\Controllers\ChavePixController;
+use App\Http\Controllers\CompraDebitoSimuladaController;
 use App\Http\Controllers\ContaController;
 use App\Http\Controllers\DepositoSimuladoController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\PixController;
 use App\Http\Controllers\RecuperacaoSenhaController;
 use App\Http\Controllers\TransacaoController;
+use App\Http\Middleware\ContextoAuditoria;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/health', HealthController::class)->name('health');
@@ -39,6 +40,9 @@ Route::post('/login', [AuthController::class, 'login'])
     ->middleware('throttle:10,1')
     ->name('login');
 
+Route::post('/token/renovar', [AuthController::class, 'renovarSessao'])
+    ->middleware('throttle:10,1')->name('token.renovar');
+
 Route::prefix('senha/recuperacao')->middleware('throttle:10,1')->group(function () {
     Route::post('/solicitar', [RecuperacaoSenhaController::class, 'solicitar'])->name('senha.recuperacao.solicitar');
     Route::post('/validar', [RecuperacaoSenhaController::class, 'validar'])->name('senha.recuperacao.validar');
@@ -49,7 +53,7 @@ Route::post('/2fa/validar', [AuthController::class, 'validarDoisFatores'])
     ->middleware(['auth:sanctum', 'throttle:10,1'])
     ->name('2fa.validar');
 
-Route::middleware(['auth:sanctum', '2fa.concluido', 'idempotencia'])->group(function () {
+Route::middleware(['auth:sanctum', '2fa.concluido', ContextoAuditoria::class, 'idempotencia'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/logout-all', [AuthController::class, 'logoutTodos'])->name('logout.all');
     Route::post('/refresh', [AuthController::class, 'refresh'])->name('refresh');
@@ -67,6 +71,7 @@ Route::middleware(['auth:sanctum', '2fa.concluido', 'idempotencia'])->group(func
     Route::delete('/conta', [ContaController::class, 'encerrar'])->name('conta.encerrar');
 
     Route::get('/transacoes', [TransacaoController::class, 'index'])->name('transacoes.index');
+    Route::get('/transacoes/{transacao}/comprovante.pdf', [TransacaoController::class, 'comprovantePdf'])->name('transacoes.pdf');
     Route::get('/transacoes/{transacao}', [TransacaoController::class, 'show'])->name('transacoes.show');
     Route::post('/transferencias', [TransacaoController::class, 'store'])->name('transferencias.store');
 
@@ -75,9 +80,12 @@ Route::middleware(['auth:sanctum', '2fa.concluido', 'idempotencia'])->group(func
     Route::delete('/chaves-pix/{chave}', [ChavePixController::class, 'destroy'])->name('chaves.destroy');
 
     Route::post('/pix/cobrancas', [PixController::class, 'cobranca'])->name('pix.cobrancas');
+    Route::post('/pix/pagamentos/revisar', [PixController::class, 'revisarPagamento'])->name('pix.pagamentos.revisar');
+    Route::post('/pix/pagamentos', [PixController::class, 'pagarCobranca'])->name('pix.pagamentos.pagar');
     Route::post('/pix/recebimentos', [PixController::class, 'receber'])->middleware('simulacao.financeira')->name('pix.recebimentos');
     Route::post('/depositos', DepositoSimuladoController::class)->middleware('simulacao.financeira')->name('depositos.simulados');
     Route::get('/pix/limites', [PixController::class, 'limites'])->name('pix.limites');
+    Route::patch('/pix/limites', [PixController::class, 'ajustarLimites'])->name('pix.limites.ajustar');
 
     Route::post('/boletos/validar', [BoletoController::class, 'validar'])->name('boletos.validar');
     Route::post('/boletos/pagar', [BoletoController::class, 'pagar'])->name('boletos.pagar');
@@ -137,4 +145,3 @@ Route::any('{caminho?}', fn () => response()->json([
     'erro' => 'Rota não encontrada.',
     'versao' => 'v1',
 ], 404))->where('caminho', '.*')->name('api.v1.fallback');
-
