@@ -5,7 +5,8 @@
 <form method="post" action="{{ route('web.register.store') }}" class="stack registration-form" data-registration>
     @csrf
     @include('web.components.registration-fields')
-    <button class="btn btn-primary btn-full" type="submit">Criar minha conta</button>
+    <p class="hint">Este cadastro abre uma solicitação de conta para análise. Você será informado sobre a decisão por e-mail, quando o serviço de envio estiver habilitado.</p>
+    <button class="btn btn-primary btn-full" type="submit">Enviar solicitação</button>
 </form>
 <p class="guest-link-footer">Já possui conta? <a href="{{ route('web.login') }}">Entrar</a></p>
 @endsection

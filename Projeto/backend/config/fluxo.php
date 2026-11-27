@@ -32,6 +32,8 @@ return [
         'entrega_email_ativa' => (bool) env('FLUXO_2FA_EMAIL_ENTREGA', false),
     ],
 
+    'email' => ['provedor' => env('FLUXO_EMAIL_PROVIDER', 'laravel')],
+
     // Bloqueio temporário após falhas de login (RN19: 5 falhas / 15 min)
     'login' => [
         'max_tentativas' => (int) env('FLUXO_LOGIN_TENTATIVAS', 5),
@@ -55,7 +57,7 @@ return [
     ],
 
     'kyc' => [
-        'automatico' => (bool) env('FLUXO_KYC_AUTOMATICO', true),
+        'automatico' => (bool) env('FLUXO_KYC_AUTOMATICO', false),
         'idade_minima' => (int) env('FLUXO_KYC_IDADE_MINIMA', 18),
     ],
 

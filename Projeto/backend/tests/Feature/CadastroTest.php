@@ -28,6 +28,7 @@ class CadastroTest extends TestCase
 
     public function test_cadastro_com_dados_validos_cria_usuario_cliente_e_conta(): void
     {
+        config()->set('fluxo.kyc.automatico', true);
         $this->postJson("{$this->api}/cadastro", $this->dadosValidos())
             ->assertCreated()
             ->assertJsonPath('conta', fn ($numero) => is_string($numero) && $numero !== '')
@@ -170,6 +171,7 @@ class CadastroTest extends TestCase
 
     public function test_kyc_recusa_menor_de_idade(): void
     {
+        config()->set('fluxo.kyc.automatico', true);
         $this->postJson("{$this->api}/cadastro", $this->dadosValidos([
             'data_nascimento' => now()->subYears(15)->toDateString(),
             'email' => 'menor@fluxo.test',

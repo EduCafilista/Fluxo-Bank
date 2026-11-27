@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\AssinaturaCartao;
 use App\Models\Cartao;
+use App\Models\CobrancaPix;
 use App\Models\Conta;
 use App\Models\Item;
 use App\Models\Plano;
@@ -80,8 +81,20 @@ class BankWebController extends Controller
 
     public function receberPix(Request $request)
     {
+        $conta = $this->conta($request);
+        $ultima = $request->session()->get('fluxo_cobranca');
+        if (is_array($ultima) && isset($ultima['cobranca_id'])) {
+            $registro = CobrancaPix::where('conta_id', $conta->id)->find($ultima['cobranca_id']);
+            if (! $registro || $registro->situacao() !== 'ATIVA') {
+                $request->session()->forget('fluxo_cobranca');
+                $ultima = null;
+            }
+        } else {
+            $ultima = null;
+        }
         return view('web.customer.receive', [
-            'conta' => $this->conta($request), 'cobranca' => $request->session()->get('fluxo_cobranca'),
+            'conta' => $conta, 'cobranca' => $ultima,
+            'historico' => CobrancaPix::where('conta_id', $conta->id)->latest('id')->paginate(12),
         ]);
     }
 

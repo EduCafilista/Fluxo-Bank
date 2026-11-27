@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CobrancaPix;
 use App\Services\ConfiguracaoLimitePixService;
 use App\Services\ContaService;
 use App\Services\LimitePixService;
@@ -22,14 +23,37 @@ class PixController extends Controller
         $dados = $request->validate([
             'valor_centavos' => 'required|integer|min:1',
             'descricao' => 'nullable|string|max:120',
+            'expiracao_minutos' => 'nullable|integer|between:1,1440',
         ]);
 
         $conta = $request->user()->conta()->firstOrFail();
 
         return response()->json(
-            $this->pagamentos->gerarCobrancaPix($conta, (int) $dados['valor_centavos'], $dados['descricao'] ?? null),
+            $this->pagamentos->gerarCobrancaPix($conta, (int) $dados['valor_centavos'],
+                $dados['descricao'] ?? null, (int) ($dados['expiracao_minutos'] ?? 5)),
             201,
         );
+    }
+
+    public function listarCobrancas(Request $request): JsonResponse
+    {
+        $conta = $request->user()->conta()->firstOrFail();
+        $paginas = CobrancaPix::where('conta_id', $conta->id)->latest('id')
+            ->paginate(min(max((int) $request->query('per_page', 20), 1), 50));
+        return response()->json($paginas->through(fn (CobrancaPix $c) => [
+            'id' => $c->id, 'txid' => $c->txid, 'valor_centavos' => $c->valor_centavos,
+            'descricao' => $c->descricao, 'situacao' => $c->situacao(),
+            'criada_em' => $c->created_at?->toIso8601String(),
+            'expira_em' => $c->expira_em->toIso8601String(),
+            'payload_emv' => $c->situacao() === 'ATIVA' ? $c->payload_emv : null,
+        ]));
+    }
+
+    public function cancelarCobranca(Request $request, CobrancaPix $cobranca): JsonResponse
+    {
+        $conta = $request->user()->conta()->firstOrFail();
+        $this->pagamentos->cancelarCobrancaPix($conta, $cobranca);
+        return response()->json(['mensagem' => 'Cobrança Pix cancelada.']);
     }
 
     public function revisarPagamento(Request $request): JsonResponse

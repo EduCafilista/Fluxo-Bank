@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Services\AuthService;
 use App\Services\CadastroService;
 use App\Services\RecuperacaoSenhaService;
+use App\Services\Servico2FA;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -77,6 +78,23 @@ class AuthWebController extends Controller
         $this->iniciarSessao($request, $user, $resultado['token']);
 
         return redirect()->route('web.home')->with('sucesso', 'Verificação concluída.');
+    }
+
+    public function twoFactorResend(Request $request, Servico2FA $servico): RedirectResponse
+    {
+        $pendente = $request->session()->get('fluxo_2fa');
+        if (! is_array($pendente) || ! isset($pendente['token'])) {
+            return redirect()->route('web.login')->with('erro', 'Faça login novamente.');
+        }
+        $token = PersonalAccessToken::findToken($pendente['token']);
+        if (! $token || ! $token->can('2fa:pendente') || $token->expires_at?->isPast()) {
+            $request->session()->forget('fluxo_2fa');
+            return redirect()->route('web.login')->with('erro', 'Sessão expirada. Faça login novamente.');
+        }
+        $usuario = $token->tokenable;
+        abort_unless($usuario instanceof User && $usuario->dois_fatores_ativo, 403);
+        $servico->gerar($usuario, \App\Models\CodigoVerificacao::FINALIDADE_LOGIN);
+        return back()->with('sucesso', 'Um novo código foi enviado para seu e-mail.');
     }
 
     public function registrationPage()
