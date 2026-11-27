@@ -133,6 +133,11 @@ class AuthService
 
     public function ativarDoisFatores(User $user): void
     {
+        if (! config('fluxo.dois_fatores.entrega_email_ativa')
+            || config('fluxo.dois_fatores.canal') !== 'EMAIL'
+            || ! app(EntregaEmailService::class)->disponivel()) {
+            throw new RegraDeNegocioException('Configure um serviço de envio de e-mail antes de ativar o 2FA.', 503);
+        }
         $user->forceFill(['dois_fatores_ativo' => true])->save();
     }
 

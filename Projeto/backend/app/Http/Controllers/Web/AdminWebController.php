@@ -31,6 +31,16 @@ class AdminWebController extends Controller
         ]);
     }
 
+    public function solicitacoes()
+    {
+        $pendentes = Conta::with(['cliente', 'user'])
+            ->where('tipo_conta', '!=', 'INSTITUCIONAL')
+            ->whereIn('status_abertura', [Conta::ABERTURA_PENDENTE, Conta::ABERTURA_EM_ANALISE])
+            ->where('status', '!=', Conta::STATUS_ENCERRADA)
+            ->oldest('id')->paginate(15);
+        return view('web.admin.requests', ['solicitacoes' => $pendentes]);
+    }
+
     public function contas(Request $request)
     {
         $filtros = $request->validate([

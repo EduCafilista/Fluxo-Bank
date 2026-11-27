@@ -40,6 +40,7 @@ Route::prefix('acesso')->name('web.')->middleware('guest:web')->group(function (
     Route::post('/entrar', [AuthWebController::class, 'login'])->middleware('throttle:10,1')->name('login.store');
     Route::get('/verificar', [AuthWebController::class, 'twoFactorPage'])->name('2fa');
     Route::post('/verificar', [AuthWebController::class, 'twoFactorVerify'])->middleware('throttle:10,1')->name('2fa.verify');
+    Route::post('/verificar/reenviar', [AuthWebController::class, 'twoFactorResend'])->middleware('throttle:3,5')->name('2fa.resend');
     Route::get('/cadastro', [AuthWebController::class, 'registrationPage'])->name('register');
     Route::post('/cadastro', [AuthWebController::class, 'register'])->middleware('throttle:10,1')->name('register.store');
     Route::get('/recuperar', [AuthWebController::class, 'recoveryPage'])->name('recovery');
@@ -68,6 +69,7 @@ Route::middleware([WebAuthenticated::class, ContextoAuditoria::class, 'throttle:
         Route::post('/pix/confirmar', [BankActionController::class, 'confirmarTransferencia'])->name('transfer.execute');
         Route::get('/pix/receber', [BankWebController::class, 'receberPix'])->name('pix.receive');
         Route::post('/pix/receber', [BankActionController::class, 'gerarCobrancaPix'])->name('pix.charge');
+        Route::delete('/pix/cobrancas/{cobranca}', [BankActionController::class, 'cancelarCobrancaPix'])->name('pix.charge.cancel');
         Route::get('/pix/chaves', [BankWebController::class, 'chaves'])->name('pix.keys');
         Route::post('/pix/chaves', [BankActionController::class, 'criarChave'])->name('pix.keys.store');
         Route::delete('/pix/chaves/{chave}', [BankActionController::class, 'excluirChave'])->name('pix.keys.delete');
@@ -114,6 +116,7 @@ Route::middleware([WebAuthenticated::class, ContextoAuditoria::class, 'throttle:
     Route::prefix('administracao')->name('admin.')->middleware(WebBackoffice::class)->group(function () {
         Route::get('/', [AdminWebController::class, 'dashboard'])->name('dashboard');
         Route::get('/contas', [AdminWebController::class, 'contas'])->name('accounts');
+        Route::get('/solicitacoes', [AdminWebController::class, 'solicitacoes'])->name('requests');
         Route::get('/contas/{conta}', [AdminWebController::class, 'conta'])->name('accounts.show');
         Route::post('/contas/{conta}/aprovar', [AdminWebController::class, 'aprovar'])->name('accounts.approve');
         Route::post('/contas/{conta}/recusar', [AdminWebController::class, 'recusar'])->name('accounts.reject');

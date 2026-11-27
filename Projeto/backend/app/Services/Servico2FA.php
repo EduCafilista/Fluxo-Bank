@@ -17,6 +17,11 @@ class Servico2FA
     {
         $canal = config('fluxo.dois_fatores.canal');
         $validade = (int) config('fluxo.dois_fatores.validade_minutos');
+        if (app()->environment('production') && ($canal !== 'EMAIL'
+            || ! config('fluxo.dois_fatores.entrega_email_ativa')
+            || ! app(EntregaEmailService::class)->disponivel())) {
+            throw new RegraDeNegocioException('Entrega de códigos por e-mail indisponível.', 503);
+        }
 
         CodigoVerificacao::where('user_id', $user->id)
             ->where('finalidade', $finalidade)
@@ -34,10 +39,14 @@ class Servico2FA
             'max_tentativas' => (int) config('fluxo.dois_fatores.max_tentativas'),
         ]);
 
-        if ($canal === 'EMAIL' && config('fluxo.dois_fatores.entrega_email_ativa', false)
-            && ! in_array(config('mail.default'), ['log', 'array'], true)) {
-            Mail::raw('Seu código de acesso ao Fluxo é '.$codigo.'. Ele expira em '.$validade.' minutos. Nunca compartilhe este código.',
-                fn ($email) => $email->to($user->email)->subject('Fluxo Bank — código de segurança'));
+        if ($canal === 'EMAIL' && config('fluxo.dois_fatores.entrega_email_ativa', false)) {
+            try {
+                app(EntregaEmailService::class)->enviar($user->email, 'Fluxo Bank — código de segurança',
+                    'Seu código de acesso ao Fluxo é '.$codigo.'. Ele expira em '.$validade.' minutos. Nunca compartilhe este código.');
+            } catch (\Throwable $e) {
+                Log::error('Falha no envio de 2FA', ['user_id' => $user->id, 'erro' => $e->getMessage()]);
+                throw new RegraDeNegocioException('Não foi possível enviar o código de segurança.', 503);
+            }
         }
 
         Log::info('Codigo 2FA gerado', [

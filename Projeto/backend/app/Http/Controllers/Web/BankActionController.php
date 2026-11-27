@@ -11,6 +11,7 @@ use App\Models\AvisoViagem;
 use App\Models\Cartao;
 use App\Models\ChamadoSuporte;
 use App\Models\ChavePix;
+use App\Models\CobrancaPix;
 use App\Models\Conta;
 use App\Models\Item;
 use App\Models\Plano;
@@ -83,7 +84,15 @@ class BankActionController extends Controller
 
         $origem = $this->conta($request);
         if ($dados['tipo_destino'] === 'PIX') {
-            $chave = $chaves->resolver($dados['destino']);
+            try {
+                $chave = $chaves->resolver($dados['destino']);
+            } catch (RegraDeNegocioException $e) {
+                if ($e->statusHttp() === 404) {
+                    throw ValidationException::withMessages(['destino' =>
+                        'Chave Pix não encontrada ou inativa. Confira os dados e tente novamente.']);
+                }
+                throw $e;
+            }
             $destino = $chave->conta()->with('cliente')->firstOrFail();
         } else {
             // Conta identificada pelo ID interno, que deve ser informado explicitamente.
@@ -133,11 +142,22 @@ class BankActionController extends Controller
 
     public function gerarCobrancaPix(Request $request, PagamentosService $pagamentos): RedirectResponse
     {
-        $dados = $request->validate(['valor' => 'required|string', 'descricao' => 'nullable|string|max:120']);
-        $cobranca = $pagamentos->gerarCobrancaPix($this->conta($request), $this->centavos($dados['valor']), $dados['descricao'] ?? null);
+        $dados = $request->validate([
+            'valor' => 'required|string', 'descricao' => 'nullable|string|max:120',
+            'expiracao_minutos' => 'nullable|integer|between:1,1440',
+        ]);
+        $cobranca = $pagamentos->gerarCobrancaPix($this->conta($request), $this->centavos($dados['valor']),
+            $dados['descricao'] ?? null, (int) ($dados['expiracao_minutos'] ?? 5));
         $request->session()->put('fluxo_cobranca', $cobranca);
 
         return redirect()->route('web.pix.receive')->with('sucesso', 'Cobrança Pix gerada.');
+    }
+
+    public function cancelarCobrancaPix(Request $request, CobrancaPix $cobranca, PagamentosService $servico): RedirectResponse
+    {
+        $servico->cancelarCobrancaPix($this->conta($request), $cobranca);
+        $request->session()->forget('fluxo_cobranca');
+        return redirect()->route('web.pix.receive')->with('sucesso', 'Cobrança Pix cancelada.');
     }
 
     public function criarChave(Request $request, ChavePixService $servico): RedirectResponse
