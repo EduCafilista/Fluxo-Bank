@@ -68,6 +68,7 @@ Route::middleware([WebAuthenticated::class, ContextoAuditoria::class, 'throttle:
         Route::post('/pix/confirmar', [BankActionController::class, 'confirmarTransferencia'])->name('transfer.execute');
         Route::get('/pix/receber', [BankWebController::class, 'receberPix'])->name('pix.receive');
         Route::post('/pix/receber', [BankActionController::class, 'gerarCobrancaPix'])->name('pix.charge');
+        Route::delete('/pix/cobrancas/{cobranca}', [BankActionController::class, 'cancelarCobrancaPix'])->name('pix.charge.cancel');
         Route::get('/pix/chaves', [BankWebController::class, 'chaves'])->name('pix.keys');
         Route::post('/pix/chaves', [BankActionController::class, 'criarChave'])->name('pix.keys.store');
         Route::delete('/pix/chaves/{chave}', [BankActionController::class, 'excluirChave'])->name('pix.keys.delete');

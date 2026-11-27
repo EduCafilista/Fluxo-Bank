@@ -73,9 +73,15 @@ class ChavePixService
 
     public function resolver(string $valor): ChavePix
     {
-        $chave = ChavePix::where('valor_chave', $valor)
-            ->where('status', ChavePix::STATUS_ATIVA)
-            ->first();
+        $entrada = trim($valor);
+        $candidatas = [$entrada, mb_strtolower($entrada)];
+        $digitos = preg_replace('/\D/', '', $entrada);
+        if (in_array(strlen($digitos), [11, 14], true)
+            || preg_match('/^\+?[0-9\s()\-]{10,20}$/', $entrada)) {
+            $candidatas[] = $digitos;
+        }
+        $chave = ChavePix::whereIn('valor_chave', array_unique($candidatas))
+            ->where('status', ChavePix::STATUS_ATIVA)->first();
 
         if (! $chave) {
             throw new RegraDeNegocioException('Chave Pix não encontrada ou inativa.', 404);

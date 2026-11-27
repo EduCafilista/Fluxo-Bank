@@ -75,8 +75,11 @@ class PagamentosService
         return $digitos;
     }
 
-    public function gerarCobrancaPix(Conta $conta, int $valorCentavos, ?string $descricao = null): array
+    public function gerarCobrancaPix(Conta $conta, int $valorCentavos, ?string $descricao = null, int $expiracaoMinutos = 5): array
     {
+        if ($expiracaoMinutos < 1 || $expiracaoMinutos > 1440) {
+            throw new RegraDeNegocioException('A expiração deve ser de 1 a 1440 minutos.');
+        }
         if ($valorCentavos <= 0) {
             throw new RegraDeNegocioException('O valor da cobrança deve ser maior que zero.');
         }
@@ -102,8 +105,15 @@ class PagamentosService
             'txid' => $txid,
             'hash_payload' => hash('sha256', $payload),
             'valor_centavos' => $valorCentavos,
-            'expira_em' => now()->addMinutes(30),
+            'descricao' => $descricao,
+            'payload_emv' => $payload,
+            'expira_em' => now()->addMinutes($expiracaoMinutos),
         ]);
+
+        app(AuditoriaService::class)->registrar(
+            'MOVIMENTACAO', 'COBRANCA_PIX_GERADA', ['cobranca_id' => $cobranca->id],
+            'cobrancas_pix', (string) $cobranca->id,
+        );
 
         return [
             'txid' => $txid,
@@ -114,8 +124,28 @@ class PagamentosService
             'crc16' => substr($payload, -4),
             'valido' => Emv::checksumValido($payload),
             'expira_em' => $cobranca->expira_em->toIso8601String(),
-            'expiracao_sugerida_minutos' => 30,
+            'expiracao_minutos' => $expiracaoMinutos,
+            'cobranca_id' => $cobranca->id,
         ];
+    }
+
+    public function cancelarCobrancaPix(Conta $conta, CobrancaPix $cobranca): CobrancaPix
+    {
+        return DB::transaction(function () use ($conta, $cobranca) {
+            $registro = CobrancaPix::whereKey($cobranca->id)->lockForUpdate()->firstOrFail();
+            abort_unless((int) $registro->conta_id === (int) $conta->id, 404);
+            if ($registro->transacao_id) {
+                throw new RegraDeNegocioException('Esta cobrança já foi paga.', 409);
+            }
+            if ($registro->cancelada_em) return $registro;
+            if ($registro->expira_em->isPast()) {
+                throw new RegraDeNegocioException('Esta cobrança já expirou.', 409);
+            }
+            $registro->update(['cancelada_em' => now()]);
+            app(AuditoriaService::class)->registrar('MOVIMENTACAO', 'COBRANCA_PIX_CANCELADA',
+                ['cobranca_id' => $registro->id], 'cobrancas_pix', (string) $registro->id);
+            return $registro->refresh();
+        });
     }
 
     public function revisarCobrancaPix(Conta $origem, string $payload): array
@@ -175,6 +205,10 @@ class PagamentosService
     {
         if (! $cobranca) {
             throw new RegraDeNegocioException('Use uma cobrança Pix emitida pelo Fluxo.');
+        }
+
+        if ($cobranca->cancelada_em) {
+            throw new RegraDeNegocioException('Esta cobrança Pix foi cancelada.', 409);
         }
 
         if ($cobranca->expira_em->isPast()) {

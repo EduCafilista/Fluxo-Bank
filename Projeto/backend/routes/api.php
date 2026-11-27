@@ -80,6 +80,8 @@ Route::middleware(['auth:sanctum', '2fa.concluido', ContextoAuditoria::class, 'i
     Route::delete('/chaves-pix/{chave}', [ChavePixController::class, 'destroy'])->name('chaves.destroy');
 
     Route::post('/pix/cobrancas', [PixController::class, 'cobranca'])->name('pix.cobrancas');
+    Route::get('/pix/cobrancas', [PixController::class, 'listarCobrancas'])->name('pix.cobrancas.index');
+    Route::delete('/pix/cobrancas/{cobranca}', [PixController::class, 'cancelarCobranca'])->name('pix.cobrancas.cancelar');
     Route::post('/pix/pagamentos/revisar', [PixController::class, 'revisarPagamento'])->name('pix.pagamentos.revisar');
     Route::post('/pix/pagamentos', [PixController::class, 'pagarCobranca'])->name('pix.pagamentos.pagar');
     Route::post('/pix/recebimentos', [PixController::class, 'receber'])->middleware('simulacao.financeira')->name('pix.recebimentos');
