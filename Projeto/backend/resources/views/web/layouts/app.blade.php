@@ -22,6 +22,7 @@
     $administrador = $usuario->ehBackoffice();
     $nav = $administrador ? [
         ['title'=>'Visão geral','route'=>'web.admin.dashboard','icon'=>'home'],
+        ['title'=>'Solicitações','route'=>'web.admin.requests','icon'=>'wallet'],
         ['title'=>'Contas e KYC','route'=>'web.admin.accounts','icon'=>'wallet'],
         ['title'=>'Chamados','route'=>'web.admin.tickets','icon'=>'headphones'],
         ['title'=>'Auditoria','route'=>'web.admin.audit','icon'=>'shield'],

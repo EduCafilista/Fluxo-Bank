@@ -107,6 +107,8 @@ class ContaService
             }
 
             $this->registrar($conta, 'KYC_APROVADO');
+            $id = $conta->id;
+            DB::afterCommit(fn () => app(NotificacaoAberturaService::class)->enviarDecisao($id, true));
         });
     }
 
@@ -122,6 +124,8 @@ class ContaService
             ]);
             $conta->cliente?->update(['status' => Cliente::STATUS_BLOQUEADO]);
             $this->registrar($conta, 'KYC_RECUSADO', ['motivo' => $motivo]);
+            $id = $conta->id;
+            DB::afterCommit(fn () => app(NotificacaoAberturaService::class)->enviarDecisao($id, false, $motivo));
         });
     }
 
